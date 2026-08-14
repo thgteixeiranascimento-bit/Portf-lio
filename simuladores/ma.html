@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>M&amp;A — Accretion / Dilution</title>
+<meta name="description" content="Simulação de aquisição: preço, estrutura de financiamento, sinergias, custos de integração, pro forma, accretion/dilution e retorno sobre o capital investido.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Corporate development · 8 de 10</div>
+    <h1>M&amp;A — accretion / dilution</h1>
+    <p class="lead">
+      Estudo de caso <strong>inteiramente fictício</strong>: a Aurora Industrial S.A. avalia adquirir a
+      <strong>Vetra Componentes S.A. (empresa fictícia)</strong>, fornecedora de componentes.
+      O modelo constrói o pro forma, mede o efeito no lucro por ação e testa a sensibilidade
+      do retorno ao preço pago e às sinergias. <strong>Nenhuma transação real aconteceu.</strong>
+    </p>
+    <div class="tags">
+      <span class="tag sim">Simulação — estudo de caso fictício</span>
+      <span class="tag prem">Premissas ajustáveis</span>
+    </div>
+    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
+      O preço máximo defensável pela Vetra, a estrutura de financiamento que preserva o lucro por ação
+      e o nível mínimo de sinergias que a tese exige para criar valor.</div></div>
+  </section>
+
+  <section class="blk">
+    <h2>As duas empresas (standalone, ano-base — dado simulado)</h2>
+    <div class="tbl-scroll"><table class="tbl" id="tbStandalone"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Estrutura da transação</h2>
+    <div class="controls">
+      <div class="head"><span class="t">Termos</span><span class="tag prem">Premissa ajustável</span></div>
+      <div class="row">
+        <div class="ctrl"><label>Preço — múltiplo EV/EBITDA do alvo <output id="oMx"></output></label><input type="range" id="iMx" min="4" max="11" value="7" step="0.25"></div>
+        <div class="ctrl"><label>Financiado com dívida nova <output id="oDv"></output></label><input type="range" id="iDv" min="0" max="100" value="60" step="5"></div>
+        <div class="ctrl"><label>Custo da dívida nova <output id="oKd"></output></label><input type="range" id="iKd" min="8" max="18" value="12" step="0.5"></div>
+        <div class="ctrl"><label>Sinergias de custo anuais (regime pleno) <output id="oSin"></output></label><input type="range" id="iSin" min="0" max="30" value="12" step="1"></div>
+        <div class="ctrl"><label>Custos de integração (one-off, ano 1) <output id="oInt"></output></label><input type="range" id="iInt" min="0" max="25" value="10" step="1"></div>
+      </div>
+      <p style="margin:12px 0 0;font-size:.8rem" class="c-sub">
+        <span class="tag prem">Premissa</span> Aurora com 100 mm de ações; parcela não financiada com dívida é paga
+        com emissão de novas ações a R$ 8,72/ação (P/L implícito de 12× sobre o lucro standalone); dívida líquida
+        do alvo é assumida; sinergias realizam 50% no ano 1 e 100% do ano 2 em diante; IR 34%.
+      </p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Resultado da simulação</h2>
+    <div class="tiles" id="tiles"></div>
+    <div class="banner" id="conclusao"></div>
+    <figure class="chart" id="chEps"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="tbProforma"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Sensibilidade — preço pago × sinergias</h2>
+    <p>Accretion/(dilution) do lucro por ação no ano 2 (regime pleno de sinergias). Célula destacada = termos atuais.</p>
+    <figure class="chart" id="chHeat"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Checks de integridade</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Documentação do estudo</h2>
+    <details class="doc">
+      <summary>Ficha padrão do estudo (contexto → validação)</summary>
+      <div class="inner">
+        <h4>1. Contexto</h4><p>Verticalização hipotética: adquirir uma fornecedora de componentes (Vetra, fictícia) para capturar margem e garantir suprimento.</p>
+        <h4>2. Problema</h4><p>A que preço e com que estrutura a aquisição cria valor para o acionista da compradora — e quando dilui.</p>
+        <h4>3. Dados</h4><p>DADO SIMULADO — financials das duas empresas construídos para o estudo; nenhum dado real.</p>
+        <h4>4. Fontes</h4><p>Metodologia padrão de análise de fusões (pro forma + accretion/dilution + retorno sobre capital investido). Números fictícios.</p>
+        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — termos do painel; preço de emissão das novas ações; ramp de sinergias; assunção integral da dívida do alvo.</p>
+        <h4>6. Metodologia</h4><p>LL pro forma = LL das duas empresas + sinergias após IR − custos de integração após IR − juros da dívida nova após IR; EPS pro forma sobre a nova base acionária; ROIC da transação = NOPAT incremental ÷ EV pago.</p>
+        <h4>7. Modelo</h4><p>JavaScript no navegador; inputs → cálculos → outputs → checks.</p>
+        <h4>8. Cenários</h4><p>Sensibilidade bidimensional preço × sinergias e ajuste livre da estrutura.</p>
+        <h4>9. Resultado</h4><p>Valores estimados pelo modelo sob as premissas adotadas.</p>
+        <h4>10. Insights</h4><p>Na estrutura simulada, financiar com dívida é mais acretivo que emitir ações enquanto o custo da dívida após IR ficar abaixo do earnings yield do alvo — mas consome capacidade de alavancagem.</p>
+        <h4>11. Impacto potencial</h4><p>Define preço máximo e sinergias mínimas contratáveis antes da negociação, e o trade-off dívida × emissão com números.</p>
+        <h4>12. Limitações</h4><p>Dados fictícios; sem PPA (alocação de preço de compra e amortização de intangíveis); sem earn-outs; sinergias de receita ignoradas; um único ano-base estático.</p>
+        <h4>13. Validação</h4><p>Checks aritméticos automáticos aprovados. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; dados de entrada simulados.</p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const D = window.DATA, V = window.Viz, F = V.F;
+  const TAX = 0.34;
+
+  /* standalone (DADO SIMULADO) */
+  const A = { nome: "Aurora Industrial (compradora)", receita: D.hist.receita[2], ebitda: D.hist.ebitda[2],
+              da: -D.hist.da[2], ll: D.hist.lucroLiq[2], nd: D.bal2025.divida - D.bal2025.caixa, acoes: 100 };
+  const T = { nome: "Vetra Componentes (alvo)", receita: 210.0, ebitda: 33.6, da: 8.0, nd: 45.0 };
+  T.ebit = T.ebitda - T.da;
+  T.juros = T.nd * 0.11;
+  T.ll = (T.ebit - T.juros) * (1 - TAX);
+  const PRECO_ACAO = 8.72; // PREMISSA: P/L 12× sobre lucro standalone da Aurora (72,7 × 12 ÷ 100 ações)
+  const EPS0 = A.ll / A.acoes;
+
+  document.getElementById("tbStandalone").innerHTML = `
+    <caption>Ano-base standalone (R$ mm) — DADO SIMULADO</caption>
+    <thead><tr><th></th><th>Receita</th><th>EBITDA</th><th>Margem</th><th>Lucro líquido</th><th>Dívida líquida</th></tr></thead>
+    <tbody>
+      <tr><td>${A.nome}</td><td>${F.mm(A.receita)}</td><td>${F.mm(A.ebitda)}</td><td>${F.pc(A.ebitda / A.receita)}</td><td>${F.mm(A.ll)}</td><td>${F.mm(A.nd)}</td></tr>
+      <tr><td>${T.nome}</td><td>${F.mm(T.receita)}</td><td>${F.mm(T.ebitda)}</td><td>${F.pc(T.ebitda / T.receita)}</td><td>${F.mm(T.ll)}</td><td>${F.mm(T.nd)}</td></tr>
+    </tbody>`;
+
+  function val(id) { return +document.getElementById(id).value; }
+
+  function transacao(mx, pctDiv, kd, sinPlenas, integ) {
+    const ev = mx * T.ebitda;
+    const equityPago = Math.max(0, ev - T.nd);
+    const dividaNova = equityPago * pctDiv;
+    const emissao = equityPago - dividaNova;
+    const novasAcoes = emissao / PRECO_ACAO;
+    const acoesPro = A.acoes + novasAcoes;
+    function ano(ramp, comIntegracao) {
+      const sin = sinPlenas * ramp;
+      const jurosNovos = dividaNova * kd;
+      const llPro = A.ll + T.ll + (sin - (comIntegracao ? integ : 0) - jurosNovos) * (1 - TAX);
+      const eps = llPro / acoesPro;
+      return { sin, jurosNovos, llPro, eps, acc: eps / EPS0 - 1 };
+    }
+    const a1 = ano(0.5, true), a2 = ano(1, false);
+    const nopatInc = (T.ebit + sinPlenas) * (1 - TAX);
+    const roic = nopatInc / ev;
+    return { ev, equityPago, dividaNova, emissao, novasAcoes, acoesPro, a1, a2, roic };
+  }
+
+  function tile(lbl, val_, sub, cls) {
+    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val" ${cls ? `style="color:var(--${cls})"` : ""}>${val_}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  }
+
+  function render() {
+    const mx = val("iMx"), pctDiv = val("iDv") / 100, kd = val("iKd") / 100;
+    const sin = val("iSin"), integ = val("iInt");
+    document.getElementById("oMx").textContent = mx.toFixed(2) + "×";
+    document.getElementById("oDv").textContent = Math.round(pctDiv * 100) + "%";
+    document.getElementById("oKd").textContent = (kd * 100).toFixed(1) + "%";
+    document.getElementById("oSin").textContent = "R$ " + sin.toFixed(0) + " mm";
+    document.getElementById("oInt").textContent = "R$ " + integ.toFixed(0) + " mm";
+
+    const t = transacao(mx, pctDiv, kd, sin, integ);
+    document.getElementById("tiles").innerHTML =
+      tile("EV pago pelo alvo", F.mm(t.ev), mx.toFixed(2) + "× EBITDA de " + F.mm(T.ebitda)) +
+      tile("Equity pago", F.mm(t.equityPago), "EV − dívida líquida assumida de " + F.mm(T.nd)) +
+      tile("Dívida nova / emissão", F.mm(t.dividaNova) + " / " + F.mm(t.emissao), F.mm0(t.novasAcoes) + " mm novas ações") +
+      tile("EPS ano 1", "R$ " + F.x2(t.a1.eps), "standalone: R$ " + F.x2(EPS0), t.a1.acc >= 0 ? "ok-text" : "bad") +
+      tile("Accretion/(dilution) ano 2", F.spc(t.a2.acc), "regime pleno de sinergias", t.a2.acc >= 0 ? "ok-text" : "bad") +
+      tile("ROIC da transação", F.pc(t.roic), "NOPAT incremental ÷ EV pago", t.roic >= 0.13 ? "ok-text" : "bad");
+
+    const conc = document.getElementById("conclusao");
+    if (t.a2.acc >= 0.02 && t.roic >= 0.13) {
+      conc.innerHTML = `<span>✅</span><div><b>Leitura simulada: transação acretiva e com retorno acima do custo de capital de referência (13%).</b>
+        A tese se sustenta sob as premissas — o risco concentra-se na entrega das sinergias de ${F.mm(sin)}/ano.</div>`;
+    } else if (t.a2.acc >= 0) {
+      conc.innerHTML = `<span>⚠️</span><div><b>Leitura simulada: acretiva no papel, mas com margens estreitas.</b>
+        ${t.roic < 0.13 ? "O ROIC de " + F.pc(t.roic) + " fica abaixo do custo de capital de referência (13%) — acretivo em EPS não significa criação de valor." : "Pequenas frustrações de sinergia tornam a transação dilutiva."}</div>`;
+    } else {
+      conc.innerHTML = `<span>❌</span><div><b>Leitura simulada: transação dilutiva sob as premissas atuais.</b>
+        Reduzir o preço, aumentar a parcela de dívida (se houver capacidade) ou garantir sinergias maiores antes de prosseguir.</div>`;
+    }
+
+    V.bars(document.getElementById("chEps"), {
+      title: "Lucro por ação — standalone × pro forma (R$/ação)",
+      sub: "Ano 1 inclui custos de integração e 50% das sinergias; ano 2 em regime pleno",
+      labels: ["Standalone", "Pro forma ano 1", "Pro forma ano 2"],
+      series: [{ name: "EPS", values: [EPS0, t.a1.eps, t.a2.eps], color: "s1" }],
+      fmt: v => "R$ " + F.x2(v),
+    });
+
+    document.getElementById("tbProforma").innerHTML = `
+      <caption>DRE pro forma simplificada (R$ mm)</caption>
+      <thead><tr><th></th><th>Ano 1</th><th>Ano 2</th></tr></thead><tbody>
+      <tr><td>Lucro líquido Aurora (standalone)</td><td>${F.mm(A.ll)}</td><td>${F.mm(A.ll)}</td></tr>
+      <tr><td>Lucro líquido Vetra (standalone)</td><td>${F.mm(T.ll)}</td><td>${F.mm(T.ll)}</td></tr>
+      <tr><td>(+) Sinergias após IR</td><td>${F.mm(t.a1.sin * (1 - TAX))}</td><td>${F.mm(t.a2.sin * (1 - TAX))}</td></tr>
+      <tr><td>(−) Integração após IR</td><td>${F.mm(-integ * (1 - TAX))}</td><td>—</td></tr>
+      <tr><td>(−) Juros da dívida nova após IR</td><td>${F.mm(-t.a1.jurosNovos * (1 - TAX))}</td><td>${F.mm(-t.a2.jurosNovos * (1 - TAX))}</td></tr>
+      <tr class="tot"><td>(=) Lucro líquido pro forma</td><td>${F.mm(t.a1.llPro)}</td><td>${F.mm(t.a2.llPro)}</td></tr>
+      <tr class="sub"><td>Ações (mm)</td><td>${F.mm(t.acoesPro)}</td><td>${F.mm(t.acoesPro)}</td></tr>
+      <tr class="tot"><td>EPS (R$)</td><td>${F.x2(t.a1.eps)}</td><td>${F.x2(t.a2.eps)}</td></tr>
+      <tr><td>Accretion/(dilution)</td><td class="${t.a1.acc >= 0 ? "pos" : "neg"}">${F.spc(t.a1.acc)}</td><td class="${t.a2.acc >= 0 ? "pos" : "neg"}">${F.spc(t.a2.acc)}</td></tr>
+      </tbody>`;
+
+    /* sensibilidade preço × sinergias */
+    const mxs = [-1, -0.5, 0, 0.5, 1].map(d => mx + d);
+    const sins = [-8, -4, 0, 4, 8].map(d => Math.max(0, sin + d));
+    const vals = mxs.map(m2 => sins.map(s2 => transacao(m2, pctDiv, kd, s2, integ).a2.acc * 100));
+    V.heatTable(document.getElementById("chHeat"), {
+      title: "Accretion/(dilution) do EPS no ano 2 (%)",
+      sub: "Linhas: múltiplo pago · Colunas: sinergias anuais (R$ mm)",
+      rowLab: "EV/EBITDA", colLab: "sinergias",
+      rows: mxs.map(m2 => m2.toFixed(2) + "×"),
+      cols: sins.map(s2 => F.mm0(s2)),
+      values: vals,
+      highlight: { i: 2, j: 2 },
+      fmt: v => (v >= 0 ? "+" : "") + v.toFixed(1) + "%",
+    });
+
+    /* checks */
+    const llRecalc = A.ll + T.ll + (t.a2.sin - t.a2.jurosNovos) * (1 - TAX);
+    const cLl = V.near(t.a2.llPro, llRecalc, 0.02);
+    const cEv = V.near(t.ev, t.equityPago + T.nd, 0.02);
+    const cFin = V.near(t.equityPago, t.dividaNova + t.emissao, 0.02);
+    const cAcoes = V.near(t.acoesPro, A.acoes + t.emissao / PRECO_ACAO, 0.02);
+    const cEps = V.near(t.a2.acc, t.a2.eps / EPS0 - 1, 0.001);
+    V.renderChecks(document.getElementById("checks"), [
+      { name: "LL pro forma (ano 2) recalculado de forma independente confere", pass: cLl, num: F.mm(t.a2.llPro) + " = " + F.mm(llRecalc) },
+      { name: "EV = equity pago + dívida líquida assumida", pass: cEv, num: F.mm(t.ev) },
+      { name: "Fontes = usos (dívida nova + emissão = equity pago)", pass: cFin, num: F.mm(t.dividaNova + t.emissao) + " = " + F.mm(t.equityPago) },
+      { name: "Base acionária pro forma consistente com a emissão", pass: cAcoes, num: F.mm(t.acoesPro) + " mm ações" },
+      { name: "Accretion = EPS pro forma ÷ EPS standalone − 1", pass: cEps, num: F.spc(t.a2.acc) },
+    ]);
+  }
+
+  document.querySelectorAll(".controls input").forEach(i => i.addEventListener("input", render));
+  render();
+})();
+</script>
+</body>
+</html>

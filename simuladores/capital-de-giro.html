@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capital de Giro — Simulador FP&amp;A</title>
+<meta name="description" content="Simulador de capital de giro: DSO, DIO, DPO, ciclo de conversão de caixa e impacto de prazos e crescimento sobre o caixa.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Simulador FP&amp;A · 4 de 10</div>
+    <h1>Capital de giro</h1>
+    <p class="lead">
+      Quanto caixa a operação da <strong>Aurora Industrial S.A. (empresa fictícia)</strong> prende em prazos —
+      e quanto cada dia de recebimento, estoque ou pagamento vale. O ciclo de conversão de caixa vem se
+      deteriorando desde janeiro; este modelo quantifica o custo disso e o prêmio de revertê-lo.
+    </p>
+    <div class="tags">
+      <span class="tag sim">Simulação — estudo de caso fictício</span>
+      <span class="tag prem">Premissas ajustáveis</span>
+    </div>
+    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
+      Priorizar a agenda de prazos — renegociar fornecedores, apertar política de crédito, reduzir cobertura de
+      estoque — com o efeito de cada alavanca sobre caixa e necessidade de financiamento quantificado.</div></div>
+  </section>
+
+  <section class="blk">
+    <h2>Evolução observada em 2026</h2>
+    <div class="tiles" id="tilesHist"></div>
+    <figure class="chart" id="chCcc"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Simulação de prazos</h2>
+    <div class="controls">
+      <div class="head">
+        <span class="t">Cenário de prazos</span>
+        <span class="seg" id="segCen">
+          <button data-c="atual" class="on">Atual (Jul/26)</button>
+          <button data-c="meta">Meta de eficiência</button>
+          <button data-c="det">Deterioração</button>
+        </span>
+      </div>
+      <div class="row">
+        <div class="ctrl"><label>DSO — prazo médio de recebimento <output id="oDso"></output></label><input type="range" id="iDso" min="40" max="90" step="1"></div>
+        <div class="ctrl"><label>DIO — dias de estoque <output id="oDio"></output></label><input type="range" id="iDio" min="45" max="95" step="1"></div>
+        <div class="ctrl"><label>DPO — prazo médio de pagamento <output id="oDpo"></output></label><input type="range" id="iDpo" min="30" max="75" step="1"></div>
+        <div class="ctrl"><label>Crescimento de receita (12m) <output id="oCre"></output></label><input type="range" id="iCre" min="-5" max="20" value="8" step="1"></div>
+      </div>
+      <p style="margin:12px 0 0;font-size:.8rem" class="c-sub">
+        <span class="tag prem">Premissa</span> receita anual de referência R$ 1.090,0 mm (orçamento 2026);
+        CPV = 66% da receita; contas a receber sobre receita, estoque e fornecedores sobre CPV; ano de 365 dias.
+      </p>
+    </div>
+    <div class="tiles" id="tiles"></div>
+    <figure class="chart" id="chPonte"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Efeito do crescimento sobre a necessidade de giro</h2>
+    <p>
+      Crescer consome caixa: com o ciclo constante, a necessidade de capital de giro cresce na mesma
+      proporção da receita. O painel abaixo separa o efeito <b>prazos</b> do efeito <b>crescimento</b>.
+    </p>
+    <div class="tiles" id="tilesCresc"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Checks de integridade</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Documentação do estudo</h2>
+    <details class="doc">
+      <summary>Ficha padrão do estudo (contexto → validação)</summary>
+      <div class="inner">
+        <h4>1. Contexto</h4><p>DSO subiu de 60 para 64 dias e DIO de 66 para 71 desde janeiro, enquanto o DPO caiu de 50 para 48 — o ciclo de caixa piorou 11 dias no ano (dado simulado).</p>
+        <h4>2. Problema</h4><p>Quanto dessa deterioração custa em caixa, e qual combinação de prazos é a meta certa para o segundo semestre.</p>
+        <h4>3. Dados</h4><p>DADO SIMULADO — série mensal de DSO/DIO/DPO Jan–Jul/26 e balanço de abertura do dataset central.</p>
+        <h4>4. Fontes</h4><p>Dataset fictício (<code>assets/js/data.js</code>). Definições de DSO/DIO/DPO/CCC conforme a biblioteca de KPIs deste portfólio.</p>
+        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — receita de referência R$ 1.090 mm; CPV 66% da receita; conversão linear dias→saldo (saldo = fluxo anual × dias/365).</p>
+        <h4>6. Metodologia</h4><p>NWC = contas a receber + estoques − fornecedores; CCC = DSO + DIO − DPO; ponte de caixa decompõe a variação do NWC por prazo; efeito crescimento = NWC × g.</p>
+        <h4>7. Modelo</h4><p>JavaScript no navegador; inputs → cálculos → outputs → checks.</p>
+        <h4>8. Cenários</h4><p>Atual, Meta de eficiência (DSO 55 / DIO 60 / DPO 55) e Deterioração (DSO 70 / DIO 78 / DPO 45), além de ajuste livre.</p>
+        <h4>9. Resultado</h4><p>Valores estimados pelo modelo sob as premissas adotadas.</p>
+        <h4>10. Insights</h4><p>Na estrutura simulada, 1 dia de DSO vale ≈ R$ 3,0 mm de caixa; a agenda de estoque (DIO) é a maior alavanca individual do cenário de eficiência.</p>
+        <h4>11. Impacto potencial</h4><p>Transforma a discussão de prazos em metas numéricas por área (comercial, suprimentos, operações) com prêmio de caixa explícito.</p>
+        <h4>12. Limitações</h4><p>Dados fictícios; conversão linear ignora sazonalidade intra-mês, mix de clientes e custo financeiro de descontos para antecipação.</p>
+        <h4>13. Validação</h4><p>Checks aritméticos automáticos aprovados. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; dados de entrada simulados.</p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const D = window.DATA, V = window.Viz, F = V.F;
+  const N = D.real2026.mesesFechados;
+  const meses = D.MESES.slice(0, N);
+
+  const REV = 1090.0;             // PREMISSA: receita anual de referência
+  const CPV = REV * 0.66;         // PREMISSA: CPV 66% da receita
+  const ATUAL = { dso: D.real2026.dso[N - 1], dio: D.real2026.dio[N - 1], dpo: D.real2026.dpo[N - 1] };
+  const CENARIOS = {
+    atual: { ...ATUAL },
+    meta: { dso: 55, dio: 60, dpo: 55 },
+    det: { dso: 70, dio: 78, dpo: 45 },
+  };
+
+  function nwcDe(p) {
+    const cr = REV * p.dso / 365, est = CPV * p.dio / 365, forn = CPV * p.dpo / 365;
+    return { cr, est, forn, nwc: cr + est - forn, ccc: p.dso + p.dio - p.dpo };
+  }
+  const base = nwcDe(ATUAL);
+
+  /* ---------- histórico ---------- */
+  const cccHist = D.real2026.dso.map((v, i) => v + D.real2026.dio[i] - D.real2026.dpo[i]);
+  function tile(lbl, val_, sub, cls) {
+    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val" ${cls ? `style="color:var(--${cls})"` : ""}>${val_}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  }
+  document.getElementById("tilesHist").innerHTML =
+    tile("CCC em julho/26", cccHist[N - 1] + " dias", "janeiro: " + cccHist[0] + " dias") +
+    tile("DSO", ATUAL.dso + " dias", "recebimento — subiu " + (ATUAL.dso - D.real2026.dso[0]) + " d no ano") +
+    tile("DIO", ATUAL.dio + " dias", "estoque — subiu " + (ATUAL.dio - D.real2026.dio[0]) + " d no ano") +
+    tile("DPO", ATUAL.dpo + " dias", "pagamento — caiu " + (D.real2026.dpo[0] - ATUAL.dpo) + " d no ano") +
+    tile("Valor de 1 dia de DSO", F.mm(REV / 365), "sobre a receita de referência");
+
+  V.line(document.getElementById("chCcc"), {
+    title: "Ciclo de conversão de caixa e componentes (dias) — Jan–Jul/26",
+    sub: "CCC = DSO + DIO − DPO · dado simulado",
+    labels: meses,
+    series: [
+      { name: "CCC", values: cccHist, color: "s1", kind: "line" },
+      { name: "DSO", values: D.real2026.dso, color: "s2", kind: "line" },
+      { name: "DIO", values: D.real2026.dio, color: "s3", kind: "line" },
+      { name: "DPO", values: D.real2026.dpo, color: "s4", kind: "line" },
+    ],
+    fmt: v => F.mm0(v) + " d",
+    yZero: false,
+  });
+
+  /* ---------- simulação ---------- */
+  function setCen(c) {
+    document.getElementById("iDso").value = CENARIOS[c].dso;
+    document.getElementById("iDio").value = CENARIOS[c].dio;
+    document.getElementById("iDpo").value = CENARIOS[c].dpo;
+  }
+  function render() {
+    const p = { dso: +document.getElementById("iDso").value, dio: +document.getElementById("iDio").value, dpo: +document.getElementById("iDpo").value };
+    const g = +document.getElementById("iCre").value / 100;
+    document.getElementById("oDso").textContent = p.dso + " dias";
+    document.getElementById("oDio").textContent = p.dio + " dias";
+    document.getElementById("oDpo").textContent = p.dpo + " dias";
+    document.getElementById("oCre").textContent = (g >= 0 ? "+" : "−") + Math.abs(Math.round(g * 100)) + "%";
+
+    const novo = nwcDe(p);
+    const dCaixa = base.nwc - novo.nwc; // NWC menor = caixa liberado
+    document.getElementById("tiles").innerHTML =
+      tile("CCC simulado", novo.ccc + " dias", "atual: " + base.ccc + " dias", novo.ccc <= base.ccc ? undefined : "bad") +
+      tile("Necessidade de giro (NWC)", F.mm(novo.nwc), "atual: " + F.mm(base.nwc)) +
+      tile(dCaixa >= 0 ? "Caixa liberado vs. atual" : "Caixa consumido vs. atual", F.smm(dCaixa), "efeito prazos, sem crescimento", dCaixa >= 0 ? "ok-text" : "bad") +
+      tile("NWC / receita", F.pc(novo.nwc / REV), "atual: " + F.pc(base.nwc / REV));
+
+    const dDso = -(REV * (p.dso - ATUAL.dso) / 365);
+    const dDio = -(CPV * (p.dio - ATUAL.dio) / 365);
+    const dDpo = (CPV * (p.dpo - ATUAL.dpo) / 365);
+    V.waterfall(document.getElementById("chPonte"), {
+      title: "Ponte de NWC — efeito da mudança de prazos (R$ mm)",
+      sub: "Azul = redução de NWC (libera caixa); vermelho = aumento de NWC (consome caixa)",
+      invert: true,
+      items: [
+        { l: "NWC atual", v: base.nwc, k: "start" },
+        { l: "Δ DSO", v: -dDso, k: "d" },
+        { l: "Δ DIO", v: -dDio, k: "d" },
+        { l: "Δ DPO", v: -dDpo, k: "d" },
+        { l: "NWC simulado", v: novo.nwc, k: "end" },
+      ],
+    });
+
+    const cresc = novo.nwc * g;
+    document.getElementById("tilesCresc").innerHTML =
+      tile("Efeito prazos", F.smm(dCaixa), "caixa liberado (+) ou consumido (−)", dCaixa >= 0 ? "ok-text" : "bad") +
+      tile("Efeito crescimento", F.smm(-cresc), "ΔNWC com receita crescendo " + F.pc0(g), cresc <= 0 ? "ok-text" : "bad") +
+      tile("Efeito líquido em 12m", F.smm(dCaixa - cresc), "prazos + crescimento", (dCaixa - cresc) >= 0 ? "ok-text" : "bad") +
+      tile("NWC em 12m", F.mm(novo.nwc * (1 + g)), "com o ciclo simulado");
+
+    const c1 = V.near(novo.nwc, novo.cr + novo.est - novo.forn, 0.01);
+    const c2 = V.near(novo.ccc, p.dso + p.dio - p.dpo, 0.001);
+    const c3 = V.near(base.nwc + (-dDso) + (-dDio) + (-dDpo), novo.nwc, 0.02);
+    V.renderChecks(document.getElementById("checks"), [
+      { name: "NWC = contas a receber + estoques − fornecedores", pass: c1, num: F.mm(novo.nwc) },
+      { name: "CCC = DSO + DIO − DPO", pass: c2, num: novo.ccc + " dias" },
+      { name: "Ponte de prazos reconcilia com o NWC simulado", pass: c3, num: F.mm(base.nwc - dDso - dDio - dDpo) + " = " + F.mm(novo.nwc) },
+    ]);
+  }
+
+  document.querySelectorAll("#segCen button").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#segCen button").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      setCen(b.dataset.c);
+      render();
+    });
+  });
+  ["iDso", "iDio", "iDpo", "iCre"].forEach(id => document.getElementById(id).addEventListener("input", render));
+  setCen("atual");
+  render();
+})();
+</script>
+</body>
+</html>

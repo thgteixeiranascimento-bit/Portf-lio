@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rolling Forecast 12 meses — Simulador FP&amp;A</title>
+<meta name="description" content="Rolling forecast de 12 meses com cenários Base, Upside, Downside e Stress e drivers ajustáveis de volume, preço, inflação, câmbio e inadimplência.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Simulador FP&amp;A · 2 de 10</div>
+    <h1>Rolling Forecast — 12 meses</h1>
+    <p class="lead">
+      Horizonte móvel de agosto/2026 a julho/2027 para a <strong>Aurora Industrial S.A. (empresa fictícia)</strong>,
+      atualizado mensalmente: o mês fechado sai, um novo mês entra e as premissas são recalibradas por driver.
+    </p>
+    <div class="tags">
+      <span class="tag sim">Simulação — estudo de caso fictício</span>
+      <span class="tag prem">Drivers ajustáveis</span>
+    </div>
+    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
+      Revisar guidance interno, metas comerciais e plano de caixa diante de mudanças de demanda, custo, câmbio e
+      inadimplência — antes que virem surpresa no fechamento.</div></div>
+  </section>
+
+  <section class="blk">
+    <h2>Cenário e drivers</h2>
+    <div class="controls">
+      <div class="head">
+        <span class="t">Cenário</span>
+        <span class="seg" id="segCen">
+          <button data-c="base" class="on">Base</button>
+          <button data-c="upside">Upside</button>
+          <button data-c="downside">Downside</button>
+          <button data-c="stress">Stress</button>
+        </span>
+      </div>
+      <div class="row">
+        <div class="ctrl"><label>Volume vs. referência <output id="oVol"></output></label><input type="range" id="iVol" min="-15" max="10" step="1"></div>
+        <div class="ctrl"><label>Preço vs. referência <output id="oPre"></output></label><input type="range" id="iPre" min="-5" max="8" step="0.5"></div>
+        <div class="ctrl"><label>Inflação de custos (12m) <output id="oInf"></output></label><input type="range" id="iInf" min="0" max="12" step="0.5"></div>
+        <div class="ctrl"><label>Variação cambial no custo importado <output id="oFx"></output></label><input type="range" id="iFx" min="-10" max="25" step="1"></div>
+        <div class="ctrl"><label>Inadimplência (% receita) <output id="oPdd"></output></label><input type="range" id="iPdd" min="0.5" max="5" step="0.1"></div>
+        <div class="ctrl"><label>Δ prazo médio de recebimento <output id="oDso"></output></label><input type="range" id="iDso" min="-6" max="15" step="1"></div>
+        <div class="ctrl"><label>CAPEX mensal <output id="oCap"></output></label><input type="range" id="iCap" min="0" max="8" step="0.5"></div>
+      </div>
+      <p style="margin:12px 0 0;font-size:.8rem" class="c-sub">
+        Referência de receita: sazonalidade do orçamento 2026 (meses de 2027 usam o mês equivalente de 2026).
+        <span class="tag prem">Premissa</span> custos variáveis 55% da receita de referência (30% expostos a câmbio),
+        custo fixo mensal de R$ 22,0 mm, IR 34% sobre EBIT, juros da dívida de R$ 240 mm a 11% a.a., D&amp;A R$ 3,6 mm/mês.
+      </p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Resultado do cenário selecionado</h2>
+    <div class="tiles" id="tiles"></div>
+    <figure class="chart" id="chRev"></figure>
+    <figure class="chart" id="chCaixa"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Comparação entre cenários</h2>
+    <p>Os quatro cenários usam conjuntos fixos de premissas (tabela abaixo) — o cenário selecionado acima parte deles e pode ser recalibrado driver a driver.</p>
+    <figure class="chart" id="chCen"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="tbCen"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Fechamento estimado de 2026</h2>
+    <div class="tiles" id="tilesFy"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Checks de integridade</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Documentação do estudo</h2>
+    <details class="doc">
+      <summary>Ficha padrão do estudo (contexto → validação)</summary>
+      <div class="inner">
+        <h4>1. Contexto</h4><p>Sete meses de 2026 fechados; o orçamento estático aprovado em dezembro/2025 já não descreve o ambiente de demanda e custos.</p>
+        <h4>2. Problema</h4><p>Que resultado e que geração de caixa esperar nos próximos 12 meses — e sob quais condições o plano precisa ser revisto.</p>
+        <h4>3. Dados</h4><p>DADO SIMULADO — realizado Jan–Jul/2026 e sazonalidade orçamentária do dataset central do portfólio.</p>
+        <h4>4. Fontes</h4><p>Dataset fictício (<code>assets/js/data.js</code>). Nenhum dado real de empresa foi utilizado.</p>
+        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — estrutura de custos (55% variável, 30% do variável exposto a câmbio, fixo de R$ 22 mm/mês), IR 34%, juros 11% a.a., D&amp;A R$ 3,6 mm/mês, capital de giro proporcional ao ciclo de caixa. Presets de cenário na tabela da página.</p>
+        <h4>6. Metodologia</h4><p>Forecast driver-based: receita = referência sazonal × (1+Δvolume) × (1+Δpreço); custos indexados a inflação e câmbio; caixa = EBITDA − impostos − juros − CAPEX − ΔNWC.</p>
+        <h4>7. Modelo</h4><p>Cálculo em JavaScript no navegador; inputs, cálculos, outputs e checks separados.</p>
+        <h4>8. Cenários</h4><p>Base, Upside, Downside e Stress com presets fixos + recalibração contínua por driver.</p>
+        <h4>9. Resultado</h4><p>Valores estimados pelo modelo sob as premissas adotadas; recalculados a cada ajuste.</p>
+        <h4>10. Insights</h4><p>A sensibilidade do EBITDA a volume é maior do que a preço na estrutura simulada; câmbio e inadimplência afetam mais o caixa do que o resultado.</p>
+        <h4>11. Impacto potencial</h4><p>Substitui a discussão binária "bater ou não o orçamento" por faixas de resultado com gatilhos de ação por cenário.</p>
+        <h4>12. Limitações</h4><p>Dados fictícios; drivers aplicados de forma linear e independente; não modela capacidade produtiva, elasticidade preço-volume nem sazonalidade de custos.</p>
+        <h4>13. Validação</h4><p>Checks aritméticos automáticos aprovados. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; dados de entrada simulados.</p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const D = window.DATA, V = window.Viz, F = V.F;
+  const N = D.real2026.mesesFechados; // 7 → horizonte começa em Ago/26
+
+  // rótulos do horizonte: Ago/26 ... Jul/27
+  const labels = [];
+  for (let i = 0; i < 12; i++) {
+    const m = (N + i) % 12, y = N + i < 12 ? 26 : 27;
+    labels.push(D.MESES[m] + "/" + y);
+  }
+  // receita de referência (sazonalidade orçamentária; 2027 usa o mês equivalente de 2026)
+  const ref = [];
+  for (let i = 0; i < 12; i++) ref.push(D.orc2026.receitaMes[(N + i) % 12]);
+
+  /* ---------- presets de cenário (PREMISSA) ---------- */
+  const PRESETS = {
+    base:     { vol: 2,   pre: 3, inf: 4,   fx: 0,  pdd: 1.5, dso: 0,  cap: 4 },
+    upside:   { vol: 6,   pre: 4, inf: 3.5, fx: -3, pdd: 1.2, dso: -3, cap: 4.5 },
+    downside: { vol: -4,  pre: 1, inf: 5.5, fx: 6,  pdd: 2.2, dso: 5,  cap: 3 },
+    stress:   { vol: -10, pre: 0, inf: 7,   fx: 15, pdd: 3.5, dso: 12, cap: 2 },
+  };
+  const NOMES = { base: "Base", upside: "Upside", downside: "Downside", stress: "Stress" };
+  const CORES = { base: "s1", upside: "s3", downside: "s2", stress: "s4" };
+
+  /* ---------- constantes do modelo (PREMISSA) ---------- */
+  const CVAR = 0.55, FX_PESO = 0.30, FIXO = 22.0, IR = 0.34, DA_MES = 3.6;
+  const JUROS_MES = D.bal2025.divida * D.premissas.custoDivida / 12;
+  const CAIXA_INI = D.real2026.caixaFimMes[N - 1];
+  const CCC_BASE = 87; // dias — último CCC observado (Jul/26: DSO 64 + DIO 71 − DPO 48)
+
+  /* ---------- motor do forecast ---------- */
+  function rodar(p) {
+    const rev = [], cvar = [], fixo = [], pdd = [], ebitda = [], fluxo = [], caixa = [];
+    let nwcAnt = (ref[0] * 12) * (CCC_BASE / 365); // NWC de partida sobre o run-rate anualizado de referência
+    let cx = CAIXA_INI;
+    for (let i = 0; i < 12; i++) {
+      const fInf = 1 + (p.inf / 100) * ((i + 1) / 12);           // inflação acumulando ao longo do horizonte
+      const r = ref[i] * (1 + p.vol / 100) * (1 + p.pre / 100);
+      const cv = ref[i] * (1 + p.vol / 100) * CVAR * fInf * (1 + (p.fx / 100) * FX_PESO);
+      const fx_ = FIXO * fInf;
+      const pd = r * (p.pdd / 100);
+      const eb = r - cv - fx_ - pd;
+      const ebit = eb - DA_MES;
+      const imposto = Math.max(0, ebit - JUROS_MES) * IR;
+      const ccc = CCC_BASE + p.dso * Math.min(1, (i + 1) / 3); // mudança de prazo faseada em 3 meses
+      const nwc = (r * 12) * (ccc / 365);
+      const dNwc = nwc - nwcAnt;
+      const fl = eb - imposto - JUROS_MES - p.cap - dNwc;
+      cx += fl;
+      rev.push(r); cvar.push(cv); fixo.push(fx_); pdd.push(pd); ebitda.push(eb);
+      fluxo.push(fl); caixa.push(cx);
+      nwcAnt = nwc;
+    }
+    return { rev, cvar, fixo, pdd, ebitda, fluxo, caixa };
+  }
+
+  /* ---------- estado dos sliders ---------- */
+  const sliders = { vol: "iVol", pre: "iPre", inf: "iInf", fx: "iFx", pdd: "iPdd", dso: "iDso", cap: "iCap" };
+  const outs = { vol: "oVol", pre: "oPre", inf: "oInf", fx: "oFx", pdd: "oPdd", dso: "oDso", cap: "oCap" };
+  function setSliders(p) { for (const k in sliders) document.getElementById(sliders[k]).value = p[k]; }
+  function getDrivers() {
+    const p = {};
+    for (const k in sliders) p[k] = +document.getElementById(sliders[k]).value;
+    return p;
+  }
+  function showOuts(p) {
+    const s = v => (v >= 0 ? "+" : "−") + Math.abs(v);
+    document.getElementById("oVol").textContent = s(p.vol) + "%";
+    document.getElementById("oPre").textContent = s(p.pre) + "%";
+    document.getElementById("oInf").textContent = p.inf + "%";
+    document.getElementById("oFx").textContent = s(p.fx) + "%";
+    document.getElementById("oPdd").textContent = p.pdd.toFixed(1) + "%";
+    document.getElementById("oDso").textContent = s(p.dso) + " dias";
+    document.getElementById("oCap").textContent = "R$ " + p.cap.toFixed(1) + " mm";
+  }
+
+  function tile(lbl, val, sub, delta, up) {
+    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val">${val}</div>
+      ${delta != null ? `<div class="delta ${up ? "up" : "down"}">${delta}</div>` : ""}
+      ${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  }
+
+  /* ---------- render ---------- */
+  function render() {
+    const p = getDrivers();
+    showOuts(p);
+    const m = rodar(p);
+    const rev12 = D.soma(m.rev), eb12 = D.soma(m.ebitda), fl12 = D.soma(m.fluxo);
+
+    document.getElementById("tiles").innerHTML =
+      tile("Receita 12 meses", F.mm(rev12), "Ago/26–Jul/27", null, true) +
+      tile("EBITDA 12 meses", F.mm(eb12), "margem " + F.pc(eb12 / rev12), null, eb12 >= 0) +
+      tile("Geração de caixa 12m", F.smm(fl12), "após impostos, juros, CAPEX e ΔNWC", null, fl12 >= 0) +
+      tile("Caixa ao fim do horizonte", F.mm(m.caixa[11]), "partindo de " + F.mm(CAIXA_INI), null, m.caixa[11] >= CAIXA_INI);
+
+    // Receita mensal: forecast atual vs orçado (Ago–Dez/26) vs forecast anterior (preset base fixo)
+    const orcado = ref.map((r, i) => (N + i < 12 ? r : null));
+    const anterior = rodar(PRESETS.base).rev;
+    V.line(document.getElementById("chRev"), {
+      title: "Receita mensal — forecast atual × orçado × forecast anterior (R$ mm)",
+      sub: "Orçado existe até Dez/26 (orçamento estático); forecast anterior = preset Base",
+      labels,
+      series: [
+        { name: "Forecast atual", values: m.rev, color: "s3", kind: "line" },
+        { name: "Orçado 2026", values: orcado, color: "s2", kind: "line" },
+        { name: "Forecast anterior", values: anterior, color: "s1", kind: "line", dash: true },
+      ],
+      yZero: false,
+    });
+
+    V.line(document.getElementById("chCaixa"), {
+      title: "Saldo de caixa projetado (R$ mm)",
+      sub: "Caixa inicial de " + F.mm(CAIXA_INI) + " (Jul/26) + fluxo líquido mensal · valor estimado sob as premissas adotadas",
+      labels,
+      series: [{ name: "Caixa", values: m.caixa, color: "s1", kind: "line" }],
+    });
+
+    // FY 2026: real YTD + Ago–Dez do cenário
+    const realRevYtd = D.ytd(D.real2026.receitaMes), realEbYtd = D.ytd(D.real2026.ebitdaMes);
+    const revAgoDez = D.soma(m.rev.slice(0, 5)), ebAgoDez = D.soma(m.ebitda.slice(0, 5));
+    const fyRev = realRevYtd + revAgoDez, fyEb = realEbYtd + ebAgoDez;
+    const budRev = D.orc2026.receitaAno, budEb = D.soma(D.orc2026.ebitdaMes);
+    document.getElementById("tilesFy").innerHTML =
+      tile("Receita 2026 — forecast", F.mm(fyRev), "orçado " + F.mm(budRev), F.spc(fyRev / budRev - 1) + " vs. orçado", fyRev >= budRev) +
+      tile("EBITDA 2026 — forecast", F.mm(fyEb), "orçado " + F.mm(budEb), F.spc(fyEb / budEb - 1) + " vs. orçado", fyEb >= budEb) +
+      tile("Margem EBITDA 2026", F.pc(fyEb / fyRev), "orçado " + F.pc(budEb / budRev), null, fyEb / fyRev >= budEb / budRev);
+
+    /* checks */
+    const ebRecalc = rev12 - D.soma(m.cvar) - D.soma(m.fixo) - D.soma(m.pdd);
+    const cxRecalc = CAIXA_INI + fl12;
+    const cen = { base: rodar(PRESETS.base), upside: rodar(PRESETS.upside), downside: rodar(PRESETS.downside), stress: rodar(PRESETS.stress) };
+    const ordem = D.soma(cen.stress.ebitda) <= D.soma(cen.downside.ebitda)
+      && D.soma(cen.downside.ebitda) <= D.soma(cen.base.ebitda)
+      && D.soma(cen.base.ebitda) <= D.soma(cen.upside.ebitda);
+    V.renderChecks(document.getElementById("checks"), [
+      { name: "EBITDA 12m = receita − custos variáveis − fixos − inadimplência", pass: V.near(eb12, ebRecalc, 0.05), num: F.mm(eb12) + " = " + F.mm(ebRecalc) },
+      { name: "Caixa final = caixa inicial + Σ fluxos mensais", pass: V.near(m.caixa[11], cxRecalc, 0.05), num: F.mm(m.caixa[11]) + " = " + F.mm(cxRecalc) },
+      { name: "Coerência ordinal dos cenários (Stress ≤ Downside ≤ Base ≤ Upside em EBITDA)", pass: ordem, num: ordem ? "ordem preservada" : "ordem violada" },
+      { name: "Receita FY26 = realizado YTD + forecast Ago–Dez", pass: V.near(fyRev, realRevYtd + revAgoDez, 0.01), num: F.mm(fyRev) },
+    ]);
+  }
+
+  /* ---------- comparação de cenários (fixa, presets) ---------- */
+  function renderCenarios() {
+    const acum = {};
+    for (const c in PRESETS) {
+      const m = rodar(PRESETS[c]);
+      let a = 0; acum[c] = m.ebitda.map(v => (a += v));
+    }
+    V.line(document.getElementById("chCen"), {
+      title: "EBITDA acumulado no horizonte — 4 cenários (R$ mm)",
+      sub: "Presets fixos de premissas por cenário · dado simulado",
+      labels,
+      series: Object.keys(PRESETS).map(c => ({ name: NOMES[c], values: acum[c], color: CORES[c], kind: "line" })),
+    });
+    let html = `<caption>Presets de premissas por cenário (PREMISSA DO MODELO)</caption>
+      <thead><tr><th>Cenário</th><th>Volume</th><th>Preço</th><th>Inflação</th><th>Câmbio</th><th>Inadimpl.</th><th>Δ DSO</th><th>CAPEX/mês</th><th>EBITDA 12m</th><th>Caixa 12m</th></tr></thead><tbody>`;
+    for (const c in PRESETS) {
+      const p = PRESETS[c], m = rodar(p);
+      html += `<tr><td>${NOMES[c]}</td><td>${p.vol > 0 ? "+" : ""}${p.vol}%</td><td>${p.pre > 0 ? "+" : ""}${p.pre}%</td>
+        <td>${p.inf}%</td><td>${p.fx > 0 ? "+" : ""}${p.fx}%</td><td>${p.pdd}%</td><td>${p.dso > 0 ? "+" : ""}${p.dso} d</td>
+        <td>${F.mm(p.cap)}</td><td>${F.mm(D.soma(m.ebitda))}</td><td class="${D.soma(m.fluxo) >= 0 ? "pos" : "neg"}">${F.smm(D.soma(m.fluxo))}</td></tr>`;
+    }
+    html += "</tbody>";
+    document.getElementById("tbCen").innerHTML = html;
+  }
+
+  /* ---------- eventos ---------- */
+  document.querySelectorAll("#segCen button").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#segCen button").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      setSliders(PRESETS[b.dataset.c]);
+      render();
+    });
+  });
+  for (const k in sliders) document.getElementById(sliders[k]).addEventListener("input", render);
+
+  setSliders(PRESETS.base);
+  render();
+  renderCenarios();
+})();
+</script>
+</body>
+</html>

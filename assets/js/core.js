@@ -198,12 +198,12 @@
     const fmt = opts.fmt || F.mm;
     opts.twin = {
       head: [""].concat(opts.series.map(s => s.name)),
-      rows: opts.labels.map((l, i) => [l].concat(opts.series.map(s => fmt(s.values[i])))),
+      rows: opts.labels.map((l, i) => [l].concat(opts.series.map(s => s.values[i] == null ? "—" : fmt(s.values[i])))),
     };
     scaffold(el, opts, (w) => {
       const h = opts.height || 250, ml = 52, mr = 10, mt = 12, mb = 28;
       const svg = svgEl("svg", { viewBox: `0 0 ${w} ${h}` });
-      const all = opts.series.flatMap(s => s.values);
+      const all = opts.series.flatMap(s => s.values).filter(v => v != null);
       let lo = Math.min(0, ...all), hi = Math.max(0, ...all);
       const ticks = niceTicks(lo, hi, 5);
       lo = ticks[0]; hi = ticks[ticks.length - 1];
@@ -219,6 +219,7 @@
         const gx = x0 + slot * i + (slot - groupW) / 2;
         opts.series.forEach((s, j) => {
           const v = s.values[i], c = col(s.color);
+          if (v == null) return; // valor ausente: sem barra (lacuna explícita)
           const yv = yOf(v);
           const top = Math.min(yv, yZero), bh = Math.max(1, Math.abs(yv - yZero));
           const rx = Math.min(4, bw / 2);
@@ -229,7 +230,7 @@
           const path = svgEl("path", { d: p, fill: c });
           path.addEventListener("mousemove", ev => {
             let html = `<div class="t">${lab}</div>`;
-            opts.series.forEach(ss => html += tipRow(ss.name, col(ss.color), fmt(ss.values[i])));
+            opts.series.forEach(ss => html += tipRow(ss.name, col(ss.color), ss.values[i] == null ? "—" : fmt(ss.values[i])));
             showTip(html, ev.clientX, ev.clientY);
           });
           path.addEventListener("mouseleave", hideTip);
@@ -454,6 +455,7 @@
   const NAV = [
     ["index.html", "Início", "home"],
     ["simuladores/index.html", "Simuladores", "sim"],
+    ["analises/bancos-2026.html", "Análises", "ana"],
     ["dashboards.html", "Dashboards", "dash"],
     ["kpis.html", "KPIs", "kpis"],
     ["metodologia.html", "Metodologia", "met"],
@@ -474,7 +476,8 @@
     footer.className = "site";
     footer.innerHTML = `<div class="wrap">
       <div>Portfólio técnico de Finanças Corporativas, FP&amp;A, Valuation e BI.<br>
-      Todos os estudos são <b>simulações identificadas</b> com empresa fictícia — não representam experiência profissional real nem recomendação de investimento.</div>
+      Simuladores usam <b>empresa fictícia (simulações identificadas)</b>; análises com dados públicos citam fonte e data.
+      Nada aqui representa experiência profissional real nem recomendação de investimento.</div>
       <div>Código-fonte: <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio">GitHub</a><br>
       Metodologia e governança: <a href="${root}metodologia.html">ver protocolo</a></div>
     </div>`;

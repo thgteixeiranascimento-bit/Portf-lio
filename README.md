@@ -42,6 +42,7 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra
 | Corp. finance | [`simuladores/ma.html`](simuladores/ma.html) | M&A: pro forma, accretion/dilution, preço máximo |
 | Riscos | [`simuladores/riscos.html`](simuladores/riscos.html) | Heatmap de riscos, stress combinado, covenant |
 | Quant | [`simuladores/portfolio.html`](simuladores/portfolio.html) | Fronteira eficiente (educacional) |
+| Dados reais | [`analises/bancos-2026.html`](analises/bancos-2026.html) | Itaú, Bradesco e Santander (1T26/2T26) + ciclo da Selic nas atas do Copom — fontes primárias datadas |
 | BI | [`dashboards.html`](dashboards.html) | Painéis CFO, FP&A, capital de giro e liquidez |
 | KPIs | [`kpis.html`](kpis.html) | Biblioteca documentada com exemplos calculados |
 | Governança | [`metodologia.html`](metodologia.html) | Protocolo, conselho de validação, rastreabilidade, QC |

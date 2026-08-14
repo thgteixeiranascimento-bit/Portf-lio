@@ -102,6 +102,22 @@
           <td style="white-space:normal">Portal de Dados Abertos da CVM (<a href="https://dados.cvm.gov.br">dados.cvm.gov.br</a>)</td>
           <td>1</td><td style="white-space:normal">Script de automação em Python (<code>automation/</code>) — coleta, não análise publicada</td>
           <td><span class="tag">Dado público — consumido pelo script, nenhum número publicado no site</span></td></tr>
+        <tr><td style="white-space:normal">Resultados 2T26 do Itaú Unibanco (apresentação de 05/08/2026 e Relatório da Administração IFRS 1S26)</td>
+          <td style="white-space:normal">Itaú Unibanco Holding S.A. — divulgações oficiais de RI</td>
+          <td>1</td><td style="white-space:normal"><a href="analises/bancos-2026.html">Análise setorial — bancos 2026</a></td>
+          <td><span class="tag okv">Dado público — conversão OCR fornecida pelo titular; conferência contra o PDF original pendente</span></td></tr>
+        <tr><td style="white-space:normal">Resultados 1T26 e 2T26 do Santander Brasil (apresentações de 29/04 e 29/07/2026)</td>
+          <td style="white-space:normal">Banco Santander (Brasil) S.A. — divulgações oficiais de RI</td>
+          <td>1</td><td style="white-space:normal"><a href="analises/bancos-2026.html">Análise setorial — bancos 2026</a></td>
+          <td><span class="tag okv">Dado público — mesma ressalva de OCR</span></td></tr>
+        <tr><td style="white-space:normal">Relatório de Análise Econômica e Financeira 1T26 do Bradesco</td>
+          <td style="white-space:normal">Banco Bradesco S.A. — divulgação oficial de RI</td>
+          <td>1</td><td style="white-space:normal"><a href="analises/bancos-2026.html">Análise setorial — bancos 2026</a></td>
+          <td><span class="tag okv">Dado público — mesma ressalva de OCR</span></td></tr>
+        <tr><td style="white-space:normal">Atas da 277ª, 278ª e 280ª reuniões do Copom e nota da decisão da 280ª (Selic 14,75% → 14,50% → 14,00%)</td>
+          <td style="white-space:normal">Banco Central do Brasil (<a href="https://www.bcb.gov.br">bcb.gov.br</a>)</td>
+          <td>1</td><td style="white-space:normal">Contexto macro da análise setorial</td>
+          <td><span class="tag okv">Dado público — ata da 279ª (jun/26) não fornecida, lacuna declarada</span></td></tr>
       </tbody>
     </table></div>
     <p style="font-size:.85rem">
@@ -129,13 +145,15 @@
         <tr><td>M&amp;A</td><td>5</td><td style="white-space:normal">LL pro forma independente; EV = equity + dívida; fontes = usos; base acionária; definição de accretion</td></tr>
         <tr><td>Riscos / stress</td><td>4</td><td style="white-space:normal">Ponte de stress soma; covenant recalculado; escala do mapa</td></tr>
         <tr><td>Portfólio (educacional)</td><td>4</td><td style="white-space:normal">Pesos somam 100%; matriz simétrica; variâncias ≥ 0; dominância da mínima variância</td></tr>
-        <tr class="tot"><td>Total</td><td>44</td><td>checks automáticos publicados</td></tr>
+        <tr><td>Análise setorial — bancos 2026</td><td>8</td><td style="white-space:normal">Somas e variações divulgadas reconciliadas dentro dos próprios documentos (lucro 1S = 1T+2T, carteiras, margens, PDD, trajetória da Selic)</td></tr>
+        <tr class="tot"><td>Total</td><td>52</td><td>checks automáticos publicados</td></tr>
       </tbody>
     </table></div>
     <h3>Pendências conhecidas (não ocultadas)</h3>
     <ul>
       <li><b>Dados faltantes:</b> experiência, formação, certificações e LinkedIn do titular — marcados "DADO NÃO INFORMADO" em <a href="sobre.html">Sobre</a>;</li>
       <li><b>Referências não verificadas:</b> três referências metodológicas indicadas pelo titular ainda não conferidas contra o conteúdo original (matriz acima);</li>
+      <li><b>Análise setorial:</b> documentos recebidos como conversões OCR (conferência contra os PDFs originais pendente); Bradesco 2T26 e ata da 279ª reunião do Copom não fornecidos; sem dados de preço de mercado;</li>
       <li><b>Em desenvolvimento:</b> versões em Excel/VBA e Power BI dos modelos — anunciadas como roadmap, não como entregas.</li>
     </ul>
   </section>
@@ -156,6 +174,7 @@
         <tr><td>Riscos &amp; stress testing</td><td>checks 4/4</td><td>simulados</td><td><span class="tag resv">⚠️ Validado com ressalvas</span></td></tr>
         <tr><td>Portfólio — fronteira eficiente</td><td>checks 4/4</td><td>hipóteses didáticas</td><td><span class="tag resv">⚠️ Validado com ressalvas — uso educacional</span></td></tr>
         <tr><td>Dashboards e KPIs</td><td>derivados do dataset central</td><td>simulados</td><td><span class="tag resv">⚠️ Validado com ressalvas</span></td></tr>
+        <tr><td>Análise setorial — bancos 2026</td><td>checks 8/8</td><td>públicos (fontes primárias, via OCR)</td><td><span class="tag resv">⚠️ Validado com ressalvas — OCR sem conferência contra o PDF original; períodos assimétricos</span></td></tr>
         <tr><td>Perfil profissional (Sobre)</td><td>—</td><td>lacunas declaradas</td><td><span class="tag nao">❌ Não validado — aguarda dados verificáveis do titular</span></td></tr>
       </tbody>
     </table></div>

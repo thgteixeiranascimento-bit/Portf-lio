@@ -30,6 +30,12 @@
     spc: v => (v >= 0 ? "+" : "") + nf(1, 1).format(v * 100) + "%",
     dias: v => nf(0, 0).format(Math.round(v)) + " d",
     brl: v => "R$ " + nf(1, 1).format(v) + " mm",
+    usd: v => "US$ " + nf(1, 1).format(Math.abs(v) < 0.05 ? 0 : v),
+    usd0: v => "US$ " + nf(0, 0).format(Math.round(v)),
+    pcv: v => nf(1, 1).format(v) + "%",              // valor já em pontos percentuais (24,3 → "24,3%")
+    pcv2: v => nf(2, 2).format(v) + "%",
+    spcv: v => (v >= 0 ? "+" : "") + nf(1, 1).format(v) + "%",
+    ppv: v => (v >= 0 ? "+" : "") + nf(1, 1).format(v) + " p.p.",
   };
 
   /* ---------- ticks "bonitos" ---------- */
@@ -308,9 +314,10 @@
     // opts: items [{l, v}] (em torno de 0) ou tornado {l, lo, hi}; fmt
     const fmt = opts.fmt || F.mm;
     const isRange = opts.items.length && opts.items[0].lo !== undefined;
+    const sVal = v => (opts.signed === false ? fmt(v) : F.smm(v));
     opts.twin = isRange
       ? { head: ["Item", "Mín.", "Máx."], rows: opts.items.map(it => [it.l, fmt(it.lo), fmt(it.hi)]) }
-      : { head: ["Item", "Valor"], rows: opts.items.map(it => [it.l, F.smm(it.v)]) };
+      : { head: ["Item", "Valor"], rows: opts.items.map(it => [it.l, sVal(it.v)]) };
     opts.series = null;
     scaffold(el, opts, (w) => {
       const rowH = 30, mt = 8, mb = 24, ml = opts.labelW || 190, mr = 60;
@@ -331,11 +338,11 @@
         if (isRange) { xa = xOf(it.lo); xb = xOf(it.hi); c = col(it.color || "s1"); }
         else { xa = Math.min(zero, xOf(it.v)); xb = Math.max(zero, xOf(it.v)); c = it.v >= 0 ? col("s1") : col("s4"); }
         const r = svgEl("rect", { x: xa, y, width: Math.max(2, xb - xa), height: bh, rx: 3, fill: c, opacity: isRange ? 0.85 : 1 });
-        r.addEventListener("mousemove", ev => showTip(`<div class="t">${it.l}</div>` + (isRange ? tipRow("Faixa", c, fmt(it.lo) + " – " + fmt(it.hi)) : tipRow("Valor", c, F.smm(it.v))), ev.clientX, ev.clientY));
+        r.addEventListener("mousemove", ev => showTip(`<div class="t">${it.l}</div>` + (isRange ? tipRow("Faixa", c, fmt(it.lo) + " – " + fmt(it.hi)) : tipRow("Valor", c, sVal(it.v))), ev.clientX, ev.clientY));
         r.addEventListener("mouseleave", hideTip);
         svg.appendChild(r);
         const tv = svgEl("text", { x: xb + 6, y: y + bh / 2 + 4, "font-size": 10.5, "font-weight": 600, fill: tok("--ink-2") });
-        tv.textContent = isRange ? fmt(it.hi) : F.smm(it.v);
+        tv.textContent = isRange ? fmt(it.hi) : sVal(it.v);
         svg.appendChild(tv);
         if (isRange) {
           const tv2 = svgEl("text", { x: xa - 6, y: y + bh / 2 + 4, "font-size": 10.5, "font-weight": 600, fill: tok("--ink-2"), "text-anchor": "end" });
@@ -451,11 +458,27 @@
     return { total: n, ok };
   }
 
+  /* ---------- bloco padrão "Fontes deste estudo" ---------- */
+  function renderFontes(el, ids, notaExtra) {
+    const R = window.REAL;
+    if (!R || !el) return;
+    const rows = ids.map(id => {
+      const f = R.FONTES[id];
+      if (!f) return "";
+      return `<tr><td style="white-space:normal">${f.doc}</td><td style="white-space:normal">${f.emissor}</td><td>${f.data}</td><td style="text-align:center">${f.nivel}</td>${f.obs ? `<td style="white-space:normal">${f.obs}</td>` : "<td>—</td>"}</tr>`;
+    }).join("");
+    el.innerHTML = `<h2>Fontes deste estudo</h2>
+      <div class="tbl-scroll"><table class="tbl">
+        <thead><tr><th>Documento</th><th>Emissor</th><th>Data</th><th>Nível</th><th>Observação</th></tr></thead>
+        <tbody>${rows}</tbody></table></div>
+      <p style="font-size:.83rem">${R.META.recebimento} Conferência contra os originais publicados nos canais de RI dos emissores e em bcb.gov.br permanece <b>pendente e declarada</b>. ${notaExtra || ""} Nada nesta página é recomendação de investimento.</p>`;
+  }
+
   /* ---------- navegação / rodapé ---------- */
   const NAV = [
     ["index.html", "Início", "home"],
-    ["simuladores/index.html", "Simuladores", "sim"],
-    ["analises/bancos-2026.html", "Análises", "ana"],
+    ["simuladores/index.html", "Estudos", "sim"],
+    ["analises/bancos-2026.html", "Análise setorial", "ana"],
     ["dashboards.html", "Dashboards", "dash"],
     ["kpis.html", "KPIs", "kpis"],
     ["metodologia.html", "Metodologia", "met"],
@@ -475,9 +498,10 @@
     const footer = document.createElement("footer");
     footer.className = "site";
     footer.innerHTML = `<div class="wrap">
-      <div>Portfólio técnico de Finanças Corporativas, FP&amp;A, Valuation e BI.<br>
-      Simuladores usam <b>empresa fictícia (simulações identificadas)</b>; análises com dados públicos citam fonte e data.
-      Nada aqui representa experiência profissional real nem recomendação de investimento.</div>
+      <div>Portfólio técnico de Finanças Corporativas, FP&amp;A, Valuation e BI construído sobre
+      <b>dados públicos de fontes primárias datadas</b> (Nu, Agi/Agibank, Itaú, Bradesco, Santander Brasil e Copom).<br>
+      Fatos, premissas e estimativas são rotulados separadamente. Nada aqui é recomendação de investimento
+      nem representa experiência profissional real.</div>
       <div>Código-fonte: <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio">GitHub</a><br>
       Metodologia e governança: <a href="${root}metodologia.html">ver protocolo</a></div>
     </div>`;
@@ -504,5 +528,5 @@
   }
   const near = (a, b, tol) => Math.abs(a - b) <= (tol == null ? 0.05 : tol);
 
-  window.Viz = { line, bars, waterfall, hbars, scatter, heatTable, renderChecks, F, col, tok, irr, npv, near, niceTicks };
+  window.Viz = { line, bars, waterfall, hbars, scatter, heatTable, renderChecks, renderFontes, F, col, tok, irr, npv, near, niceTicks };
 })();

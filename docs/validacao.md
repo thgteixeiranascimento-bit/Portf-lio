@@ -1,39 +1,26 @@
-# Validação
+# Validação — conselho de sete perspectivas
 
-## Conselho de validação
+Parecer da versão 2.0 (16/08/2026). Detalhe navegável em [`metodologia.html`](../metodologia.html), seção 6.
 
-Banca interna de sete perspectivas: CFO/Head of Finance, Especialista FP&A, Controller,
-Especialista em Valuation/Corporate Finance, Especialista em BI/Data Analytics, Especialista em
-Risk Management e Auditor/QA. O papel do auditor materializa-se nos **44 checks automáticos**
-publicados nos simuladores (somas, reconciliações, identidades contábeis, definições),
-recalculados a cada mudança de premissa.
+| # | Perspectiva | O que verificou | Parecer |
+|---|---|---|---|
+| 1 | Contador | A = P + PL exato (Nu, 3 períodos; Agi, 2 períodos); caixa reconcilia; mutação do PL soma; mesmo lucro nas três demonstrações da Agi | ✅ Aprovado |
+| 2 | Auditor | Checks aritméticos publicados por página; divergências entre documentos tabeladas | ⚠️ Aprovado com ressalva (OCR sem conferência contra originais) |
+| 3 | Controller | Reconciliação contábil × gerencial do Nu reproduzida e neutra no lucro (asseguração KPMG citada) | ✅ Aprovado |
+| 4 | Analista de risco | NPL com sazonalidade/mix declarados; ECL por estágio recalculada; stress com premissas e aproximações declaradas | ✅ Aprovado |
+| 5 | Compliance | Sem recomendação/preço-alvo; disclaimers em todas as páginas; perfil sem afirmações não confirmadas | ✅ Aprovado |
+| 6 | Metodologista | Moedas separadas; FXN × nominal distinguido; lacunas declaradas (3T25, 279ª ata, CSVs sem dados) | ✅ Aprovado |
+| 7 | Leitor executivo | Cada página declara o problema que resolve e separa fato de interpretação | ✅ Aprovado |
 
-## Regra de aprovação
+## Parecer consolidado
 
-- ✅ **VALIDADO** — consistência interna verificada e dados/fontes reais confirmados;
-- ⚠️ **VALIDADO COM RESSALVAS** — consistência interna verificada, com ressalvas declaradas;
-- ❌ **NÃO VALIDADO** — qualquer teste do protocolo de auditoria reprovado.
+**⚠️ VALIDADO COM RESSALVAS** — dados de fontes primárias com rastreabilidade completa e checks
+aritméticos aprovados; ressalvas permanentes desta versão:
 
-Divergências entre conselheiros são registradas, explicadas e mantêm o material como
-"não validado" até haver evidência suficiente.
+1. Arquivos recebidos como conversões OCR/planilhas — conferência contra os PDFs originais publicada
+   pelos emissores permanece pendente;
+2. Assimetria de períodos (Itaú/Santander/Nu com 2T26; Bradesco/Agi com 1T26);
+3. Nu reporta em US$ e com métricas de definição própria — comparações entre emissores são de ordem
+   de grandeza, nunca ranking preciso.
 
-## Status desta versão (14/08/2026)
-
-| Projeto | Consistência interna | Status |
-|---|---|---|
-| Real vs. Orçado vs. Forecast | checks 5/5 | ⚠️ Validado com ressalvas (dados simulados) |
-| Rolling forecast 12m | checks 4/4 | ⚠️ Validado com ressalvas (dados simulados) |
-| Fluxo de caixa & liquidez | checks 4/4 | ⚠️ Validado com ressalvas (dados simulados) |
-| Capital de giro | checks 3/3 | ⚠️ Validado com ressalvas (dados simulados) |
-| Três demonstrações | checks 6/6 | ⚠️ Validado com ressalvas (dados simulados) |
-| Valuation — DCF e múltiplos | checks 5/5 | ⚠️ Validado com ressalvas (premissas de mercado hipotéticas) |
-| CAPEX / EVTE | checks 4/4 | ⚠️ Validado com ressalvas (dados simulados) |
-| M&A — accretion/dilution | checks 5/5 | ⚠️ Validado com ressalvas (dados simulados) |
-| Riscos & stress testing | checks 4/4 | ⚠️ Validado com ressalvas (dados simulados) |
-| Portfólio — fronteira eficiente | checks 4/4 | ⚠️ Validado com ressalvas (uso educacional) |
-| Dashboards e KPIs | derivados do dataset central | ⚠️ Validado com ressalvas (dados simulados) |
-| Perfil profissional (Sobre) | — | ❌ Não validado — aguarda dados verificáveis do titular |
-
-Resultado do protocolo final de auditoria (10 testes): 9 aprovados; 1 parcial — o *source check*
-aponta 3 referências metodológicas indicadas pelo titular ainda não conferidas contra o conteúdo
-original (pendência declarada na matriz de rastreabilidade).
+Nada no portfólio é recomendação de investimento.

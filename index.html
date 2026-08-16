@@ -16,13 +16,15 @@
     <h1>Transformar divulgações reais em análise — e análise em decisão.</h1>
     <p class="lead">
       Todos os estudos deste portfólio são construídos sobre <strong>dados públicos de fontes primárias
-      datadas</strong>: resultados de <strong>Nu Holdings (1T26/2T26)</strong>, <strong>Agi/Agibank (1T26)</strong>,
-      <strong>Itaú (2T26)</strong>, <strong>Bradesco (1T26)</strong> e <strong>Santander Brasil (1T26/2T26)</strong>,
-      além do ciclo da Selic nas <strong>atas do Copom</strong>. Cada número tem fonte citada, cada módulo publica
+      datadas</strong>: resultados de <strong>Nu Holdings (1T25 a 2T26)</strong>, <strong>Agi/Agibank</strong>,
+      <strong>Itaú</strong>, <strong>Bradesco</strong> e <strong>Santander Brasil</strong>, o ciclo completo da
+      Selic nas <strong>atas do Copom</strong> e múltiplos de mercado. Cada número tem fonte e <strong>classe de
+      fonte</strong> citadas — extração documental e informação relatada nunca se misturam —, cada módulo publica
       seus <strong>checks de integridade</strong> e toda projeção é rotulada como estimativa sob premissas explícitas.
     </p>
     <div class="tags">
       <span class="tag okv">Dado público — fonte primária datada</span>
+      <span class="tag">136 checks de integridade</span>
       <span class="tag">FP&amp;A</span>
       <span class="tag">Modelagem financeira</span>
       <span class="tag">Valuation</span>
@@ -49,9 +51,9 @@
     <div class="grid c2">
       <a class="card" href="analises/bancos-2026.html">
         <h3>Sistema bancário: incumbentes × digitais</h3>
-        <p>Itaú, Bradesco e Santander lado a lado com Nu Holdings e Agi: rentabilidade, eficiência, inadimplência
-        e capital — com as ressalvas de comparabilidade (moeda, base contábil, período) explícitas, e o ciclo
-        da Selic nas atas do Copom como pano de fundo.</p>
+        <p>Itaú, Bradesco e Santander lado a lado com Nu Holdings e Agi: rentabilidade, eficiência, inadimplência,
+        capital e múltiplos de mercado — com as ressalvas de comparabilidade (moeda, base contábil, período,
+        classe de fonte) explícitas, e o ciclo completo da Selic nas atas do Copom como pano de fundo.</p>
         <span class="go">Abrir análise →</span>
       </a>
       <a class="card" href="dashboards.html">
@@ -106,8 +108,8 @@
       </a>
       <a class="card" href="simuladores/valuation.html">
         <h3>Valuation de bancos — P/VPA justificado</h3>
-        <p>Técnica de Gordon aplicada aos ROEs divulgados das cinco instituições: P/VPA = (ROE − g)/(Ke − g),
-        com sensibilidade Ke × g — exercício educacional sem preços de mercado.</p>
+        <p>Técnica de Gordon aplicada aos ROEs divulgados: P/VPA = (ROE − g)/(Ke − g), comparado ao múltiplo
+        observado no mercado — engenharia reversa das premissas que o preço embute, sem recomendação.</p>
         <span class="go">Abrir modelo →</span>
       </a>
       <a class="card" href="simuladores/capex-evte.html">
@@ -172,15 +174,17 @@
     <div class="grid c3">
       <div class="card">
         <h3>Dados primários, de verdade</h3>
-        <p>Releases, demonstrações IFRS (com revisão de EY e asseguração da KPMG nos documentos citados) e atas
-        do Copom — extraídos, reconciliados e citados. Checks aritméticos conferem os números dentro dos
-        próprios documentos: balanço fecha, caixa reconcilia, pontes somam.</p>
+        <p>Releases, demonstrações IFRS (com revisão de EY e asseguração da KPMG), workbook oficial de dados
+        históricos e atas do Copom — extraídos, reconciliados e citados. Os checks vão além de somar colunas:
+        validam a derivação de um trimestre inteiro contra o exercício assegurado e explicam divergências
+        entre documentos do mesmo emissor.</p>
       </div>
       <div class="card">
         <h3>Honestidade metodológica</h3>
-        <p>Moedas diferentes não se somam; bases gerenciais distintas não se comparam sem ressalva; períodos
-        assimétricos são declarados; crescimento FX-neutro não vira crescimento nominal. As divergências entre
-        documentos estão <em>documentadas</em>, não escondidas.</p>
+        <p>Moedas diferentes não se somam; bases gerenciais distintas não se comparam sem ressalva; crescimento
+        FX-neutro não vira nominal; informação relatada não vira extração documental. As onze divergências
+        encontradas estão <em>documentadas</em> — inclusive uma cuja causa foi identificada e verificada
+        aritmeticamente.</p>
       </div>
       <div class="card">
         <h3>Orientação à decisão</h3>

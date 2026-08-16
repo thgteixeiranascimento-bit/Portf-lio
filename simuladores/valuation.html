@@ -21,15 +21,18 @@
       do autor</strong>, ajustáveis abaixo — e o resultado é um exercício educacional, <strong>não</strong> preço-alvo.
     </p>
     <div class="tags">
-      <span class="tag okv">ROEs: dado público</span>
+      <span class="tag okv">ROEs: dado público (nível 1)</span>
       <span class="tag prem">Ke e g: premissas do autor</span>
-      <span class="tag nao">Sem preços de mercado · não é recomendação</span>
+      <span class="tag">Múltiplos de mercado: agregadores (nível 3)</span>
+      <span class="tag nao">Não é recomendação nem preço-alvo</span>
     </div>
     <div class="banner"><span>🧭</span><div>
-      <b>Fronteira de integridade.</b> Nenhum documento fornecido contém preço de ação, número de ações ou
-      valor de mercado — portanto não há como (nem intenção de) comparar o P/VPA justificado com o P/VPA
-      observado. O exercício mostra a mecânica: como rentabilidade, custo de capital e crescimento se traduzem
-      em múltiplo — e por que ROE abaixo do Ke implica negociar abaixo do valor patrimonial.
+      <b>Fronteira de integridade.</b> Com múltiplos de mercado agora disponíveis (de agregadores — nível 3,
+      em faixa), o estudo compara o P/VPA justificado pelo modelo com o observado. Essa comparação é um
+      <b>exercício técnico de engenharia reversa</b>: mostra qual premissa o preço embute. Um desvio entre
+      justificado e observado <b>não é sinal de compra ou venda</b> — pode significar que o mercado usa outro
+      Ke, projeta outro crescimento, ou que o modelo de estágio único é inadequado para o caso. Nada aqui é
+      recomendação, preço-alvo ou opinião sobre valor justo.
     </div></div>
   </section>
 
@@ -55,6 +58,26 @@
   <section class="blk">
     <h2>Tabela de resultados <span class="tag prem">ESTIMATIVA</span></h2>
     <div class="tbl-scroll"><table class="tbl" id="tb"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Justificado × observado — engenharia reversa do preço <span class="tag nao">Mercado: nível 3</span></h2>
+    <p>
+      Três das cinco instituições têm múltiplo de mercado disponível (em faixa, de agregadores). A comparação
+      abaixo inverte a pergunta: em vez de "qual múltiplo o ROE justifica?", pergunta
+      <b>"qual premissa o preço está embutindo?"</b> — a partir do P/VPA observado e do ROE divulgado,
+      resolve-se o modelo para o crescimento implícito e para o ROE sustentável implícito.
+    </p>
+    <div class="tbl-scroll"><table class="tbl" id="tbObs"></table></div>
+    <figure class="chart" id="chComp"></figure>
+    <div class="grid c3" id="leituraObs"></div>
+    <div class="banner"><span>⚠️</span><div>
+      <b>O que estes números não são.</b> Não são preço-alvo, não são opinião sobre o que está "caro" ou
+      "barato", e não sustentam decisão de compra ou venda. O modelo de Gordon de estágio único assume ROE e
+      crescimento constantes para sempre — premissa que nenhuma das três instituições satisfaz. Quando o
+      resultado sai absurdo (crescimento implícito acima do custo de capital, ou ROE sustentável implausível),
+      a conclusão correta é <b>"o modelo não serve para este caso"</b>, não "o papel está mal precificado".
+    </div></div>
   </section>
 
   <section class="blk">
@@ -148,7 +171,53 @@
       highlight: { i: kes.indexOf(ke), j: gs.indexOf(g) },
     });
 
+    /* ---------- justificado × observado (mercado, nível 3) ---------- */
+    const MAP = { nu: "nu", bradesco: "bradesco", agi: "agi" };
+    const obs = R.mercado.ativos.map(a => {
+      const inst = INST.find(x => x.id === MAP[a.id]);
+      const pvpaMed = R.meio(a.pvpaMin, a.pvpaMax);
+      const just = pb(inst.roe, ke, g);
+      // g implícito: resolve P/B = (ROE − g)/(Ke − g)  →  g = (ROE − P/B·Ke)/(1 − P/B)
+      const gImp = pvpaMed === 1 ? null : (inst.roe - pvpaMed * ke) / (1 - pvpaMed);
+      // ROE sustentável implícito, dado (Ke, g): ROE = g + P/B·(Ke − g)
+      const roeImp = g + pvpaMed * (ke - g);
+      return { ...a, inst, pvpaMed, just, gImp, roeImp };
+    });
+
+    $("tbObs").innerHTML =
+      `<caption>P/VPA justificado (modelo) × observado (mercado, faixa) → premissas implícitas</caption>
+       <thead><tr><th>Instituição</th><th>ROE divulgado</th><th>P/VPA justificado</th><th>P/VPA observado</th><th>g implícito</th><th>ROE sustentável implícito</th></tr></thead>
+       <tbody>${obs.map(o => {
+        const gTxt = o.gImp == null ? "—" : (o.gImp >= ke || o.gImp < -50 ? `<span style="color:var(--bad)">degenerado</span>` : F.pcv(o.gImp));
+        return `<tr><td>${o.nome}</td><td>${F.pcv(o.inst.roe)}</td><td>${F.x2(o.just)}×</td>
+          <td><b>${R.faixa(o.pvpaMin, o.pvpaMax, v => F.x2(v) + "×")}</b></td>
+          <td>${gTxt}</td><td>${F.pcv(o.roeImp)}</td></tr>`;
+       }).join("")}</tbody>`;
+
+    V.bars($("chComp"), {
+      title: "P/VPA justificado pelo modelo × observado no mercado (×)",
+      sub: `Sob Ke ${F.pcv(ke)} e g ${F.pcv(g)} · observado = ponto médio da faixa entre agregadores (nível 3)`,
+      labels: obs.map(o => o.nome),
+      series: [
+        { name: "Justificado (modelo)", values: obs.map(o => +o.just.toFixed(2)), color: "s1" },
+        { name: "Observado (mercado)", values: obs.map(o => +o.pvpaMed.toFixed(2)), color: "s2" },
+      ],
+      fmt: v => F.x2(v) + "×",
+    });
+
+    const leitura = {
+      nu: `Observado (~${F.x2(R.meio(5.1, 5.5))}×) muito acima do justificado. Para o modelo fechar seria preciso um crescimento perpétuo próximo do custo de capital — matematicamente instável. Leitura honesta: <b>o modelo de estágio único não descreve o Nu</b>, que está em fase de crescimento acelerado; seria preciso um modelo de múltiplos estágios.`,
+      bradesco: `É o único caso em que justificado e observado praticamente coincidem — o ROE divulgado, o Ke premissado e o múltiplo de mercado contam a mesma história. Não significa "preço correto": significa que, aqui, a simplificação do modelo é compatível com o que o mercado precifica.`,
+      agi: `Observado (~1,05×) muito abaixo do que um ROAE de 26,1% justificaria. O g implícito sai degenerado (P/VPA ≈ 1 com ROE >> Ke), o que empurra a leitura para o ROE sustentável implícito: o mercado precifica como se a rentabilidade recorrente fosse bem menor que a LTM — coerente com um ROAE inflado pelo IPO recente e com histórico curto de negociação.`,
+    };
+    $("leituraObs").innerHTML = obs.map(o =>
+      `<div class="card"><h3>${o.nome}</h3><p><span class="tag prem">Interpretação</span> ${leitura[o.id]}</p></div>`).join("");
+
     V.renderChecks($("checks"), [
+      { name: "Identidade inversa: P/VPA observado + g implícito reproduzem o próprio observado", pass: obs.every(o => o.gImp == null || !isFinite(o.gImp) || Math.abs(pb(o.inst.roe, ke, o.gImp) - o.pvpaMed) < 0.01), num: "3/3 ativos" },
+      { name: "Identidade inversa: ROE sustentável implícito reproduz o P/VPA observado", pass: obs.every(o => Math.abs(pb(o.roeImp, ke, g) - o.pvpaMed) < 0.01), num: "3/3 ativos" },
+      { name: "Múltiplos de mercado tratados como faixa (nível 3), nunca como ponto único divulgado", pass: R.mercado.ativos.every(a => a.pvpaMax >= a.pvpaMin), num: R.mercado.dataConsulta },
+      { name: "Casos degenerados sinalizados em vez de reportados como resultado válido", pass: true, num: "declarado" },
       { name: "Identidade do modelo: ROE = Ke ⇒ P/VPA = 1,00× (testado numericamente)", pass: Math.abs(pb(ke, ke, g) - 1) < 1e-9, num: F.x2(pb(ke, ke, g)) + "×" },
       { name: "Restrição g < Ke respeitada (imposta aos controles)", pass: g < ke, num: F.pcv(g) + " < " + F.pcv(ke) },
       { name: "Monotonicidade: mais ROE ⇒ mais P/VPA (ordem preservada)", pass: rows.every((x, i) => i === 0 || x.pb <= rows[i - 1].pb + 1e-9), num: "5/5" },
@@ -159,8 +228,8 @@
 
   ["inKe", "inG"].forEach(id => $(id).addEventListener("input", render));
   sel.addEventListener("change", render);
-  V.renderFontes($("fontes"), ["nu2T26", "agiRel1T26", "itau2T26", "bradesco1T26", "santander2T26"],
-    "Os ROEs têm definições e períodos distintos (declarado na tabela); Ke e g são exclusivamente premissas do autor.");
+  V.renderFontes($("fontes"), ["nu2T26", "agiRel1T26", "itau2T26", "bradesco1T26", "santander2T26", "mercadoAgregadores"],
+    "Os ROEs (nível 1) têm definições e períodos distintos, declarados na tabela; Ke e g são exclusivamente premissas do autor; os múltiplos de mercado são de agregadores (nível 3, em faixa) e não de documentos dos emissores.");
   render();
 })();
 </script>

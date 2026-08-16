@@ -26,14 +26,25 @@ window.REAL = (function () {
 
   /* ================= COPOM / SELIC (Banco Central) ================= */
   const selic = {
-    fontes: ["copom"],
+    fontes: ["copom", "copom279"],
     decisoes: [
       { reuniao: "277ª", data: "17–18/03/2026", rotulo: "18/mar (277ª)", valor: 14.75 },
       { reuniao: "278ª", data: "28–29/04/2026", rotulo: "29/abr (278ª)", valor: 14.50 },
-      { reuniao: "279ª", data: "jun/2026", rotulo: "jun (279ª)", valor: null, obs: "ata não fornecida — lacuna declarada" },
+      { reuniao: "279ª", data: "16–17/06/2026", rotulo: "17/jun (279ª)", valor: 14.25 },
       { reuniao: "280ª", data: "04–05/08/2026", rotulo: "05/ago (280ª)", valor: 14.00 },
     ],
     nota280: { focus2026: 5.0, focus2027: 4.2, projCopom1T28: 3.2, balancoRiscos: "assimetria altista" },
+    // Ata da 279ª reunião — fonte primária (PDF do BCB)
+    ata279: {
+      focus2026: 5.30, focus2027: 4.10,
+      projRef2026: 5.2, projRef4T27: 3.7, projAnterior4T27: 3.5,
+      ipcaLivres2026: 5.3, ipcaAdmin2026: 4.7,
+      cambioRef: 5.10,
+      balancoRiscos: "assimetria altista",
+      convergenciaMeta: "1º trimestre de 2028 nas trajetórias julgadas mais adequadas",
+      votacao: "unânime (7 membros)",
+      trajetoriasAlternativas: "O Comitê debateu trajetórias com convergência no horizonte relevante, mas as descartou por exigirem variações abruptas e de grande magnitude na Selic, ausentes da Focus, do QPC e da precificação de mercado; preferiu trajetórias com pausa e retomada do ciclo, com convergência no 1T28.",
+    },
   };
 
   /* ================= ITAÚ UNIBANCO (2T26) ================= */
@@ -59,6 +70,15 @@ window.REAL = (function () {
     carteiraBi: 1090, carteiraYoY: 8.4,
     npl90: 4.2,
     cet1: 10.2, nivel1: 12.0, basileia: 14.9,
+    // 2T26 — RELATADO pelo titular a partir de divulgação pública; documento não anexado
+    t2_26: {
+      relatado: true,
+      lucro: 7050, lucroYoY: 16.2, consensoLSEG: 6950,
+      roae: 16.2, roaeAnterior: 15.8,
+      carteiraBi: 1140, carteiraYoY: 11.6, guidance: "8,5% a 10,5% para 2026 (mantido)",
+      npl90: 4.3, pddDeltaTt: 22.6,
+      divulgacao: "4–5/08/2026",
+    },
   };
 
   /* ================= SANTANDER BRASIL (1T26 e 2T26) ================= */
@@ -83,33 +103,61 @@ window.REAL = (function () {
   // 3T25 não consta de nenhum documento fornecido → lacuna declarada (null).
   const NU_P = ["1T25", "2T25", "3T25", "4T25", "1T26", "2T26"];
   const nu = {
-    fontes: ["nu1T26", "nu2T26", "nuRec1T26", "nuRec2T26", "nuDF1T26", "nuDF2T26"],
+    fontes: ["nu1T26", "nu2T26", "nuRec1T26", "nuRec2T26", "nuRec4T25", "nuHist3T25", "nuDF1T26", "nuDF2T26"],
     moeda: "US$ mm (US$ bi onde indicado)",
     periodos: NU_P,
 
-    /* --- métricas operacionais e de desempenho (releases; % e US$) --- */
+    /* --- métricas operacionais e de desempenho (releases; % e US$) ---
+       3T25 agora preenchido pelo workbook "Historical Data 3Q25" (RI do Nu) e
+       pela derivação do P&L gerencial descrita em plGer. */
     op: {
-      clientesMi:   [118.6, 122.7, null, 131.0, 135.2, 138.9],
+      clientesMi:   [118.6, 122.7, 127.0, 131.0, 135.2, 138.9],
       atividadePc:  [83.3, 83.2, null, 83.4, 83.4, 83.5],
-      compraBi:     [30.4, 33.3, null, 41.6, 39.5, 43.4],
-      arpac:        [11.6, 12.5, null, 15.0, 15.9, 17.1],
-      custoServir:  [0.7, 0.8, null, 0.8, 1.0, 1.0],
-      carteiraBi:   [24.1, 27.3, null, 32.7, 37.2, 39.4],
-      depositosBi:  [31.6, 36.6, null, 41.9, 42.4, 45.3],
+      compraBi:     [30.4, 33.3, 36.5, 41.6, 39.5, 43.4],
+      arpac:        [11.6, 12.5, 13.9, 15.0, 15.9, 17.1], // 3T25 em base gerencial (derivado — ver divergência ARPAC)
+      custoServir:  [0.7, 0.8, 0.9, 0.8, 1.0, 1.0],
+      carteiraBi:   [24.1, 27.3, null, 32.7, 37.2, 39.4],  // carteira total do release; workbook divulga IEP (17,7 bi), base distinta
+      depositosBi:  [31.6, 36.6, 38.8, 41.9, 42.4, 45.3],
       eficienciaPc: [21.4, 21.3, null, 19.9, 17.6, 19.5],
       nimRiscoPc:   [9.3, 9.9, null, 10.5, 9.5, 12.4],
-      roePc:        [27, 28, null, 33, 29, 33],
-      npl1590:      [4.8, 4.5, null, 4.1, 5.0, 4.8],
-      npl90:        [6.4, 6.5, null, 6.6, 6.5, 6.9],
-      receita:      [3372.7, 3772.3, null, 4857.3, 5315.5, 5875.7],
-      lucroBruto:   [1327.5, 1519.3, null, 1961.1, 1877.7, 2441.1],
-      lucro:        [557.2, 637.0, null, 894.8, 871.4, 1061.1],
+      roePc:        [27, 28, 31, 33, 29, 33],
+      npl1590:      [4.8, 4.5, 4.2, 4.1, 5.0, 4.8],
+      npl90:        [6.4, 6.5, 6.8, 6.6, 6.5, 6.9],
+      receita:      [3372.7, 3772.3, 4317.3, 4857.3, 5315.5, 5875.7], // 3T25 derivado do FY25 assegurado
+      lucroBruto:   [1327.5, 1519.3, 1811.2, 1961.1, 1877.7, 2441.1],
+      lucro:        [557.2, 637.0, 782.7, 894.8, 871.4, 1061.1],
+    },
+
+    /* --- 3T25: valores contábeis IFRS do workbook oficial (US$ mm, de US$ mil) --- */
+    cont3T25: {
+      receitaJuros: 3577.478, tarifas: 595.238, receita: 4172.716,
+      despFin: -1275.711, transac: -104.990, ecl: -977.483, custoTotal: -2358.184,
+      lucroBruto: 1814.532, despOper: -697.073, coligadas: -1.170,
+      lair: 1116.289, ir: -333.611, lucro: 782.678, lucroControladores: 782.473,
+      epsBasico: 0.1617, epsDiluido: 0.1595, acoesMedias: 4838814, // milhares
+      ativos: 68362.816, passivos: 57809.276, pl: 10553.540, plControladores: 10551.991,
+      depositos: 38775.929, caixaEquiv: 12895.785, iepBi: 17.7,
+      arpacContabil: 13.4,
+      clientesBrasilMi: 110.1, clientesMexicoMi: 13.1, clientesColombiaMi: 3.8,
+      funcionariosMil: 9.6,
+    },
+
+    /* --- 4T25 e exercício de 2025 (relatório de reconciliação com asseguração KPMG) --- */
+    fy25: {
+      gerencial: { receita: 16319.6, credito: 9483.0, float: 4505.3, tarifas: 2331.3, custosDiretos: -9700.5, captacao: -4435.5, custoCredito: -4441.9, transacao: -353.6, impostosReceita: -469.5, lucroBruto: 6619.1, despOper: -2237.1, coligadas: -3.7, ebt: 4378.3, ir: -1506.6, lucro: 2871.7 },
+      contabil:  { receita: 15774.7, lucroBruto: 6625.0, ebt: 3868.4, ir: -996.7, lucro: 2871.7 },
+      fy24Gerencial: { receita: 11671.1, lucroBruto: 5025.5, ebt: 2972.9, ir: -1000.8, lucro: 1972.1 },
     },
 
     /* --- P&L gerencial completo (US$ mm) — releases + relatórios de reconciliação --- */
     plGer: {
       "1T25": { receita: 3372.7, credito: 1976.0, float: 880.1, tarifas: 516.6, custosDiretos: -2045.2, captacao: -841.1, custoCredito: -1041.8, transacao: -63.1, impostosReceita: -99.2, lucroBruto: 1327.5, despOper: -459.2, suporte: -151.5, ga: -283.8, marketing: -40.3, outras: 16.3, coligadas: -1.1, ebt: 867.2, ir: -310.0, lucro: 557.2 },
       "2T25": { receita: 3772.3, credito: 2239.8, float: 990.9, tarifas: 541.6, custosDiretos: -2253.0, captacao: -1007.3, custoCredito: -1051.1, transacao: -83.2, impostosReceita: -111.4, lucroBruto: 1519.3, despOper: -548.1, suporte: -161.4, ga: -318.7, marketing: -52.3, outras: -15.7, coligadas: -1.0, ebt: 970.2, ir: -333.2, lucro: 637.0 },
+      // 3T25 DERIVADO: FY25 assegurado (KPMG) menos os três trimestres divulgados.
+      // Não é um valor publicado como tal pela companhia — é cálculo do autor, com
+      // todas as identidades internas verificadas nos checks (componentes somam, EBT − IR = lucro).
+      "3T25": { receita: 4317.3, credito: 2489.2, float: 1225.4, tarifas: 602.7, custosDiretos: -2506.1, captacao: -1237.1, custoCredito: -1035.8, transacao: -108.3, impostosReceita: -124.9, lucroBruto: 1811.2, despOper: -577.2, suporte: null, ga: null, marketing: null, outras: null, coligadas: -1.2, ebt: 1232.8, ir: -450.1, lucro: 782.7, derivado: true },
+      "4T25": { receita: 4857.3, credito: 2778.0, float: 1408.9, tarifas: 670.4, custosDiretos: -2896.2, captacao: -1350.0, custoCredito: -1313.2, transacao: -99.0, impostosReceita: -134.0, lucroBruto: 1961.1, despOper: -652.6, suporte: -164.0, ga: -364.9, marketing: -94.2, outras: -29.5, coligadas: -0.4, ebt: 1308.1, ir: -413.3, lucro: 894.8 },
       "1T26": { receita: 5315.5, credito: 3173.3, float: 1383.0, tarifas: 759.1, custosDiretos: -3437.7, captacao: -1305.0, custoCredito: -1794.2, transacao: -120.7, impostosReceita: -217.9, lucroBruto: 1877.7, despOper: -647.6, suporte: -204.9, ga: -371.8, marketing: -62.9, outras: -8.1, coligadas: -1.0, ebt: 1229.1, ir: -357.6, lucro: 871.4 },
       "2T26": { receita: 5875.7, credito: 3604.8, float: 1454.4, tarifas: 816.4, custosDiretos: -3434.6, captacao: -1372.1, custoCredito: -1690.8, transacao: -130.8, impostosReceita: -240.9, lucroBruto: 2441.1, despOper: -806.2, suporte: -226.2, ga: -463.6, marketing: -103.6, outras: -12.8, coligadas: -4.7, ebt: 1630.3, ir: -569.2, lucro: 1061.1 },
     },
@@ -123,8 +171,26 @@ window.REAL = (function () {
     /* --- reconciliação contábil → gerencial (US$ mm) — relatórios com asseguração
            limitada da KPMG (ISAE 3000 revisado) --- */
     reconc: {
+      "4T25": { contabil: { receita: 4685.9, lucroBruto: 1943.0, ebt: 1077.7, ir: -182.9, lucro: 894.8 }, ajustes: { receita: 171.4, lucroBruto: 18.0, ebt: 230.4, ir: -230.4, lucro: 0.0 }, gerencial: { receita: 4857.3, lucroBruto: 1961.1, ebt: 1308.1, ir: -413.3, lucro: 894.8 } },
+      "FY25": { contabil: { receita: 15774.7, lucroBruto: 6625.0, ebt: 3868.4, ir: -996.7, lucro: 2871.7 }, ajustes: { receita: 544.8, lucroBruto: -5.9, ebt: 509.9, ir: -509.9, lucro: 0.0 }, gerencial: { receita: 16319.6, lucroBruto: 6619.1, ebt: 4378.3, ir: -1506.6, lucro: 2871.7 } },
       "1T26": { contabil: { receita: 4968.0, lucroBruto: 1864.9, ebt: 954.3, ir: -82.9, lucro: 871.4 }, ajustes: { receita: 347.5, lucroBruto: 12.9, ebt: 274.8, ir: -274.8, lucro: 0.0 }, gerencial: { receita: 5315.5, lucroBruto: 1877.7, ebt: 1229.1, ir: -357.6, lucro: 871.4 } },
       "2T26": { contabil: { receita: 5513.2, lucroBruto: 2346.5, ebt: 1236.3, ir: -175.2, lucro: 1061.1 }, ajustes: { receita: 362.4, lucroBruto: 94.6, ebt: 393.9, ir: -393.9, lucro: 0.0 }, gerencial: { receita: 5875.7, lucroBruto: 2441.1, ebt: 1630.3, ir: -569.2, lucro: 1061.1 } },
+    },
+
+    /* --- série longa de clientes por país (workbook 3T25; milhões) --- */
+    histClientes: {
+      rotulos: ["4T23", "1T24", "2T24", "3T24", "4T24", "1T25", "2T25", "3T25"],
+      brasil:   [87.9, 91.8, 95.5, 98.8, 101.8, 104.6, 107.3, 110.1],
+      mexico:   [5.2, 6.6, 7.8, 8.9, 10.0, 11.0, 12.0, 13.1],
+      colombia: [0.8, 0.9, 1.3, 2.0, 2.5, 2.9, 3.4, 3.8],
+    },
+
+    /* --- capital regulatório: NÃO é o consolidado da Nu Holdings --- */
+    capitalNuPagamentos: {
+      entidade: "Nu Pagamentos S.A.", data: "set/2025", basileia: 14.6, nivel1: 13.0,
+      comparacao: { bradesco: 15.9, itau: 16.4 },
+      variacaoAa: { basileia: -1.2, nivel1: -1.5 },
+      ressalva: "Entidade individual do conglomerado, não o índice consolidado do grupo Nu Holdings — o consolidado não consta de fonte aberta agregada nem dos releases; exigiria consulta ao painel de Conglomerados Prudenciais do BCB.",
     },
 
     /* --- carteira por produto e depósitos por país (US$ bi, releases) --- */
@@ -244,6 +310,18 @@ window.REAL = (function () {
 
     carteiraProdutoDF: { personal: 5953.924, payroll: 26566.337, payrollCard: 2433.616, creditCard: 12.030, outros: 90.922, exposicao: 35056.829, premio: 602.713, ajusteHedge: -161.024, loans: 35498.518 },
 
+    // 2T26 — RELATADO pelo titular a partir de divulgação pública; documento não anexado
+    t2_26: {
+      relatado: true,
+      lucro: 200.3, lucroDeltaTt: 7.4, lucroDeltaAa: -24.4,
+      receita: 3171.0, receitaDeltaAa: 26.3, receitaDeltaTt: 5.8,
+      carteira: 37075.8, carteiraDeltaAa: 21.2,
+      clientesMi: 7.6, clientesDeltaAa: 36.4,
+      npl90: 3.3, cobertura: 182.6,
+      pl: 4799.215, plDez25: 3173.608,
+      divulgacao: "05/08/2026",
+    },
+
     eclEstagios1T26: {
       exposicao: [32636.549, 1014.032, 1406.248], exposicaoTotal: 35056.829,
       provisao: [591.976, 388.950, 1135.158], provisaoTotal: 2116.084,
@@ -251,9 +329,43 @@ window.REAL = (function () {
     },
   };
 
+  /* ================= DADOS DE MERCADO =================
+     ATENÇÃO — classe de fonte distinta do restante deste dataset.
+     Estes números vêm de AGREGADORES DE MERCADO (nível 3), relatados pelo
+     titular a partir de consulta pública, e NÃO de documentos dos emissores.
+     Os agregadores divergem entre si para o mesmo papel e a mesma data-base;
+     por isso tudo aqui é armazenado como FAIXA (min/max), nunca como ponto.
+     Cotações são de 08–16/08/2026 e mudam a cada pregão: são fotografia, não
+     série. Nenhuma leitura de compra, venda ou preço-alvo é feita a partir
+     destes dados em qualquer página do portfólio. */
+  const mercado = {
+    fontes: ["mercadoAgregadores"],
+    dataConsulta: "08–16/08/2026",
+    classe: "nível 3 — agregadores de mercado, relatado",
+    ativos: [
+      { id: "nu", nome: "Nu Holdings", ticker: "NYSE: NU (BDR ROXO34)", moeda: "US$",
+        precoMin: 13.84, precoMax: 13.84, precoNota: "fechamento de 08/08/2026 (anterior: 14,12)",
+        plMin: 18.2, plMax: 21.6, pvpaMin: 5.1, pvpaMax: 5.5, dy: 0,
+        roeRef: 33.0, roeNota: "ROE 2T26 divulgado",
+        divergencia: "P/L de 18,2× (base TTM, um agregador; média setorial citada ~12,6×) a 21,6× (outros dois agregadores)" },
+      { id: "bradesco", nome: "Bradesco", ticker: "B3: BBDC4", moeda: "R$",
+        precoMin: 16.66, precoMax: 17.47, precoNota: "faixa observada ao longo de agosto/2026",
+        plMin: 7.3, plMax: 8.0, pvpaMin: 1.10, pvpaMax: 1.10, dyMin: 5.7, dyMax: 9.5,
+        roeRef: 16.2, roeNota: "ROAE 2T26 relatado",
+        divergencia: "Dividend yield de 5,7% a 9,5% para janelas praticamente idênticas — diferença de metodologia entre agregadores" },
+      { id: "agi", nome: "Agi (Agibank)", ticker: "NYSE: AGBK", moeda: "US$",
+        precoMin: 7.16, precoMax: 7.19, precoNota: "vs. US$ 12,00 do IPO (fev/2026)",
+        plMin: 6.2, plMax: 29.7, pvpaMin: 1.05, pvpaMax: 1.05, dy: 0,
+        roeRef: 26.1, roeNota: "ROAE LTM 1T26 divulgado",
+        divergencia: "P/L de 6,2× (sobre lucro projetado para 2026, citado em reportagem) a 29,7× (trailing, agregador) — bases de lucro diferentes; histórico curto de negociação desde a estreia em fevereiro" },
+    ],
+    avisoObrigatorio: "Preços e múltiplos de mercado são apresentados como contexto factual e como insumo de um exercício técnico de valuation. Não constituem recomendação, preço-alvo, opinião sobre valor justo ou sugestão de compra ou venda.",
+  };
+
   /* ================= REGISTRO DE FONTES ================= */
   const FONTES = {
-    copom:          { doc: "Atas da 277ª, 278ª e 280ª reuniões do Copom + nota da decisão da 280ª", emissor: "Banco Central do Brasil", data: "18/03, 29/04 e 05/08/2026", nivel: 1, obs: "ata da 279ª (jun/26) não fornecida" },
+    copom:          { doc: "Atas da 277ª, 278ª e 280ª reuniões do Copom + nota da decisão da 280ª", emissor: "Banco Central do Brasil", data: "18/03, 29/04 e 05/08/2026", nivel: 1 },
+    copom279:       { doc: "Ata da 279ª reunião do Copom (16–17/06/2026)", emissor: "Banco Central do Brasil", data: "17/06/2026", nivel: 1, obs: "PDF do BCB — completa a série da Selic; lacuna anterior encerrada" },
     itau2T26:       { doc: "Apresentação de resultados 2T26", emissor: "Itaú Unibanco Holding S.A.", data: "05/08/2026", nivel: 1 },
     itauIFRS1S26:   { doc: "Demonstrações contábeis IFRS + Relatório da Administração 1S26", emissor: "Itaú Unibanco Holding S.A.", data: "30/06/2026", nivel: 1 },
     bradesco1T26:   { doc: "Relatório de Análise Econômica e Financeira 1T26", emissor: "Banco Bradesco S.A.", data: "1T26 (divulgação do trimestre)", nivel: 1 },
@@ -265,23 +377,33 @@ window.REAL = (function () {
     nuRec2T26:      { doc: "Managerial P&L Reconciliation Report 2T26 (asseguração limitada KPMG, ISAE 3000)", emissor: "Nu Holdings Ltd. / KPMG Auditores Independentes", data: "13/08/2026", nivel: 1 },
     nuDF1T26:       { doc: "Demonstrações financeiras intermediárias condensadas consolidadas 1T26 (IFRS)", emissor: "Nu Holdings Ltd.", data: "31/03/2026", nivel: 1 },
     nuDF2T26:       { doc: "Demonstrações financeiras intermediárias condensadas consolidadas 2T26 (IFRS)", emissor: "Nu Holdings Ltd.", data: "30/06/2026", nivel: 1 },
-    nuCSV:          { doc: "Planilha \"Nu Holdings — Dados Históricos\" 1T26/2T26 (CSV)", emissor: "Nu Holdings Ltd. (Relações com Investidores)", data: "recebida 16/08/2026", nivel: 1, obs: "os CSVs recebidos contêm apenas a aba de índice do workbook — sem dados numéricos; lacuna declarada" },
+    nuCSV:          { doc: "Planilha \"Nu Holdings — Dados Históricos\" 1T26/2T26/3T25/4T25 (CSV)", emissor: "Nu Holdings Ltd. (Relações com Investidores)", data: "recebidas 16/08/2026", nivel: 1, obs: "todos os CSVs recebidos contêm apenas a aba de índice do workbook — sem dados numéricos; substituídos pelo arquivo XLSX, que veio completo" },
+    nuHist3T25:     { doc: "Workbook \"Historical Data 3Q25\" (XLSX, 13 abas: resultado, balanço, fluxo de caixa, NPLs, operações de crédito, indicadores gerenciais)", emissor: "Nu Holdings Ltd. (Relações com Investidores)", data: "30/09/2025 · recebido 16/08/2026", nivel: 1, obs: "fonte primária que encerra a lacuna do 3T25 e traz série histórica desde 2022" },
+    nuRec4T25:      { doc: "Managerial P&L Reconciliation Report 4T25 e exercício de 2025 (asseguração limitada KPMG, ISAE 3000)", emissor: "Nu Holdings Ltd. / KPMG Auditores Independentes", data: "25/02/2026", nivel: 1, obs: "base da derivação do 3T25 gerencial por diferença" },
     agiRel1T26:     { doc: "Earnings Release 1Q26", emissor: "Agi Inc. (NYSE: AGBK) / Banco Agibank S.A.", data: "05/05/2026", nivel: 1 },
     agiDF1T26:      { doc: "Demonstrações financeiras intermediárias condensadas consolidadas 1T26 (IFRS, revisão limitada EY — ISRE 2410)", emissor: "AGI Inc / Ernst & Young Auditores Independentes", data: "05/05/2026", nivel: 1 },
+    bradesco2T26:   { doc: "Resultados 2T26 — números RELATADOS pelo titular a partir de divulgação pública (release e cobertura de mercado)", emissor: "Banco Bradesco S.A. (via relato)", data: "4–5/08/2026", nivel: 3, obs: "documento não anexado a esta análise — classificado como relato, não como extração documental; conferência pendente" },
+    agi2T26:        { doc: "Resultados 2T26 — números RELATADOS pelo titular a partir de divulgação pública", emissor: "Agi Inc. / Banco Agibank S.A. (via relato)", data: "05/08/2026", nivel: 3, obs: "documento não anexado — mesma ressalva de relato" },
+    mercadoAgregadores: { doc: "Cotações e múltiplos (P/L, P/VPA, dividend yield) de agregadores de mercado — Investing.com, Status Invest, Investidor10 e cobertura de imprensa", emissor: "Agregadores de mercado (via relato do titular)", data: "08–16/08/2026", nivel: 3, obs: "os agregadores divergem entre si; armazenado como faixa, nunca como ponto. Não são dados dos emissores nem base para recomendação" },
+    ifdataBCB:      { doc: "IF.data — Basileia e Capital Nível I da Nu Pagamentos S.A. (set/2025), RELATADO", emissor: "Banco Central do Brasil (via relato)", data: "set/2025", nivel: 3, obs: "entidade individual, não o consolidado da Nu Holdings; consolidado exigiria o painel de Conglomerados Prudenciais do BCB" },
   };
 
   const META = {
-    versao: "16/08/2026",
-    recebimento: "Documentos recebidos como conversões OCR/planilhas fornecidas pelo titular em 13–16/08/2026.",
+    versao: "16/08/2026 (rev. 2.1)",
+    recebimento: "Documentos recebidos como conversões OCR/planilhas fornecidas pelo titular em 13–16/08/2026; o workbook XLSX do Nu (3T25) e a ata da 279ª reunião do Copom vieram em formato nativo.",
     avisos: [
       "Dados públicos das companhias citadas — nada aqui é recomendação de investimento, preço-alvo ou opinião sobre valor de ativos.",
-      "Períodos assimétricos: Itaú/Santander/Nu com 2T26; Bradesco/Agi com 1T26 (documentos mais recentes não fornecidos).",
+      "Duas classes de fonte convivem: extração documental (nível 1, documento em mãos) e relato do titular a partir de fonte pública (nível 3, documento não anexado). Cada número carrega sua classe.",
       "Nu reporta em US$; os demais em R$ — valores absolutos não são comparados entre moedas (sem taxa de câmbio nos documentos).",
       "Taxas de crescimento do Nu divulgadas em base neutra de câmbio (FXN); variações nominais recalculadas aqui diferem — documentado.",
+      "Preços e múltiplos de mercado são fotografia de agosto/2026 e mudam a cada pregão; agregadores divergem entre si e os valores são guardados como faixa.",
     ],
   };
 
   const soma = a => a.reduce((x, y) => x + y, 0);
+  // Faixa formatada "a – b" (ou valor único quando min = max)
+  const faixa = (min, max, fmt) => (min === max ? fmt(min) : fmt(min) + " – " + fmt(max));
+  const meio = (min, max) => (min + max) / 2;
 
-  return { selic, itau, bradesco, santander, nu, agi, FONTES, META, soma };
+  return { selic, itau, bradesco, santander, nu, agi, mercado, FONTES, META, soma, faixa, meio };
 })();

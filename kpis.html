@@ -158,6 +158,44 @@
   </section>
 
   <section class="blk">
+    <h2>Múltiplos de mercado <span class="tag nao">Nível 3 — agregadores</span></h2>
+    <p style="font-size:.9rem">
+      Estes três indicadores mudam de classe de fonte: não vêm dos emissores, e sim de agregadores de
+      mercado que <b>divergem entre si</b>. Entram aqui pela relevância técnica, com a ressalva de sempre —
+      não sustentam recomendação.
+    </p>
+    <div class="grid c3">
+      <div class="card kpi-card">
+        <h4>P/L — preço sobre lucro</h4>
+        <div class="f">P/L = preço por ação ÷ lucro por ação</div>
+        <dl>
+          <dt>O que mede</dt><dd>Quantos anos de lucro atual o preço embute.</dd>
+          <dt>Exemplo real</dt><dd>Nu: <b>18,2× a 21,6×</b>; Bradesco: <b>7,3× a 8,0×</b>; Agi: <b>6,2× a 29,7×</b> (ago/2026).</dd>
+          <dt>Armadilhas</dt><dd>A base de lucro muda tudo: os 6,2× da Agi usam lucro <em>projetado</em> para 2026; os 29,7×, o <em>trailing</em>. Citar "o P/L" sem dizer a base é reportar ruído.</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>P/VPA — preço sobre valor patrimonial</h4>
+        <div class="f">P/VPA = valor de mercado ÷ patrimônio líquido</div>
+        <dl>
+          <dt>O que mede</dt><dd>Quanto o mercado paga por cada real (ou dólar) de patrimônio — a régua natural de bancos.</dd>
+          <dt>Exemplo real</dt><dd>Nu: <b>5,1×–5,5×</b>; Bradesco: <b>~1,10×</b>; Agi: <b>~1,05×</b>.</dd>
+          <dt>Armadilhas</dt><dd>Só faz sentido lido junto do ROE: P/VPA alto com ROE alto é consistente; P/VPA ≈ 1 com ROE muito acima do Ke sinaliza que o mercado não crê na perpetuação da rentabilidade.</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>Dividend yield</h4>
+        <div class="f">DY = proventos por ação (12m) ÷ preço por ação</div>
+        <dl>
+          <dt>O que mede</dt><dd>Retorno em caixa distribuído, sobre o preço atual.</dd>
+          <dt>Exemplo real</dt><dd>Bradesco: <b>5,7% a 9,5%</b> — a maior dispersão entre agregadores de todo o levantamento. Nu e Agi: <b>0%</b> (sem proventos no período).</dd>
+          <dt>Armadilhas</dt><dd>Janela e composição (dividendos, JCP, extraordinários) mudam o número drasticamente; yield alto pode refletir queda de preço, não generosidade.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
     <h2>Checks — os exemplos calculados conferem?</h2>
     <div id="checks"></div>
   </section>
@@ -188,9 +226,11 @@
     { name: "Basileia Agi recalculada = 19,3% divulgado", pass: Math.abs(basAgi - 19.3) < 0.1, num: F.pcv(basAgi) },
     { name: "Cobertura por estágio crescente (1,8% → 38,4% → 80,7%)", pass: cob[0] < cob[1] && cob[1] < cob[2], num: cob.map(c => F.pcv(c)).join(" · ") },
     { name: "ARPAC ÷ custo de servir do Nu = 17,1× (dois valores divulgados)", pass: Math.abs(NU.op.arpac[5] / NU.op.custoServir[5] - 17.1) < 0.2, num: "17,1×" },
+    { name: "ROE 3T25 do Nu recalculado do workbook ≈ 31% divulgado", pass: Math.abs(NU.cont3T25.lucro * 4 / ((9576.116 + NU.cont3T25.pl) / 2) * 100 - 31) < 1.0, num: F.pcv(NU.cont3T25.lucro * 4 / ((9576.116 + NU.cont3T25.pl) / 2) * 100) },
+    { name: "Múltiplos de mercado publicados em faixa, com classe de fonte distinta (nível 3)", pass: R.mercado.ativos.every(a => a.plMax >= a.plMin && a.pvpaMax >= a.pvpaMin), num: R.mercado.ativos.length + " ativos" },
   ]);
   V.renderFontes(document.getElementById("fontes"),
-    ["nu2T26", "nuDF1T26", "nuDF2T26", "agiRel1T26", "agiDF1T26", "itau2T26", "itauIFRS1S26", "bradesco1T26", "santander2T26"]);
+    ["nu2T26", "nuHist3T25", "nuDF1T26", "nuDF2T26", "agiRel1T26", "agiDF1T26", "itau2T26", "itauIFRS1S26", "bradesco1T26", "santander2T26", "mercadoAgregadores"]);
 })();
 </script>
 </body>

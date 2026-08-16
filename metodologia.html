@@ -12,7 +12,7 @@
 <main class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">Governança analítica · Protocolo de integridade · Versão 16/08/2026</div>
+    <div class="eyebrow">Governança analítica · Protocolo de integridade · Versão 2.1 — 16/08/2026</div>
     <h1>Como este portfólio garante que cada número é confiável</h1>
     <p class="lead">
       Análise financeira só vale alguma coisa se for <strong>auditável</strong>. Esta página documenta o
@@ -54,10 +54,15 @@
         Basileia ≠ CET1. Comparações carregam o rótulo da métrica de cada emissor;</li>
       <li><b>Crescimento FXN ≠ nominal.</b> As taxas do Nu são divulgadas em base neutra de câmbio; variações
         nominais recalculadas diferem e são apresentadas como tal;</li>
-      <li><b>Lacuna é lacuna.</b> 3T25 do Nu, 279ª ata do Copom, Bradesco/Agi 2T26: ausentes dos documentos —
-        os gráficos mostram o buraco em vez de interpolar;</li>
+      <li><b>Lacuna é lacuna.</b> Enquanto o 3T25 do Nu e a ata da 279ª estiveram ausentes, os gráficos
+        mostraram o buraco em vez de interpolar. Agora que chegaram, foram preenchidos <i>com a fonte
+        identificada</i> — e as lacunas remanescentes (capital consolidado do Nu, séries de mercado) seguem
+        declaradas;</li>
+      <li><b>Relato não é extração.</b> Informação de fonte pública que chega sem o documento anexado é
+        publicada como nível 3, marcada em cada página e mantida fora dos checks aritméticos;</li>
       <li><b>Sem recomendação.</b> Nenhuma página opina sobre comprar/vender/manter ativos, preço-alvo ou
-        valor de mercado — não há preços de mercado nos documentos fornecidos;</li>
+        valor justo. Múltiplos de mercado entram como contexto factual e como insumo de exercício técnico —
+        um desvio entre modelo e preço é tratado como limitação do modelo, nunca como sinal de negociação;</li>
       <li><b>Erro aparece.</b> Checks reprovados ficariam visíveis em vermelho — o controle de qualidade não
         esconde falha, publica.</li>
     </ul>
@@ -68,19 +73,28 @@
     <div class="tbl-scroll"><table class="tbl">
       <thead><tr><th>Nível</th><th>Tipo</th><th>Exemplos neste portfólio</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>Primárias</td><td style="white-space:normal">Releases e demonstrações financeiras dos emissores (Nu, Agi, Itaú, Bradesco, Santander), atas do Copom/BCB, relatórios de asseguração (KPMG) e revisão (EY) anexos às divulgações</td></tr>
+        <tr><td>1</td><td>Primárias — <b>documento em mãos</b></td><td style="white-space:normal">Releases e demonstrações financeiras dos emissores (Nu, Agi, Itaú, Bradesco, Santander), atas do Copom/BCB, workbook oficial de dados históricos do Nu, relatórios de asseguração (KPMG) e revisão (EY)</td></tr>
         <tr><td>2</td><td>Institucionais e técnicas</td><td style="white-space:normal">Normas IFRS/IAS (IAS 7, IAS 34, IFRS 9), material técnico de organizações profissionais</td></tr>
-        <tr><td>3</td><td>Secundárias</td><td style="white-space:normal">Consultorias, portais — jamais prevalecem sobre dado oficial; não usadas para números nesta versão</td></tr>
+        <tr><td>3</td><td>Secundárias e <b>relatadas</b></td><td style="white-space:normal">Agregadores de mercado (cotações e múltiplos); resultados de Bradesco 2T26 e Agi 2T26 relatados pelo titular a partir de divulgação pública, sem documento anexado; IF.data do BCB relatado</td></tr>
       </tbody>
     </table></div>
+    <div class="banner"><span>🔑</span><div>
+      <b>A distinção que mais importa nesta versão.</b> Nível 1 significa que o <b>documento está em mãos</b> e
+      o número foi extraído dele — sujeito, portanto, a checks aritméticos contra o próprio documento. Nível 3
+      inclui o que foi <b>relatado</b>: informação de fonte pública que chegou por terceiro, sem o documento
+      anexado. Um número relatado pode estar perfeitamente correto — mas não pode ser <em>verificado aqui</em>,
+      e por isso não entra nos checks nem se mistura aos dados extraídos. Cada tabela e cada gráfico marca a
+      classe do número que exibe.
+    </div></div>
   </section>
 
   <section class="blk">
     <h2>4 · Matriz de rastreabilidade — todos os documentos-fonte</h2>
     <div id="matriz"></div>
     <p style="font-size:.85rem">
-      Todos os arquivos foram recebidos como <b>conversões OCR/planilhas fornecidas pelo titular</b> em
-      13–16/08/2026. Os documentos originais pertencem aos respectivos emissores e estão disponíveis nos seus
+      A maior parte dos arquivos foi recebida como <b>conversões OCR/planilhas fornecidas pelo titular</b> em
+      13–16/08/2026; o <b>workbook XLSX do Nu (3T25)</b> e a <b>ata da 279ª reunião do Copom</b> vieram em
+      formato nativo e não carregam a ressalva de OCR. Os documentos originais pertencem aos respectivos emissores e estão disponíveis nos seus
       canais de relações com investidores (investidores.nu, ri.agibank.com.br, itau.com.br/relacoes-com-investidores,
       bradescori.com.br, ri.santander.com.br) e em bcb.gov.br. A <b>conferência contra os originais publicados
       permanece pendente e declarada</b>. Referências metodológicas adicionais e o detalhamento por informação
@@ -101,6 +115,27 @@
         <tr><td>5</td><td style="white-space:normal"><b>Agi, custos do IPO:</b> R$ 127,4 mm reconhecidos no PL vs. R$ 89,7 mm pagos no fluxo de caixa do 1T26</td><td style="white-space:normal">Explicado como competência × caixa nos estudos do IPO e do fluxo</td></tr>
         <tr><td>6</td><td style="white-space:normal"><b>CSVs "Dados Históricos" do Nu:</b> os dois arquivos recebidos contêm apenas a aba de índice do workbook (zero valores numéricos)</td><td style="white-space:normal">Lacuna declarada; nenhuma análise de série de mercado foi realizada</td></tr>
         <tr><td>7</td><td style="white-space:normal"><b>Nu, LDR consolidado:</b> divulgado (58,3% no 1T26) com definição própria, não recalculável do release</td><td style="white-space:normal">Citado sem recálculo; a não-replicabilidade está escrita na página de funding</td></tr>
+        <tr><td>8</td><td style="white-space:normal"><b>Nu, ARPAC — workbook × releases:</b> o workbook de dados históricos do 3T25 traz ARPAC de 11,2 (1T25) e 12,2 (2T25); os releases de 2026 informam 11,6 e 12,5 para os mesmos trimestres</td><td style="white-space:normal"><b>Causa identificada e verificada:</b> o workbook calcula sobre receita <i>contábil</i>, os releases sobre receita <i>gerencial</i>. A razão entre as duas séries reproduz exatamente a razão receita gerencial ÷ contábil (1,0385 no 1T25; 1,0283 no 2T25) — o portfólio publica a série em base gerencial, por comparabilidade, e a checagem está publicada</td></tr>
+        <tr><td>9</td><td style="white-space:normal"><b>Nu, capital regulatório:</b> o dado disponível (Basileia 14,6%) é da <i>Nu Pagamentos S.A.</i>, entidade individual, não do conglomerado Nu Holdings</td><td style="white-space:normal">Mantido fora do comparativo de capital entre instituições; publicado em seção própria com a ressalva de perímetro explícita</td></tr>
+        <tr><td>10</td><td style="white-space:normal"><b>Agregadores de mercado divergem entre si:</b> P/L do Nu de 18,2× ou 21,6×; dividend yield do Bradesco de 5,7% ou 9,5%; P/L da Agi de 6,2× (lucro projetado) ou 29,7× (trailing)</td><td style="white-space:normal">Nenhuma fonte é eleita "correta": tudo é publicado como <b>faixa</b>, com a origem da divergência nomeada em cada caso</td></tr>
+        <tr><td>11</td><td style="white-space:normal"><b>CSVs do Nu × XLSX:</b> os quatro CSVs recebidos (1T26, 2T26, 3T25, 4T25) contêm apenas a aba de índice do workbook</td><td style="white-space:normal">O XLSX do 3T25 veio completo (13 abas) e substituiu a fonte; a falha dos CSVs segue registrada</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="blk">
+    <h2>5b · Derivações do autor — o que foi calculado, não extraído</h2>
+    <p>
+      Alguns números publicados <b>não constam como tais em nenhum documento</b>: foram derivados. Eles são
+      identificados onde aparecem e listados aqui para que ninguém os confunda com divulgação:
+    </p>
+    <div class="tbl-scroll"><table class="tbl">
+      <thead><tr><th>Derivação</th><th>Método</th><th>Validação</th></tr></thead>
+      <tbody>
+        <tr><td style="white-space:normal"><b>P&amp;L gerencial do Nu no 3T25</b> (receita US$ 4.317,3 mm; lucro bruto US$ 1.811,2 mm; lucro US$ 782,7 mm)</td><td style="white-space:normal">Exercício de 2025 assegurado pela KPMG <b>menos</b> os três trimestres divulgados (1T25, 2T25, 4T25)</td><td style="white-space:normal">Quatro identidades independentes: componentes de receita somam; custos diretos somam; cascata fecha no lucro bruto; e o lucro derivado coincide com o lucro contábil IFRS do workbook (US$ 782,678 mm), como exige a neutralidade do framework</td></tr>
+        <tr><td style="white-space:normal"><b>ARPAC do Nu no 3T25 em base gerencial</b> (US$ 13,9)</td><td style="white-space:normal">ARPAC contábil do workbook (13,4) ajustado pela razão receita gerencial ÷ contábil</td><td style="white-space:normal">O mesmo ajuste reproduz os valores dos releases para 1T25 e 2T25 — check publicado</td></tr>
+        <tr><td style="white-space:normal"><b>Crescimento implícito e ROE sustentável implícito</b> (estudo de valuation)</td><td style="white-space:normal">Inversão algébrica do modelo de Gordon a partir do P/VPA observado</td><td style="white-space:normal">Identidades inversas verificadas: reaplicar o parâmetro implícito ao modelo devolve o múltiplo observado. Casos degenerados são sinalizados, não reportados como resultado</td></tr>
+        <tr><td style="white-space:normal"><b>HHI das carteiras</b> e <b>câmbio implícito do IPO</b> (R$ 5,47/US$)</td><td style="white-space:normal">Cálculo sobre aberturas divulgadas; razão entre os valores em R$ e US$ da oferta</td><td style="white-space:normal">Limites teóricos do HHI verificados; câmbio rotulado como estimativa derivada, não taxa oficial</td></tr>
       </tbody>
     </table></div>
   </section>
@@ -126,37 +161,45 @@
   <section class="blk">
     <h2>7 · Controle de qualidade — checks por módulo</h2>
     <p>
-      <b>102 checks de integridade</b> autorais são recalculados no navegador a cada carga de página (e a cada
+      <b>136 checks de integridade</b> autorais são recalculados no navegador a cada carga de página (e a cada
       mudança de premissa nos módulos interativos). Nenhum é decorativo: cada um compara uma soma, ponte ou
-      razão recalculada contra o valor divulgado.
+      razão recalculada contra o valor divulgado. Números de <b>nível 3 (relatados)</b> não entram nos checks
+      — não há documento contra o qual verificá-los.
     </p>
     <div class="tbl-scroll"><table class="tbl">
       <thead><tr><th>Página</th><th>Checks</th><th>O que verificam (exemplos)</th></tr></thead>
       <tbody>
-        <tr><td>Análise setorial</td><td>16</td><td style="white-space:normal">1S26 Itaú = 1T+2T; balanços do Nu (A=P+PL, 3 períodos); ROE do Nu recalculado do IFRS; Basileia da Agi recalculada</td></tr>
-        <tr><td>Análise de variações (Nu)</td><td>18</td><td style="white-space:normal">Somas de componentes em 4 períodos; pontes t/t e a/a fecham; reconciliação contábil→gerencial neutra no lucro</td></tr>
+        <tr><td>Análise setorial</td><td>30</td><td style="white-space:normal">1S26 Itaú = 1T+2T; balanços do Nu (A=P+PL, 4 períodos); ROE do Nu recalculado do IFRS em 2T26 e 3T25; Basileia da Agi recalculada; Selic completa com cortes de 0,25 recalculados; validação da derivação do 3T25 contra o exercício assegurado; explicação verificada da divergência do ARPAC</td></tr>
+        <tr><td>Análise de variações (Nu)</td><td>30</td><td style="white-space:normal">Somas de componentes em 6 períodos; pontes t/t e a/a fecham; reconciliações 4T25, exercício 2025, 1T26 e 2T26 neutras no lucro</td></tr>
         <tr><td>Projeção 12m (Nu)</td><td>5</td><td style="white-space:normal">Âncora = divulgado; cascata fecha em cada trimestre projetado; calibração recalculada</td></tr>
         <tr><td>Fluxo de caixa (Agi)</td><td>7</td><td style="white-space:normal">CI + fluxos = CF (exato); itens somam financiamento e investimento; nota 5 confere</td></tr>
         <tr><td>Captação e liquidez</td><td>6</td><td style="white-space:normal">Instrumentos somam total (3 períodos); LDR recalculado = divulgado (3 períodos)</td></tr>
         <tr><td>Três demonstrações (Agi)</td><td>11</td><td style="white-space:normal">A=P+PL (2 períodos); cascata da DRE exata; mutação do PL exata; lucro atravessa as três demonstrações</td></tr>
-        <tr><td>Valuation (P/VPA)</td><td>5</td><td style="white-space:normal">Identidade ROE=Ke⇒P/VPA=1; monotonicidade; âncoras conferidas</td></tr>
+        <tr><td>Valuation (P/VPA)</td><td>9</td><td style="white-space:normal">Identidade ROE=Ke⇒P/VPA=1; monotonicidade; âncoras conferidas; identidades inversas do g implícito e do ROE sustentável implícito reproduzem o múltiplo observado</td></tr>
         <tr><td>Unit economics México</td><td>5</td><td style="white-space:normal">Âncoras divulgadas; receita recalculada de forma independente; identidade do VP</td></tr>
         <tr><td>IPO da Agi</td><td>8</td><td style="white-space:normal">240 − 13,3 = 226,7; custos 68,7 + 58,7 = 127,4; ponte do PL exata; fluxo = mutação</td></tr>
         <tr><td>Riscos</td><td>7</td><td style="white-space:normal">Estágios de ECL somam (exato); movimento da provisão fecha; cobertura crescente por estágio</td></tr>
-        <tr><td>Carteiras</td><td>6</td><td style="white-space:normal">Mix soma total nas 3 carteiras; HHI dentro dos limites teóricos</td></tr>
-        <tr><td>Biblioteca de KPIs</td><td>8</td><td style="white-space:normal">Cada exemplo calculado confere com o divulgado (ROE, NIM, eficiência, LDR, Basileia…)</td></tr>
+        <tr><td>Carteiras</td><td>8</td><td style="white-space:normal">Mix soma total nas 3 carteiras; HHI dentro dos limites teóricos; clientes por país somam o total do 3T25; séries monotônicas</td></tr>
+        <tr><td>Biblioteca de KPIs</td><td>10</td><td style="white-space:normal">Cada exemplo calculado confere com o divulgado (ROE 2T26 e 3T25, NIM, eficiência, LDR, Basileia…); múltiplos publicados em faixa</td></tr>
       </tbody>
     </table></div>
   </section>
 
   <section class="blk">
     <h2>8 · Pendências declaradas</h2>
+    <p><b>Encerradas na revisão 2.1:</b> Nu 3T25 (workbook oficial + derivação validada); ata da 279ª reunião
+    do Copom (fonte primária); preços e múltiplos de mercado (agregadores, em faixa); Bradesco 2T26 e Agi 2T26
+    (como relato, nível 3); abas de dados do workbook do Nu (via XLSX).</p>
     <ul>
-      <li>Conferência dos arquivos OCR/planilhas contra os PDFs originais publicados pelos emissores;</li>
-      <li>Nu 3T25, Bradesco 2T26, Agi 2T26 e ata da 279ª reunião do Copom — documentos não fornecidos;</li>
-      <li>CSVs "Dados Históricos" do Nu com as abas de dados (os recebidos contêm apenas o índice);</li>
-      <li>Índice de capital regulatório do Nu — não consta dos documentos fornecidos;</li>
-      <li>Preços de mercado e múltiplos (P/L, P/VPA observado) — sem eles, valuation de mercado permanece fora de escopo;</li>
+      <li>Conferência dos arquivos OCR/planilhas contra os PDFs originais publicados pelos emissores
+        (a ata da 279ª e o workbook do Nu vieram em formato nativo e não têm essa ressalva);</li>
+      <li><b>Documentos originais de Bradesco 2T26 e Agi 2T26</b> — enquanto forem relato, permanecem nível 3,
+        fora dos checks aritméticos e marcados como tal em toda página onde aparecem;</li>
+      <li><b>Índice de capital consolidado do Nu Holdings</b> — o dado disponível é da Nu Pagamentos S.A.
+        (entidade individual); o consolidado exigiria o painel de Conglomerados Prudenciais do BCB;</li>
+      <li><b>Séries de mercado</b> (histórico de preço, volume, volatilidade) — só há fotografia pontual de
+        agosto/2026, que envelhece a cada pregão;</li>
+      <li><b>Taxa de câmbio oficial</b> para converter as bases em US$ e em R$ — segue ausente;</li>
       <li>Preenchimento do perfil do titular em <a href="sobre.html">sobre.html</a> (experiência, formação, certificações, LinkedIn);</li>
       <li>Conferência das referências metodológicas indicadas pelo titular (listadas em docs/fontes.md como "não verificadas");</li>
       <li>Roadmap: versões Excel/VBA e Power BI dos modelos, com a mesma governança.</li>
@@ -169,6 +212,7 @@
       <thead><tr><th>Data</th><th>Versão</th><th>Mudança</th></tr></thead>
       <tbody>
         <tr><td>14/08/2026</td><td>1.0</td><td style="white-space:normal">Portfólio inicial com estudo de caso fictício (Aurora Industrial) + análise setorial com dados públicos (Itaú, Bradesco, Santander, Copom)</td></tr>
+        <tr><td>16/08/2026</td><td>2.1</td><td style="white-space:normal"><b>Encerramento de lacunas e entrada de dados de mercado:</b> Nu 3T25 incorporado do workbook oficial (IFRS) e derivado no gerencial a partir do exercício assegurado pela KPMG; 4T25 e exercício de 2025 completos; ata da 279ª reunião do Copom em fonte primária completa a série da Selic; Bradesco 2T26, Agi 2T26, múltiplos de mercado e capital da Nu Pagamentos incorporados como <b>nível 3 (relato)</b>, com classe de fonte distinta em todas as páginas; estudo de valuation ganha comparação justificado × observado com engenharia reversa das premissas implícitas; quatro novas divergências documentadas (ARPAC contábil × gerencial, perímetro de capital, dispersão entre agregadores, CSVs sem dados)</td></tr>
         <tr><td>16/08/2026</td><td>2.0</td><td style="white-space:normal"><b>Conversão integral para dados públicos reais:</b> incorporação de Nu Holdings (1T26/2T26, releases + reconciliações KPMG + DFs IFRS) e Agi/Agibank (1T26, release + DFs revisadas EY); os dez módulos interativos reconstruídos sobre os dados reais; dataset fictício descontinuado</td></tr>
       </tbody>
     </table></div>

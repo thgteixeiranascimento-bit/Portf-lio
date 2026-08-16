@@ -99,7 +99,7 @@
 
   V.line($("chNu"), {
     title: "Nu — NPL 15-90 e NPL 90+ (%)",
-    sub: "Conforme releases · 3T25 não fornecido (lacuna) · metodologia própria da companhia",
+    sub: "Série completa · 3T25 do workbook oficial de dados históricos · metodologia própria da companhia",
     labels: NU.periodos,
     series: [
       { name: "NPL 15-90", values: NU.op.npl1590, color: "s2", kind: "line" },
@@ -124,12 +124,14 @@
     sub: "Definições e carteiras distintas — comparação indicativa · Itaú: n/d nos documentos fornecidos",
     items: [
       { l: "Nu (2T26)", v: 6.9 },
-      { l: "Bradesco (1T26)", v: 4.2 },
-      { l: "Agi (1T26)", v: 3.6 },
+      { l: "Bradesco (2T26)*", v: R.bradesco.t2_26.npl90 },
+      { l: "Agi (2T26)*", v: R.agi.t2_26.npl90 },
       { l: "Santander (2T26)", v: 3.3 },
     ],
     fmt: F.pcv, signed: false, labelW: 180,
   });
+  document.querySelector("#chNpl5").insertAdjacentHTML("beforeend",
+    '<p class="c-sub" style="margin-top:4px">* Bradesco e Agi no 2T26: dados relatados pelo titular a partir de divulgação pública (nível 3), não extração documental.</p>');
 
   /* estágios */
   const cob = E.provisao.map((p, i) => p / E.exposicao[i] * 100);

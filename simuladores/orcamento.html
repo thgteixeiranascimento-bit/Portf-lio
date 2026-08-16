@@ -49,9 +49,13 @@
   <section class="blk">
     <h2>P&amp;L gerencial completo — períodos divulgados <span class="tag okv">FATO</span></h2>
     <div class="tbl-scroll"><table class="tbl" id="tbPl"></table></div>
-    <p style="font-size:.83rem">4T25: somente receita, lucro bruto e lucro líquido constam dos documentos
-    fornecidos (tabela-resumo do release 1T26); as demais linhas do 4T25 não são afirmadas aqui. 3T25: período
-    não fornecido.</p>
+    <p style="font-size:.83rem">
+      <b>4T25:</b> linhas completas do relatório de reconciliação com asseguração da KPMG (25/02/2026).
+      <b>3T25:</b> derivado por diferença entre o exercício de 2025 assegurado e os três trimestres
+      divulgados — as identidades internas são verificadas nos checks, e o lucro derivado coincide com o
+      lucro contábil do workbook oficial. A abertura de despesas operacionais do 3T25 (suporte, G&amp;A,
+      marketing) <b>não é derivável</b> dessa forma e aparece como "n/d" em vez de rateada.
+    </p>
   </section>
 
   <section class="blk">
@@ -157,15 +161,16 @@
     });
   }
 
-  /* tabela P&L completa */
-  const PER = ["1T25", "2T25", "1T26", "2T26"];
+  /* tabela P&L completa — série de seis trimestres */
+  const PER = ["1T25", "2T25", "3T25", "4T25", "1T26", "2T26"];
   document.getElementById("tbPl").innerHTML =
     `<caption>P&L gerencial (US$ mm) — conforme releases e relatórios de reconciliação</caption>
      <thead><tr><th>Linha</th>${PER.map(p => `<th>${p}</th>`).join("")}<th>Δ t/t</th><th>Δ a/a</th></tr></thead>
      <tbody>` + LINHAS.map(([k, nome]) => {
       const tt = G["2T26"][k] - G["1T26"][k], aa = G["2T26"][k] - G["2T25"][k];
       const strong = ["receita", "lucroBruto", "ebt", "lucro"].includes(k) ? " class=\"tot\"" : "";
-      return `<tr${strong}><td>${nome}</td>${PER.map(p => `<td>${F.usd(G[p][k])}</td>`).join("")}<td class="${tt >= 0 ? "pos" : "neg"}">${F.smm(tt)}</td><td class="${aa >= 0 ? "pos" : "neg"}">${F.smm(aa)}</td></tr>`;
+      const cel = p => G[p][k] == null ? '<td style="color:var(--muted)">n/d</td>' : `<td>${F.usd(G[p][k])}</td>`;
+      return `<tr${strong}><td>${nome}</td>${PER.map(cel).join("")}<td class="${tt >= 0 ? "pos" : "neg"}">${F.smm(tt)}</td><td class="${aa >= 0 ? "pos" : "neg"}">${F.smm(aa)}</td></tr>`;
     }).join("") + "</tbody>";
 
   /* tabela reconciliação 2T26 */
@@ -179,7 +184,7 @@
 
   /* checks */
   const checks = [];
-  ["1T25", "2T25", "1T26", "2T26"].forEach(p => {
+  ["1T25", "2T25", "3T25", "4T25", "1T26", "2T26"].forEach(p => {
     const g = G[p];
     checks.push({ name: `${p}: crédito + float + tarifas = receita total`, pass: V.near(g.credito + g.float + g.tarifas, g.receita, 0.15), num: F.usd(g.credito + g.float + g.tarifas) + " ≈ " + F.usd(g.receita) });
     checks.push({ name: `${p}: captação + crédito + transação + impostos = custos diretos`, pass: V.near(g.captacao + g.custoCredito + g.transacao + g.impostosReceita, g.custosDiretos, 0.15), num: F.usd(g.captacao + g.custoCredito + g.transacao + g.impostosReceita) + " ≈ " + F.usd(g.custosDiretos) });
@@ -191,7 +196,12 @@
   const dY = k => G["2T26"][k] - G["2T25"][k];
   const ponteY = G["2T25"].lucroBruto + dY("credito") + dY("float") + dY("tarifas") + dY("captacao") + dY("custoCredito") + dY("transacao") + dY("impostosReceita");
   checks.push({ name: "Ponte a/a do lucro bruto fecha no valor divulgado (±0,1 de arredondamento)", pass: V.near(ponteY, G["2T26"].lucroBruto, 0.2), num: F.usd(ponteY) + " ≈ " + F.usd(G["2T26"].lucroBruto) });
-  ["1T26", "2T26"].forEach(p => {
+  const FY = R.nu.fy25.gerencial;
+  const somaTri = k => G["1T25"][k] + G["2T25"][k] + G["3T25"][k] + G["4T25"][k];
+  checks.push({ name: "Exercício 2025: os quatro trimestres somam receita, lucro bruto e lucro do ano assegurado", pass: V.near(somaTri("receita"), FY.receita, 0.15) && V.near(somaTri("lucroBruto"), FY.lucroBruto, 0.15) && V.near(somaTri("lucro"), FY.lucro, 0.15), num: F.usd(somaTri("receita")) + " · " + F.usd(somaTri("lucro")) });
+  checks.push({ name: "3T25 derivado: lucro gerencial = lucro contábil IFRS do workbook (neutralidade)", pass: V.near(G["3T25"].lucro, R.nu.cont3T25.lucro, 0.05), num: F.usd(G["3T25"].lucro) + " ≈ " + F.usd(R.nu.cont3T25.lucro) });
+
+  ["4T25", "FY25", "1T26", "2T26"].forEach(p => {
     const r = REC[p];
     const okLinhas = ["receita", "lucroBruto", "ebt", "ir", "lucro"].every(k => V.near(r.contabil[k] + r.ajustes[k], r.gerencial[k], 0.15));
     checks.push({ name: `${p}: reconciliação contábil + ajustes = gerencial (todas as linhas)`, pass: okLinhas, num: "KPMG · ISAE 3000" });
@@ -199,7 +209,8 @@
   });
   V.renderChecks(document.getElementById("checks"), checks);
 
-  V.renderFontes(document.getElementById("fontes"), ["nu1T26", "nu2T26", "nuRec1T26", "nuRec2T26"]);
+  V.renderFontes(document.getElementById("fontes"), ["nu1T26", "nu2T26", "nuRec1T26", "nuRec2T26", "nuRec4T25", "nuHist3T25"],
+    "O 3T25 gerencial é derivação do autor (exercício assegurado menos os trimestres divulgados), rotulada como tal e validada por quatro identidades independentes.");
 
   document.querySelectorAll("#segComp button").forEach(b => b.addEventListener("click", () => {
     document.querySelectorAll("#segComp button").forEach(x => x.classList.remove("on"));

@@ -30,6 +30,7 @@
     <button data-t="nu">Nu Holdings</button>
     <button data-t="agi">Agi (Agibank)</button>
     <button data-t="macro">Macro · Selic</button>
+    <button data-t="mercado">Mercado</button>
   </div>
 
   <!-- ===================== SETORIAL ===================== -->
@@ -81,9 +82,9 @@
     <figure class="chart" id="dmSelic"></figure>
     <div class="grid c3">
       <div class="card"><h3>O que as atas dizem <span class="tag okv">FATO</span></h3>
-        <p>Selic de 14,75% para 14,00% entre março e agosto nas atas fornecidas (277ª, 278ª e 280ª; a 279ª
-        não foi fornecida — o caminho intermediário não é afirmado). Focus: 5,0% (2026) e 4,2% (2027);
-        projeção do Copom de 3,2% no 1T28; balanço de riscos com assimetria altista.</p></div>
+        <p>Série completa: Selic de 14,75% para 14,00% entre março e agosto em quatro atas (277ª, 278ª, 279ª
+        e 280ª), com três cortes de 0,25 p.p. após março. Na ata da 279ª, a projeção do Copom para o 4T27
+        <em>piorou</em> de 3,5% para 3,7% — afastamento da meta; balanço de riscos com assimetria altista.</p></div>
       <div class="card"><h3>Transmissão para os bancos <span class="tag prem">Interpretação</span></h3>
         <p>Selic menor reduz custo de captação (Agi paga de 97% a 125% do CDI em CDBs; Nu capta a 88% do
         interbancário) e alivia o serviço da dívida das famílias — com defasagem sobre a inadimplência.</p></div>
@@ -91,6 +92,21 @@
         <p>Com expectativas acima da meta, o ritmo de cortes é condicional. Um ciclo interrompido atingiria
         primeiro quem depende de funding institucional sensível a preço e quem carrega NPL em alta.</p></div>
     </div>
+  </div>
+
+  <!-- ===================== MERCADO ===================== -->
+  <div class="tabpane" id="pane-mercado">
+    <p style="margin-top:14px"><b>Problema que este painel resolve:</b> situar os fundamentos divulgados ao
+    lado do que o mercado precifica — e mostrar quanto os próprios agregadores divergem entre si.</p>
+    <div class="banner"><span>⚠️</span><div>
+      <b>Classe de fonte diferente.</b> Diferentemente do resto do portfólio, estes números vêm de
+      <b>agregadores de mercado</b> (nível 3), relatados pelo titular, em <b>faixa</b> porque divergem entre
+      si. São fotografia de agosto/2026, mudam a cada pregão e <b>não constituem recomendação</b>.
+    </div></div>
+    <div class="tiles" id="tilesMerc"></div>
+    <figure class="chart" id="dmPvpa"></figure>
+    <figure class="chart" id="dmPl"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="dmTb"></table></div>
   </div>
 
   <section class="blk" id="fontes"></section>
@@ -150,11 +166,13 @@
      <thead><tr><th>Instituição</th><th>Período</th><th>Lucro</th><th>ROE/ROAE</th><th>Eficiência</th><th>NPL 90d</th><th>Capital</th></tr></thead>
      <tbody>
       <tr><td>Nu Holdings</td><td>2T26</td><td>US$ 1.061 mm</td><td>33%</td><td>19,5%</td><td>6,9%</td><td>n/d</td></tr>
-      <tr><td>Agi (Agibank)</td><td>1T26</td><td>R$ 186,5 mm</td><td>26,1% (LTM)</td><td>43,2%</td><td>3,6%</td><td>Basileia 19,3%</td></tr>
+      <tr><td>Agi (Agibank)*</td><td>2T26</td><td>R$ 200,3 mm</td><td>26,1% (LTM, 1T26)</td><td>43,2% (1T26)</td><td>3,3%</td><td>Basileia 19,3% (1T26)</td></tr>
       <tr><td>Itaú Unibanco</td><td>2T26</td><td>R$ 12.407 mm</td><td>24,3%</td><td>37,3% (1S)</td><td>n/d</td><td>CET1 12,3%</td></tr>
-      <tr><td>Bradesco</td><td>1T26</td><td>R$ 6.811 mm</td><td>15,8%</td><td>46,9%</td><td>4,2%</td><td>CET1 10,2%</td></tr>
+      <tr><td>Bradesco*</td><td>2T26</td><td>R$ 7.050 mm</td><td>16,2%</td><td>46,9% (1T26)</td><td>4,3%</td><td>CET1 10,2% (1T26)</td></tr>
       <tr><td>Santander Brasil</td><td>2T26</td><td>R$ 3.014 mm</td><td>12,5%</td><td>39,3%</td><td>3,3%</td><td>CET1 11,2%</td></tr>
      </tbody>`;
+  document.getElementById("dsTb").insertAdjacentHTML("afterend",
+    '<p style="font-size:.8rem">* Bradesco e Agi no 2T26: dados relatados pelo titular a partir de divulgação pública (nível 3). Onde a métrica do 2T26 não foi relatada, o valor do 1T26 é mantido com o período indicado.</p>');
 
   /* ---------- NU ---------- */
   document.getElementById("tilesNuD").innerHTML = [
@@ -269,20 +287,53 @@
   const dec = R.selic.decisoes.filter(d => d.valor != null);
   document.getElementById("tilesMacro").innerHTML = [
     { lbl: "Selic (280ª, ago/26)", val: "14,00%", sub: "a.a." },
-    { lbl: "Ciclo nas atas fornecidas", val: "−0,75 p.p.", sub: "mar → ago/26 (279ª não fornecida)" },
-    { lbl: "Focus 2026 · 2027", val: "5,0% · 4,2%", sub: "expectativas de inflação (nota da 280ª)" },
-    { lbl: "Projeção Copom 1T28", val: "3,2%", sub: "cenário de referência" },
+    { lbl: "Ciclo completo (4 atas)", val: "−0,75 p.p.", sub: "mar → ago/26 · três cortes de 0,25" },
+    { lbl: "Focus 2026 · 2027", val: "5,0% · 4,2%", sub: "nota da 280ª (na 279ª: 5,30% e 4,10%)" },
+    { lbl: "Projeção Copom 4T27", val: "3,7%", sub: "ata da 279ª · era 3,5% na reunião anterior" },
   ].map(t => `<div class="tile"><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div><div class="sub">${t.sub}</div></div>`).join("");
   V.line(document.getElementById("dmSelic"), {
     title: "Selic nas atas fornecidas (% a.a.)",
-    sub: "277ª, 278ª e 280ª reuniões · 279ª não fornecida e não interpolada",
+    sub: "Série completa: 277ª, 278ª, 279ª e 280ª reuniões · quatro cortes de 0,25 p.p.",
     labels: dec.map(d => d.rotulo),
     series: [{ name: "Selic", values: dec.map(d => d.valor), color: "s1", kind: "line" }],
     fmt: F.pcv2, yZero: false,
   });
 
+  /* ---------- MERCADO ---------- */
+  const M = R.mercado, fx2 = v => F.x2(v) + "×";
+  document.getElementById("tilesMerc").innerHTML = [
+    { lbl: "Nu — preço", val: "US$ 13,84", sub: "fechamento 08/08/2026" },
+    { lbl: "Bradesco — preço", val: "R$ 16,66–17,47", sub: "faixa de agosto/2026" },
+    { lbl: "Agi — preço", val: "US$ 7,16–7,19", sub: "vs. US$ 12,00 no IPO" },
+    { lbl: "Maior P/VPA", val: "5,1–5,5×", sub: "Nu · ROE divulgado de 33%" },
+    { lbl: "Maior dividend yield", val: "5,7–9,5%", sub: "Bradesco · faixa entre agregadores" },
+  ].map(t => `<div class="tile"><div class="lbl">${t.lbl}</div><div class="val" style="font-size:1.15rem">${t.val}</div><div class="sub">${t.sub}</div></div>`).join("");
+
+  V.hbars(document.getElementById("dmPvpa"), {
+    title: "P/VPA — faixa entre agregadores (×)",
+    sub: "Barra = amplitude entre a menor e a maior leitura",
+    items: M.ativos.map(a => ({ l: a.nome, lo: a.pvpaMin, hi: a.pvpaMax === a.pvpaMin ? a.pvpaMin * 1.001 : a.pvpaMax, color: "s1" })),
+    fmt: fx2, labelW: 170,
+  });
+  V.hbars(document.getElementById("dmPl"), {
+    title: "P/L — faixa entre agregadores (×)",
+    sub: "A amplitude da Agi (6,2× a 29,7×) reflete bases de lucro diferentes: projetado 2026 × trailing",
+    items: M.ativos.map(a => ({ l: a.nome, lo: a.plMin, hi: a.plMax, color: "s2" })),
+    fmt: fx2, labelW: 170,
+  });
+  document.getElementById("dmTb").innerHTML =
+    `<caption>Múltiplos observados × ROE divulgado — classes de fonte distintas</caption>
+     <thead><tr><th>Ativo</th><th>Preço</th><th>P/L</th><th>P/VPA</th><th>DY</th><th>ROE (nível 1)</th></tr></thead>
+     <tbody>${M.ativos.map(a => `<tr><td style="white-space:normal">${a.nome}<br><span style="color:var(--muted);font-size:.85em">${a.ticker}</span></td>
+       <td>${a.moeda} ${R.faixa(a.precoMin, a.precoMax, F.x2)}</td>
+       <td>${R.faixa(a.plMin, a.plMax, fx2)}</td>
+       <td>${R.faixa(a.pvpaMin, a.pvpaMax, fx2)}</td>
+       <td>${a.dy === 0 ? "0%" : R.faixa(a.dyMin, a.dyMax, F.pcv)}</td>
+       <td>${F.pcv(a.roeRef)}</td></tr>`).join("")}</tbody>`;
+
   V.renderFontes(document.getElementById("fontes"),
-    ["nu1T26", "nu2T26", "agiRel1T26", "agiDF1T26", "itau2T26", "bradesco1T26", "santander1T26", "santander2T26", "copom"]);
+    ["nu1T26", "nu2T26", "nuHist3T25", "nuRec4T25", "agiRel1T26", "agiDF1T26", "agi2T26", "itau2T26",
+     "bradesco1T26", "bradesco2T26", "santander1T26", "santander2T26", "copom", "copom279", "mercadoAgregadores"]);
 })();
 </script>
 </body>

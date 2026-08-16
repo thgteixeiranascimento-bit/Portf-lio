@@ -8,8 +8,9 @@ divergências documentadas e **102 checks automáticos de integridade**).
 > ⚖️ **Protocolo de integridade** — todos os estudos usam **dados públicos de fontes primárias datadas**:
 > Nu Holdings (1T26/2T26, releases + reconciliações com asseguração KPMG + DFs IFRS), Agi/Agibank (1T26,
 > release + DFs com revisão EY), Itaú (2T26), Bradesco (1T26), Santander Brasil (1T26/2T26) e atas do
-> Copom. Fatos, premissas e estimativas são rotulados separadamente; lacunas são declaradas; **nada é
-> recomendação de investimento**. Ver [`metodologia.html`](metodologia.html) e [`docs/`](docs/).
+> Copom. Fatos, premissas e estimativas são rotulados separadamente; **extração documental (nível 1) e
+> informação relatada (nível 3) nunca se misturam**; lacunas são declaradas; **nada é recomendação de
+> investimento**. Ver [`metodologia.html`](metodologia.html) e [`docs/`](docs/).
 
 ## 🌐 Publicar o site (link para o LinkedIn)
 
@@ -33,13 +34,13 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra `
 
 | Área | Página | O que entrega |
 |---|---|---|
-| Setorial | [`analises/bancos-2026.html`](analises/bancos-2026.html) | Itaú, Bradesco, Santander, Nu e Agi + ciclo da Selic (Copom) — 16 checks |
+| Setorial | [`analises/bancos-2026.html`](analises/bancos-2026.html) | Itaú, Bradesco, Santander, Nu e Agi + ciclo completo da Selic + múltiplos de mercado — 30 checks |
 | FP&A | [`simuladores/orcamento.html`](simuladores/orcamento.html) | Ponte de resultado do Nu (t/t e a/a) sobre o P&L gerencial divulgado |
 | FP&A | [`simuladores/rolling-forecast.html`](simuladores/rolling-forecast.html) | Forecast 12m por drivers ancorado no 2T26 real (estimativas rotuladas) |
 | Caixa | [`simuladores/fluxo-de-caixa.html`](simuladores/fluxo-de-caixa.html) | DFC real da Agi (1T26) com IPO aberto item a item — reconciliação exata |
 | Funding | [`simuladores/capital-de-giro.html`](simuladores/capital-de-giro.html) | Mix de depósitos, varejo × institucional, LDR, custo de captação |
 | Modelagem | [`simuladores/tres-demonstracoes.html`](simuladores/tres-demonstracoes.html) | DRE + balanço + fluxo + mutação do PL da Agi amarrados (exato) |
-| Valuation | [`simuladores/valuation.html`](simuladores/valuation.html) | P/VPA justificado (Gordon) sobre os ROEs reais das 5 instituições |
+| Valuation | [`simuladores/valuation.html`](simuladores/valuation.html) | P/VPA justificado (Gordon) × observado no mercado, com engenharia reversa das premissas implícitas |
 | Corp. finance | [`simuladores/capex-evte.html`](simuladores/capex-evte.html) | Unit economics da expansão México do Nu (EVTE educacional) |
 | Corp. finance | [`simuladores/ma.html`](simuladores/ma.html) | Anatomia do IPO real da Agi na NYSE: oferta, custos, capital, ROAE |
 | Riscos | [`simuladores/riscos.html`](simuladores/riscos.html) | NPL, ECL por estágio (IFRS 9), cobertura, capital e stress declarado |
@@ -71,28 +72,38 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra `
 
 Arquitetura dos estudos: **Fatos (fonte citada) → Premissas explícitas → Cálculos → Outputs rotulados →
 Checks**, com um único dataset versionado alimentando todos os módulos (sem números copiados à mão).
-**102 checks de integridade** recalculados no navegador — somas, pontes e razões conferidas contra o
-divulgado, incluindo verificações cruzadas entre documentos do mesmo emissor (release × DFs IFRS).
+**136 checks de integridade** recalculados no navegador — somas, pontes e razões conferidas contra o
+divulgado, incluindo verificações cruzadas entre documentos do mesmo emissor (release × DFs IFRS × workbook
+de dados históricos) e a validação da derivação do 3T25 do Nu contra o exercício assegurado pela KPMG.
 
 ## Fontes (resumo)
 
-Nu Holdings (releases 1T26/2T26; Managerial P&L Reconciliation Reports com asseguração limitada KPMG;
-DFs intermediárias IFRS), Agi Inc/Banco Agibank (Earnings Release 1Q26; DFs intermediárias IFRS com
-revisão limitada EY), Itaú Unibanco (apresentação 2T26; Rel. Administração IFRS 1S26), Banco Bradesco
-(Relatório de Análise Econômica e Financeira 1T26), Banco Santander Brasil (apresentações 1T26/2T26) e
-Banco Central do Brasil (atas 277ª/278ª/280ª do Copom + nota da 280ª). Matriz completa com datas, níveis
-e lacunas declaradas: [`docs/fontes.md`](docs/fontes.md).
+**Nível 1 — extração documental:** Nu Holdings (releases 1T26/2T26; Managerial P&L Reconciliation Reports
+4T25/1T26/2T26 com asseguração limitada KPMG; DFs intermediárias IFRS; workbook oficial "Historical Data
+3Q25"), Agi Inc/Banco Agibank (Earnings Release 1Q26; DFs intermediárias IFRS com revisão limitada EY),
+Itaú Unibanco (apresentação 2T26; Rel. Administração IFRS 1S26), Banco Bradesco (Relatório de Análise
+Econômica e Financeira 1T26), Banco Santander Brasil (apresentações 1T26/2T26) e Banco Central do Brasil
+(atas 277ª, 278ª, **279ª** e 280ª do Copom).
 
-**Ressalva:** documentos recebidos como conversões OCR/planilhas fornecidas pelo titular; conferência
-contra os originais publicados permanece pendente e declarada.
+**Nível 3 — relatado, sem documento anexado:** resultados de Bradesco 2T26 e Agi 2T26; cotações e múltiplos
+de agregadores de mercado (publicados **em faixa**, porque divergem entre si); Basileia da Nu Pagamentos
+S.A. (entidade individual, não o consolidado do grupo).
+
+Matriz completa com datas, níveis e lacunas: [`docs/fontes.md`](docs/fontes.md).
+
+**Ressalva:** a maior parte dos documentos foi recebida como conversões OCR/planilhas; o workbook XLSX do Nu
+e a ata da 279ª vieram em formato nativo. A conferência contra os originais publicados permanece pendente e
+declarada.
 
 ## Personalização pendente (para o titular)
 
 - [ ] Preencher experiência, formação, certificações e LinkedIn em `sobre.html`
       (hoje marcados **DADO NÃO INFORMADO**, por regra de integridade);
 - [ ] Conferir os arquivos OCR contra os PDFs originais dos emissores;
-- [ ] Fornecer documentos faltantes quando desejar ampliar: Nu 3T25, Bradesco/Agi 2T26, 279ª ata do
-      Copom, abas de dados dos CSVs "Dados Históricos" do Nu;
+- [ ] Anexar os documentos originais de **Bradesco 2T26 e Agi 2T26** para promovê-los de relato (nível 3)
+      a extração documental (nível 1) e incluí-los nos checks;
+- [ ] Obter o **índice de capital consolidado do Nu Holdings** no painel de Conglomerados Prudenciais do
+      BCB (o disponível hoje é da Nu Pagamentos S.A., entidade individual);
 - [ ] (Roadmap) versões Excel/VBA e Power BI dos modelos.
 
 ## Stack

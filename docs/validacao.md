@@ -1,15 +1,15 @@
 # Validação — conselho de sete perspectivas
 
-Parecer da versão 2.0 (16/08/2026). Detalhe navegável em [`metodologia.html`](../metodologia.html), seção 6.
+Parecer da versão 2.1 (16/08/2026). Detalhe navegável em [`metodologia.html`](../metodologia.html), seção 6.
 
 | # | Perspectiva | O que verificou | Parecer |
 |---|---|---|---|
-| 1 | Contador | A = P + PL exato (Nu, 3 períodos; Agi, 2 períodos); caixa reconcilia; mutação do PL soma; mesmo lucro nas três demonstrações da Agi | ✅ Aprovado |
+| 1 | Contador | A = P + PL exato (Nu, 4 períodos incl. 3T25; Agi, 2 períodos); caixa reconcilia; mutação do PL soma; mesmo lucro nas três demonstrações da Agi | ✅ Aprovado |
 | 2 | Auditor | Checks aritméticos publicados por página; divergências entre documentos tabeladas | ⚠️ Aprovado com ressalva (OCR sem conferência contra originais) |
-| 3 | Controller | Reconciliação contábil × gerencial do Nu reproduzida e neutra no lucro (asseguração KPMG citada) | ✅ Aprovado |
+| 3 | Controller | Reconciliações do Nu (4T25, exercício 2025, 1T26, 2T26) reproduzidas e neutras no lucro; derivação do 3T25 validada por quatro identidades, incluindo coincidência com o lucro contábil do workbook | ✅ Aprovado |
 | 4 | Analista de risco | NPL com sazonalidade/mix declarados; ECL por estágio recalculada; stress com premissas e aproximações declaradas | ✅ Aprovado |
-| 5 | Compliance | Sem recomendação/preço-alvo; disclaimers em todas as páginas; perfil sem afirmações não confirmadas | ✅ Aprovado |
-| 6 | Metodologista | Moedas separadas; FXN × nominal distinguido; lacunas declaradas (3T25, 279ª ata, CSVs sem dados) | ✅ Aprovado |
+| 5 | Compliance | Sem recomendação/preço-alvo mesmo após a entrada de múltiplos de mercado; desvio entre modelo e preço tratado como limitação do modelo; disclaimers em todas as páginas | ✅ Aprovado |
+| 6 | Metodologista | Moedas separadas; FXN × nominal distinguido; classe de fonte (extração × relato) marcada em cada página; causa da divergência do ARPAC identificada e verificada; derivações listadas à parte | ✅ Aprovado |
 | 7 | Leitor executivo | Cada página declara o problema que resolve e separa fato de interpretação | ✅ Aprovado |
 
 ## Parecer consolidado
@@ -17,10 +17,12 @@ Parecer da versão 2.0 (16/08/2026). Detalhe navegável em [`metodologia.html`](
 **⚠️ VALIDADO COM RESSALVAS** — dados de fontes primárias com rastreabilidade completa e checks
 aritméticos aprovados; ressalvas permanentes desta versão:
 
-1. Arquivos recebidos como conversões OCR/planilhas — conferência contra os PDFs originais publicada
-   pelos emissores permanece pendente;
-2. Assimetria de períodos (Itaú/Santander/Nu com 2T26; Bradesco/Agi com 1T26);
+1. Arquivos recebidos como conversões OCR/planilhas — conferência contra os originais permanece pendente
+   (exceto o workbook XLSX do Nu e a ata da 279ª, recebidos em formato nativo);
+2. **Bradesco 2T26, Agi 2T26, múltiplos de mercado e capital da Nu Pagamentos são relato (nível 3)**, sem
+   documento anexado: publicados marcados, fora dos checks aritméticos;
 3. Nu reporta em US$ e com métricas de definição própria — comparações entre emissores são de ordem
-   de grandeza, nunca ranking preciso.
+   de grandeza, nunca ranking preciso;
+4. Dados de mercado são fotografia de agosto/2026 e envelhecem a cada pregão.
 
 Nada no portfólio é recomendação de investimento.

@@ -1,6 +1,6 @@
 # Metodologia (resumo)
 
-Versão 2.0 — 16/08/2026. A versão completa e navegável está em [`metodologia.html`](../metodologia.html).
+Versão 2.1 — 16/08/2026. A versão completa e navegável está em [`metodologia.html`](../metodologia.html).
 
 ## Arquitetura de cada estudo
 
@@ -18,12 +18,17 @@ FATOS (dado público, fonte citada)
 2. **Fonte em toda página** — bloco "Fontes deste estudo" com documento, emissor, data e nível;
 3. **Moedas e definições não se misturam** — Nu em US$, demais em R$; métricas próprias de cada emissor
    comparadas somente com ressalva;
-4. **Lacuna é lacuna** — períodos/documentos ausentes aparecem como ausentes (3T25 do Nu, 279ª ata do
-   Copom, Bradesco/Agi 2T26, abas de dados dos CSVs do Nu);
+4. **Lacuna é lacuna** — períodos/documentos ausentes aparecem como ausentes; quando chegam, são
+   preenchidos com a fonte identificada (o 3T25 do Nu e a 279ª ata do Copom foram encerrados na v2.1);
+4b. **Relato ≠ extração** — informação pública sem documento anexado é nível 3, marcada em cada página e
+   fora dos checks;
 5. **Divergências documentadas** — diferenças entre documentos do mesmo emissor são tabeladas
    (perímetro Agi 4T25; FXN × nominal no Nu; competência × caixa nos custos do IPO; arredondamentos);
 6. **Sem recomendação de investimento** — nenhuma página opina sobre valor ou preço de ativos;
-7. **QC público** — 102 checks de integridade autorais recalculados no navegador; falha aparece em vermelho.
+7. **Derivações declaradas** — números calculados pelo autor (P&L gerencial do Nu no 3T25, ARPAC em base
+   gerencial, premissas implícitas do valuation, HHI, câmbio implícito) são listados à parte com método e
+   validação;
+8. **QC público** — 136 checks de integridade autorais recalculados no navegador; falha aparece em vermelho.
 
 ## Estudo de caso fictício (descontinuado)
 

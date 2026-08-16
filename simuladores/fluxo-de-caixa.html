@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fluxo de Caixa &amp; Liquidez — Simulador FP&amp;A</title>
+<meta name="description" content="Simulador de fluxo de caixa direto: operacional, investimento e financiamento, runway, necessidade de capital e reconciliação de saldos.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Simulador FP&amp;A · 3 de 10</div>
+    <h1>Fluxo de caixa &amp; liquidez</h1>
+    <p class="lead">
+      Projeção mensal de 12 meses (ago/26–jul/27) pelo <strong>método direto</strong>, para a
+      <strong>Aurora Industrial S.A. (empresa fictícia)</strong>, com os fluxos classificados em
+      operacional, investimento e financiamento — segundo a estrutura da IAS 7 / CPC 03 —
+      e reconciliação completa entre caixa inicial e final.
+    </p>
+    <div class="tags">
+      <span class="tag sim">Simulação — estudo de caso fictício</span>
+      <span class="tag prem">Premissas ajustáveis</span>
+    </div>
+    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
+      Quando e quanto captar (ou quanto é seguro distribuir), qual o caixa mínimo defensável e
+      que alavancas — prazos, folha, CAPEX, amortização — protegem a liquidez.</div></div>
+  </section>
+
+  <section class="blk">
+    <h2>Premissas do simulador</h2>
+    <div class="controls">
+      <div class="head"><span class="t">Drivers de caixa</span><span class="tag prem">Premissa ajustável</span></div>
+      <div class="row">
+        <div class="ctrl"><label>Demanda vs. referência <output id="oDem"></output></label><input type="range" id="iDem" min="-10" max="10" value="0" step="1"></div>
+        <div class="ctrl"><label>Recebimento à vista <output id="oAv"></output></label><input type="range" id="iAv" min="5" max="50" value="20" step="5"></div>
+        <div class="ctrl"><label>Recebimento em 30 dias <output id="o30"></output></label><input type="range" id="i30" min="20" max="70" value="50" step="5"></div>
+        <div class="ctrl"><label>Inadimplência <output id="oPdd"></output></label><input type="range" id="iPdd" min="0" max="6" value="1.5" step="0.5"></div>
+        <div class="ctrl"><label>Fornecedores pagos no mês <output id="oFor"></output></label><input type="range" id="iFor" min="10" max="80" value="30" step="5"></div>
+        <div class="ctrl"><label>Folha mensal <output id="oFol"></output></label><input type="range" id="iFol" min="10" max="20" value="14" step="0.5"></div>
+        <div class="ctrl"><label>CAPEX mensal <output id="oCap"></output></label><input type="range" id="iCap" min="0" max="10" value="4" step="0.5"></div>
+        <div class="ctrl"><label>Amortização mensal da dívida <output id="oAm"></output></label><input type="range" id="iAm" min="0" max="12" value="5" step="1"></div>
+        <div class="ctrl"><label>Dividendos no horizonte (Abr/27) <output id="oDiv"></output></label><input type="range" id="iDiv" min="0" max="30" value="9" step="1"></div>
+        <div class="ctrl"><label>Caixa mínimo (política) <output id="oMin"></output></label><input type="range" id="iMin" min="20" max="90" value="50" step="5"></div>
+      </div>
+      <p style="margin:12px 0 0;font-size:.8rem" class="c-sub">
+        <span class="tag prem">Premissa</span> compras = 55% da receita; impostos = 10% da receita, pagos no mês seguinte;
+        despesas operacionais R$ 8,0 mm/mês; 13º salário pago em Nov e Dez (0,5 folha em cada);
+        juros de 11% a.a. sobre o saldo devedor decrescente; saldo restante de recebimento em 60 dias.
+      </p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Resultado</h2>
+    <div class="tiles" id="tiles"></div>
+    <figure class="chart" id="chCaixa"></figure>
+    <figure class="chart" id="chFluxos"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Demonstrativo mensal completo</h2>
+    <div class="tbl-scroll"><table class="tbl" id="tbFluxo"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Checks de integridade</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Documentação do estudo</h2>
+    <details class="doc">
+      <summary>Ficha padrão do estudo (contexto → validação)</summary>
+      <div class="inner">
+        <h4>1. Contexto</h4><p>Empresa industrial fictícia com caixa de R$ 87,6 mm (Jul/26), dívida de R$ 240 mm em amortização e sazonalidade relevante de recebimentos.</p>
+        <h4>2. Problema</h4><p>O caixa projetado respeita a política de caixa mínimo? Se não, quando captar, quanto e por qual alavanca operacional dá para reduzir a necessidade.</p>
+        <h4>3. Dados</h4><p>DADO SIMULADO — saldo inicial e run-rate do dataset central; demais parâmetros são premissas ajustáveis.</p>
+        <h4>4. Fontes</h4><p>Estrutura de classificação dos fluxos (operacional / investimento / financiamento): IAS 7 — Statement of Cash Flows (IFRS Foundation) e CPC 03 (R2). Os valores são fictícios.</p>
+        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — mix de recebimento (à vista/30/60 dias), compras 55% da receita, impostos 10% pagos com defasagem de 1 mês, folha com 13º, juros sobre saldo decrescente.</p>
+        <h4>6. Metodologia</h4><p>Método direto: recebimentos e pagamentos projetados por defasagem; três blocos somam o fluxo líquido; caixa final = caixa inicial + fluxo líquido, mês a mês.</p>
+        <h4>7. Modelo</h4><p>JavaScript no navegador; inputs → cálculos → outputs → checks.</p>
+        <h4>8. Cenários</h4><p>Qualquer combinação de drivers; o painel recalcula runway e necessidade de captação em tempo real.</p>
+        <h4>9. Resultado</h4><p>Valores estimados pelo modelo sob as premissas adotadas.</p>
+        <h4>10. Insights</h4><p>Na estrutura simulada, o caixa é mais sensível ao mix de recebimento e à amortização do que ao CAPEX; os meses de 13º e dividendos concentram o risco de liquidez.</p>
+        <h4>11. Impacto potencial</h4><p>Antecipa a decisão de captação/renegociação com meses de antecedência e quantifica o efeito de cada alavanca sobre o ponto mínimo de caixa.</p>
+        <h4>12. Limitações</h4><p>Dados fictícios; defasagens fixas por bucket; não modela linhas compromissadas, aplicações financeiras nem variação de impostos por lucro real.</p>
+        <h4>13. Validação</h4><p>Checks aritméticos automáticos aprovados. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; dados de entrada simulados.</p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const D = window.DATA, V = window.Viz, F = V.F;
+  const N = D.real2026.mesesFechados;
+
+  const labels = [];
+  const mesIdx = [];
+  for (let i = 0; i < 12; i++) {
+    const m = (N + i) % 12, y = N + i < 12 ? 26 : 27;
+    labels.push(D.MESES[m] + "/" + y);
+    mesIdx.push(m);
+  }
+  const ref = [];
+  for (let i = 0; i < 12; i++) ref.push(D.orc2026.receitaMes[(N + i) % 12]);
+
+  const CAIXA_INI = D.real2026.caixaFimMes[N - 1];
+  const COMPRAS_PCT = 0.55, IMP_PCT = 0.10, DESP_OP = 8.0, JUROS_AA = D.premissas.custoDivida;
+  const DIVIDA_INI = D.bal2025.divida;
+  // receita dos dois meses anteriores ao horizonte (realizado)
+  const revAnt = [D.real2026.receitaMes[N - 1], D.real2026.receitaMes[N - 2]]; // [m-1, m-2]
+
+  function val(id) { return +document.getElementById(id).value; }
+
+  function rodar() {
+    const dem = val("iDem") / 100, av = val("iAv") / 100;
+    const p30 = Math.min(val("i30") / 100, 1 - av); // mix de recebimento limitado a 100%
+    const pdd = val("iPdd") / 100, forMes = val("iFor") / 100;
+    const folha = val("iFol"), capex = val("iCap"), amort = val("iAm"), divid = val("iDiv");
+    const p60 = Math.max(0, 1 - av - p30);
+    const rev = ref.map(r => r * (1 + dem));
+    const compras = rev.map(r => r * COMPRAS_PCT);
+    const comprasAnt = revAnt[0] * (1 + dem) * COMPRAS_PCT;
+    const out = { rev, rec: [], forn: [], folha: [], imp: [], desp: [], fco: [], capex: [], fci: [],
+                  juros: [], amort: [], divid: [], fcf: [], liq: [], cxIni: [], cxFim: [], divida: [] };
+    let cx = CAIXA_INI, divida = DIVIDA_INI;
+    for (let i = 0; i < 12; i++) {
+      const rm1 = i >= 1 ? rev[i - 1] : revAnt[0] * (1 + dem);
+      const rm2 = i >= 2 ? rev[i - 2] : (i === 1 ? revAnt[0] * (1 + dem) : revAnt[1] * (1 + dem));
+      const rec = (1 - pdd) * (av * rev[i] + p30 * rm1 + p60 * rm2);
+      const forn = forMes * compras[i] + (1 - forMes) * (i >= 1 ? compras[i - 1] : comprasAnt);
+      const fol = folha * (mesIdx[i] === 10 || mesIdx[i] === 11 ? 1.5 : 1); // 13º em Nov e Dez
+      const imp = IMP_PCT * (i >= 1 ? rev[i - 1] : revAnt[0] * (1 + dem));
+      const fco = rec - forn - fol - imp - DESP_OP;
+      const fci = -capex;
+      const am = Math.min(amort, divida);
+      const jr = divida * JUROS_AA / 12;
+      const dv = (labels[i] === "Abr/27") ? divid : 0;
+      const fcf = -am - jr - dv;
+      const liq = fco + fci + fcf;
+      out.rec.push(rec); out.forn.push(-forn); out.folha.push(-fol); out.imp.push(-imp); out.desp.push(-DESP_OP);
+      out.fco.push(fco); out.capex.push(-capex); out.fci.push(fci);
+      out.juros.push(-jr); out.amort.push(-am); out.divid.push(-dv); out.fcf.push(fcf);
+      out.liq.push(liq); out.cxIni.push(cx);
+      cx += liq; divida -= am;
+      out.cxFim.push(cx); out.divida.push(divida);
+    }
+    return out;
+  }
+
+  function tile(lbl, val_, sub, cls) {
+    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val" ${cls ? `style="color:var(--${cls})"` : ""}>${val_}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  }
+
+  function render() {
+    // outputs dos sliders
+    const s = (v, suf) => v + (suf || "%");
+    document.getElementById("oDem").textContent = (val("iDem") >= 0 ? "+" : "−") + Math.abs(val("iDem")) + "%";
+    document.getElementById("oAv").textContent = s(val("iAv"));
+    document.getElementById("o30").textContent = s(val("i30"));
+    document.getElementById("oPdd").textContent = val("iPdd").toFixed(1) + "%";
+    document.getElementById("oFor").textContent = s(val("iFor"));
+    document.getElementById("oFol").textContent = "R$ " + val("iFol").toFixed(1) + " mm";
+    document.getElementById("oCap").textContent = "R$ " + val("iCap").toFixed(1) + " mm";
+    document.getElementById("oAm").textContent = "R$ " + val("iAm").toFixed(1) + " mm";
+    document.getElementById("oDiv").textContent = "R$ " + val("iDiv").toFixed(1) + " mm";
+    document.getElementById("oMin").textContent = "R$ " + val("iMin").toFixed(0) + " mm";
+
+    const m = rodar();
+    const caixaMin = Math.min(...m.cxFim);
+    const iMin_ = m.cxFim.indexOf(caixaMin);
+    const politica = val("iMin");
+    const necessidade = Math.max(0, politica - caixaMin);
+    const mediaLiq = D.soma(m.liq) / 12;
+    const runway = mediaLiq < 0 ? Math.max(0, CAIXA_INI / -mediaLiq) : null;
+
+    document.getElementById("tiles").innerHTML =
+      tile("Geração operacional 12m", F.smm(D.soma(m.fco)), "recebimentos − pagamentos operacionais") +
+      tile("Investimento 12m", F.smm(D.soma(m.fci)), "CAPEX") +
+      tile("Financiamento 12m", F.smm(D.soma(m.fcf)), "amortização + juros + dividendos") +
+      tile("Caixa final (Jul/27)", F.mm(m.cxFim[11]), "inicial: " + F.mm(CAIXA_INI)) +
+      tile("Ponto mínimo de caixa", F.mm(caixaMin), "em " + labels[iMin_], caixaMin < politica ? "bad" : undefined) +
+      (necessidade > 0
+        ? tile("Necessidade de captação", F.mm(necessidade), "para sustentar caixa mínimo de " + F.mm(politica), "bad")
+        : tile("Folga sobre o caixa mínimo", F.mm(caixaMin - politica), "política de " + F.mm(politica), "ok-text")) +
+      (runway != null
+        ? tile("Runway (queima média)", runway.toFixed(1) + " meses", "fluxo líquido médio de " + F.smm(mediaLiq) + "/mês", "bad")
+        : tile("Runway", "n/a", "fluxo líquido médio positivo (" + F.smm(mediaLiq) + "/mês)"));
+
+    V.line(document.getElementById("chCaixa"), {
+      title: "Caixa ao fim de cada mês vs. caixa mínimo (R$ mm)",
+      sub: "Valor estimado pelo modelo sob as premissas adotadas",
+      labels,
+      series: [
+        { name: "Caixa final", values: m.cxFim, color: "s1", kind: "line" },
+        { name: "Caixa mínimo (política)", values: labels.map(() => politica), color: "s4", kind: "line", dash: true },
+      ],
+    });
+    V.bars(document.getElementById("chFluxos"), {
+      title: "Fluxos mensais por natureza (R$ mm)",
+      sub: "Classificação IAS 7 / CPC 03: operacional, investimento e financiamento",
+      labels,
+      series: [
+        { name: "Operacional", values: m.fco, color: "s1" },
+        { name: "Investimento", values: m.fci, color: "s2" },
+        { name: "Financiamento", values: m.fcf, color: "s3" },
+      ],
+      height: 280,
+    });
+
+    // tabela completa
+    const linhas = [
+      ["(+) Recebimentos de clientes", m.rec],
+      ["(−) Fornecedores", m.forn],
+      ["(−) Folha e encargos", m.folha],
+      ["(−) Impostos", m.imp],
+      ["(−) Despesas operacionais", m.desp],
+      ["<b>(=) Fluxo operacional</b>", m.fco, "tot"],
+      ["(−) CAPEX", m.capex],
+      ["<b>(=) Fluxo de investimento</b>", m.fci, "tot"],
+      ["(−) Juros", m.juros],
+      ["(−) Amortização", m.amort],
+      ["(−) Dividendos", m.divid],
+      ["<b>(=) Fluxo de financiamento</b>", m.fcf, "tot"],
+      ["<b>(=) Fluxo líquido do mês</b>", m.liq, "tot"],
+      ["Caixa inicial", m.cxIni, "sub"],
+      ["<b>Caixa final</b>", m.cxFim, "tot"],
+      ["Dívida ao fim do mês", m.divida, "sub"],
+    ];
+    let html = `<caption>Fluxo de caixa mensal — método direto (R$ mm) · dado simulado</caption>
+      <thead><tr><th></th>${labels.map(l => `<th>${l}</th>`).join("")}<th>12m</th></tr></thead><tbody>`;
+    linhas.forEach(([nome, arr, cls]) => {
+      const total = ["Caixa inicial", "<b>Caixa final</b>", "Dívida ao fim do mês"].includes(nome) ? null : D.soma(arr);
+      html += `<tr class="${cls || ""}"><td>${nome}</td>${arr.map(v => `<td>${F.mm(v)}</td>`).join("")}<td>${total == null ? "—" : F.mm(total)}</td></tr>`;
+    });
+    html += "</tbody>";
+    document.getElementById("tbFluxo").innerHTML = html;
+
+    // checks
+    const recon = m.cxFim.every((c, i) => V.near(c, m.cxIni[i] + m.liq[i], 0.02));
+    const blocos = m.liq.every((l, i) => V.near(l, m.fco[i] + m.fci[i] + m.fcf[i], 0.02));
+    const encadeado = m.cxIni.every((c, i) => i === 0 ? V.near(c, CAIXA_INI, 0.01) : V.near(c, m.cxFim[i - 1], 0.01));
+    const dividaOk = m.divida.every(d => d >= -0.01);
+    V.renderChecks(document.getElementById("checks"), [
+      { name: "Caixa final = caixa inicial + fluxo líquido, em todos os meses", pass: recon, num: recon ? "12/12 meses" : "falha" },
+      { name: "Fluxo líquido = operacional + investimento + financiamento", pass: blocos, num: blocos ? "12/12 meses" : "falha" },
+      { name: "Encadeamento de saldos entre meses (final t = inicial t+1)", pass: encadeado, num: encadeado ? "12/12 meses" : "falha" },
+      { name: "Dívida nunca amortiza abaixo de zero", pass: dividaOk, num: "saldo final " + F.mm(m.divida[11]) },
+    ]);
+  }
+
+  document.querySelectorAll(".controls input").forEach(i => i.addEventListener("input", render));
+  render();
+})();
+</script>
+</body>
+</html>

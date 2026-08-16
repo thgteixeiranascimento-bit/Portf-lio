@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Valuation — DCF e Múltiplos</title>
+<meta name="description" content="Modelo de valuation: FCFF descontado ao WACC com perpetuidade e múltiplo de saída, matriz de sensibilidade WACC × g, tornado de drivers e football field.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Valuation · 6 de 10</div>
+    <h1>Valuation — DCF e múltiplos</h1>
+    <p class="lead">
+      Fluxo de caixa livre para a firma (FCFF) da <strong>Aurora Industrial S.A. (empresa fictícia)</strong>
+      descontado ao WACC, com valor terminal por <strong>perpetuidade</strong> e por <strong>múltiplo de saída</strong>,
+      sensibilidade WACC × crescimento e triangulação com faixas de múltiplos.
+      Todo resultado é o <strong>valor estimado pelo modelo sob as premissas adotadas</strong> — nunca "o valor correto".
+    </p>
+    <div class="tags">
+      <span class="tag sim">Simulação — estudo de caso fictício</span>
+      <span class="tag prem">Premissas ajustáveis</span>
+    </div>
+    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
+      Estabelecer uma faixa de valor defensável para negociação (venda de participação, captação, M&amp;A)
+      e identificar quais premissas mais movem o valor — onde a diligência deve se concentrar.</div></div>
+  </section>
+
+  <section class="blk">
+    <h2>Premissas</h2>
+    <div class="controls">
+      <div class="head"><span class="t">Operacionais (projeção explícita de 5 anos)</span><span class="tag prem">Premissa ajustável</span></div>
+      <div class="row">
+        <div class="ctrl"><label>Crescimento de receita a.a. <output id="oG"></output></label><input type="range" id="iG" min="0" max="18" value="8" step="0.5"></div>
+        <div class="ctrl"><label>Margem EBITDA <output id="oMe"></output></label><input type="range" id="iMe" min="12" max="26" value="18.5" step="0.5"></div>
+        <div class="ctrl"><label>CAPEX (% receita) <output id="oCx"></output></label><input type="range" id="iCx" min="2" max="9" value="4.5" step="0.5"></div>
+        <div class="ctrl"><label>D&amp;A (% receita) <output id="oDa"></output></label><input type="range" id="iDa" min="2" max="8" value="4.2" step="0.2"></div>
+        <div class="ctrl"><label>NWC (% receita) <output id="oNw"></output></label><input type="range" id="iNw" min="10" max="30" value="19" step="1"></div>
+      </div>
+      <div class="head" style="margin-top:16px"><span class="t">Custo de capital (CAPM) e valor terminal</span></div>
+      <div class="row">
+        <div class="ctrl"><label>Taxa livre de risco <output id="oRf"></output></label><input type="range" id="iRf" min="6" max="15" value="10.5" step="0.25"></div>
+        <div class="ctrl"><label>Beta alavancado <output id="oBe"></output></label><input type="range" id="iBe" min="0.6" max="1.8" value="1.1" step="0.05"></div>
+        <div class="ctrl"><label>Prêmio de risco de mercado <output id="oEr"></output></label><input type="range" id="iEr" min="3" max="9" value="5.5" step="0.25"></div>
+        <div class="ctrl"><label>Custo da dívida (pré-IR) <output id="oKd"></output></label><input type="range" id="iKd" min="7" max="18" value="11" step="0.5"></div>
+        <div class="ctrl"><label>Dívida / capital total (alvo) <output id="oDw"></output></label><input type="range" id="iDw" min="0" max="60" value="30" step="5"></div>
+        <div class="ctrl"><label>Crescimento na perpetuidade (g) <output id="oGp"></output></label><input type="range" id="iGp" min="0" max="6" value="3.5" step="0.25"></div>
+        <div class="ctrl"><label>Múltiplo de saída (EV/EBITDA) <output id="oMx"></output></label><input type="range" id="iMx" min="3" max="10" value="6" step="0.25"></div>
+      </div>
+      <p style="margin:12px 0 0;font-size:.8rem" class="c-sub">
+        <span class="tag prem">Premissa</span> os parâmetros de mercado (taxa livre de risco, prêmio de risco, beta)
+        são <b>hipóteses de estudo, não dados de mercado atuais</b> — num caso real seriam extraídos de fontes
+        primárias com data de referência. IR 34%; dívida líquida de partida R$ 158,0 mm (dívida 240,0 − caixa 82,0,
+        balanço simulado de 2025); base de receita 2025: R$ 991,4 mm.
+      </p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Resultado do modelo</h2>
+    <div class="tiles" id="tiles"></div>
+    <figure class="chart" id="chFcff"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="tbFcff"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Sensibilidade — WACC × crescimento na perpetuidade</h2>
+    <p>Equity value (R$ mm) pela abordagem de perpetuidade. A célula destacada é a combinação central de premissas.</p>
+    <figure class="chart" id="chHeat"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Quais premissas mais movem o valor</h2>
+    <figure class="chart" id="chTornado"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Triangulação — football field</h2>
+    <p>
+      Faixas de equity value por abordagem. As faixas de múltiplos são <span class="tag prem">hipóteses de estudo</span> —
+      num caso real seriam construídas a partir de comparáveis selecionadas com critérios explícitos
+      (setor, escala, margem, crescimento, alavancagem) e dados de mercado datados.
+    </p>
+    <figure class="chart" id="chField"></figure>
+    <details class="doc">
+      <summary>Como cada múltiplo deve ser lido (significado econômico)</summary>
+      <div class="inner">
+        <h4>EV/EBITDA</h4><p>Preço da operação inteira (dívida + equity) por unidade de geração operacional de caixa antes de CAPEX. Útil para comparar empresas com alavancagem e depreciação diferentes; ignora intensidade de capital — empresas com CAPEX pesado merecem múltiplo menor.</p>
+        <h4>EV/EBIT</h4><p>Corrige parcialmente a limitação acima ao descontar a depreciação — proxy do custo de repor ativos. Preferível quando a intensidade de capital difere entre comparáveis.</p>
+        <h4>P/E (P/L)</h4><p>Preço do equity por unidade de lucro após juros e impostos. Sensível à estrutura de capital: duas empresas operacionalmente idênticas com dívidas diferentes têm P/E diferentes — por isso não se compara P/E entre empresas com alavancagens muito distintas.</p>
+        <h4>P/B (P/VPA)</h4><p>Relevante quando o valor decorre do estoque de ativos (bancos, seguradoras, imobiliário) — menos informativo para uma industrial cuja geração de valor está no fluxo.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="blk">
+    <h2>Checks de integridade</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Documentação do estudo</h2>
+    <details class="doc">
+      <summary>Ficha padrão do estudo (contexto → validação)</summary>
+      <div class="inner">
+        <h4>1. Contexto</h4><p>Empresa industrial fictícia, base 2025, avaliada para uma decisão hipotética de entrada de sócio investidor.</p>
+        <h4>2. Problema</h4><p>Que faixa de valor é defensável — e de quais premissas essa faixa depende.</p>
+        <h4>3. Dados</h4><p>DADO SIMULADO — base operacional e balanço do dataset central. Parâmetros de mercado: PREMISSA (não são dados atuais).</p>
+        <h4>4. Fontes</h4><p>Metodologia FCFF/WACC e valor terminal conforme literatura padrão de valuation (ex.: material educacional do CFA Institute sobre free cash flow valuation). Os números são fictícios.</p>
+        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — todas listadas no painel de controles, incluindo CAPM e faixas de múltiplos.</p>
+        <h4>6. Metodologia</h4><p>FCFF = NOPAT + D&amp;A − CAPEX − ΔNWC, projetado por 5 anos; valor terminal por perpetuidade (Gordon) e por múltiplo de saída; EV = Σ VP(FCFF) + VP(TV); equity = EV − dívida líquida.</p>
+        <h4>7. Modelo</h4><p>JavaScript no navegador; inputs → cálculos → outputs → checks.</p>
+        <h4>8. Cenários</h4><p>Sensibilidade bidimensional WACC × g, tornado de drivers e duas abordagens de valor terminal.</p>
+        <h4>9. Resultado</h4><p>Valor estimado pelo modelo sob as premissas adotadas; a resposta é uma faixa, não um ponto.</p>
+        <h4>10. Insights</h4><p>Com as premissas de partida, o valor é dominado pelo valor terminal — típico de projeções de 5 anos — e mais sensível a WACC e margem do que ao crescimento explícito; é nelas que a diligência deve se concentrar.</p>
+        <h4>11. Impacto potencial</h4><p>Ancoragem de negociação: faixa de valor com racional replicável, em vez de um número único indefensável.</p>
+        <h4>12. Limitações</h4><p>Dados fictícios; sem ciclo econômico na projeção explícita; beta e prêmios são hipóteses; múltiplos sem painel real de comparáveis; não modela diluição, opções nem ajustes de dívida fora do balanço.</p>
+        <h4>13. Validação</h4><p>Checks aritméticos automáticos aprovados; regra WACC &gt; g imposta. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; premissas de mercado hipotéticas.</p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const D = window.DATA, V = window.Viz, F = V.F;
+  const REV0 = D.hist.receita[2];                      // 991,4
+  const ND = D.bal2025.divida - D.bal2025.caixa;       // 158,0
+  const TAX = 0.34, ANOS = 5;
+
+  function val(id) { return +document.getElementById(id).value; }
+
+  function premissas() {
+    return {
+      g: val("iG") / 100, me: val("iMe") / 100, cx: val("iCx") / 100, da: val("iDa") / 100, nw: val("iNw") / 100,
+      rf: val("iRf") / 100, be: val("iBe"), er: val("iEr") / 100, kd: val("iKd") / 100, dw: val("iDw") / 100,
+      gp: val("iGp") / 100, mx: val("iMx"),
+    };
+  }
+  function waccDe(p) {
+    const ke = p.rf + p.be * p.er;
+    const kdAt = p.kd * (1 - TAX);
+    return (1 - p.dw) * ke + p.dw * kdAt;
+  }
+  function modelo(p) {
+    const wacc = waccDe(p);
+    const anos = [];
+    let rev = REV0, revPrev = REV0;
+    for (let t = 1; t <= ANOS; t++) {
+      rev = revPrev * (1 + p.g);
+      const ebitda = rev * p.me;
+      const da = rev * p.da;
+      const ebit = ebitda - da;
+      const nopat = ebit * (1 - TAX);
+      const capex = rev * p.cx;
+      const dNwc = (rev - revPrev) * p.nw;
+      const fcff = nopat + da - capex - dNwc;
+      anos.push({ t, rev, ebitda, ebit, nopat, capex, da, dNwc, fcff, pv: fcff / Math.pow(1 + wacc, t) });
+      revPrev = rev;
+    }
+    const fim = anos[ANOS - 1];
+    const tvPerp = p.gp < wacc ? fim.fcff * (1 + p.gp) / (wacc - p.gp) : NaN;
+    const tvExit = fim.ebitda * p.mx;
+    const pvTvPerp = tvPerp / Math.pow(1 + wacc, ANOS);
+    const pvTvExit = tvExit / Math.pow(1 + wacc, ANOS);
+    const somaPv = anos.reduce((a, x) => a + x.pv, 0);
+    const evPerp = somaPv + pvTvPerp, evExit = somaPv + pvTvExit;
+    return { wacc, anos, tvPerp, tvExit, pvTvPerp, pvTvExit, somaPv, evPerp, evExit,
+      eqPerp: evPerp - ND, eqExit: evExit - ND, fim };
+  }
+
+  function tile(lbl, val_, sub) {
+    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val">${val_}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  }
+
+  function render() {
+    const p = premissas();
+    document.getElementById("oG").textContent = val("iG") + "% a.a.";
+    document.getElementById("oMe").textContent = val("iMe") + "%";
+    document.getElementById("oCx").textContent = val("iCx") + "%";
+    document.getElementById("oDa").textContent = val("iDa") + "%";
+    document.getElementById("oNw").textContent = val("iNw") + "%";
+    document.getElementById("oRf").textContent = val("iRf") + "%";
+    document.getElementById("oBe").textContent = val("iBe").toFixed(2);
+    document.getElementById("oEr").textContent = val("iEr") + "%";
+    document.getElementById("oKd").textContent = val("iKd") + "%";
+    document.getElementById("oDw").textContent = val("iDw") + "%";
+    document.getElementById("oGp").textContent = val("iGp") + "%";
+    document.getElementById("oMx").textContent = val("iMx").toFixed(2) + "×";
+
+    const m = modelo(p);
+    const ke = p.rf + p.be * p.er;
+    document.getElementById("tiles").innerHTML =
+      tile("WACC", F.pc(m.wacc), "ke " + F.pc(ke) + " · kd pós-IR " + F.pc(p.kd * (1 - TAX))) +
+      tile("Enterprise value — perpetuidade", F.mm(m.evPerp), "g = " + F.pc(p.gp)) +
+      tile("Equity value — perpetuidade", F.mm(m.eqPerp), "EV − dívida líquida de " + F.mm(ND)) +
+      tile("Equity value — múltiplo de saída", F.mm(m.eqExit), p.mx.toFixed(2) + "× EBITDA do ano 5") +
+      tile("Peso do valor terminal", F.pc(m.pvTvPerp / m.evPerp), "do EV na abordagem de perpetuidade") +
+      tile("EV/EBITDA implícito (ano 1)", F.x2(m.evPerp / m.anos[0].ebitda) + "×", "coerência com a faixa de múltiplos");
+
+    V.bars(document.getElementById("chFcff"), {
+      title: "FCFF projetado e valor presente (R$ mm)",
+      sub: "Projeção explícita de 5 anos · valor estimado sob as premissas adotadas",
+      labels: m.anos.map(a => "Ano " + a.t),
+      series: [
+        { name: "FCFF", values: m.anos.map(a => a.fcff), color: "s1" },
+        { name: "VP do FCFF", values: m.anos.map(a => a.pv), color: "s3" },
+      ],
+    });
+
+    let html = `<caption>Memória de cálculo do FCFF (R$ mm)</caption>
+      <thead><tr><th></th>${m.anos.map(a => `<th>Ano ${a.t}</th>`).join("")}</tr></thead><tbody>`;
+    const rows = [
+      ["Receita", m.anos.map(a => a.rev)],
+      ["EBITDA", m.anos.map(a => a.ebitda)],
+      ["(−) D&A", m.anos.map(a => -a.da)],
+      ["(=) EBIT", m.anos.map(a => a.ebit)],
+      ["(=) NOPAT (EBIT × 0,66)", m.anos.map(a => a.nopat)],
+      ["(+) D&A", m.anos.map(a => a.da)],
+      ["(−) CAPEX", m.anos.map(a => -a.capex)],
+      ["(−) Δ NWC", m.anos.map(a => -a.dNwc)],
+      ["(=) FCFF", m.anos.map(a => a.fcff)],
+      ["VP @ WACC", m.anos.map(a => a.pv)],
+    ];
+    rows.forEach(([n, arr], idx) => {
+      html += `<tr class="${["(=) FCFF", "(=) EBIT"].includes(n) ? "tot" : ""}"><td>${n}</td>${arr.map(v => `<td>${F.mm(v)}</td>`).join("")}</tr>`;
+    });
+    html += "</tbody>";
+    document.getElementById("tbFcff").innerHTML = html;
+
+    /* sensibilidade WACC × g */
+    const waccC = m.wacc;
+    const waccs = [-0.01, -0.005, 0, 0.005, 0.01].map(d => waccC + d);
+    const gs = [-0.01, -0.005, 0, 0.005, 0.01].map(d => p.gp + d);
+    const vals = waccs.map(w => gs.map(gp2 => {
+      if (gp2 >= w - 0.005) return NaN;
+      const somaPv2 = m.anos.reduce((a, x) => a + x.fcff / Math.pow(1 + w, x.t), 0);
+      const tv = m.fim.fcff * (1 + gp2) / (w - gp2);
+      return somaPv2 + tv / Math.pow(1 + w, ANOS) - ND;
+    }));
+    const valsOk = vals.map(r => r.map(v => isNaN(v) ? 0 : v));
+    V.heatTable(document.getElementById("chHeat"), {
+      title: "Equity value (R$ mm) — WACC × g na perpetuidade",
+      sub: "Perpetuidade de Gordon; combinações com g ≥ WACC são inválidas e aparecem como o menor valor",
+      rowLab: "WACC", colLab: "g",
+      rows: waccs.map(w => F.pc(w)),
+      cols: gs.map(g2 => F.pc(g2)),
+      values: valsOk,
+      highlight: { i: 2, j: 2 },
+      fmt: v => F.mm0(v),
+    });
+
+    /* tornado — Δ equity (perpetuidade) por choque de premissa */
+    function eqCom(delta) { return modelo({ ...p, ...delta }).eqPerp - m.eqPerp; }
+    const tornado = [
+      { l: "Margem EBITDA ±1 p.p.", v: eqCom({ me: p.me + 0.01 }) },
+      { l: "WACC −0,5 p.p. (via beta)", v: modelo({ ...p, be: p.be - 0.005 / p.er }).eqPerp - m.eqPerp },
+      { l: "Crescimento explícito ±1 p.p.", v: eqCom({ g: p.g + 0.01 }) },
+      { l: "g perpetuidade ±0,5 p.p.", v: eqCom({ gp: Math.min(p.gp + 0.005, m.wacc - 0.01) }) },
+      { l: "CAPEX −0,5 p.p. da receita", v: eqCom({ cx: p.cx - 0.005 }) },
+      { l: "NWC −2 p.p. da receita", v: eqCom({ nw: p.nw - 0.02 }) },
+    ].sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
+    V.hbars(document.getElementById("chTornado"), {
+      title: "Sensibilidade do equity value a choques favoráveis de premissa (R$ mm)",
+      sub: "Variação vs. caso central de " + F.mm(m.eqPerp) + " · quanto maior a barra, mais a diligência importa",
+      items: tornado,
+      labelW: 230,
+    });
+
+    /* football field */
+    const flat = valsOk.flat().filter(v => v > 0);
+    const dcfLo = Math.min(...flat), dcfHi = Math.max(...flat);
+    const exitLo = m.somaPv + (m.fim.ebitda * (p.mx - 1)) / Math.pow(1 + m.wacc, ANOS) - ND;
+    const exitHi = m.somaPv + (m.fim.ebitda * (p.mx + 1)) / Math.pow(1 + m.wacc, ANOS) - ND;
+    const ebitda26 = m.anos[0].ebitda, ll26 = (m.anos[0].ebit - ND * p.kd) * (1 - TAX);
+    const evEbLo = 5.0 * ebitda26 - ND, evEbHi = 6.5 * ebitda26 - ND;
+    const peLo = 10 * ll26, peHi = 14 * ll26;
+    V.hbars(document.getElementById("chField"), {
+      title: "Football field — equity value por abordagem (R$ mm)",
+      sub: "Faixas de múltiplos são hipóteses de estudo (PREMISSA); linha tracejada = DCF central",
+      items: [
+        { l: "DCF — sensibilidade WACC × g", lo: dcfLo, hi: dcfHi, color: "s1" },
+        { l: "DCF — múltiplo de saída ±1×", lo: Math.min(exitLo, exitHi), hi: Math.max(exitLo, exitHi), color: "s1" },
+        { l: "EV/EBITDA 5,0–6,5× (ano 1)", lo: evEbLo, hi: evEbHi, color: "s3" },
+        { l: "P/E 10–14× (lucro ano 1)", lo: peLo, hi: peHi, color: "s3" },
+      ],
+      markValue: m.eqPerp, markLabel: "DCF central",
+      labelW: 230,
+      fmt: v => F.mm0(v),
+    });
+
+    /* checks */
+    const cSoma = V.near(m.evPerp, m.somaPv + m.pvTvPerp, 0.05);
+    const cEq = V.near(m.eqPerp, m.evPerp - ND, 0.01);
+    const cG = p.gp < m.wacc;
+    const cFcff = m.anos.every(a => isFinite(a.fcff));
+    const cTv = m.pvTvPerp / m.evPerp < 0.85;
+    V.renderChecks(document.getElementById("checks"), [
+      { name: "EV = Σ VP(FCFF) + VP(valor terminal)", pass: cSoma, num: F.mm(m.evPerp) },
+      { name: "Equity = EV − dívida líquida", pass: cEq, num: F.mm(m.eqPerp) + " = " + F.mm(m.evPerp) + " − " + F.mm(ND) },
+      { name: "Condição de Gordon: g < WACC", pass: cG, num: F.pc(p.gp) + " < " + F.pc(m.wacc) },
+      { name: "FCFF finito em todos os anos", pass: cFcff, num: cFcff ? "5/5 anos" : "falha" },
+      { name: "Valor terminal < 85% do EV (sanidade da projeção explícita)", pass: cTv, num: F.pc(m.pvTvPerp / m.evPerp) },
+    ]);
+  }
+
+  document.querySelectorAll(".controls input").forEach(i => i.addEventListener("input", render));
+  render();
+})();
+</script>
+</body>
+</html>

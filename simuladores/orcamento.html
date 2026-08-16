@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real vs. Orçado vs. Forecast — Simulador FP&amp;A</title>
+<meta name="description" content="Análise de variações Real × Orçado com decomposição preço, volume e mix, ponte de EBITDA e leitura executiva dos desvios.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Simulador FP&amp;A · 1 de 10</div>
+    <h1>Real vs. Orçado vs. Forecast</h1>
+    <p class="lead">
+      Acumulado janeiro–julho/2026 da <strong>Aurora Industrial S.A. (empresa fictícia)</strong>, em R$ milhões:
+      variações decompostas em <strong>preço × volume × mix</strong>, ponte de EBITDA e projeção do fechamento do ano.
+    </p>
+    <div class="tags">
+      <span class="tag sim">Simulação — estudo de caso fictício</span>
+      <span class="tag prem">Premissas ajustáveis</span>
+    </div>
+    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
+      Onde agir para reverter o desvio de resultado — política comercial (preço/volume), mix de produtos ou frentes de custo —
+      e se o forecast de fechamento do ano exige revisão de metas e do plano de ação.</div></div>
+  </section>
+
+  <section class="blk">
+    <h2>Visão executiva — acumulado até julho/2026</h2>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Receita e EBITDA mensais — Real × Orçado</h2>
+    <figure class="chart" id="chReceitaMes"></figure>
+    <figure class="chart" id="chEbitdaMes"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>De onde vem o desvio de receita — decomposição preço × volume × mix</h2>
+    <p>
+      Metodologia: variação de volume medida ao preço médio orçado (mix constante); variação de mix pelo
+      deslocamento entre linhas ao preço orçado; variação de preço sobre o volume realizado.
+      A soma reconcilia exatamente com a variação total — verificado nos checks abaixo.
+    </p>
+    <figure class="chart" id="chPonteReceita"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="tbLinhas"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Ponte de EBITDA — Orçado → Real</h2>
+    <p>
+      Efeitos de volume e mix fluem à margem de contribuição
+      (<span class="tag prem">Premissa</span> 36% equipamentos, 45% serviços); efeito preço flui integralmente.
+      Desvios de custo identificados na análise entram como itens próprios.
+    </p>
+    <figure class="chart" id="chPonteEbitda"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Materialidade das variações</h2>
+    <div class="controls">
+      <div class="head"><span class="t">Limite de materialidade</span></div>
+      <div class="row">
+        <div class="ctrl"><label>Variação percentual mínima para sinalização <output id="oLim">5%</output></label>
+          <input type="range" id="iLim" min="1" max="15" value="5" step="1"></div>
+      </div>
+    </div>
+    <div class="tbl-scroll"><table class="tbl" id="tbMat"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Leitura executiva dos desvios relevantes</h2>
+    <p><span class="tag prem">Interpretação</span> — narrativa analítica construída sobre o cenário simulado.</p>
+    <div class="grid c3">
+      <div class="card">
+        <h3>Volume de equipamentos</h3>
+        <p><b>O que aconteceu:</b> −250 unidades na Linha Compacta e −70 na Linha Pesada vs. orçado.<br>
+        <b>Por quê:</b> desaceleração da demanda industrial e alongamento do ciclo de venda.<br>
+        <b>Impacto:</b> <span id="vVolMixTxt"></span> no EBITDA acumulado.<br>
+        <b>Natureza:</b> parcialmente estrutural — pipeline mais lento persiste no 2º semestre.<br>
+        <b>Ação recomendada:</b> reforço de funil comercial, incentivos por volume e revisão da meta anual de unidades.</p>
+      </div>
+      <div class="card">
+        <h3>Preço realizado</h3>
+        <p><b>O que aconteceu:</b> preço médio acima do orçado nas duas linhas.<br>
+        <b>Por quê:</b> repasse de custos implementado no 1º trimestre com baixa perda de clientes.<br>
+        <b>Impacto:</b> <span id="vPrecoTxt"></span> no EBITDA acumulado.<br>
+        <b>Natureza:</b> estrutural enquanto a tabela vigente for sustentada.<br>
+        <b>Risco:</b> elasticidade — monitorar churn e desconto médio por pedido.</p>
+      </div>
+      <div class="card">
+        <h3>Custos variáveis e pessoal</h3>
+        <p><b>O que aconteceu:</b> frete, insumos e folha acima do orçado.<br>
+        <b>Por quê:</b> frete spot em rotas críticas, reajuste de insumos e dissídio acima da premissa orçamentária.<br>
+        <b>Impacto:</b> <span id="vCustoTxt"></span> no EBITDA acumulado.<br>
+        <b>Natureza:</b> frete tende a ser temporário; dissídio é estrutural.<br>
+        <b>Ação recomendada:</b> contrato anual de frete, renegociação de insumos e trava do quadro aprovado.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Forecast de fechamento 2026</h2>
+    <div class="controls">
+      <div class="head"><span class="t">Premissa do forecast para agosto–dezembro</span>
+        <span class="tag prem">Premissa ajustável</span></div>
+      <div class="row">
+        <div class="ctrl"><label>Receita dos meses restantes vs. orçado <output id="oAj">−3%</output></label>
+          <input type="range" id="iAj" min="-12" max="8" value="-3" step="1"></div>
+        <div class="ctrl"><label>Margem EBITDA dos meses restantes <output id="oMg">17,8%</output></label>
+          <input type="range" id="iMg" min="14" max="22" value="17.8" step="0.2"></div>
+      </div>
+    </div>
+    <div class="tiles" id="tilesFy"></div>
+    <figure class="chart" id="chAcum"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Checks de integridade</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Documentação do estudo</h2>
+    <details class="doc">
+      <summary>Ficha padrão do estudo (contexto → validação)</summary>
+      <div class="inner">
+        <h4>1. Contexto</h4><p>Empresa industrial fictícia com orçamento anual de R$ 1.090,0 mm aprovado para 2026; sete meses de realizado disponíveis.</p>
+        <h4>2. Problema</h4><p>O resultado acumulado está abaixo do orçado. A diretoria precisa decidir onde agir e se revisa o guidance interno do ano.</p>
+        <h4>3. Dados</h4><p>DADO SIMULADO — receita e EBITDA mensais orçados e realizados, volumes e preços por linha de produto (acumulado janeiro–julho/2026).</p>
+        <h4>4. Fontes</h4><p>Dataset fictício construído para este portfólio (<code>assets/js/data.js</code>). Não há fonte externa; nenhum dado real de empresa foi utilizado.</p>
+        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — margens de contribuição de 36% (equipamentos) e 45% (serviços) para o fluxo de volume/mix à margem; sazonalidade orçamentária declarada no dataset; ajuste do forecast controlado pelo usuário.</p>
+        <h4>6. Metodologia</h4><p>Decomposição clássica de variações (volume ao preço orçado com mix constante; mix ao preço orçado; preço ao volume real), ponte de EBITDA aditiva e forecast = realizado YTD + meses restantes ajustados.</p>
+        <h4>7. Modelo</h4><p>Cálculo integral em JavaScript no navegador; inputs, cálculos, outputs e checks separados. Código aberto no repositório.</p>
+        <h4>8. Cenários</h4><p>Ajuste contínuo do forecast (receita −12% a +8% vs. orçado; margem 14%–22% nos meses restantes).</p>
+        <h4>9. Resultado</h4><p>Valores estimados pelo modelo sob as premissas adotadas — exibidos nos painéis acima e recalculados a cada ajuste.</p>
+        <h4>10. Insights</h4><p>O desvio de EBITDA não é um problema único: preço contribui positivamente e é mais do que compensado por volume/mix e custos — cada frente exige dono e plano distintos.</p>
+        <h4>11. Impacto potencial</h4><p>Prioriza a agenda executiva: comercial (volume), suprimentos (frete/insumos) e RH (quadro) — com o tamanho de cada prêmio quantificado.</p>
+        <h4>12. Limitações</h4><p>Dados fictícios; decomposição assume independência entre efeitos; margens de contribuição são premissas, não custeio apurado; não captura efeitos de calendário fiscal.</p>
+        <h4>13. Validação</h4><p>Checks aritméticos automáticos aprovados (painel acima). Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; dados de entrada são simulados. Ver <a href="../metodologia.html">metodologia</a>.</p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const D = window.DATA, V = window.Viz, F = V.F;
+  const N = D.real2026.mesesFechados;
+  const meses = D.MESES.slice(0, N);
+
+  /* ---------- cálculos YTD ---------- */
+  const budRevM = D.orc2026.receitaMes, budEbM = D.orc2026.ebitdaMes;
+  const actRevM = D.real2026.receitaMes, actEbM = D.real2026.ebitdaMes;
+  const budRev = D.ytd(budRevM), actRev = D.ytd(actRevM);
+  const budEb = D.ytd(budEbM), actEb = D.ytd(actEbM);
+  const dRev = actRev - budRev, dEb = actEb - budEb;
+
+  /* ---------- decomposição preço × volume × mix ---------- */
+  const L = D.pvm.linhas, S = D.pvm.servicos;
+  const Vb = L.reduce((a, l) => a + l.budVol, 0), Va = L.reduce((a, l) => a + l.actVol, 0);
+  const budRevEq = L.reduce((a, l) => a + l.budVol * l.budPreco, 0);
+  const actRevEq = L.reduce((a, l) => a + l.actVol * l.actPreco, 0);
+  const pbBar = budRevEq / Vb;
+  const varVolume = (Va - Vb) * pbBar;
+  const varMix = L.reduce((a, l) => a + (l.actVol - Va * (l.budVol / Vb)) * l.budPreco, 0);
+  const varPreco = L.reduce((a, l) => a + (l.actPreco - l.budPreco) * l.actVol, 0);
+  const varServ = S.act - S.bud;
+  const dRevEq = actRevEq - budRevEq;
+
+  /* ---------- ponte de EBITDA ---------- */
+  const volMixMargem = (varVolume + varMix) * D.pvm.mcEquipamentos;
+  const servMargem = varServ * D.pvm.mcServicos;
+  const ponteEb = [
+    { l: "EBITDA orçado", v: budEb, k: "start" },
+    { l: "Preço", v: varPreco, k: "d" },
+    { l: "Volume e mix", v: volMixMargem, k: "d" },
+    { l: "Serviços", v: servMargem, k: "d" },
+    { l: "Custos variáveis", v: D.pvm.custosVariaveis, k: "d" },
+    { l: "Pessoal", v: D.pvm.pessoal, k: "d" },
+    { l: "Outras despesas", v: D.pvm.outrasDespesas, k: "d" },
+    { l: "EBITDA real", v: actEb, k: "end" },
+  ];
+  const somaPonteEb = ponteEb.filter(i => i.k === "d").reduce((a, i) => a + i.v, 0);
+
+  /* ---------- tiles ---------- */
+  function tile(lbl, val, sub, delta, up) {
+    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val">${val}</div>
+      ${delta != null ? `<div class="delta ${up ? "up" : "down"}">${delta}</div>` : ""}
+      ${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  }
+  document.getElementById("tiles").innerHTML =
+    tile("Receita YTD real", F.mm(actRev), "orçado: " + F.mm(budRev), F.smm(dRev) + " (" + F.spc(dRev / budRev) + ")", dRev >= 0) +
+    tile("EBITDA YTD real", F.mm(actEb), "orçado: " + F.mm(budEb), F.smm(dEb) + " (" + F.spc(dEb / budEb) + ")", dEb >= 0) +
+    tile("Margem EBITDA YTD", F.pc(actEb / actRev), "orçado: " + F.pc(budEb / budRev), F.pp(actEb / actRev - budEb / budRev), actEb / actRev >= budEb / budRev) +
+    tile("Efeito preço", F.smm(varPreco), "sobre volume realizado", null, true) +
+    tile("Efeito volume + mix (receita)", F.smm(varVolume + varMix), "ao preço orçado", null, false);
+
+  /* ---------- gráficos mensais ---------- */
+  V.bars(document.getElementById("chReceitaMes"), {
+    title: "Receita mensal — Real × Orçado (R$ mm)",
+    sub: "Janeiro a julho de 2026 · dado simulado",
+    labels: meses,
+    series: [
+      { name: "Real", values: actRevM, color: "s1" },
+      { name: "Orçado", values: budRevM.slice(0, N), color: "s2" },
+    ],
+  });
+  V.bars(document.getElementById("chEbitdaMes"), {
+    title: "EBITDA mensal — Real × Orçado (R$ mm)",
+    sub: "Janeiro a julho de 2026 · dado simulado",
+    labels: meses,
+    series: [
+      { name: "Real", values: actEbM, color: "s1" },
+      { name: "Orçado", values: budEbM.slice(0, N), color: "s2" },
+    ],
+  });
+
+  /* ---------- ponte de receita ---------- */
+  V.waterfall(document.getElementById("chPonteReceita"), {
+    title: "Ponte de receita YTD — Orçado → Real (R$ mm)",
+    sub: "Decomposição por efeito · azul = favorável, vermelho = desfavorável",
+    items: [
+      { l: "Receita orçada", v: budRev, k: "start" },
+      { l: "Volume", v: varVolume, k: "d" },
+      { l: "Mix", v: varMix, k: "d" },
+      { l: "Preço", v: varPreco, k: "d" },
+      { l: "Serviços", v: varServ, k: "d" },
+      { l: "Receita real", v: actRev, k: "end" },
+    ],
+  });
+
+  /* ---------- tabela por linha ---------- */
+  (function () {
+    let html = `<caption>Abertura por linha — acumulado até julho/2026 (dado simulado)</caption>
+      <thead><tr><th>Linha</th><th>Vol. orç.</th><th>Vol. real</th><th>Preço orç.</th><th>Preço real</th><th>Receita orç.</th><th>Receita real</th><th>Δ</th></tr></thead><tbody>`;
+    L.forEach(l => {
+      const br = l.budVol * l.budPreco, ar = l.actVol * l.actPreco, d = ar - br;
+      html += `<tr><td>${l.nome}</td><td>${F.mm0(l.budVol)} un</td><td>${F.mm0(l.actVol)} un</td>
+        <td>${F.mm0(l.budPreco * 1000)} mil</td><td>${F.mm0(l.actPreco * 1000)} mil</td>
+        <td>${F.mm(br)}</td><td>${F.mm(ar)}</td><td class="${d >= 0 ? "pos" : "neg"}">${F.smm(d)}</td></tr>`;
+    });
+    html += `<tr><td>${S.nome}</td><td>—</td><td>—</td><td>—</td><td>—</td><td>${F.mm(S.bud)}</td><td>${F.mm(S.act)}</td><td class="${varServ >= 0 ? "pos" : "neg"}">${F.smm(varServ)}</td></tr>`;
+    html += `<tr class="tot"><td>Total</td><td>${F.mm0(Vb)} un</td><td>${F.mm0(Va)} un</td><td></td><td></td><td>${F.mm(budRev)}</td><td>${F.mm(actRev)}</td><td class="${dRev >= 0 ? "pos" : "neg"}">${F.smm(dRev)}</td></tr>`;
+    html += "</tbody>";
+    document.getElementById("tbLinhas").innerHTML = html;
+  })();
+
+  /* ---------- ponte de EBITDA ---------- */
+  V.waterfall(document.getElementById("chPonteEbitda"), {
+    title: "Ponte de EBITDA YTD — Orçado → Real (R$ mm)",
+    sub: "Volume/mix à margem de contribuição (premissa); preço com repasse integral",
+    items: ponteEb,
+  });
+  document.getElementById("vVolMixTxt").textContent = F.smm(volMixMargem) + " mm";
+  document.getElementById("vPrecoTxt").textContent = F.smm(varPreco) + " mm";
+  document.getElementById("vCustoTxt").textContent = F.smm(D.pvm.custosVariaveis + D.pvm.pessoal) + " mm";
+
+  /* ---------- materialidade ---------- */
+  function renderMat() {
+    const lim = +document.getElementById("iLim").value / 100;
+    document.getElementById("oLim").textContent = Math.round(lim * 100) + "%";
+    const rows = [
+      ["Receita total", budRev, actRev],
+      ["— Linha Compacta", L[0].budVol * L[0].budPreco, L[0].actVol * L[0].actPreco],
+      ["— Linha Pesada", L[1].budVol * L[1].budPreco, L[1].actVol * L[1].actPreco],
+      ["— Serviços & peças", S.bud, S.act],
+      ["EBITDA", budEb, actEb],
+    ];
+    let html = `<caption>Variações vs. orçado — sinalização acima de ${Math.round(lim * 100)}%</caption>
+      <thead><tr><th>Linha</th><th>Orçado</th><th>Real</th><th>Δ abs.</th><th>Δ %</th><th>Material?</th></tr></thead><tbody>`;
+    rows.forEach(([n, b, a]) => {
+      const d = a - b, p = d / b;
+      const mat = Math.abs(p) >= lim;
+      html += `<tr><td>${n}</td><td>${F.mm(b)}</td><td>${F.mm(a)}</td>
+        <td class="${d >= 0 ? "pos" : "neg"}">${F.smm(d)}</td><td class="${d >= 0 ? "pos" : "neg"}">${F.spc(p)}</td>
+        <td>${mat ? "⚑ sim" : "—"}</td></tr>`;
+    });
+    html += "</tbody>";
+    document.getElementById("tbMat").innerHTML = html;
+  }
+  document.getElementById("iLim").addEventListener("input", renderMat);
+  renderMat();
+
+  /* ---------- forecast de fechamento ---------- */
+  function renderFy() {
+    const aj = +document.getElementById("iAj").value / 100;
+    const mg = +document.getElementById("iMg").value / 100;
+    document.getElementById("oAj").textContent = (aj >= 0 ? "+" : "−") + Math.abs(Math.round(aj * 100)) + "%";
+    document.getElementById("oMg").textContent = F.pc(mg);
+    const restRev = budRevM.slice(N).map(r => r * (1 + aj));
+    const fcRev = actRev + D.soma(restRev);
+    const fcEb = actEb + D.soma(restRev) * mg;
+    const budFyEb = D.soma(budEbM);
+    document.getElementById("tilesFy").innerHTML =
+      tile("Receita FY26 — forecast", F.mm(fcRev), "orçado: " + F.mm(D.orc2026.receitaAno), F.smm(fcRev - D.orc2026.receitaAno) + " (" + F.spc(fcRev / D.orc2026.receitaAno - 1) + ")", fcRev >= D.orc2026.receitaAno) +
+      tile("EBITDA FY26 — forecast", F.mm(fcEb), "orçado: " + F.mm(budFyEb), F.smm(fcEb - budFyEb) + " (" + F.spc(fcEb / budFyEb - 1) + ")", fcEb >= budFyEb) +
+      tile("Margem EBITDA FY26 — forecast", F.pc(fcEb / fcRev), "orçado: " + F.pc(budFyEb / D.orc2026.receitaAno), null, fcEb / fcRev >= budFyEb / D.orc2026.receitaAno);
+
+    // acumulado: real até julho, forecast de agosto em diante
+    const acumBud = [], acumReal = [], acumFc = [];
+    let cb = 0, cr = 0;
+    budRevM.forEach((r, i) => { cb += r; acumBud.push(cb); });
+    actRevM.forEach(r => { cr += r; acumReal.push(cr); });
+    for (let i = actRevM.length; i < 12; i++) acumReal.push(null);
+    let cf = actRev;
+    for (let i = 0; i < 12; i++) {
+      if (i < N - 1) acumFc.push(null);
+      else if (i === N - 1) acumFc.push(actRev);
+      else { cf += budRevM[i] * (1 + aj); acumFc.push(cf); }
+    }
+    V.line(document.getElementById("chAcum"), {
+      title: "Receita acumulada 2026 — Real, Orçado e Forecast (R$ mm)",
+      sub: "Área sombreada = meses de forecast · valor estimado pelo modelo sob as premissas adotadas",
+      labels: D.MESES,
+      series: [
+        { name: "Real", values: acumReal, color: "s1", kind: "line" },
+        { name: "Orçado", values: acumBud, color: "s2", kind: "line" },
+        { name: "Forecast", values: acumFc, color: "s3", kind: "line", dash: true },
+      ],
+      band: { from: N - 1, to: 11, label: "forecast" },
+    });
+    renderChecks(fcRev, fcEb);
+  }
+
+  /* ---------- checks ---------- */
+  function renderChecks() {
+    const checks = [
+      { name: "Orçamento mensal soma o orçamento anual", pass: V.near(D.soma(budRevM), D.orc2026.receitaAno, 0.05), num: F.mm(D.soma(budRevM)) + " = " + F.mm(D.orc2026.receitaAno) },
+      { name: "Receita real YTD (mensal) = soma das linhas de produto", pass: V.near(actRev, actRevEq + S.act, 0.05), num: F.mm(actRev) + " = " + F.mm(actRevEq + S.act) },
+      { name: "Volume + mix + preço reconcilia a Δ receita de equipamentos", pass: V.near(varVolume + varMix + varPreco, dRevEq, 0.05), num: F.smm(varVolume + varMix + varPreco) + " = " + F.smm(dRevEq) },
+      { name: "Ponte de receita soma a Δ receita total", pass: V.near(varVolume + varMix + varPreco + varServ, dRev, 0.05), num: F.smm(varVolume + varMix + varPreco + varServ) + " = " + F.smm(dRev) },
+      { name: "Ponte de EBITDA soma a Δ EBITDA YTD", pass: V.near(somaPonteEb, dEb, 0.05), num: F.smm(somaPonteEb) + " = " + F.smm(dEb) },
+    ];
+    V.renderChecks(document.getElementById("checks"), checks);
+  }
+
+  document.getElementById("iAj").addEventListener("input", renderFy);
+  document.getElementById("iMg").addEventListener("input", renderFy);
+  renderFy();
+})();
+</script>
+</body>
+</html>

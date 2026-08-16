@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modelo de Três Demonstrações — Modelagem Financeira</title>
+<meta name="description" content="Modelo integrado de DRE, Balanço Patrimonial e Fluxo de Caixa projetado por drivers, com painel de integridade e reconciliações automáticas.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Modelagem financeira · 5 de 10</div>
+    <h1>Modelo de três demonstrações</h1>
+    <p class="lead">
+      DRE, Balanço Patrimonial e Fluxo de Caixa da <strong>Aurora Industrial S.A. (empresa fictícia)</strong>,
+      integrados e projetados por drivers para 2026–2030 a partir do exercício de 2025.
+      As três demonstrações são calculadas em conjunto: lucro alimenta o PL, capital de giro e CAPEX movem o
+      caixa, e um revolver recompõe o caixa mínimo — <strong>nenhuma linha é digitada, tudo decorre das premissas</strong>.
+    </p>
+    <div class="tags">
+      <span class="tag sim">Simulação — estudo de caso fictício</span>
+      <span class="tag prem">Premissas ajustáveis</span>
+    </div>
+    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
+      Base quantitativa para plano plurianual, teste de covenant de alavancagem, política de dividendos
+      e estrutura de capital — com garantia aritmética de que as demonstrações fecham entre si.</div></div>
+  </section>
+
+  <section class="blk">
+    <h2>Premissas (drivers)</h2>
+    <div class="controls">
+      <div class="head"><span class="t">Operacionais</span><span class="tag prem">Premissa ajustável</span></div>
+      <div class="row">
+        <div class="ctrl"><label>Crescimento de receita a.a. <output id="oG"></output></label><input type="range" id="iG" min="-5" max="20" value="8" step="0.5"></div>
+        <div class="ctrl"><label>Margem bruta <output id="oMb"></output></label><input type="range" id="iMb" min="26" max="42" value="34" step="0.5"></div>
+        <div class="ctrl"><label>SG&amp;A (% receita) <output id="oSg"></output></label><input type="range" id="iSg" min="10" max="22" value="15.8" step="0.2"></div>
+        <div class="ctrl"><label>CAPEX (% receita) <output id="oCx"></output></label><input type="range" id="iCx" min="1" max="10" value="4.5" step="0.5"></div>
+        <div class="ctrl"><label>Depreciação (% imobilizado) <output id="oDa"></output></label><input type="range" id="iDa" min="5" max="15" value="10" step="0.5"></div>
+      </div>
+      <div class="head" style="margin-top:16px"><span class="t">Capital de giro e financiamento</span></div>
+      <div class="row">
+        <div class="ctrl"><label>DSO <output id="oDso"></output></label><input type="range" id="iDso" min="40" max="90" value="60" step="1"></div>
+        <div class="ctrl"><label>DIO <output id="oDio"></output></label><input type="range" id="iDio" min="45" max="95" value="66" step="1"></div>
+        <div class="ctrl"><label>DPO <output id="oDpo"></output></label><input type="range" id="iDpo" min="30" max="75" value="50" step="1"></div>
+        <div class="ctrl"><label>Custo da dívida a.a. <output id="oKd"></output></label><input type="range" id="iKd" min="6" max="18" value="11" step="0.5"></div>
+        <div class="ctrl"><label>Amortização anual <output id="oAm"></output></label><input type="range" id="iAm" min="0" max="60" value="30" step="5"></div>
+        <div class="ctrl"><label>Payout de dividendos <output id="oPy"></output></label><input type="range" id="iPy" min="0" max="80" value="25" step="5"></div>
+        <div class="ctrl"><label>Caixa mínimo (revolver) <output id="oCm"></output></label><input type="range" id="iCm" min="20" max="90" value="50" step="5"></div>
+      </div>
+      <p style="margin:12px 0 0;font-size:.8rem" class="c-sub">
+        <span class="tag prem">Premissa</span> IR+CSLL 34% sobre o lucro tributável; juros sobre o saldo inicial da dívida
+        (evita circularidade); depreciação sobre o imobilizado líquido inicial + metade do CAPEX do ano;
+        "impostos e outros passivos" constantes em R$ 25,0 mm. Base 2025: dado simulado do dataset central.
+      </p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Síntese da projeção</h2>
+    <div class="tiles" id="tiles"></div>
+    <figure class="chart" id="chPl"></figure>
+    <figure class="chart" id="chCx"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Painel de integridade</h2>
+    <p>É este painel que diferencia um modelo integrado de três planilhas soltas: cada identidade contábil é verificada em todos os anos, a cada mudança de premissa. Nenhuma inconsistência é ocultada.</p>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <h2>DRE projetada</h2>
+    <div class="tbl-scroll"><table class="tbl" id="tbDre"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Balanço patrimonial projetado</h2>
+    <div class="tbl-scroll"><table class="tbl" id="tbBal"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Fluxo de caixa projetado (método indireto)</h2>
+    <div class="tbl-scroll"><table class="tbl" id="tbFcx"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Documentação do estudo</h2>
+    <details class="doc">
+      <summary>Ficha padrão do estudo (contexto → validação)</summary>
+      <div class="inner">
+        <h4>1. Contexto</h4><p>Empresa industrial fictícia com histórico 2023–2025 e balanço de abertura consistente (A = P + PL verificado na origem).</p>
+        <h4>2. Problema</h4><p>Construir a espinha dorsal de qualquer análise financeira séria: um modelo em que resultado, balanço e caixa não podem divergir.</p>
+        <h4>3. Dados</h4><p>DADO SIMULADO — histórico e balanço de abertura do dataset central (<code>assets/js/data.js</code>).</p>
+        <h4>4. Fontes</h4><p>Dataset fictício. Estrutura das demonstrações segue a prática contábil brasileira (DRE por função; fluxo indireto conforme CPC 03 / IAS 7).</p>
+        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — todos os drivers do painel acima; juros sobre saldo inicial; revolver recompõe caixa mínimo; sem emissão de capital.</p>
+        <h4>6. Metodologia</h4><p>Projeção sequencial por ano: DRE → capital de giro → imobilizado → fluxo de caixa indireto → revolver → balanço; identidades verificadas ao final de cada ano.</p>
+        <h4>7. Modelo</h4><p>JavaScript no navegador, arquitetura inputs → cálculos → outputs → checks; código aberto no repositório.</p>
+        <h4>8. Cenários</h4><p>Qualquer combinação de drivers; o painel de integridade revalida a cada mudança.</p>
+        <h4>9. Resultado</h4><p>Valores estimados pelo modelo sob as premissas adotadas.</p>
+        <h4>10. Insights</h4><p>Com os drivers de partida, a alavancagem cai ao longo da projeção e o revolver não é acionado; encurtar DPO ou elevar payout mostra rapidamente quando o caixa mínimo passa a depender de dívida nova.</p>
+        <h4>11. Impacto potencial</h4><p>Serve de base única para orçamento plurianual, valuation (o DCF deste portfólio usa a mesma lógica) e negociação de covenants.</p>
+        <h4>12. Limitações</h4><p>Dados fictícios; um único segmento de negócio; sem inflação explícita; IR linear; sem ativos/passivos fiscais diferidos; "impostos e outros" constantes.</p>
+        <h4>13. Validação</h4><p>Painel de integridade com identidades contábeis verificadas em todos os anos. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; dados de entrada simulados.</p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const D = window.DATA, V = window.Viz, F = V.F;
+  const ANOS = [2025, 2026, 2027, 2028, 2029, 2030];
+  const TAX = 0.34, OUTROS_PASSIVOS = 25.0;
+
+  function val(id) { return +document.getElementById(id).value; }
+
+  function rodar() {
+    const g = val("iG") / 100, mb = val("iMb") / 100, sg = val("iSg") / 100;
+    const cxPct = val("iCx") / 100, daPct = val("iDa") / 100;
+    const dso = val("iDso"), dio = val("iDio"), dpo = val("iDpo");
+    const kd = val("iKd") / 100, amortA = val("iAm"), payout = val("iPy") / 100, cxMin = val("iCm");
+
+    const B = D.bal2025, H = D.hist;
+    const anoBase = {
+      ano: 2025, receita: H.receita[2], cpv: H.cpv[2], lucroBruto: H.lucroBruto[2],
+      sgna: H.sgna[2], ebitda: H.ebitda[2], da: H.da[2], ebit: H.ebit[2],
+      juros: H.resFin[2], lair: H.lair[2], ir: H.ir[2], ll: H.lucroLiq[2],
+      caixa: B.caixa, cr: B.contasReceber, est: B.estoques, imob: B.imobilizadoLiq,
+      forn: B.fornecedores, divida: B.divida, pl: B.pl,
+      ativo: B.ativoTotal, passivoPl: B.fornecedores + OUTROS_PASSIVOS + B.divida + B.pl,
+      capex: null, dividendos: null, fco: null, fci: null, fcf: null, draw: 0, amort: 0,
+    };
+    const anos = [anoBase];
+    let prev = anoBase;
+    for (let t = 1; t < ANOS.length; t++) {
+      const receita = prev.receita * (1 + g);
+      const cpv = -receita * (1 - mb);
+      const lucroBruto = receita + cpv;
+      const sgna = -receita * sg;
+      const ebitda = lucroBruto + sgna;
+      const capex = receita * cxPct;
+      const da = -daPct * (prev.imob + capex / 2);
+      const ebit = ebitda + da;
+      const juros = -prev.divida * kd;
+      const lair = ebit + juros;
+      const ir = -Math.max(0, lair) * TAX;
+      const ll = lair + ir;
+      const dividendos = Math.max(0, ll) * payout;
+
+      const cr = receita * dso / 365;
+      const est = -cpv * dio / 365;
+      const forn = -cpv * dpo / 365;
+      const imob = prev.imob + capex + da;
+
+      const nwc = cr + est - forn;
+      const nwcPrev = prev.cr + prev.est - prev.forn;
+      const fco = ll - da - (nwc - nwcPrev);
+      const fci = -capex;
+      const amort = Math.min(amortA, prev.divida);
+      let fcf = -amort - dividendos;
+      let caixa = prev.caixa + fco + fci + fcf;
+      let divida = prev.divida - amort;
+      let draw = 0;
+      if (caixa < cxMin) { draw = cxMin - caixa; divida += draw; caixa = cxMin; fcf += draw; }
+      const pl = prev.pl + ll - dividendos;
+      const ativo = caixa + cr + est + imob;
+      const passivoPl = forn + OUTROS_PASSIVOS + divida + pl;
+
+      const ano = { ano: ANOS[t], receita, cpv, lucroBruto, sgna, ebitda, da, ebit, juros, lair, ir, ll,
+        capex, dividendos, cr, est, forn, imob, caixa, divida, pl, ativo, passivoPl,
+        fco, fci, fcf, draw, amort, nwc };
+      anos.push(ano);
+      prev = ano;
+    }
+    return anos;
+  }
+
+  function fmtRow(nome, arr, cls) {
+    return `<tr class="${cls || ""}"><td>${nome}</td>${arr.map(v => `<td>${v == null ? "—" : F.mm(v)}</td>`).join("")}</tr>`;
+  }
+  function head(cap) {
+    return `<caption>${cap}</caption><thead><tr><th>R$ mm</th>${ANOS.map((a, i) => `<th>${a}${i === 0 ? "A" : "E"}</th>`).join("")}</tr></thead>`;
+  }
+  function tile(lbl, val_, sub) {
+    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val">${val_}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  }
+
+  function render() {
+    document.getElementById("oG").textContent = (val("iG") >= 0 ? "+" : "−") + Math.abs(val("iG")) + "% a.a.";
+    document.getElementById("oMb").textContent = val("iMb") + "%";
+    document.getElementById("oSg").textContent = val("iSg") + "%";
+    document.getElementById("oCx").textContent = val("iCx") + "%";
+    document.getElementById("oDa").textContent = val("iDa") + "%";
+    document.getElementById("oDso").textContent = val("iDso") + " d";
+    document.getElementById("oDio").textContent = val("iDio") + " d";
+    document.getElementById("oDpo").textContent = val("iDpo") + " d";
+    document.getElementById("oKd").textContent = val("iKd") + "% a.a.";
+    document.getElementById("oAm").textContent = "R$ " + val("iAm") + " mm";
+    document.getElementById("oPy").textContent = val("iPy") + "%";
+    document.getElementById("oCm").textContent = "R$ " + val("iCm") + " mm";
+
+    const anos = rodar();
+    const u = anos[anos.length - 1];
+    const cagr = Math.pow(u.receita / anos[0].receita, 1 / (anos.length - 1)) - 1;
+    const dl = u.divida - u.caixa;
+    document.getElementById("tiles").innerHTML =
+      tile("Receita 2030E", F.mm(u.receita), "CAGR " + F.pc(cagr)) +
+      tile("Margem EBITDA 2030E", F.pc(u.ebitda / u.receita), "2025A: " + F.pc(anos[0].ebitda / anos[0].receita)) +
+      tile("Lucro líquido 2030E", F.mm(u.ll), "margem " + F.pc(u.ll / u.receita)) +
+      tile("Dívida líquida / EBITDA 2030E", F.x2(dl / u.ebitda) + "×", "2025A: " + F.x2((anos[0].divida - anos[0].caixa) / anos[0].ebitda) + "×") +
+      tile("ROE 2030E", F.pc(u.ll / u.pl), "lucro / patrimônio líquido") +
+      tile("Revolver acionado?", anos.some(a => a.draw > 0.01) ? "Sim" : "Não", anos.some(a => a.draw > 0.01) ? "caixa mínimo dependeu de dívida nova" : "caixa mínimo sustentado pela operação");
+
+    const lb = anos.map(a => String(a.ano));
+    V.line(document.getElementById("chPl"), {
+      title: "Receita, EBITDA e lucro líquido (R$ mm)",
+      sub: "2025 realizado (simulado) + 2026–2030 projetados sob as premissas adotadas",
+      labels: lb,
+      series: [
+        { name: "Receita", values: anos.map(a => a.receita), color: "s1", kind: "line" },
+        { name: "EBITDA", values: anos.map(a => a.ebitda), color: "s2", kind: "line" },
+        { name: "Lucro líquido", values: anos.map(a => a.ll), color: "s3", kind: "line" },
+      ],
+    });
+    V.line(document.getElementById("chCx"), {
+      title: "Caixa e dívida ao fim do ano (R$ mm)",
+      sub: "Revolver recompõe o caixa mínimo quando necessário",
+      labels: lb,
+      series: [
+        { name: "Caixa", values: anos.map(a => a.caixa), color: "s1", kind: "line" },
+        { name: "Dívida", values: anos.map(a => a.divida), color: "s4", kind: "line" },
+      ],
+    });
+
+    /* ---- tabelas ---- */
+    const P = anos;
+    document.getElementById("tbDre").innerHTML = head("DRE — 2025A e projeção 2026–2030 (dado simulado + premissas)") + "<tbody>" +
+      fmtRow("Receita líquida", P.map(a => a.receita)) +
+      fmtRow("(−) CPV", P.map(a => a.cpv)) +
+      fmtRow("(=) Lucro bruto", P.map(a => a.lucroBruto), "tot") +
+      fmtRow("(−) SG&A", P.map(a => a.sgna)) +
+      fmtRow("(=) EBITDA", P.map(a => a.ebitda), "tot") +
+      fmtRow("(−) D&A", P.map(a => a.da)) +
+      fmtRow("(=) EBIT", P.map(a => a.ebit), "tot") +
+      fmtRow("(−) Resultado financeiro", P.map(a => a.juros)) +
+      fmtRow("(=) LAIR", P.map(a => a.lair), "tot") +
+      fmtRow("(−) IR/CSLL (34%)", P.map(a => a.ir)) +
+      fmtRow("(=) Lucro líquido", P.map(a => a.ll), "tot") +
+      "</tbody>";
+
+    document.getElementById("tbBal").innerHTML = head("Balanço patrimonial — 31/12 de cada ano") + "<tbody>" +
+      fmtRow("Caixa e equivalentes", P.map(a => a.caixa)) +
+      fmtRow("Contas a receber", P.map(a => a.cr)) +
+      fmtRow("Estoques", P.map(a => a.est)) +
+      fmtRow("Imobilizado líquido", P.map(a => a.imob)) +
+      fmtRow("(=) Ativo total", P.map(a => a.ativo), "tot") +
+      fmtRow("Fornecedores", P.map(a => a.forn)) +
+      fmtRow("Impostos e outros passivos", P.map(() => OUTROS_PASSIVOS)) +
+      fmtRow("Dívida bruta", P.map(a => a.divida)) +
+      fmtRow("Patrimônio líquido", P.map(a => a.pl)) +
+      fmtRow("(=) Passivo + PL", P.map(a => a.passivoPl), "tot") +
+      "</tbody>";
+
+    document.getElementById("tbFcx").innerHTML = head("Fluxo de caixa indireto — anos projetados") + "<tbody>" +
+      fmtRow("Lucro líquido", P.map(a => a.ano === 2025 ? null : a.ll)) +
+      fmtRow("(+) D&A", P.map(a => a.ano === 2025 ? null : -a.da)) +
+      fmtRow("(−) Δ capital de giro", P.map((a, i) => a.ano === 2025 ? null : -((a.nwc) - (P[i - 1].cr + P[i - 1].est - P[i - 1].forn)))) +
+      fmtRow("(=) Fluxo operacional", P.map(a => a.fco), "tot") +
+      fmtRow("(−) CAPEX", P.map(a => a.ano === 2025 ? null : -a.capex)) +
+      fmtRow("(=) Fluxo de investimento", P.map(a => a.fci), "tot") +
+      fmtRow("(−) Amortização", P.map(a => a.ano === 2025 ? null : -a.amort)) +
+      fmtRow("(+) Captação (revolver)", P.map(a => a.ano === 2025 ? null : a.draw)) +
+      fmtRow("(−) Dividendos", P.map(a => a.ano === 2025 ? null : -a.dividendos)) +
+      fmtRow("(=) Fluxo de financiamento", P.map(a => a.fcf), "tot") +
+      fmtRow("(=) Variação de caixa", P.map((a, i) => a.ano === 2025 ? null : a.caixa - P[i - 1].caixa), "tot") +
+      fmtRow("Caixa final", P.map(a => a.caixa), "sub") +
+      "</tbody>";
+
+    /* ---- checks ---- */
+    const proj = P.slice(1);
+    const cBal = proj.every(a => V.near(a.ativo, a.passivoPl, 0.02));
+    const cCx = proj.every((a, i) => V.near(a.caixa, P[i].caixa + a.fco + a.fci + a.fcf, 0.02));
+    const cPl = proj.every((a, i) => V.near(a.pl, P[i].pl + a.ll - a.dividendos, 0.02));
+    const cDiv = proj.every((a, i) => V.near(a.divida, P[i].divida - a.amort + a.draw, 0.02));
+    const cImob = proj.every((a, i) => V.near(a.imob, P[i].imob + a.capex + a.da, 0.02));
+    const cBase = V.near(anos[0].ativo, anos[0].passivoPl, 0.02);
+    V.renderChecks(document.getElementById("checks"), [
+      { name: "Balanço de abertura 2025 fecha (A = P + PL)", pass: cBase, num: F.mm(anos[0].ativo) + " = " + F.mm(anos[0].passivoPl) },
+      { name: "Ativo = Passivo + PL em todos os anos projetados", pass: cBal, num: cBal ? "5/5 anos" : "falha" },
+      { name: "Reconciliação de caixa (final = inicial + FCO + FCI + FCF)", pass: cCx, num: cCx ? "5/5 anos" : "falha" },
+      { name: "Rollforward do PL (PL final = PL inicial + lucro − dividendos)", pass: cPl, num: cPl ? "5/5 anos" : "falha" },
+      { name: "Rollforward da dívida (final = inicial − amortização + captação)", pass: cDiv, num: cDiv ? "5/5 anos" : "falha" },
+      { name: "Rollforward do imobilizado (final = inicial + CAPEX − depreciação)", pass: cImob, num: cImob ? "5/5 anos" : "falha" },
+    ]);
+  }
+
+  document.querySelectorAll(".controls input").forEach(i => i.addEventListener("input", render));
+  render();
+})();
+</script>
+</body>
+</html>

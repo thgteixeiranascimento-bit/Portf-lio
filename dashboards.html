@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboards Executivos — Finanças Corporativas &amp; FP&amp;A</title>
+<meta name="description" content="Dashboards CFO, FP&A, capital de giro e liquidez — cada painel declara o problema de negócio que resolve.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="dash" data-root="">
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Business intelligence</div>
+    <h1>Dashboards executivos</h1>
+    <p class="lead">
+      Quatro visões sobre o mesmo dataset da <strong>Aurora Industrial S.A. (empresa fictícia)</strong> —
+      acumulado janeiro–julho/2026. Design orientado a decisão: cada painel abre declarando
+      <strong>qual problema de negócio resolve</strong>, e todo número é rastreável ao dataset central.
+    </p>
+    <div class="tags">
+      <span class="tag sim">Simulação — estudo de caso fictício</span>
+    </div>
+  </section>
+
+  <div class="tabs" id="tabs">
+    <button data-t="cfo" class="on">CFO / Executivo</button>
+    <button data-t="fpa">FP&amp;A</button>
+    <button data-t="wc">Capital de giro</button>
+    <button data-t="liq">Liquidez</button>
+  </div>
+
+  <!-- ===================== CFO ===================== -->
+  <section class="tabpane on" id="pane-cfo">
+    <div class="banner"><span>🎯</span><div><b>Problema que este painel resolve:</b>
+      dar à diretoria, em uma tela, a resposta às três perguntas da reunião mensal — estamos entregando o
+      resultado? o caixa está protegido? a alavancagem está sob controle?</div></div>
+    <div class="tiles" id="cfoTiles"></div>
+    <figure class="chart" id="cfoRev"></figure>
+    <div class="grid c2">
+      <figure class="chart" id="cfoPonte"></figure>
+      <figure class="chart" id="cfoCaixa"></figure>
+    </div>
+  </section>
+
+  <!-- ===================== FP&A ===================== -->
+  <section class="tabpane" id="pane-fpa">
+    <div class="banner"><span>🎯</span><div><b>Problema que este painel resolve:</b>
+      transformar o fechamento mensal em agenda de ação — onde o desvio está, qual driver o explica
+      e que precisão o processo de forecast vem entregando.</div></div>
+    <div class="tiles" id="fpaTiles"></div>
+    <figure class="chart" id="fpaVar"></figure>
+    <div class="grid c2">
+      <figure class="chart" id="fpaPonte"></figure>
+      <figure class="chart" id="fpaMg"></figure>
+    </div>
+  </section>
+
+  <!-- ===================== Working capital ===================== -->
+  <section class="tabpane" id="pane-wc">
+    <div class="banner"><span>🎯</span><div><b>Problema que este painel resolve:</b>
+      mostrar quanto caixa a operação está prendendo em prazos, qual componente está piorando e o
+      tamanho do prêmio de reverter a tendência — a ponte entre o operacional e a tesouraria.</div></div>
+    <div class="tiles" id="wcTiles"></div>
+    <figure class="chart" id="wcCcc"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="wcAging"></table></div>
+  </section>
+
+  <!-- ===================== Liquidez ===================== -->
+  <section class="tabpane" id="pane-liq">
+    <div class="banner"><span>🎯</span><div><b>Problema que este painel resolve:</b>
+      antecipar o risco de liquidez — trajetória do caixa, perfil de vencimento da dívida e a folga
+      contra o caixa mínimo de política — antes que o problema chegue à tesouraria.</div></div>
+    <div class="tiles" id="liqTiles"></div>
+    <div class="grid c2">
+      <figure class="chart" id="liqCaixa"></figure>
+      <figure class="chart" id="liqAmort"></figure>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Governança dos painéis</h2>
+    <p>
+      Todos os números derivam do dataset central versionado (<code>assets/js/data.js</code>) — mesma origem dos
+      simuladores, sem cópias manuais. Parâmetros complementares exibidos aqui (headcount, CAPEX, aging,
+      cronograma de dívida) são <span class="tag sim">dado simulado</span> declarados no código da página.
+      Rastreabilidade completa na <a href="metodologia.html">metodologia</a>.
+    </p>
+  </section>
+
+</main>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const D = window.DATA, V = window.Viz, F = V.F;
+  const N = D.real2026.mesesFechados;
+  const meses = D.MESES.slice(0, N);
+
+  /* dados complementares do painel (DADO SIMULADO) */
+  const EXTRA = {
+    headcountPlano: 1240, headcountReal: 1262,
+    capexOrcYtd: 28.0, capexRealYtd: 24.1,
+    aging: [["Em dia", 0.78], ["1–30 dias", 0.12], ["31–60 dias", 0.06], ["> 60 dias", 0.04]],
+    amortAnos: [["2026 (2º sem.)", 20], ["2027", 60], ["2028", 60], ["2029", 50], ["2030", 50]],
+  };
+
+  const budRev = D.ytd(D.orc2026.receitaMes), actRev = D.ytd(D.real2026.receitaMes);
+  const budEb = D.ytd(D.orc2026.ebitdaMes), actEb = D.ytd(D.real2026.ebitdaMes);
+  const caixa = D.real2026.caixaFimMes[N - 1];
+  const nd = D.bal2025.divida - caixa;
+  const ebAnualizado = actEb / N * 12;
+
+  function tile(lbl, val_, sub, delta, up) {
+    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val">${val_}</div>
+      ${delta != null ? `<div class="delta ${up ? "up" : "down"}">${delta}</div>` : ""}
+      ${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  }
+
+  /* ============ CFO ============ */
+  document.getElementById("cfoTiles").innerHTML =
+    `<div class="tile" style="grid-column:span 2"><div class="lbl">EBITDA acumulado Jan–Jul/26</div>
+      <div class="hero-num">${F.mm(actEb)}</div>
+      <div class="delta down">${F.smm(actEb - budEb)} vs. orçado (${F.spc(actEb / budEb - 1)})</div>
+      <div class="sub">R$ milhões · margem ${F.pc(actEb / actRev)}</div></div>` +
+    tile("Receita YTD", F.mm(actRev), "orçado " + F.mm(budRev), F.spc(actRev / budRev - 1), actRev >= budRev) +
+    tile("Caixa", F.mm(caixa), "fim de julho/26") +
+    tile("Dívida líquida", F.mm(nd), "dívida bruta " + F.mm(D.bal2025.divida)) +
+    tile("Dívida líq. / EBITDA", F.x2(nd / ebAnualizado) + "×", "EBITDA anualizado");
+
+  V.line(document.getElementById("cfoRev"), {
+    title: "Receita mensal — Real × Orçado (R$ mm)",
+    labels: meses,
+    series: [
+      { name: "Real", values: D.real2026.receitaMes, color: "s1", kind: "line" },
+      { name: "Orçado", values: D.orc2026.receitaMes.slice(0, N), color: "s2", kind: "line" },
+    ],
+    yZero: false,
+  });
+
+  // ponte compacta de EBITDA (mesma decomposição do simulador de orçamento)
+  const L = D.pvm.linhas, S = D.pvm.servicos;
+  const Vb = L.reduce((a, l) => a + l.budVol, 0), Va = L.reduce((a, l) => a + l.actVol, 0);
+  const pbBar = L.reduce((a, l) => a + l.budVol * l.budPreco, 0) / Vb;
+  const varVolume = (Va - Vb) * pbBar;
+  const varMix = L.reduce((a, l) => a + (l.actVol - Va * (l.budVol / Vb)) * l.budPreco, 0);
+  const varPreco = L.reduce((a, l) => a + (l.actPreco - l.budPreco) * l.actVol, 0);
+  V.waterfall(document.getElementById("cfoPonte"), {
+    title: "Ponte de EBITDA YTD (R$ mm)",
+    sub: "Orçado → real · detalhe no simulador de orçamento",
+    items: [
+      { l: "Orçado", v: budEb, k: "start" },
+      { l: "Preço", v: varPreco, k: "d" },
+      { l: "Volume e mix", v: (varVolume + varMix) * D.pvm.mcEquipamentos, k: "d" },
+      { l: "Serviços", v: (S.act - S.bud) * D.pvm.mcServicos, k: "d" },
+      { l: "Custos", v: D.pvm.custosVariaveis + D.pvm.pessoal + D.pvm.outrasDespesas, k: "d" },
+      { l: "Real", v: actEb, k: "end" },
+    ],
+    height: 240,
+  });
+  V.line(document.getElementById("cfoCaixa"), {
+    title: "Caixa ao fim do mês (R$ mm)",
+    sub: "Saldo realizado · dado simulado",
+    labels: meses,
+    series: [{ name: "Caixa", values: D.real2026.caixaFimMes, color: "s1", kind: "line" }],
+    height: 240,
+  });
+
+  /* ============ FP&A ============ */
+  const errosPct = D.real2026.receitaMes.map((r, i) => (r - D.orc2026.receitaMes[i]) / D.orc2026.receitaMes[i]);
+  const mape = errosPct.reduce((a, e) => a + Math.abs(e), 0) / N;
+  const bias = errosPct.reduce((a, e) => a + e, 0) / N;
+  document.getElementById("fpaTiles").innerHTML =
+    tile("Variação de receita YTD", F.spc(actRev / budRev - 1), F.smm(actRev - budRev) + " vs. orçado", null, actRev >= budRev) +
+    tile("Variação de EBITDA YTD", F.spc(actEb / budEb - 1), F.smm(actEb - budEb) + " vs. orçado", null, actEb >= budEb) +
+    tile("Acurácia do plano (receita)", F.pc(1 - mape), "1 − erro absoluto médio mensal") +
+    tile("Viés do plano", F.spc(bias), bias < 0 ? "orçamento otimista vs. realizado" : "orçamento conservador", null, bias >= 0) +
+    tile("Headcount", F.mm0(EXTRA.headcountReal), "plano: " + F.mm0(EXTRA.headcountPlano), F.mm0(EXTRA.headcountReal - EXTRA.headcountPlano) + " pessoas", false) +
+    tile("CAPEX YTD", F.mm(EXTRA.capexRealYtd), "orçado " + F.mm(EXTRA.capexOrcYtd), F.smm(EXTRA.capexRealYtd - EXTRA.capexOrcYtd), true);
+
+  V.bars(document.getElementById("fpaVar"), {
+    title: "Desvio mensal de receita vs. orçado (R$ mm)",
+    sub: "Barras abaixo de zero = mês abaixo do plano",
+    labels: meses,
+    series: [{ name: "Δ receita", values: D.real2026.receitaMes.map((r, i) => r - D.orc2026.receitaMes[i]), color: "s1" }],
+  });
+  V.waterfall(document.getElementById("fpaPonte"), {
+    title: "Ponte de receita YTD (R$ mm)",
+    sub: "Decomposição preço × volume × mix",
+    items: [
+      { l: "Orçado", v: budRev, k: "start" },
+      { l: "Volume", v: varVolume, k: "d" },
+      { l: "Mix", v: varMix, k: "d" },
+      { l: "Preço", v: varPreco, k: "d" },
+      { l: "Serviços", v: S.act - S.bud, k: "d" },
+      { l: "Real", v: actRev, k: "end" },
+    ],
+    height: 240,
+  });
+  V.line(document.getElementById("fpaMg"), {
+    title: "Margem EBITDA mensal — Real × Orçado",
+    labels: meses,
+    series: [
+      { name: "Real", values: D.real2026.ebitdaMes.map((e, i) => e / D.real2026.receitaMes[i]), color: "s1", kind: "line" },
+      { name: "Orçado", values: meses.map(() => D.orc2026.margemEbitda), color: "s2", kind: "line", dash: true },
+    ],
+    fmt: F.pc, yZero: false, height: 240,
+  });
+
+  /* ============ Working capital ============ */
+  const cccArr = D.real2026.dso.map((v, i) => v + D.real2026.dio[i] - D.real2026.dpo[i]);
+  const REV_REF = 1090.0;
+  document.getElementById("wcTiles").innerHTML =
+    tile("Ciclo de conversão de caixa", cccArr[N - 1] + " dias", "janeiro: " + cccArr[0] + " dias", "+" + (cccArr[N - 1] - cccArr[0]) + " dias no ano", false) +
+    tile("DSO", D.real2026.dso[N - 1] + " d", "recebimento") +
+    tile("DIO", D.real2026.dio[N - 1] + " d", "estoque") +
+    tile("DPO", D.real2026.dpo[N - 1] + " d", "pagamento") +
+    tile("Caixa preso vs. janeiro", F.mm(REV_REF * (cccArr[N - 1] - cccArr[0]) / 365), "≈ (Δ CCC ÷ 365) × receita anual de referência");
+
+  V.line(document.getElementById("wcCcc"), {
+    title: "Prazos e ciclo de caixa (dias) — Jan–Jul/26",
+    labels: meses,
+    series: [
+      { name: "CCC", values: cccArr, color: "s1", kind: "line" },
+      { name: "DSO", values: D.real2026.dso, color: "s2", kind: "line" },
+      { name: "DIO", values: D.real2026.dio, color: "s3", kind: "line" },
+      { name: "DPO", values: D.real2026.dpo, color: "s4", kind: "line" },
+    ],
+    fmt: v => F.mm0(v) + " d", yZero: false,
+  });
+  const crAtual = REV_REF * D.real2026.dso[N - 1] / 365;
+  document.getElementById("wcAging").innerHTML = `
+    <caption>Aging de contas a receber — julho/26 (dado simulado) · saldo ≈ ${F.mm(crAtual)}</caption>
+    <thead><tr><th>Faixa</th><th>% do saldo</th><th>R$ mm</th><th>Leitura</th></tr></thead><tbody>
+    ${EXTRA.aging.map(([f, p], i) => `<tr><td>${f}</td><td>${F.pc0(p)}</td><td>${F.mm(crAtual * p)}</td>
+      <td style="white-space:normal">${["saudável", "acompanhar", "cobrança ativa", "risco de perda — provisionar"][i]}</td></tr>`).join("")}
+    </tbody>`;
+
+  /* ============ Liquidez ============ */
+  const jurosAno = D.bal2025.divida * D.premissas.custoDivida;
+  document.getElementById("liqTiles").innerHTML =
+    tile("Caixa disponível", F.mm(caixa), "fim de julho/26") +
+    tile("Dívida bruta", F.mm(D.bal2025.divida), "líquida: " + F.mm(nd)) +
+    tile("Cobertura de juros", F.x2(ebAnualizado / jurosAno) + "×", "EBITDA anualizado ÷ juros") +
+    tile("Vencimentos em 12 meses", F.mm(EXTRA.amortAnos[0][1] + EXTRA.amortAnos[1][1] / 2), "cronograma simulado") +
+    tile("Caixa ÷ vencimentos 12m", F.x2(caixa / (EXTRA.amortAnos[0][1] + EXTRA.amortAnos[1][1] / 2)) + "×", "folga sobre o serviço da dívida");
+
+  V.line(document.getElementById("liqCaixa"), {
+    title: "Caixa realizado (R$ mm)",
+    sub: "Jan–Jul/26 · projeções no simulador de fluxo de caixa",
+    labels: meses,
+    series: [{ name: "Caixa", values: D.real2026.caixaFimMes, color: "s1", kind: "line" }],
+    height: 250,
+  });
+  V.bars(document.getElementById("liqAmort"), {
+    title: "Cronograma de amortização da dívida (R$ mm)",
+    sub: "Dado simulado · total = " + F.mm(EXTRA.amortAnos.reduce((a, x) => a + x[1], 0)),
+    labels: EXTRA.amortAnos.map(x => x[0]),
+    series: [{ name: "Amortização", values: EXTRA.amortAnos.map(x => x[1]), color: "s1" }],
+    height: 250,
+  });
+
+  /* ============ tabs ============ */
+  document.querySelectorAll("#tabs button").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#tabs button").forEach(x => x.classList.remove("on"));
+      document.querySelectorAll(".tabpane").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      document.getElementById("pane-" + b.dataset.t).classList.add("on");
+      // re-render dos gráficos do painel exibido (largura era 0 enquanto oculto)
+      document.querySelectorAll("#pane-" + b.dataset.t + " figure.chart").forEach(f => f._vizDraw && f._vizDraw());
+    });
+  });
+})();
+</script>
+</body>
+</html>

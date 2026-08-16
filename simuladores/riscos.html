@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestão de Riscos — Heatmap e Stress Testing</title>
+<meta name="description" content="Mapa de riscos probabilidade × impacto, stress testing combinado sobre EBITDA e caixa, e teste de covenant de alavancagem.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+  table.riskmap { border-collapse: separate; border-spacing: 3px; width: 100%; max-width: 640px; }
+  table.riskmap th { color: var(--muted); font-weight: 600; font-size: .74rem; padding: 4px; text-align: center; }
+  table.riskmap td { height: 64px; border-radius: 8px; text-align: center; vertical-align: middle; font-weight: 700; font-size: .82rem; }
+  table.riskmap td .dot { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); margin: 1px; font-size: .74rem; color: var(--ink); }
+  .risk-leg { display: flex; gap: 16px; flex-wrap: wrap; font-size: .8rem; color: var(--ink-2); margin: 10px 0; }
+  .risk-leg span { display: inline-flex; align-items: center; gap: 6px; }
+  .risk-leg i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+</style>
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Gestão de riscos · 9 de 10</div>
+    <h1>Riscos financeiros — mapa e stress testing</h1>
+    <p class="lead">
+      Registro estruturado dos riscos da <strong>Aurora Industrial S.A. (empresa fictícia)</strong>,
+      mapa probabilidade × impacto e um <strong>teste de estresse combinado</strong> que traduz choques de
+      demanda, custo, câmbio, juros e prazo em efeito sobre EBITDA, caixa e covenant de alavancagem.
+    </p>
+    <div class="tags">
+      <span class="tag sim">Simulação — estudo de caso fictício</span>
+      <span class="tag prem">Choques ajustáveis</span>
+    </div>
+    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
+      Priorizar a agenda de mitigação pelos riscos de maior exposição e dimensionar o colchão de liquidez
+      e a folga de covenant necessários para atravessar o cenário severo.</div></div>
+  </section>
+
+  <section class="blk">
+    <h2>Mapa de riscos — probabilidade × impacto</h2>
+    <p><span class="tag prem">Premissa</span> — classificação qualitativa (1–5) atribuída no cenário simulado. Cada número no mapa identifica um risco do registro abaixo.</p>
+    <div class="risk-leg">
+      <span><i style="background:var(--ok)"></i>✔ Baixa (1–4)</span>
+      <span><i style="background:var(--warn)"></i>⚠ Moderada (5–9)</span>
+      <span><i style="background:var(--serious)"></i>▲ Alta (10–14)</span>
+      <span><i style="background:var(--bad)"></i>✖ Crítica (15–25)</span>
+    </div>
+    <div class="tbl-scroll" style="border:0;background:none"><table class="riskmap" id="mapa"></table></div>
+    <div class="tbl-scroll"><table class="tbl" id="tbRiscos"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2>Stress testing combinado</h2>
+    <div class="controls">
+      <div class="head">
+        <span class="t">Choques simultâneos sobre o ano de referência</span>
+        <span class="seg" id="segCen">
+          <button data-c="leve" >Leve</button>
+          <button data-c="severo" class="on">Severo</button>
+          <button data-c="extremo">Extremo</button>
+        </span>
+      </div>
+      <div class="row">
+        <div class="ctrl"><label>Queda de receita <output id="oRev"></output></label><input type="range" id="iRev" min="0" max="30" step="1"></div>
+        <div class="ctrl"><label>Custo variável adicional (p.p. da receita) <output id="oCst"></output></label><input type="range" id="iCst" min="0" max="6" step="0.5"></div>
+        <div class="ctrl"><label>Desvalorização cambial <output id="oFx"></output></label><input type="range" id="iFx" min="0" max="40" step="5"></div>
+        <div class="ctrl"><label>Alta de juros (b.p.) <output id="oJur"></output></label><input type="range" id="iJur" min="0" max="600" step="50"></div>
+        <div class="ctrl"><label>Alongamento do DSO <output id="oDso"></output></label><input type="range" id="iDso" min="0" max="25" step="1"></div>
+      </div>
+      <p style="margin:12px 0 0;font-size:.8rem" class="c-sub">
+        <span class="tag prem">Premissa</span> ano de referência = realizado Jan–Jul/26 + orçamento Ago–Dez a margem de 18%;
+        queda de receita flui à margem de contribuição de 36%; 30% dos custos variáveis (55% da receita) expostos a câmbio;
+        juros sobre dívida bruta de R$ 240 mm; covenant simulado: dívida líquida / EBITDA ≤ 2,5×.
+      </p>
+    </div>
+    <div class="tiles" id="tiles"></div>
+    <div class="banner" id="veredito"></div>
+    <figure class="chart" id="chPonte"></figure>
+  </section>
+
+  <section class="blk">
+    <h2>Checks de integridade</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <h2>Documentação do estudo</h2>
+    <details class="doc">
+      <summary>Ficha padrão do estudo (contexto → validação)</summary>
+      <div class="inner">
+        <h4>1. Contexto</h4><p>Empresa industrial alavancada (dívida líquida ≈ 0,9× EBITDA no cenário simulado), exposta a demanda cíclica, câmbio em insumos e concentração de clientes.</p>
+        <h4>2. Problema</h4><p>Quais riscos priorizar, e se a estrutura de capital e o caixa suportam um cenário severo sem quebrar covenant.</p>
+        <h4>3. Dados</h4><p>DADO SIMULADO — registro de riscos e classificações construídos para o estudo; ano de referência derivado do dataset central.</p>
+        <h4>4. Fontes</h4><p>Estrutura de registro (probabilidade, impacto, indicador, mitigação, dono, horizonte) segue prática padrão de gestão de riscos corporativos. Números fictícios.</p>
+        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — margem de contribuição 36%, exposição cambial de 30% dos custos variáveis, covenant 2,5×, classificações do mapa.</p>
+        <h4>6. Metodologia</h4><p>Exposição = probabilidade × impacto; stress aditivo com choques simultâneos sobre EBITDA e caixa; covenant recalculado no cenário estressado.</p>
+        <h4>7. Modelo</h4><p>JavaScript no navegador; inputs → cálculos → outputs → checks.</p>
+        <h4>8. Cenários</h4><p>Presets Leve, Severo e Extremo + ajuste livre de cada choque.</p>
+        <h4>9. Resultado</h4><p>Valores estimados pelo modelo sob as premissas adotadas.</p>
+        <h4>10. Insights</h4><p>No cenário simulado, o covenant rompe antes de o caixa acabar — o risco relevante é contratual, não de solvência imediata; demanda e câmbio dominam a perda de EBITDA.</p>
+        <h4>11. Impacto potencial</h4><p>Dimensiona colchão de liquidez e waiver preventivo com números, e ordena a agenda de mitigação por exposição.</p>
+        <h4>12. Limitações</h4><p>Dados fictícios; choques lineares e sem correlação modelada entre si; classificação qualitativa do mapa; não é um VaR nem um modelo probabilístico.</p>
+        <h4>13. Validação</h4><p>Checks aritméticos automáticos aprovados. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; dados de entrada simulados.</p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const D = window.DATA, V = window.Viz, F = V.F;
+
+  /* ---------- registro de riscos (DADO SIMULADO / PREMISSA) ---------- */
+  const RISCOS = [
+    { id: 1, nome: "Queda de demanda industrial", p: 4, i: 4, ind: "Carteira de pedidos < 2,0× faturamento mensal", mit: "Diversificação setorial e funil comercial ampliado", dono: "Comercial", hz: "6–12 meses" },
+    { id: 2, nome: "Câmbio sobre insumos importados", p: 3, i: 3, ind: "Desvalorização > 10% em 3 meses", mit: "Hedge cambial de 50–70% da exposição de 6 meses", dono: "Tesouraria", hz: "0–6 meses" },
+    { id: 3, nome: "Refinanciamento da dívida", p: 2, i: 4, ind: "Vencimentos 12m > caixa + geração projetada", mit: "Alongamento antecipado e diversificação de credores", dono: "Tesouraria", hz: "12–24 meses" },
+    { id: 4, nome: "Concentração de clientes (top 5 ≈ 38% da receita)", p: 3, i: 4, ind: "Cliente > 12% da receita ou churn de conta-chave", mit: "Contratos plurianuais e expansão de base", dono: "Comercial", hz: "12+ meses" },
+    { id: 5, nome: "Inadimplência", p: 3, i: 3, ind: "PDD > 2,5% da receita por 2 meses", mit: "Política de crédito e garantias reforçadas", dono: "Crédito & cobrança", hz: "0–6 meses" },
+    { id: 6, nome: "Ruptura de componente crítico", p: 2, i: 5, ind: "Fornecedor único com lead time > 60 dias", mit: "Duplo sourcing e estoque de segurança dedicado", dono: "Suprimentos", hz: "0–12 meses" },
+    { id: 7, nome: "Deterioração do capital de giro", p: 4, i: 3, ind: "CCC > 90 dias", mit: "Metas de prazo por área (ver simulador de capital de giro)", dono: "FP&A / Operações", hz: "0–6 meses" },
+    { id: 8, nome: "Indisponibilidade do ERP / incidente cibernético", p: 2, i: 4, ind: "RTO testado > 24h", mit: "Backups isolados e plano de continuidade testado", dono: "TI", hz: "contínuo" },
+  ];
+  function sevClass(e) { return e <= 4 ? ["var(--ok)", "✔ Baixa"] : e <= 9 ? ["var(--warn)", "⚠ Moderada"] : e <= 14 ? ["var(--serious)", "▲ Alta"] : ["var(--bad)", "✖ Crítica"]; }
+
+  /* mapa 5×5 */
+  (function () {
+    let html = `<thead><tr><th>Impacto ↓ / Probabilidade →</th>${[1, 2, 3, 4, 5].map(p => `<th>${p}</th>`).join("")}</tr></thead><tbody>`;
+    for (let imp = 5; imp >= 1; imp--) {
+      html += `<tr><th>${imp}</th>`;
+      for (let p = 1; p <= 5; p++) {
+        const e = p * imp;
+        const [cor] = sevClass(e);
+        const aqui = RISCOS.filter(r => r.p === p && r.i === imp);
+        html += `<td style="background:color-mix(in srgb, ${cor} 30%, var(--surface))">${aqui.map(r => `<span class="dot" title="${r.nome}">${r.id}</span>`).join("")}</td>`;
+      }
+      html += "</tr>";
+    }
+    html += "</tbody>";
+    document.getElementById("mapa").innerHTML = html;
+
+    let t = `<caption>Registro de riscos (dado simulado)</caption>
+      <thead><tr><th>#</th><th>Risco</th><th>Prob.</th><th>Impacto</th><th>Exposição</th><th>Severidade</th><th>Indicador de alerta</th><th>Mitigação</th><th>Responsável</th><th>Horizonte</th></tr></thead><tbody>`;
+    RISCOS.slice().sort((a, b) => b.p * b.i - a.p * a.i).forEach(r => {
+      const e = r.p * r.i, [cor, lab] = sevClass(e);
+      t += `<tr><td>${r.id}</td><td style="white-space:normal;min-width:180px">${r.nome}</td><td>${r.p}</td><td>${r.i}</td><td>${e}</td>
+        <td style="color:${cor};font-weight:700;white-space:nowrap">${lab}</td>
+        <td style="white-space:normal;min-width:200px">${r.ind}</td><td style="white-space:normal;min-width:220px">${r.mit}</td><td>${r.dono}</td><td>${r.hz}</td></tr>`;
+    });
+    t += "</tbody>";
+    document.getElementById("tbRiscos").innerHTML = t;
+  })();
+
+  /* ---------- stress testing ---------- */
+  const N = D.real2026.mesesFechados;
+  const REV_BASE = D.ytd(D.real2026.receitaMes) + D.soma(D.orc2026.receitaMes.slice(N));
+  const EB_BASE = D.ytd(D.real2026.ebitdaMes) + D.soma(D.orc2026.receitaMes.slice(N)) * 0.18; // PREMISSA margem 18% no restante
+  const DIVIDA = D.bal2025.divida, CAIXA = D.real2026.caixaFimMes[N - 1];
+  const MC = 0.36, CV_PCT = 0.55, FX_PESO = 0.30, COVENANT = 2.5;
+
+  const PRESETS = {
+    leve: { rev: 5, cst: 1, fx: 5, jur: 100, dso: 5 },
+    severo: { rev: 15, cst: 2.5, fx: 20, jur: 300, dso: 12 },
+    extremo: { rev: 25, cst: 4, fx: 35, jur: 500, dso: 20 },
+  };
+  const ids = { rev: "iRev", cst: "iCst", fx: "iFx", jur: "iJur", dso: "iDso" };
+  function setP(p) { for (const k in ids) document.getElementById(ids[k]).value = p[k]; }
+  function getP() { const p = {}; for (const k in ids) p[k] = +document.getElementById(ids[k]).value; return p; }
+  function tile(lbl, val_, sub, cls) {
+    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val" ${cls ? `style="color:var(--${cls})"` : ""}>${val_}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  }
+
+  function render() {
+    const p = getP();
+    document.getElementById("oRev").textContent = "−" + p.rev + "%";
+    document.getElementById("oCst").textContent = "+" + p.cst.toFixed(1) + " p.p.";
+    document.getElementById("oFx").textContent = "+" + p.fx + "%";
+    document.getElementById("oJur").textContent = "+" + p.jur + " b.p.";
+    document.getElementById("oDso").textContent = "+" + p.dso + " dias";
+
+    const revStress = REV_BASE * (1 - p.rev / 100);
+    const efDemanda = -(REV_BASE * p.rev / 100) * MC;
+    const efCusto = -(revStress * p.cst / 100);
+    const efFx = -(revStress * CV_PCT * FX_PESO * p.fx / 100);
+    const ebStress = EB_BASE + efDemanda + efCusto + efFx;
+    const efJuros = -(DIVIDA * p.jur / 10000);
+    const efDsoCaixa = -(revStress * p.dso / 365);
+    const caixaStress = CAIXA + efDsoCaixa + efJuros;
+    const ndBase = DIVIDA - CAIXA, ndStress = DIVIDA - caixaStress;
+    const covBase = ndBase / EB_BASE, covStress = ndStress / Math.max(1e-6, ebStress);
+    const rompe = covStress > COVENANT || ebStress <= 0;
+
+    document.getElementById("tiles").innerHTML =
+      tile("EBITDA de referência", F.mm(EB_BASE), "ano de referência (simulado)") +
+      tile("EBITDA estressado", F.mm(ebStress), F.spc(ebStress / EB_BASE - 1) + " vs. referência", ebStress < EB_BASE * 0.7 ? "bad" : undefined) +
+      tile("Caixa após choques", F.mm(caixaStress), "efeito DSO " + F.smm(efDsoCaixa) + " · juros " + F.smm(efJuros), caixaStress < 40 ? "bad" : undefined) +
+      tile("Dívida líq. / EBITDA — base", F.x2(covBase) + "×", "limite simulado: " + COVENANT.toFixed(1) + "×") +
+      tile("Dívida líq. / EBITDA — stress", ebStress > 0 ? F.x2(covStress) + "×" : "n/a", rompe ? "acima do limite" : "dentro do limite", rompe ? "bad" : "ok-text");
+
+    const ver = document.getElementById("veredito");
+    if (!rompe && caixaStress > 40) {
+      ver.innerHTML = `<span>✅</span><div><b>Leitura simulada: a estrutura atravessa o cenário.</b>
+        Covenant preservado (${F.x2(covStress)}× ≤ ${COVENANT.toFixed(1)}×) e caixa acima do mínimo de referência.</div>`;
+    } else if (!rompe) {
+      ver.innerHTML = `<span>⚠️</span><div><b>Leitura simulada: covenant preservado, mas liquidez apertada.</b>
+        Caixa estressado de ${F.mm(caixaStress)} — recomenda-se colchão adicional (linha compromissada ou alongamento).</div>`;
+    } else {
+      ver.innerHTML = `<span>❌</span><div><b>Leitura simulada: o cenário rompe o covenant de ${COVENANT.toFixed(1)}×.</b>
+        Alavancagem estressada de ${ebStress > 0 ? F.x2(covStress) + "×" : "EBITDA ≤ 0"} — agenda: waiver preventivo,
+        redução de dívida bruta e mitigação dos choques de demanda/câmbio antes que o cenário se materialize.</div>`;
+    }
+
+    V.waterfall(document.getElementById("chPonte"), {
+      title: "Ponte de EBITDA — referência → estressado (R$ mm)",
+      sub: "Choques simultâneos · azul = favorável, vermelho = desfavorável",
+      items: [
+        { l: "EBITDA referência", v: EB_BASE, k: "start" },
+        { l: "Demanda", v: efDemanda, k: "d" },
+        { l: "Custo variável", v: efCusto, k: "d" },
+        { l: "Câmbio", v: efFx, k: "d" },
+        { l: "EBITDA estressado", v: ebStress, k: "end" },
+      ],
+    });
+
+    const cPonte = V.near(EB_BASE + efDemanda + efCusto + efFx, ebStress, 0.02);
+    const cCov = ebStress > 0 ? V.near(covStress, ndStress / ebStress, 0.001) : true;
+    const cNd = V.near(ndStress, DIVIDA - caixaStress, 0.01);
+    const cSev = RISCOS.every(r => r.p >= 1 && r.p <= 5 && r.i >= 1 && r.i <= 5);
+    V.renderChecks(document.getElementById("checks"), [
+      { name: "Ponte de stress soma o EBITDA estressado", pass: cPonte, num: F.mm(ebStress) },
+      { name: "Covenant = dívida líquida ÷ EBITDA (recalculado)", pass: cCov, num: ebStress > 0 ? F.x2(covStress) + "×" : "n/a" },
+      { name: "Dívida líquida estressada = dívida − caixa estressado", pass: cNd, num: F.mm(ndStress) },
+      { name: "Classificações do mapa dentro da escala 1–5", pass: cSev, num: RISCOS.length + " riscos" },
+    ]);
+  }
+
+  document.querySelectorAll("#segCen button").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#segCen button").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      setP(PRESETS[b.dataset.c]);
+      render();
+    });
+  });
+  for (const k in ids) document.getElementById(ids[k]).addEventListener("input", render);
+  setP(PRESETS.severo);
+  render();
+})();
+</script>
+</body>
+</html>

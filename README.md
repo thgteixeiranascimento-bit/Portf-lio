@@ -58,7 +58,7 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra `
 ```
 /                       páginas do site (GitHub Pages serve a raiz)
 ├── index.html          home
-├── sobre.html          perfil (lacunas marcadas "DADO NÃO INFORMADO")
+├── sobre.html          perfil do titular e declaração de conflito de interesse
 ├── dashboards.html     5 dashboards executivos
 ├── kpis.html           biblioteca de KPIs bancários
 ├── metodologia.html    governança e protocolo de integridade
@@ -105,9 +105,6 @@ declarada.
 
 ## Personalização pendente (para o titular)
 
-- [x] ~~Preencher perfil em `sobre.html`~~ — publicado com nome, formação (PUC-Campinas), experiência
-      (EY 2024–2025, Agibank 2025–atual), LinkedIn e declaração de conflito de interesse;
-- [ ] Confirmar cargos, responsabilidades, datas exatas e certificações (hoje **DADO NÃO INFORMADO**);
 - [ ] Conferir os arquivos OCR contra os PDFs originais dos emissores;
 - [x] ~~Anexar documentos de Bradesco 2T26 e Agi 2T26~~ — recebidos e promovidos a nível 1;
 - [ ] Obter o **índice de capital consolidado do Nu Holdings** no painel de Conglomerados Prudenciais do

@@ -70,14 +70,29 @@ window.REAL = (function () {
     carteiraBi: 1090, carteiraYoY: 8.4,
     npl90: 4.2,
     cet1: 10.2, nivel1: 12.0, basileia: 14.9,
-    // 2T26 — RELATADO pelo titular a partir de divulgação pública; documento não anexado
+    /* --- 2T26: EXTRAÇÃO DOCUMENTAL (Relatório de Análise Econômica e Financeira 2T26) ---
+       Promovido de relato (nível 3) para nível 1 em 16/08/2026, com duas correções
+       relevantes em relação ao que havia sido relatado — ver metodologia, seção 5. */
     t2_26: {
-      relatado: true,
-      lucro: 7050, lucroYoY: 16.2, consensoLSEG: 6950,
+      relatado: false, nivel: 1,
+      lucroRecorrente: 7050, lucro1T26: 6811, lucro2T25: 6067, lucro1S26: 13861, lucro1S25: 11931,
+      lucroDeltaTt: 3.5, lucroDeltaAa: 16.2,
+      lucroContabil: 5030, // 1T26 contábil, após R$ 1.781 mm de eventos não recorrentes (PTI)
       roae: 16.2, roaeAnterior: 15.8,
-      carteiraBi: 1140, carteiraYoY: 11.6, guidance: "8,5% a 10,5% para 2026 (mantido)",
-      npl90: 4.3, pddDeltaTt: 22.6,
-      divulgacao: "4–5/08/2026",
+      receitasTotaisBi: 37.6, receitasDeltaTt: 2.1, receitasDeltaAa: 10.3,
+      margem: 20872, margemClientes: 20199, margemMercado: 673,
+      margem1T26: 20051, margemClientes1T26: 19498, margemMercado1T26: 553,
+      pddExp: 9985, pddDeltaTt: 3.3, pddDeltaAa: 22.6, // corrigido: 22,6% é a/a, não t/t
+      margemLiquida: 10887,
+      servicos: 10486, despOper: 16436, resultadoOper: 8929, irCs: 1734,
+      carteiraExpandida: 1136640, carteiraDeltaTt: 4.3, carteiraDeltaAa: 11.6, // R$ mm
+      guidance: "8,5% a 10,5% para 2026 (mantido)",
+      npl90: 4.3, npl90PF: 5.5,
+      ieo: 46.5,
+      cet1: 11.3, nivel1: 12.8, complementar: 1.5, nivel2: 2.7, // Basileia total = 15,5%
+      pr: 185665, plContabil: 175230,
+      seguros: { lucro1S26Bi: 5.7, lucro1S26DeltaAa: 20.4, roae1S26: 22.1, lucro2T26Bi: 2.9, lucro2T26DeltaAa: 28.3, roae2T26: 22.8 },
+      divulgacao: "2T26",
     },
   };
 
@@ -310,17 +325,43 @@ window.REAL = (function () {
 
     carteiraProdutoDF: { personal: 5953.924, payroll: 26566.337, payrollCard: 2433.616, creditCard: 12.030, outros: 90.922, exposicao: 35056.829, premio: 602.713, ajusteHedge: -161.024, loans: 35498.518 },
 
-    // 2T26 — RELATADO pelo titular a partir de divulgação pública; documento não anexado
+    /* --- 2T26: EXTRAÇÃO DOCUMENTAL (Earnings Release 2Q26 + DFs IFRS com revisão EY) ---
+       Promovido de relato (nível 3) para nível 1 em 16/08/2026. O relato anterior
+       não trazia ROAE, eficiência nem Basileia do trimestre — agora documentados. */
     t2_26: {
-      relatado: true,
-      lucro: 200.3, lucroDeltaTt: 7.4, lucroDeltaAa: -24.4,
-      receita: 3171.0, receitaDeltaAa: 26.3, receitaDeltaTt: 5.8,
-      carteira: 37075.8, carteiraDeltaAa: 21.2,
-      clientesMi: 7.6, clientesDeltaAa: 36.4,
-      npl90: 3.3, cobertura: 182.6,
-      pl: 4799.215, plDez25: 3173.608,
+      relatado: false, nivel: 1,
+      lucro: 200.3, lucroDeltaTt: 7.4, lucroDeltaAa: -24.4, lucro1S26: 386.8, lucro1S25: 621.3,
+      receita: 3171.0, receitaDeltaTt: 5.8, receitaDeltaAa: 26.3, receita1S26: 6167.6,
+      nii: 1300.9, niiDeltaTt: 2.5, niiDeltaAa: 10.9,
+      ebt: 115.0, ebtDeltaTt: -46.8, ebtDeltaAa: -68.7,
+      clientesMil: 7589.0, clientesDeltaTt: 7.3, clientesDeltaAa: 36.4,
+      carteira: 37075.8, carteiraDeltaTt: 4.4, carteiraDeltaAa: 21.2,
+      ativosRemun: 43998.6, pl: 4799.2,
+      roaeLTM: 21.6, nimLTM: 11.9, nimTri: 11.9, nimAposProv: 6.8,
+      eficienciaRec: 48.9, npl90: 3.3, cobertura: 182.6, custoRiscoLTM: 5.9,
+      basileia: 18.7, tier1: 17.6, re: 5250.6, rwa: 28035.8,
+      smartHubs: 1115, headcount: 5068,
+      // carteira por produto (R$ mm)
+      securedTotal: 32599.5, unsecuredTotal: 4476.3,
+      inss: 27154.4, privado: 1406.8, publico: 344.4, cartaoConsignado: 2490.1, fgts: 1203.8,
+      pessoal: 4431.2, cartaoCredito: 45.1,
+      payrollTotal: 28905.6,
+      provisao: 2226.7,
+      shareINSS: 9.60, shareINSSGanhoTri: 0.60,
+      originacaoBruta: 7100, originacaoLiquida: 2800, originacaoLiquidaDeltaTt: 15.0,
+      tarifas: 135.6, tarifasDeltaTt: 34.6,
+      // funding (R$ mm)
+      depositos: { vista: 566.2, cdb: 14788.1, dpge: 2332.2, lfCdi: 8336.1, colateralizadas: 12372.7, bonds: 1502.5, total: 39897.8 },
+      shareVarejo: 38.5, ldr: 92.9,
+      lcr: 731.9,
+      agiMais: { assinaturas: 250000, prazoDias: 45 },
+      ratings: "Fitch elevou de AA-(br) para AA(bra) em julho; Moody's Local de AA-.br para AA.br em junho",
       divulgacao: "05/08/2026",
     },
+
+    /* --- DFs IFRS 2T26 (R$ mm, de R$ mil; revisão limitada EY) --- */
+    balancoDF2T26: { ativos: 51109.048, passivos: 46309.833, pl: 4799.215, lucro2T26: 200.276, lucro1S26: 386.811, lucro2T25: 263.936, lucro1S25: 620.405 },
+    obsDivergencia2T26: "O release apresenta ativos de R$ 51.105,8 mm e passivos de R$ 46.306,6 mm; as DFs revisadas trazem R$ 51.109,048 mm e R$ 46.309,833 mm — diferença de R$ 3,2 mm no par ativo/passivo, com patrimônio idêntico. Ambos fecham A = P + PL internamente.",
 
     eclEstagios1T26: {
       exposicao: [32636.549, 1014.032, 1406.248], exposicaoTotal: 35056.829,
@@ -351,12 +392,12 @@ window.REAL = (function () {
       { id: "bradesco", nome: "Bradesco", ticker: "B3: BBDC4", moeda: "R$",
         precoMin: 16.66, precoMax: 17.47, precoNota: "faixa observada ao longo de agosto/2026",
         plMin: 7.3, plMax: 8.0, pvpaMin: 1.10, pvpaMax: 1.10, dyMin: 5.7, dyMax: 9.5,
-        roeRef: 16.2, roeNota: "ROAE 2T26 relatado",
+        roeRef: 16.2, roeNota: "ROAE 2T26 divulgado (nível 1)",
         divergencia: "Dividend yield de 5,7% a 9,5% para janelas praticamente idênticas — diferença de metodologia entre agregadores" },
       { id: "agi", nome: "Agi (Agibank)", ticker: "NYSE: AGBK", moeda: "US$",
         precoMin: 7.16, precoMax: 7.19, precoNota: "vs. US$ 12,00 do IPO (fev/2026)",
         plMin: 6.2, plMax: 29.7, pvpaMin: 1.05, pvpaMax: 1.05, dy: 0,
-        roeRef: 26.1, roeNota: "ROAE LTM 1T26 divulgado",
+        roeRef: 21.6, roeNota: "ROAE LTM 2T26 divulgado (nível 1)",
         divergencia: "P/L de 6,2× (sobre lucro projetado para 2026, citado em reportagem) a 29,7× (trailing, agregador) — bases de lucro diferentes; histórico curto de negociação desde a estreia em fevereiro" },
     ],
     avisoObrigatorio: "Preços e múltiplos de mercado são apresentados como contexto factual e como insumo de um exercício técnico de valuation. Não constituem recomendação, preço-alvo, opinião sobre valor justo ou sugestão de compra ou venda.",
@@ -382,8 +423,11 @@ window.REAL = (function () {
     nuRec4T25:      { doc: "Managerial P&L Reconciliation Report 4T25 e exercício de 2025 (asseguração limitada KPMG, ISAE 3000)", emissor: "Nu Holdings Ltd. / KPMG Auditores Independentes", data: "25/02/2026", nivel: 1, obs: "base da derivação do 3T25 gerencial por diferença" },
     agiRel1T26:     { doc: "Earnings Release 1Q26", emissor: "Agi Inc. (NYSE: AGBK) / Banco Agibank S.A.", data: "05/05/2026", nivel: 1 },
     agiDF1T26:      { doc: "Demonstrações financeiras intermediárias condensadas consolidadas 1T26 (IFRS, revisão limitada EY — ISRE 2410)", emissor: "AGI Inc / Ernst & Young Auditores Independentes", data: "05/05/2026", nivel: 1 },
-    bradesco2T26:   { doc: "Resultados 2T26 — números RELATADOS pelo titular a partir de divulgação pública (release e cobertura de mercado)", emissor: "Banco Bradesco S.A. (via relato)", data: "4–5/08/2026", nivel: 3, obs: "documento não anexado a esta análise — classificado como relato, não como extração documental; conferência pendente" },
-    agi2T26:        { doc: "Resultados 2T26 — números RELATADOS pelo titular a partir de divulgação pública", emissor: "Agi Inc. / Banco Agibank S.A. (via relato)", data: "05/08/2026", nivel: 3, obs: "documento não anexado — mesma ressalva de relato" },
+    bradesco2T26:   { doc: "Relatório de Análise Econômica e Financeira 2T26", emissor: "Banco Bradesco S.A.", data: "2T26", nivel: 1, obs: "promovido de relato para extração documental em 16/08/2026 — duas correções aplicadas (ver metodologia, seção 5)" },
+    bradescoIFRS1S26: { doc: "Demonstrações Financeiras Consolidadas em IFRS + Relatório da Administração 1S26", emissor: "Banco Bradesco S.A.", data: "30/06/2026", nivel: 1 },
+    agi2T26:        { doc: "Earnings Release 2Q26", emissor: "Agi Inc. (NYSE: AGBK) / Banco Agibank S.A.", data: "05/08/2026", nivel: 1, obs: "promovido de relato para extração documental em 16/08/2026 — ROAE LTM corrigido de 26,1% para 21,6%" },
+    agiDF2T26:      { doc: "Demonstrações financeiras intermediárias condensadas consolidadas 2T26 (IFRS, revisão limitada EY — ISRE 2410)", emissor: "AGI Inc / Ernst & Young Auditores Independentes", data: "30/06/2026", nivel: 1 },
+    agiPilar3:      { doc: "Relatório de Gerenciamento de Riscos — Pilar 3", emissor: "Banco Agibank S.A.", data: "2026", nivel: 1, obs: "recebido; capital regulatório e gestão de riscos" },
     mercadoAgregadores: { doc: "Cotações e múltiplos (P/L, P/VPA, dividend yield) de agregadores de mercado — Investing.com, Status Invest, Investidor10 e cobertura de imprensa", emissor: "Agregadores de mercado (via relato do titular)", data: "08–16/08/2026", nivel: 3, obs: "os agregadores divergem entre si; armazenado como faixa, nunca como ponto. Não são dados dos emissores nem base para recomendação" },
     ifdataBCB:      { doc: "IF.data — Basileia e Capital Nível I da Nu Pagamentos S.A. (set/2025), RELATADO", emissor: "Banco Central do Brasil (via relato)", data: "set/2025", nivel: 3, obs: "entidade individual, não o consolidado da Nu Holdings; consolidado exigiria o painel de Conglomerados Prudenciais do BCB" },
   };

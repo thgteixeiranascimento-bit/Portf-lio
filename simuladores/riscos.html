@@ -124,14 +124,13 @@
     sub: "Definições e carteiras distintas — comparação indicativa · Itaú: n/d nos documentos fornecidos",
     items: [
       { l: "Nu (2T26)", v: 6.9 },
-      { l: "Bradesco (2T26)*", v: R.bradesco.t2_26.npl90 },
-      { l: "Agi (2T26)*", v: R.agi.t2_26.npl90 },
+      { l: "Bradesco (2T26)", v: R.bradesco.t2_26.npl90 },
+      { l: "Agi (2T26)", v: R.agi.t2_26.npl90 },
       { l: "Santander (2T26)", v: 3.3 },
     ],
     fmt: F.pcv, signed: false, labelW: 180,
   });
-  document.querySelector("#chNpl5").insertAdjacentHTML("beforeend",
-    '<p class="c-sub" style="margin-top:4px">* Bradesco e Agi no 2T26: dados relatados pelo titular a partir de divulgação pública (nível 3), não extração documental.</p>');
+
 
   /* estágios */
   const cob = E.provisao.map((p, i) => p / E.exposicao[i] * 100);
@@ -171,9 +170,9 @@
 
   V.bars($("chCap"), {
     title: "Capital regulatório divulgado (%)",
-    sub: "Agi: Basileia e Tier I vs. limites citados no release · demais: CET1 divulgado (mínimos não citados nos documentos)",
+    sub: "Todos no 2T26 · Agi: Basileia e Tier I vs. limites citados no release · demais: CET1 divulgado (mínimos não citados)",
     labels: ["Agi Basileia (lim. 10,5)", "Agi Tier I (lim. 8,0)", "Itaú CET1", "Santander CET1", "Bradesco CET1"],
-    series: [{ name: "Índice", values: [19.3, 18.1, 12.3, 11.2, 10.2], color: "s1" }],
+    series: [{ name: "Índice", values: [18.7, 17.6, 12.3, 11.2, 11.3], color: "s1" }],
     fmt: F.pcv,
   });
 

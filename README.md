@@ -3,7 +3,7 @@
 Portfólio técnico em formato de site estático: **análise setorial de cinco instituições financeiras**,
 **dez estudos interativos** construídos sobre divulgações oficiais, dashboards executivos, biblioteca de
 KPIs bancários e uma camada completa de governança analítica (protocolo antialucinação, rastreabilidade,
-divergências documentadas e **136 checks automáticos de integridade**).
+divergências documentadas e **147 checks automáticos de integridade**).
 
 > ⚖️ **Protocolo de integridade** — todos os estudos usam **dados públicos de fontes primárias datadas**:
 > Nu Holdings (série completa de 1T25 a 2T26 — releases, reconciliações com asseguração KPMG, DFs IFRS e
@@ -11,6 +11,10 @@ divergências documentadas e **136 checks automáticos de integridade**).
 > Copom. Fatos, premissas, estimativas e derivações são rotulados separadamente; **extração documental (nível 1) e
 > informação relatada (nível 3) nunca se misturam**; lacunas são declaradas; **nada é recomendação de
 > investimento**. Ver [`metodologia.html`](metodologia.html) e [`docs/`](docs/).
+>
+> ⚠️ **Conflito de interesse** — o autor é colaborador do **Agibank desde 2025**, e a Agi/Agibank é uma das
+> cinco instituições analisadas. Todo o conteúdo sobre a Agi vem de **documentos públicos**, com tratamento
+> idêntico ao das demais e sujeito aos mesmos checks; nenhuma informação interna foi utilizada.
 
 ## 🌐 Publicar o site (link para o LinkedIn)
 
@@ -34,7 +38,7 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra `
 
 | Área | Página | O que entrega |
 |---|---|---|
-| Setorial | [`analises/bancos-2026.html`](analises/bancos-2026.html) | Itaú, Bradesco, Santander, Nu e Agi + ciclo completo da Selic + múltiplos de mercado — 30 checks |
+| Setorial | [`analises/bancos-2026.html`](analises/bancos-2026.html) | As cinco instituições no 2T26 + ciclo completo da Selic + múltiplos de mercado — 41 checks |
 | FP&A | [`simuladores/orcamento.html`](simuladores/orcamento.html) | Ponte de resultado do Nu (t/t e a/a) sobre o P&L gerencial divulgado |
 | FP&A | [`simuladores/rolling-forecast.html`](simuladores/rolling-forecast.html) | Forecast 12m por drivers ancorado no 2T26 real (estimativas rotuladas) |
 | Caixa | [`simuladores/fluxo-de-caixa.html`](simuladores/fluxo-de-caixa.html) | DFC real da Agi (1T26) com IPO aberto item a item — reconciliação exata |
@@ -47,7 +51,7 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra `
 | Quant | [`simuladores/portfolio.html`](simuladores/portfolio.html) | Mix e concentração (HHI) das carteiras de crédito divulgadas |
 | BI | [`dashboards.html`](dashboards.html) | 5 painéis: setorial, Nu, Agi, macro/Selic e mercado |
 | KPIs | [`kpis.html`](kpis.html) | Biblioteca de KPIs bancários com exemplos reais calculados |
-| Governança | [`metodologia.html`](metodologia.html) | Protocolo, rastreabilidade, divergências documentadas, QC |
+| Governança | [`metodologia.html`](metodologia.html) | Protocolo, rastreabilidade, 15 divergências documentadas, conflito de interesse, QC |
 
 ## Estrutura do repositório
 
@@ -72,7 +76,7 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra `
 
 Arquitetura dos estudos: **Fatos (fonte citada) → Premissas explícitas → Cálculos → Outputs rotulados →
 Checks**, com um único dataset versionado alimentando todos os módulos (sem números copiados à mão).
-**136 checks de integridade** recalculados no navegador — somas, pontes e razões conferidas contra o
+**147 checks de integridade** recalculados no navegador — somas, pontes e razões conferidas contra o
 divulgado, incluindo verificações cruzadas entre documentos do mesmo emissor (release × DFs IFRS × workbook
 de dados históricos) e a validação da derivação do 3T25 do Nu contra o exercício assegurado pela KPMG.
 
@@ -85,9 +89,13 @@ Itaú Unibanco (apresentação 2T26; Rel. Administração IFRS 1S26), Banco Brad
 Econômica e Financeira 1T26), Banco Santander Brasil (apresentações 1T26/2T26) e Banco Central do Brasil
 (atas 277ª, 278ª, **279ª** e 280ª do Copom).
 
-**Nível 3 — relatado, sem documento anexado:** resultados de Bradesco 2T26 e Agi 2T26; cotações e múltiplos
-de agregadores de mercado (publicados **em faixa**, porque divergem entre si); Basileia da Nu Pagamentos
-S.A. (entidade individual, não o consolidado do grupo).
+Também **Bradesco 2T26** (Relatório de Análise Econômica e Financeira + DFs IFRS 1S26) e **Agi 2T26**
+(Earnings Release 2Q26 + DFs IFRS revisadas pela EY + Pilar 3), promovidos de relato a extração documental
+em 16/08/2026 — promoção que **corrigiu três erros** (ver `metodologia.html`, divergências 12 a 14).
+
+**Nível 3 — relatado, sem documento anexado:** cotações e múltiplos de agregadores de mercado (publicados
+**em faixa**, porque divergem entre si); Basileia da Nu Pagamentos S.A. (entidade individual, não o
+consolidado do grupo).
 
 Matriz completa com datas, níveis e lacunas: [`docs/fontes.md`](docs/fontes.md).
 
@@ -97,14 +105,23 @@ declarada.
 
 ## Personalização pendente (para o titular)
 
-- [ ] Preencher experiência, formação, certificações e LinkedIn em `sobre.html`
-      (hoje marcados **DADO NÃO INFORMADO**, por regra de integridade);
+- [x] ~~Preencher perfil em `sobre.html`~~ — publicado com nome, formação (PUC-Campinas), experiência
+      (EY 2024–2025, Agibank 2025–atual), LinkedIn e declaração de conflito de interesse;
+- [ ] Confirmar cargos, responsabilidades, datas exatas e certificações (hoje **DADO NÃO INFORMADO**);
 - [ ] Conferir os arquivos OCR contra os PDFs originais dos emissores;
-- [ ] Anexar os documentos originais de **Bradesco 2T26 e Agi 2T26** para promovê-los de relato (nível 3)
-      a extração documental (nível 1) e incluí-los nos checks;
+- [x] ~~Anexar documentos de Bradesco 2T26 e Agi 2T26~~ — recebidos e promovidos a nível 1;
 - [ ] Obter o **índice de capital consolidado do Nu Holdings** no painel de Conglomerados Prudenciais do
       BCB (o disponível hoje é da Nu Pagamentos S.A., entidade individual);
 - [ ] (Roadmap) versões Excel/VBA e Power BI dos modelos.
+
+## Recursos da interface
+
+- **Alternância de idioma (PT/EN)** — botão no cabeçalho, com preferência salva no navegador. Cobre
+  interface, navegação, rodapé, títulos e seções principais; textos analíticos longos e rótulos de gráficos
+  permanecem em português nesta versão.
+- **Exportação do relatório** — botão que gera um arquivo HTML autocontido (pronto para imprimir em PDF) com
+  o conteúdo da página, os checks de integridade, a **matriz completa de fontes com o nível de cada
+  documento** e a declaração de conflito de interesse. Tudo é montado no navegador.
 
 ## Stack
 

@@ -12,8 +12,8 @@
 <main class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">Business intelligence · Painéis executivos · Dados públicos reais</div>
-    <h1>Dashboards — o setor bancário em quatro painéis</h1>
+    <div class="eyebrow" data-en="Business intelligence · Executive panels · Real public data">Business intelligence · Painéis executivos · Dados públicos reais</div>
+    <h1 data-en="Dashboards — the banking sector in five panels">Dashboards — o setor bancário em quatro painéis</h1>
     <p class="lead">
       Cada painel declara <strong>o problema de negócio que resolve</strong>, o período e a fonte de cada
       número. Indicadores divulgados pelas próprias instituições; comparações entre elas apenas em razões
@@ -133,16 +133,16 @@
     { lbl: "Maior ROE", val: "33%", sub: "Nu · 2T26 (gerencial, US$)" },
     { lbl: "Maior lucro em R$", val: "R$ 12,4 bi", sub: "Itaú · 2T26 recorrente" },
     { lbl: "Melhor eficiência", val: "19,5%", sub: "Nu · 2T26 (metodologia própria)" },
-    { lbl: "Menor NPL 90d divulgado", val: "3,3%", sub: "Santander · jun/26 (carteira ampliada)" },
-    { lbl: "Maior folga de capital", val: "19,3%", sub: "Agi · Basileia (limite 10,5%)" },
+    { lbl: "Menor NPL 90d divulgado", val: "3,3%", sub: "Santander e Agi · jun/26 (bases distintas)" },
+    { lbl: "Maior folga de capital", val: "18,7%", sub: "Agi · Basileia (limite 10,5%)" },
   ].map(t => `<div class="tile"><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div><div class="sub">${t.sub}</div></div>`).join("");
 
   V.hbars(document.getElementById("dsRoe"), {
     title: "ROE / ROAE — último divulgado (%)",
     sub: "Definições e períodos próprios de cada emissor",
     items: [
-      { l: "Nu (2T26)", v: 33 }, { l: "Agi (LTM)", v: 26.1 }, { l: "Itaú (2T26)", v: 24.3 },
-      { l: "Bradesco (1T26)", v: 15.8 }, { l: "Santander (2T26)", v: 12.5 },
+      { l: "Nu (2T26)", v: 33 }, { l: "Itaú (2T26)", v: 24.3 }, { l: "Agi (LTM, 2T26)", v: 21.6 },
+      { l: "Bradesco (2T26)", v: 16.2 }, { l: "Santander (2T26)", v: 12.5 },
     ], fmt: F.pcv, signed: false, labelW: 150,
   });
   V.hbars(document.getElementById("dsEfic"), {
@@ -150,15 +150,15 @@
     sub: "Metodologias próprias — comparação indicativa",
     items: [
       { l: "Nu (2T26)", v: 19.5 }, { l: "Itaú (1S26)", v: 37.3 }, { l: "Santander (2T26)", v: 39.3 },
-      { l: "Agi (1T26)", v: 43.2 }, { l: "Bradesco (1T26)", v: 46.9 },
+      { l: "Bradesco (2T26)", v: 46.5 }, { l: "Agi (2T26)", v: 48.9 },
     ], fmt: F.pcv, signed: false, labelW: 150,
   });
   V.hbars(document.getElementById("dsNpl"), {
     title: "Inadimplência > 90 dias — último divulgado (%)",
     sub: "Carteiras e definições distintas · Itaú: n/d nos documentos fornecidos",
     items: [
-      { l: "Nu (2T26)", v: 6.9 }, { l: "Bradesco (1T26)", v: 4.2 },
-      { l: "Agi (1T26)", v: 3.6 }, { l: "Santander (2T26)", v: 3.3 },
+      { l: "Nu (2T26)", v: 6.9 }, { l: "Bradesco (2T26)", v: 4.3 },
+      { l: "Agi (2T26)", v: 3.3 }, { l: "Santander (2T26)", v: 3.3 },
     ], fmt: F.pcv, signed: false, labelW: 150,
   });
   document.getElementById("dsTb").innerHTML =
@@ -166,13 +166,13 @@
      <thead><tr><th>Instituição</th><th>Período</th><th>Lucro</th><th>ROE/ROAE</th><th>Eficiência</th><th>NPL 90d</th><th>Capital</th></tr></thead>
      <tbody>
       <tr><td>Nu Holdings</td><td>2T26</td><td>US$ 1.061 mm</td><td>33%</td><td>19,5%</td><td>6,9%</td><td>n/d</td></tr>
-      <tr><td>Agi (Agibank)*</td><td>2T26</td><td>R$ 200,3 mm</td><td>26,1% (LTM, 1T26)</td><td>43,2% (1T26)</td><td>3,3%</td><td>Basileia 19,3% (1T26)</td></tr>
+      <tr><td>Agi (Agibank)</td><td>2T26</td><td>R$ 200,3 mm</td><td>21,6% (LTM)</td><td>48,9%</td><td>3,3%</td><td>Basileia 18,7%</td></tr>
       <tr><td>Itaú Unibanco</td><td>2T26</td><td>R$ 12.407 mm</td><td>24,3%</td><td>37,3% (1S)</td><td>n/d</td><td>CET1 12,3%</td></tr>
-      <tr><td>Bradesco*</td><td>2T26</td><td>R$ 7.050 mm</td><td>16,2%</td><td>46,9% (1T26)</td><td>4,3%</td><td>CET1 10,2% (1T26)</td></tr>
+      <tr><td>Bradesco</td><td>2T26</td><td>R$ 7.050 mm</td><td>16,2%</td><td>46,5%</td><td>4,3%</td><td>CET1 11,3%</td></tr>
       <tr><td>Santander Brasil</td><td>2T26</td><td>R$ 3.014 mm</td><td>12,5%</td><td>39,3%</td><td>3,3%</td><td>CET1 11,2%</td></tr>
      </tbody>`;
   document.getElementById("dsTb").insertAdjacentHTML("afterend",
-    '<p style="font-size:.8rem">* Bradesco e Agi no 2T26: dados relatados pelo titular a partir de divulgação pública (nível 3). Onde a métrica do 2T26 não foi relatada, o valor do 1T26 é mantido com o período indicado.</p>');
+    '<p style="font-size:.8rem">Todas as cinco instituições agora no 2T26, com extração documental (nível 1). Métricas com definições próprias de cada emissor — comparar ordem de grandeza, não ranking.</p>');
 
   /* ---------- NU ---------- */
   document.getElementById("tilesNuD").innerHTML = [
@@ -231,11 +231,11 @@
 
   /* ---------- AGI ---------- */
   document.getElementById("tilesAgiD").innerHTML = [
-    { lbl: "Carteira", val: "R$ 35,5 bi", sub: "+30,3% a/a · 87% consignado" },
-    { lbl: "Depósitos", val: "R$ 39,3 bi", sub: "LDR 90,3%" },
-    { lbl: "NIM (tri anualizada)", val: "12,0%", sub: "após provisões: 7,3%" },
-    { lbl: "NPL 90d · cobertura", val: "3,6% · 164,9%", sub: "1T26" },
-    { lbl: "Basileia", val: "19,3%", sub: "pós-IPO (+3,8 p.p. no tri)" },
+    { lbl: "Carteira", val: "R$ 37,1 bi", sub: "+21,2% a/a · 88% com garantia" },
+    { lbl: "Depósitos", val: "R$ 39,9 bi", sub: "LDR 92,9%" },
+    { lbl: "NIM (tri anualizada)", val: "11,9%", sub: "após provisões: 6,8%" },
+    { lbl: "NPL 90d · cobertura", val: "3,3% · 182,6%", sub: "2T26" },
+    { lbl: "Basileia", val: "18,7%", sub: "Nível I 17,6% · limite 10,5%" },
   ].map(t => `<div class="tile"><div class="lbl">${t.lbl}</div><div class="val" style="font-size:1.2rem">${t.val}</div><div class="sub">${t.sub}</div></div>`).join("");
 
   V.bars(document.getElementById("daDep"), {

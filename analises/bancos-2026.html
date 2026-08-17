@@ -12,8 +12,8 @@
 <main class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">Análise de dados públicos · Estrutura de acompanhamento setorial</div>
-    <h1>Sistema bancário brasileiro em 2026 — incumbentes e digitais</h1>
+    <div class="eyebrow" data-en="Public data analysis · Sector monitoring framework">Análise de dados públicos · Estrutura de acompanhamento setorial</div>
+    <h1 data-en="The Brazilian banking system in 2026 — incumbents and digitals">Sistema bancário brasileiro em 2026 — incumbentes e digitais</h1>
     <p class="lead">
       Cinco instituições: <strong>Itaú Unibanco</strong>, <strong>Bradesco</strong>,
       <strong>Santander Brasil</strong>, <strong>Nu Holdings</strong> (série completa de 1T25 a 2T26, em US$)
@@ -78,15 +78,13 @@
       crédito de formas distintas (Itaú: com garantias financeiras e títulos privados; Santander: carteira
       ampliada; Bradesco: carteira expandida).
     </p>
-    <div class="banner"><span>📌</span><div>
-      <b>Bradesco 2T26 — dado relatado, não extraído.</b> Os números do 2º trimestre do Bradesco
-      (lucro recorrente de <b>R$ 7,05 bi</b>, +16,2% a/a e acima do consenso LSEG de R$ 6,95 bi;
-      <b>ROAE de 16,2%</b> ante 15,8% no 1T26; carteira expandida de <b>R$ 1,14 tri</b>, +11,6% a/a, com
-      guidance de 8,5%–10,5% mantido; <b>NPL de 4,3%</b> e provisões +22,6% no trimestre) foram
-      <b>relatados pelo titular a partir de divulgação pública</b> — o documento não foi anexado a esta
-      análise. Por isso aparecem classificados como <b>nível 3</b> na matriz de fontes, com conferência
-      pendente, enquanto os números do 1T26 seguem como extração documental (nível 1). A distinção está
-      mantida deliberadamente: relato e extração não têm o mesmo peso probatório.
+    <div class="banner"><span>✅</span><div>
+      <b>Bradesco 2T26 — promovido a extração documental.</b> Com o Relatório de Análise Econômica e
+      Financeira do 2T26 em mãos, os números saíram de relato (nível 3) para <b>nível 1</b> e entraram nos
+      checks aritméticos. <b>A conferência corrigiu um erro:</b> o relato dizia provisões
+      "+22,6% no trimestre", mas o documento mostra <b>+3,3% t/t</b> — os 22,6% são a variação
+      <b>anual</b>. Também atualizou o capital principal, que no 2T26 é de <b>11,3%</b> e não 10,2%
+      (esse era o 1T26). É exatamente para isso que a separação entre relato e documento existe.
     </div></div>
     <div class="tbl-scroll"><table class="tbl" id="tbComp"></table></div>
     <figure class="chart" id="chLucro"></figure>
@@ -132,16 +130,18 @@
       setorial) e à base forte de 1T25; na comparação recorrente t/t, o lucro cresceu 15,3%. O ROAE LTM de
       26,1% já reflete o PL engordado pelo IPO — efeito mecânico documentado no
       <a href="../simuladores/ma.html">estudo do IPO</a>.</p>
-    <div class="banner"><span>📌</span><div>
-      <b>Agi 2T26 — dado relatado, não extraído.</b> Lucro de <b>R$ 200,3 mm</b> (+7,4% t/t, −24,4% a/a),
-      receita de <b>R$ 3.171,0 mm</b> (+26,3% a/a), carteira bruta de <b>R$ 37,08 bi</b> (+21,2% a/a),
-      <b>7,6 mi</b> de clientes ativos (+36,4%), <b>NPL de 3,3%</b> com cobertura de <b>182,6%</b> e
-      patrimônio de <b>R$ 4,80 bi</b>. Mesma ressalva do Bradesco: relatado pelo titular a partir de
-      divulgação pública, documento não anexado, classificado como nível 3.
-      <br><span class="tag prem">Interpretação</span> A trajetória sequencial melhora em todas as linhas
-      (lucro, receita, carteira, cobertura) enquanto a comparação anual segue negativa — consistente com a
-      normalização após a suspensão do INSS. O PL de R$ 4,80 bi contra R$ 3,17 bi em dez/25 confirma o
-      efeito do IPO no denominador do ROAE.
+    <div class="banner"><span>✅</span><div>
+      <b>Agi 2T26 — promovido a extração documental.</b> Com o Earnings Release 2Q26 e as demonstrações
+      IFRS revisadas pela EY, o trimestre saiu de relato para <b>nível 1</b>. Lucro de <b>R$ 200,3 mm</b>
+      (+7,4% t/t, −24,4% a/a), receita de <b>R$ 3.171,0 mm</b>, carteira de <b>R$ 37,1 bi</b> (+4,4% t/t),
+      <b>7,59 mi</b> de clientes, <b>NPL de 3,3%</b> com cobertura de <b>182,6%</b>, Basileia de
+      <b>18,7%</b> e <b>ROAE LTM de 21,6%</b>. <b>A conferência corrigiu o ROAE:</b> o valor de 26,1% que
+      circulava referia-se ao <b>1T26</b>, não ao 2T26.
+      <br><span class="tag prem">Interpretação</span> O EBT caiu 46,8% t/t enquanto o lucro subiu 7,4% —
+      divergência explicada no próprio release por provisionamento antecipado das novas safras
+      (R$ 562,2 mm, +12,7% t/t) e por alíquota efetiva beneficiada pela alocação dos recursos do IPO.
+      A companhia descreve o trimestre como ponto de inflexão operacional, com o retorno financeiro
+      previsto para os trimestres seguintes — leitura da administração, não deste portfólio.
     </div></div>
   </section>
 
@@ -161,8 +161,8 @@
       <tbody>
         <tr><td>Itaú Unibanco</td><td>CET1</td><td>12,3%</td><td>jun/26</td></tr>
         <tr><td>Santander Brasil</td><td>CET1 (Basileia 15,3%)</td><td>11,2%</td><td>jun/26</td></tr>
-        <tr><td>Bradesco</td><td>CET1 (Basileia 14,9%)</td><td>10,2%</td><td>mar/26</td></tr>
-        <tr><td>Agi (Agibank)</td><td>Basileia 19,3% · Nível I 18,1% (limites 10,5% / 8,0%)</td><td>19,3%</td><td>mar/26</td></tr>
+        <tr><td>Bradesco</td><td>CET1 (Nível I 12,8% · Basileia 15,5%)</td><td>11,3%</td><td>jun/26</td></tr>
+        <tr><td>Agi (Agibank)</td><td>Basileia 18,7% · Nível I 17,6% (limites 10,5% / 8,0%)</td><td>18,7%</td><td>jun/26</td></tr>
         <tr><td>Nu Holdings</td><td>Índice de capital não consta dos documentos fornecidos</td><td>n/d</td><td>—</td></tr>
       </tbody>
     </table></div>
@@ -317,14 +317,14 @@
     <caption>Indicadores divulgados — período mais recente disponível em cada documento (R$)</caption>
     <thead><tr><th>Indicador</th><th>Itaú Unibanco</th><th>Bradesco</th><th>Santander Brasil</th></tr></thead>
     <tbody>
-      <tr class="sub"><td>Período / base</td><td>2T26 · recorrente gerencial</td><td>1T26 · recorrente</td><td>2T26 · BRGAAP gerencial</td></tr>
-      <tr><td>Lucro líquido recorrente (R$ mm)</td><td>${F.mm(IT.lucro2T)}</td><td>${F.mm(BR.lucro1T)}</td><td>${F.mm(SA.lucro2T)}</td></tr>
-      <tr><td>ROE / ROAE</td><td>${F.pcv(IT.roe2T)}</td><td>${F.pcv(BR.roae1T)}</td><td>${F.pcv(SA.roae2T)}</td></tr>
-      <tr><td>Índice de eficiência¹</td><td>${F.pcv(IT.eficiencia1S)} (1S26)</td><td>${F.pcv(BR.ieo1T)} (IEO)</td><td>${F.pcv(SA.efic2T)}</td></tr>
-      <tr><td>Inadimplência 90 dias²</td><td>${nd}</td><td>${F.pcv(BR.npl90)}</td><td>${F.pcv(SA.npl90[4])}</td></tr>
-      <tr><td>Carteira de crédito² (R$ bi)</td><td>${F.mm(IT.carteiraTotalBi)}</td><td>${F.mm(BR.carteiraBi)}</td><td>${F.mm(SA.carteiraBi)}</td></tr>
-      <tr><td>Crescimento da carteira a/a</td><td>${F.spcv(IT.carteiraYoY)}</td><td>${F.spcv(BR.carteiraYoY)}</td><td>${F.spcv(SA.carteiraYoY)}</td></tr>
-      <tr><td>Capital principal (CET1)</td><td>${F.pcv(IT.cet1)}</td><td>${F.pcv(BR.cet1)}</td><td>${F.pcv(SA.cet1)}</td></tr>
+      <tr class="sub"><td>Período / base</td><td>2T26 · recorrente gerencial</td><td>2T26 · recorrente</td><td>2T26 · BRGAAP gerencial</td></tr>
+      <tr><td>Lucro líquido recorrente (R$ mm)</td><td>${F.mm(IT.lucro2T)}</td><td>${F.mm(BR.t2_26.lucroRecorrente)}</td><td>${F.mm(SA.lucro2T)}</td></tr>
+      <tr><td>ROE / ROAE</td><td>${F.pcv(IT.roe2T)}</td><td>${F.pcv(BR.t2_26.roae)}</td><td>${F.pcv(SA.roae2T)}</td></tr>
+      <tr><td>Índice de eficiência¹</td><td>${F.pcv(IT.eficiencia1S)} (1S26)</td><td>${F.pcv(BR.t2_26.ieo)} (IEO)</td><td>${F.pcv(SA.efic2T)}</td></tr>
+      <tr><td>Inadimplência 90 dias²</td><td>${nd}</td><td>${F.pcv(BR.t2_26.npl90)}</td><td>${F.pcv(SA.npl90[4])}</td></tr>
+      <tr><td>Carteira de crédito² (R$ bi)</td><td>${F.mm(IT.carteiraTotalBi)}</td><td>${F.mm(BR.t2_26.carteiraExpandida/1000)}</td><td>${F.mm(SA.carteiraBi)}</td></tr>
+      <tr><td>Crescimento da carteira a/a</td><td>${F.spcv(IT.carteiraYoY)}</td><td>${F.spcv(BR.t2_26.carteiraDeltaAa)}</td><td>${F.spcv(SA.carteiraYoY)}</td></tr>
+      <tr><td>Capital principal (CET1)</td><td>${F.pcv(IT.cet1)}</td><td>${F.pcv(BR.t2_26.cet1)}</td><td>${F.pcv(SA.cet1)}</td></tr>
     </tbody>`;
   const nota = document.createElement("p");
   nota.style.fontSize = ".8rem";
@@ -333,7 +333,7 @@
 
   V.bars(document.getElementById("chLucro"), {
     title: "Incumbentes — lucro líquido recorrente por trimestre (R$ mm)",
-    sub: "Bradesco 2T26 (R$ 7.050 mm) é dado relatado — nível 3, não extração documental",
+    sub: "Todos os valores são extração documental (nível 1) — o 2T26 do Bradesco foi promovido de relato em 16/08/2026",
     labels: ["Itaú Unibanco", "Bradesco", "Santander Brasil"],
     series: [
       { name: "1T26", values: [IT.lucro1T, BR.lucro1T, SA.lucro1T], color: "s1" },
@@ -416,12 +416,12 @@
   /* ---------- comparativo 5 instituições ---------- */
   V.hbars(document.getElementById("chRoe5"), {
     title: "Rentabilidade sobre o patrimônio — último período divulgado (%)",
-    sub: "Definições próprias (ROE gerencial, ROAE, ROAE LTM) e períodos distintos — comparar ordem de grandeza",
+    sub: "Todos no 2T26 · definições próprias (ROE gerencial, ROAE, ROAE LTM) — comparar ordem de grandeza, não ranking",
     items: [
       { l: "Nu (ROE, 2T26)", v: 33 },
-      { l: "Agi (ROAE LTM, 1T26)", v: 26.1 },
       { l: "Itaú (ROE recorrente, 2T26)", v: 24.3 },
-      { l: "Bradesco (ROAE, 1T26)", v: 15.8 },
+      { l: "Agi (ROAE LTM, 2T26)", v: 21.6 },
+      { l: "Bradesco (ROAE, 2T26)", v: 16.2 },
       { l: "Santander (ROAE, 2T26)", v: 12.5 },
     ],
     fmt: F.pcv, signed: false, labelW: 250,
@@ -429,24 +429,24 @@
 
   V.hbars(document.getElementById("chEfic5"), {
     title: "Índice de eficiência — último período divulgado (%; menor = melhor)",
-    sub: "Metodologias próprias de cada emissor — a comparação é indicativa",
+    sub: "Todos no 2T26 · metodologias próprias de cada emissor — a comparação é indicativa",
     items: [
       { l: "Nu (2T26)", v: 19.5 },
       { l: "Itaú (1S26)", v: 37.3 },
       { l: "Santander (2T26)", v: 39.3 },
-      { l: "Agi (recorrente, 1T26)", v: 43.2 },
-      { l: "Bradesco (IEO, 1T26)", v: 46.9 },
+      { l: "Bradesco (IEO, 2T26)", v: 46.5 },
+      { l: "Agi (recorrente, 2T26)", v: 48.9 },
     ],
     fmt: F.pcv, signed: false, labelW: 250,
   });
 
   V.hbars(document.getElementById("chNpl5"), {
     title: "Inadimplência > 90 dias — último período divulgado (%)",
-    sub: "Bases distintas: Nu sobre carteira própria em US$; Agi consignado; Santander carteira ampliada; Bradesco expandida · Itaú: n/d",
+    sub: "Todos no 2T26 · bases distintas: Nu carteira própria em US$; Agi consignado; Santander ampliada; Bradesco expandida · Itaú: n/d",
     items: [
       { l: "Nu (NPL 90+, 2T26)", v: 6.9 },
-      { l: "Bradesco (1T26)", v: 4.2 },
-      { l: "Agi (1T26)", v: 3.6 },
+      { l: "Bradesco (2T26)", v: 4.3 },
+      { l: "Agi (2T26)", v: 3.3 },
       { l: "Santander (2T26)", v: 3.3 },
     ],
     fmt: F.pcv, signed: false, labelW: 250,
@@ -490,7 +490,18 @@
     { name: "Santander: margem financeira + comissões = receita total 2T26", pass: V.near(SA.margem2T + SA.comissoes2T, SA.receita2T, 1), num: F.mm0(SA.margem2T + SA.comissoes2T) + " = " + F.mm0(SA.receita2T) },
     { name: "Santander: soma das linhas de carteira = total divulgado (R$ bi)", pass: V.near(somaCartS, SA.carteiraBi, 2), num: F.mm0(somaCartS) + " ≈ " + F.mm0(SA.carteiraBi) },
     { name: "Santander: variação da PDD t/t recalculada = +20,6% divulgado", pass: Math.abs((SA.pdd2T / SA.pdd1T - 1) - 0.206) < 0.002, num: F.spc(SA.pdd2T / SA.pdd1T - 1) },
-    { name: "Bradesco: margem com clientes + mercado = margem financeira total", pass: V.near(BR.margemClientes + BR.margemMercado, BR.margem1T, 1), num: F.mm0(BR.margemClientes + BR.margemMercado) + " = " + F.mm0(BR.margem1T) },
+    { name: "Bradesco: margem com clientes + mercado = margem total (1T26 e 2T26)", pass: V.near(BR.margemClientes + BR.margemMercado, BR.margem1T, 1) && V.near(BR.t2_26.margemClientes + BR.t2_26.margemMercado, BR.t2_26.margem, 1), num: F.mm0(BR.t2_26.margem) },
+    { name: "Bradesco: margem financeira − PDD expandida = margem líquida (2T26)", pass: V.near(BR.t2_26.margem - BR.t2_26.pddExp, BR.t2_26.margemLiquida, 1), num: F.mm0(BR.t2_26.margemLiquida) },
+    { name: "Bradesco: lucro 1T26 + 2T26 = 1S26 recorrente divulgado", pass: V.near(BR.t2_26.lucro1T26 + BR.t2_26.lucroRecorrente, BR.t2_26.lucro1S26, 1), num: F.mm0(BR.t2_26.lucro1S26) },
+    { name: "Bradesco: PDD +3,3% t/t e +22,6% a/a recalculadas (correção do relato)", pass: Math.abs((BR.t2_26.pddExp / BR.pddExp1T - 1) * 100 - BR.t2_26.pddDeltaTt) < 0.1, num: F.spcv((BR.t2_26.pddExp / BR.pddExp1T - 1) * 100) + " t/t" },
+    { name: "Bradesco: Basileia = Nível I + Nível II (2T26)", pass: V.near(BR.t2_26.nivel1 + BR.t2_26.nivel2, 15.5, 0.05), num: "12,8 + 2,7 = 15,5%" },
+    { name: "Agi: carteira com garantia + sem garantia = total (2T26)", pass: V.near(AGI.t2_26.securedTotal + AGI.t2_26.unsecuredTotal, AGI.t2_26.carteira, 0.15), num: F.mm0(AGI.t2_26.carteira) },
+    { name: "Agi: INSS + privado + público = consignado total (2T26)", pass: V.near(AGI.t2_26.inss + AGI.t2_26.privado + AGI.t2_26.publico, AGI.t2_26.payrollTotal, 0.15), num: F.mm0(AGI.t2_26.payrollTotal) },
+    { name: "Agi: instrumentos de captação somam o total (2T26)", pass: V.near(AGI.t2_26.depositos.vista + AGI.t2_26.depositos.cdb + AGI.t2_26.depositos.dpge + AGI.t2_26.depositos.lfCdi + AGI.t2_26.depositos.colateralizadas + AGI.t2_26.depositos.bonds, AGI.t2_26.depositos.total, 0.15), num: F.mm0(AGI.t2_26.depositos.total) },
+    { name: "Agi: Basileia recalculada (RE ÷ RWA) = 18,7% divulgado (2T26)", pass: Math.abs(AGI.t2_26.re / AGI.t2_26.rwa * 100 - AGI.t2_26.basileia) < 0.1, num: F.pcv(AGI.t2_26.re / AGI.t2_26.rwa * 100) },
+    { name: "Agi: LDR recalculado = 92,9% divulgado (2T26)", pass: Math.abs(AGI.t2_26.carteira / AGI.t2_26.depositos.total * 100 - AGI.t2_26.ldr) < 0.15, num: F.pcv(AGI.t2_26.carteira / AGI.t2_26.depositos.total * 100) },
+    { name: "Agi: balanço IFRS do 2T26 fecha (A = P + PL, exato)", pass: V.near(AGI.balancoDF2T26.passivos + AGI.balancoDF2T26.pl, AGI.balancoDF2T26.ativos, 0.001), num: F.mm0(AGI.balancoDF2T26.ativos) },
+    { name: "Agi: lucro 1T26 + 2T26 = 1S26 nas DFs revisadas (exato)", pass: V.near(186.535 + AGI.balancoDF2T26.lucro2T26, AGI.balancoDF2T26.lucro1S26, 0.001), num: "186,535 + 200,276 = 386,811" },
     { name: "Bradesco: variação do lucro t/t recalculada = +4,5% divulgado", pass: Math.abs((BR.lucro1T / BR.lucro4T25 - 1) * 100 - BR.deltaTt) < 0.2, num: F.spc(BR.lucro1T / BR.lucro4T25 - 1) },
     { name: "Copom: série completa e estritamente decrescente (4 atas)", pass: selicOk.length === 4 && selicOk.every((d, i) => i === 0 || d.valor < selicOk[i - 1].valor), num: "14,75 → 14,50 → 14,25 → 14,00" },
     { name: "Copom: os quatro cortes são de 0,25 p.p. cada (recalculado das atas)", pass: selicOk.slice(1).every((d, i) => Math.abs((selicOk[i].valor - d.valor) - 0.25) < 1e-9), num: "−0,25 × 3 = −0,75 p.p. no período" },

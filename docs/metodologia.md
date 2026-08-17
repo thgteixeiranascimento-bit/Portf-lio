@@ -1,6 +1,6 @@
 # Metodologia (resumo)
 
-Versão 2.1 — 16/08/2026. A versão completa e navegável está em [`metodologia.html`](../metodologia.html).
+Versão 2.2 — 16/08/2026. A versão completa e navegável está em [`metodologia.html`](../metodologia.html).
 
 ## Arquitetura de cada estudo
 
@@ -25,10 +25,13 @@ FATOS (dado público, fonte citada)
 5. **Divergências documentadas** — diferenças entre documentos do mesmo emissor são tabeladas
    (perímetro Agi 4T25; FXN × nominal no Nu; competência × caixa nos custos do IPO; arredondamentos);
 6. **Sem recomendação de investimento** — nenhuma página opina sobre valor ou preço de ativos;
-7. **Derivações declaradas** — números calculados pelo autor (P&L gerencial do Nu no 3T25, ARPAC em base
+7. **Conflito de interesse declarado** — o autor é colaborador do Agibank desde 2025 e a Agi/Agibank é uma
+   das instituições analisadas; o vínculo é declarado no rodapé, na página Sobre, na metodologia e no
+   relatório exportado;
+8. **Derivações declaradas** — números calculados pelo autor (P&L gerencial do Nu no 3T25, ARPAC em base
    gerencial, premissas implícitas do valuation, HHI, câmbio implícito) são listados à parte com método e
    validação;
-8. **QC público** — 136 checks de integridade autorais recalculados no navegador; falha aparece em vermelho.
+9. **QC público** — 147 checks de integridade autorais recalculados no navegador; falha aparece em vermelho.
 
 ## Estudo de caso fictício (descontinuado)
 

@@ -34,7 +34,11 @@ Copom** vieram em formato nativo e não carregam a ressalva de OCR.
 | Nu: **workbook "Historical Data 3Q25"** | XLSX nativo, 13 abas (resultado, balanço, fluxo, NPLs, operações de crédito, indicadores) | Nu Holdings (RI) | 30/09/2025 · recebido 16/08/2026 | 1 | Encerra a lacuna do 3T25: P&L IFRS, balanço, NPLs, clientes por país e série histórica desde 2022 |
 | Nu: reconciliação do P&L gerencial 4T25 e exercício de 2025 | Relatório com asseguração limitada KPMG (ISAE 3000) | Nu Holdings / KPMG | 25/02/2026 | 1 | 4T25 completo e base da derivação do 3T25 gerencial |
 | Nu: planilhas "Dados Históricos" em CSV (1T26, 2T26, 3T25, 4T25) | CSVs do workbook de RI | Nu Holdings (RI) | recebidos 16/08/2026 | 1 | **Contêm apenas a aba de índice (zero dados numéricos)** — substituídos pelo XLSX, que veio completo |
-| Bradesco 2T26 e Agi 2T26 | Resultados **relatados** pelo titular a partir de divulgação pública | Bradesco / Agi (via relato) | 4–5/08/2026 | 3 | Publicados marcados como relato; fora dos checks aritméticos; conferência pendente |
+| **Relatório de Análise Econômica e Financeira 2T26** | Relatório trimestral | Banco Bradesco S.A. | 2T26 | 1 | Promovido de relato a extração documental em 16/08/2026 — duas correções aplicadas (PDD t/t e capital principal) |
+| **Demonstrações Financeiras Consolidadas IFRS 1S26 + Relatório da Administração** | DFs consolidadas | Banco Bradesco S.A. | 30/06/2026 | 1 | Base semestral |
+| **Agi: Earnings Release 2Q26** | Release de resultados | Agi Inc. / Banco Agibank S.A. | 05/08/2026 | 1 | Promovido de relato em 16/08/2026 — ROAE LTM corrigido de 26,1% para 21,6% |
+| **Agi: DFs intermediárias IFRS 2T26** | DFs condensadas (revisão limitada EY, ISRE 2410) | AGI Inc / EY | 30/06/2026 | 1 | Balanço, resultado e mutação do PL do semestre |
+| **Agi: Relatório de Gerenciamento de Riscos — Pilar 3** | Relatório regulatório | Banco Agibank S.A. | 2026 | 1 | Capital regulatório e gestão de riscos |
 | Cotações e múltiplos (P/L, P/VPA, dividend yield) | Agregadores de mercado (Investing.com, Status Invest, Investidor10) e imprensa, via relato | Agregadores | 08–16/08/2026 | 3 | Análise setorial e estudo de valuation — **sempre em faixa**, porque os agregadores divergem entre si |
 | IF.data — Basileia da Nu Pagamentos S.A. | Painel do BCB, via relato | Banco Central (via relato) | set/2025 | 3 | **Entidade individual, não o consolidado Nu Holdings** — mantido fora do comparativo de capital |
 | Agi: Earnings Release 1Q26 | Release de resultados | Agi Inc. (NYSE: AGBK) / Banco Agibank S.A. | 05/05/2026 | 1 | KPIs, depósitos, NIM, capital, IPO, dashboards |
@@ -58,7 +62,10 @@ Copom** vieram em formato nativo e não carregam a ressalva de OCR.
    identificada e verificada aritmeticamente;
 6. Números **derivados** pelo autor (não extraídos de documento) são listados à parte em `metodologia.html`,
    seção 5b, com o método e a validação de cada um;
-7. Números **relatados** (nível 3) nunca se misturam aos extraídos e não entram nos checks.
+7. Números **relatados** (nível 3) nunca se misturam aos extraídos e não entram nos checks — e, quando o
+   documento chega, a promoção a nível 1 inclui **conferência**, que na revisão 2.2 corrigiu três erros;
+8. **Conflito de interesse declarado:** o autor é colaborador do Agibank desde 2025, e a Agi/Agibank é uma
+   das instituições analisadas. Todo o conteúdo sobre a Agi vem de documentos públicos.
 
 Endereços oficiais para conferência: investidores.nu · ri.agibank.com.br · itau.com.br/relacoes-com-investidores ·
 bradescori.com.br · ri.santander.com.br · bcb.gov.br

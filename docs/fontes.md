@@ -16,9 +16,10 @@ pode estar correto, mas não é verificável aqui, e por isso fica fora dos chec
 
 ## Matriz de rastreabilidade (versão de 16/08/2026)
 
-Todos os documentos abaixo foram **recebidos como conversões OCR/planilhas fornecidas pelo titular**
-em 13–16/08/2026; a conferência contra os originais publicados nos canais de RI dos emissores
-permanece **pendente e declarada**.
+A maior parte dos documentos abaixo foi **recebida como conversões OCR/planilhas fornecidas pelo titular**
+em 13–16/08/2026, e para esses a conferência contra os originais publicados nos canais de RI dos emissores
+permanece **pendente e declarada**. Exceções: o **workbook XLSX do Nu (3T25)** e a **ata da 279ª reunião do
+Copom** vieram em formato nativo e não carregam a ressalva de OCR.
 
 | Informação | Fonte / documento | Emissor | Data | Nível | Utilização |
 |---|---|---|---|---|---|

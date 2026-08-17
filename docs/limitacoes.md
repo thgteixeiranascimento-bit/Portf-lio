@@ -1,6 +1,6 @@
 # Limitações declaradas
 
-Versão 2.0 — 16/08/2026.
+Versão 2.1 — 16/08/2026.
 
 ## Dos dados
 

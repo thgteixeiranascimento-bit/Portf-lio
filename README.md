@@ -3,12 +3,12 @@
 Portfólio técnico em formato de site estático: **análise setorial de cinco instituições financeiras**,
 **dez estudos interativos** construídos sobre divulgações oficiais, dashboards executivos, biblioteca de
 KPIs bancários e uma camada completa de governança analítica (protocolo antialucinação, rastreabilidade,
-divergências documentadas e **102 checks automáticos de integridade**).
+divergências documentadas e **136 checks automáticos de integridade**).
 
 > ⚖️ **Protocolo de integridade** — todos os estudos usam **dados públicos de fontes primárias datadas**:
-> Nu Holdings (1T26/2T26, releases + reconciliações com asseguração KPMG + DFs IFRS), Agi/Agibank (1T26,
-> release + DFs com revisão EY), Itaú (2T26), Bradesco (1T26), Santander Brasil (1T26/2T26) e atas do
-> Copom. Fatos, premissas e estimativas são rotulados separadamente; **extração documental (nível 1) e
+> Nu Holdings (série completa de 1T25 a 2T26 — releases, reconciliações com asseguração KPMG, DFs IFRS e
+> workbook oficial de dados históricos), Agi/Agibank, Itaú, Bradesco, Santander Brasil e as quatro atas do
+> Copom. Fatos, premissas, estimativas e derivações são rotulados separadamente; **extração documental (nível 1) e
 > informação relatada (nível 3) nunca se misturam**; lacunas são declaradas; **nada é recomendação de
 > investimento**. Ver [`metodologia.html`](metodologia.html) e [`docs/`](docs/).
 
@@ -45,7 +45,7 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra `
 | Corp. finance | [`simuladores/ma.html`](simuladores/ma.html) | Anatomia do IPO real da Agi na NYSE: oferta, custos, capital, ROAE |
 | Riscos | [`simuladores/riscos.html`](simuladores/riscos.html) | NPL, ECL por estágio (IFRS 9), cobertura, capital e stress declarado |
 | Quant | [`simuladores/portfolio.html`](simuladores/portfolio.html) | Mix e concentração (HHI) das carteiras de crédito divulgadas |
-| BI | [`dashboards.html`](dashboards.html) | 4 painéis: setorial, Nu, Agi e macro/Selic |
+| BI | [`dashboards.html`](dashboards.html) | 5 painéis: setorial, Nu, Agi, macro/Selic e mercado |
 | KPIs | [`kpis.html`](kpis.html) | Biblioteca de KPIs bancários com exemplos reais calculados |
 | Governança | [`metodologia.html`](metodologia.html) | Protocolo, rastreabilidade, divergências documentadas, QC |
 
@@ -55,7 +55,7 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra `
 /                       páginas do site (GitHub Pages serve a raiz)
 ├── index.html          home
 ├── sobre.html          perfil (lacunas marcadas "DADO NÃO INFORMADO")
-├── dashboards.html     4 dashboards executivos
+├── dashboards.html     5 dashboards executivos
 ├── kpis.html           biblioteca de KPIs bancários
 ├── metodologia.html    governança e protocolo de integridade
 ├── analises/           análise setorial (5 instituições + Copom)

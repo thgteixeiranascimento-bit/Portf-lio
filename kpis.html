@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Biblioteca de KPIs — Finanças Corporativas &amp; FP&amp;A</title>
-<meta name="description" content="Biblioteca documentada de indicadores financeiros: definição, fórmula, interpretação, limitações e exemplo calculado.">
+<title>Biblioteca de KPIs Bancários — com Exemplos Reais</title>
+<meta name="description" content="KPIs de bancos documentados: ROE, NIM, NPL, cobertura, eficiência, Basileia, LDR, ARPAC — definição, fórmula, exemplo real calculado de dados públicos e armadilhas de comparabilidade.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -12,229 +12,225 @@
 <main class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">Framework de indicadores</div>
-    <h1>Biblioteca de KPIs</h1>
+    <div class="eyebrow">Biblioteca analítica · KPIs bancários · Exemplos com dados públicos reais</div>
+    <h1 data-en="Banking KPIs — definition, formula and pitfall">KPIs de bancos — definição, fórmula e armadilha</h1>
     <p class="lead">
-      Um indicador sem definição documentada vira número de slide. Cada KPI abaixo tem
-      <strong>definição, fórmula, interpretação, limitações e um exemplo calculado ao vivo</strong>
-      sobre o dataset da Aurora Industrial S.A. (empresa fictícia) — a mesma fonte dos simuladores.
+      Cada indicador vem com <strong>definição, fórmula, um exemplo real calculado</strong> a partir dos
+      documentos públicos deste portfólio (fonte citada) e — o mais importante — <strong>as armadilhas de
+      comparabilidade</strong> que fazem analistas experientes desconfiarem de rankings simples.
     </p>
-    <div class="tags"><span class="tag sim">Exemplos sobre dados simulados</span></div>
+    <div class="tags">
+      <span class="tag okv">Exemplos: dado público</span>
+      <span class="tag nao">Não é recomendação de investimento</span>
+    </div>
   </section>
 
-  <div id="lib"></div>
+  <section class="blk">
+    <h2 data-en="Profitability">Rentabilidade</h2>
+    <div class="grid c3">
+      <div class="card kpi-card">
+        <h4>ROE / ROAE</h4>
+        <div class="f">ROE = lucro líquido (anualizado) ÷ patrimônio líquido (médio)</div>
+        <dl>
+          <dt>O que mede</dt><dd>Quanto o banco rende sobre o capital dos acionistas.</dd>
+          <dt>Exemplo real</dt><dd>Nu 2T26: US$ 1.061,1 mm × 4 ÷ PL médio IFRS de US$ 12.921,8 mm = <b>32,8%</b> ≈ 33% divulgado (release + DFs).</dd>
+          <dt>Armadilhas</dt><dd>"ROE" (PL de fechamento) ≠ "ROAE" (PL médio) ≠ LTM; capital novo derruba o índice mecanicamente (Agi: 35,8% no 4T25 → 26,1% no 1T26 → 21,6% no 2T26, com o PL inflado pelo IPO).</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>Lucro por ação (EPS)</h4>
+        <div class="f">EPS = lucro atribuível aos controladores ÷ média ponderada de ações</div>
+        <dl>
+          <dt>O que mede</dt><dd>Resultado na unidade que interessa ao acionista.</dd>
+          <dt>Exemplo real</dt><dd>Agi 1T26: <b>R$ 1,39</b> básico e diluído (divulgado nas DFs; R$ 2,78 no 1T25).</dd>
+          <dt>Armadilhas</dt><dd>Emissões (IPO) diluem a comparação a/a; tesouraria sai da média ponderada (Nu recomprou 40,7 mi de ações no 1S26).</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>Índice de eficiência</h4>
+        <div class="f">Eficiência = despesas operacionais ÷ receitas da operação</div>
+        <dl>
+          <dt>O que mede</dt><dd>Quanto custa produzir cada real de receita — menor é melhor.</dd>
+          <dt>Exemplo real</dt><dd>Agi 1T26: R$ 543,2 mm ÷ R$ 1.258,2 mm = <b>43,2%</b> (recalculado = divulgado). Nu: 19,5%; Itaú: 37,3%; Bradesco (IEO): 46,9%.</dd>
+          <dt>Armadilhas</dt><dd>Cada banco define numerador e denominador de um jeito — comparar níveis exige cautela; a tendência de cada um é mais confiável.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="Margin">Margem</h2>
+    <div class="grid c3">
+      <div class="card kpi-card">
+        <h4>NIM — margem financeira líquida</h4>
+        <div class="f">NIM = NII (anualizado) ÷ ativos rentáveis médios</div>
+        <dl>
+          <dt>O que mede</dt><dd>O spread efetivo da intermediação financeira.</dd>
+          <dt>Exemplo real</dt><dd>Agi 1T26: R$ 1.268,6 mm × 4 ÷ R$ 42.329,6 mm = <b>12,0%</b> (recalculado = divulgado).</dd>
+          <dt>Armadilhas</dt><dd>Mix de ativos muda o denominador (a própria Agi excluiu debêntures da base em 1T26, reapresentando a série — documentado no release).</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>NIM ajustada ao risco</h4>
+        <div class="f">NIM aj. = (NII − custo do crédito) ÷ ativos rentáveis médios</div>
+        <dl>
+          <dt>O que mede</dt><dd>Margem que sobra depois da inadimplência esperada — margem "de verdade".</dd>
+          <dt>Exemplo real</dt><dd>Agi 1T26: (1.268,6 − 499,0) × 4 ÷ 42.329,6 = <b>7,3%</b> (= divulgado). Nu 2T26: <b>12,4%</b> (metodologia própria, divulgado).</dd>
+          <dt>Armadilhas</dt><dd>Margem alta com NPL alto pode ser o mesmo risco visto duas vezes; comparar NIM ajustada, nunca a bruta, entre modelos de negócio distintos.</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>ARPAC &amp; custo de servir</h4>
+        <div class="f">ARPAC = receita mensal média ÷ clientes ativos</div>
+        <dl>
+          <dt>O que mede</dt><dd>Monetização unitária de plataformas digitais — e sua alavancagem operacional.</dd>
+          <dt>Exemplo real</dt><dd>Nu 2T26: ARPAC <b>US$ 17,1</b> vs. custo de servir <b>US$ 1,0</b> — 17× de razão (divulgado).</dd>
+          <dt>Armadilhas</dt><dd>Depende da definição de "cliente ativo" (Nu: atividade mensal; Agi: ao menos 1 produto no fim do trimestre) — não comparar entre emissores.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="Credit risk">Risco de crédito</h2>
+    <div class="grid c3">
+      <div class="card kpi-card">
+        <h4>NPL &gt; 90 dias</h4>
+        <div class="f">NPL 90+ = carteira em atraso &gt; 90d ÷ carteira total</div>
+        <dl>
+          <dt>O que mede</dt><dd>Inadimplência consolidada (estoque de atraso maduro).</dd>
+          <dt>Exemplo real</dt><dd>Nu 6,9% · Bradesco 4,2% · Agi 3,6% · Santander 3,3% (últimos períodos divulgados).</dd>
+          <dt>Armadilhas</dt><dd>Denominadores distintos (carteira própria, ampliada, expandida); write-offs derrubam NPL sem melhorar o risco; mix muda tudo (consignado × sem garantia).</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>NPL 15-90 dias</h4>
+        <div class="f">NPL 15-90 = atraso inicial ÷ carteira</div>
+        <dl>
+          <dt>O que mede</dt><dd>Indicador antecedente — o NPL 90+ de amanhã.</dd>
+          <dt>Exemplo real</dt><dd>Nu 2T26: <b>4,8%</b> (−16 bps t/t, melhora majoritariamente sazonal, decomposição divulgada pela própria companhia).</dd>
+          <dt>Armadilhas</dt><dd>Fortíssima sazonalidade (pico no 1T) — ler sempre contra o mesmo trimestre de anos anteriores.</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>Índice de cobertura</h4>
+        <div class="f">Cobertura = provisões (ECL) ÷ carteira em atraso &gt; 90d</div>
+        <dl>
+          <dt>O que mede</dt><dd>O colchão de provisões contra a inadimplência já materializada.</dd>
+          <dt>Exemplo real</dt><dd>Agi: <b>182,6%</b> no 2T26 (164,9% no 1T26). Por estágio IFRS 9 (recalculado das DFs do 1T26): 1,8% · 38,4% · 80,7%.</dd>
+          <dt>Armadilhas</dt><dd>Cobertura cai quando NPL sobe mesmo com provisão estável; carteiras com garantia precisam de menos cobertura — nível "certo" depende do mix.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="Funding, capital and structure">Funding, capital e estrutura</h2>
+    <div class="grid c3">
+      <div class="card kpi-card">
+        <h4>LDR — loans to deposits</h4>
+        <div class="f">LDR = carteira de crédito ÷ depósitos</div>
+        <dl>
+          <dt>O que mede</dt><dd>Quanto da carteira é financiada por depósitos — folga (ou aperto) de funding.</dd>
+          <dt>Exemplo real</dt><dd>Agi 2T26: 37.075,8 ÷ 39.897,8 = <b>92,9%</b> (recalculado = divulgado). Nu México: 35% (divulgado).</dd>
+          <dt>Armadilhas</dt><dd>Definições próprias (o LDR divulgado pelo Nu consolidado não é recalculável do release — citado sem recálculo, por integridade).</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>Basileia · Nível I · CET1</h4>
+        <div class="f">Basileia = patrimônio de referência ÷ ativos ponderados pelo risco (RWA)</div>
+        <dl>
+          <dt>O que mede</dt><dd>Solvência regulatória — capacidade de absorver perdas.</dd>
+          <dt>Exemplo real</dt><dd>Agi 2T26: 5.250,6 ÷ 28.035,8 = <b>18,7%</b> (recalculado = divulgado; limite citado 10,5%). CET1 em jun/26: Itaú 12,3% · Bradesco 11,3% · Santander 11,2%.</dd>
+          <dt>Armadilhas</dt><dd>Basileia total, Nível I e CET1 são réguas diferentes — nunca comparar uma com a outra; mínimos variam por instituição (adicionais).</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>HHI de concentração</h4>
+        <div class="f">HHI = Σ (participação de cada produto)²</div>
+        <dl>
+          <dt>O que mede</dt><dd>Concentração da carteira (1/n = distribuído; 1,0 = um produto só).</dd>
+          <dt>Exemplo real</dt><dd>Calculado das aberturas divulgadas: Agi <b>0,61</b> · Nu <b>0,51</b> · Santander <b>0,30</b>.</dd>
+          <dt>Armadilhas</dt><dd>Depende da granularidade divulgada — quem abre menos linhas parece mais concentrado; métrica do autor, não dos emissores.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Múltiplos de mercado <span class="tag nao">Nível 3 — agregadores</span></h2>
+    <p style="font-size:.9rem">
+      Estes três indicadores mudam de classe de fonte: não vêm dos emissores, e sim de agregadores de
+      mercado que <b>divergem entre si</b>. Entram aqui pela relevância técnica, com a ressalva de sempre —
+      não sustentam recomendação.
+    </p>
+    <div class="grid c3">
+      <div class="card kpi-card">
+        <h4>P/L — preço sobre lucro</h4>
+        <div class="f">P/L = preço por ação ÷ lucro por ação</div>
+        <dl>
+          <dt>O que mede</dt><dd>Quantos anos de lucro atual o preço embute.</dd>
+          <dt>Exemplo real</dt><dd>Nu: <b>18,2× a 21,6×</b>; Bradesco: <b>7,3× a 8,0×</b>; Agi: <b>6,2× a 29,7×</b> (ago/2026).</dd>
+          <dt>Armadilhas</dt><dd>A base de lucro muda tudo: os 6,2× da Agi usam lucro <em>projetado</em> para 2026; os 29,7×, o <em>trailing</em>. Citar "o P/L" sem dizer a base é reportar ruído.</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>P/VPA — preço sobre valor patrimonial</h4>
+        <div class="f">P/VPA = valor de mercado ÷ patrimônio líquido</div>
+        <dl>
+          <dt>O que mede</dt><dd>Quanto o mercado paga por cada real (ou dólar) de patrimônio — a régua natural de bancos.</dd>
+          <dt>Exemplo real</dt><dd>Nu: <b>5,1×–5,5×</b>; Bradesco: <b>~1,10×</b>; Agi: <b>~1,05×</b>.</dd>
+          <dt>Armadilhas</dt><dd>Só faz sentido lido junto do ROE: P/VPA alto com ROE alto é consistente; P/VPA ≈ 1 com ROE muito acima do Ke sinaliza que o mercado não crê na perpetuação da rentabilidade.</dd>
+        </dl>
+      </div>
+      <div class="card kpi-card">
+        <h4>Dividend yield</h4>
+        <div class="f">DY = proventos por ação (12m) ÷ preço por ação</div>
+        <dl>
+          <dt>O que mede</dt><dd>Retorno em caixa distribuído, sobre o preço atual.</dd>
+          <dt>Exemplo real</dt><dd>Bradesco: <b>5,7% a 9,5%</b> — a maior dispersão entre agregadores de todo o levantamento. Nu e Agi: <b>0%</b> (sem proventos no período).</dd>
+          <dt>Armadilhas</dt><dd>Janela e composição (dividendos, JCP, extraordinários) mudam o número drasticamente; yield alto pode refletir queda de preço, não generosidade.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Checks — os exemplos calculados conferem?</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk" id="fontes"></section>
 
 </main>
-<script src="assets/js/core.js"></script>
 <script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
 <script>
 (function () {
   "use strict";
-  const D = window.DATA, F = window.Viz.F;
-
-  /* base de cálculo dos exemplos (ano de 2025 do dataset simulado, salvo indicação) */
-  const H = D.hist, B = D.bal2025;
-  const rec = H.receita[2], cpv = -H.cpv[2], ebitda = H.ebitda[2], ebit = H.ebit[2], ll = H.lucroLiq[2];
-  const juros = -H.resFin[2];
-  const nopat = ebit * (1 - H.aliqIR);
-  const capInvestido = B.divida + B.pl - B.caixa;
-  const DIV_CP = B.divida * 0.4; // PREMISSA: 40% da dívida vence no curto prazo
-  const passivoCirc = B.fornecedores + B.impostosOutros + DIV_CP;
-  const dso = B.contasReceber / rec * 365, dio = B.estoques / cpv * 365, dpo = B.fornecedores / cpv * 365;
-  const nwc = B.contasReceber + B.estoques - B.fornecedores;
-  const N = D.real2026.mesesFechados;
-  const actRev = D.ytd(D.real2026.receitaMes), budRev = D.ytd(D.orc2026.receitaMes);
-  const erros = D.real2026.receitaMes.map((r, i) => (r - D.orc2026.receitaMes[i]) / D.orc2026.receitaMes[i]);
-  const mape = erros.reduce((a, e) => a + Math.abs(e), 0) / N;
-  const bias = erros.reduce((a, e) => a + e, 0) / N;
-
-  const KPIS = [
-    { cat: "Rentabilidade", nome: "Margem EBITDA", un: "% · mensal/anual",
-      def: "Parcela da receita que sobra após custos e despesas operacionais, antes de depreciação, juros e impostos.",
-      f: "EBITDA ÷ Receita líquida",
-      interp: "Proxy da eficiência operacional; boa base de comparação entre períodos e empresas com estruturas de ativo distintas.",
-      lim: "Ignora CAPEX e capital de giro — margem alta pode coexistir com queima de caixa.",
-      ex: `${F.mm(ebitda)} ÷ ${F.mm(rec)} = ${F.pc(ebitda / rec)} (2025)`,
-      apl: "Meta anual de orçamento; gatilho de revisão de custos quando cai por 2+ meses." },
-    { cat: "Rentabilidade", nome: "Margem EBIT", un: "% · mensal/anual",
-      def: "Margem operacional após depreciação e amortização.",
-      f: "EBIT ÷ Receita líquida",
-      interp: "Incorpora o custo de repor ativos (via D&A); melhor que EBITDA para negócios intensivos em capital.",
-      lim: "D&A contábil pode divergir do CAPEX de reposição real.",
-      ex: `${F.mm(ebit)} ÷ ${F.mm(rec)} = ${F.pc(ebit / rec)} (2025)`,
-      apl: "Comparação entre linhas de negócio com intensidades de capital diferentes." },
-    { cat: "Rentabilidade", nome: "Margem líquida", un: "% · anual",
-      def: "Parcela da receita que vira lucro para o acionista.",
-      f: "Lucro líquido ÷ Receita líquida",
-      interp: "Resultado final após alavancagem e impostos.",
-      lim: "Misturada por efeitos financeiros e não recorrentes; ruim para comparar operações.",
-      ex: `${F.mm(ll)} ÷ ${F.mm(rec)} = ${F.pc(ll / rec)} (2025)`,
-      apl: "Base da política de dividendos e do planejamento tributário." },
-    { cat: "Rentabilidade", nome: "ROIC", un: "% · anual",
-      def: "Retorno operacional após impostos sobre o capital investido na operação.",
-      f: "NOPAT ÷ (Dívida + PL − Caixa)",
-      interp: "O teste de criação de valor: ROIC acima do WACC cria valor; abaixo, destrói — mesmo com lucro positivo.",
-      lim: "Sensível a intangíveis e à definição de capital investido; um número anual esconde sazonalidade.",
-      ex: `${F.mm(nopat)} ÷ ${F.mm(capInvestido)} = ${F.pc(nopat / capInvestido)} (2025)`,
-      apl: "Critério de aprovação de CAPEX e M&A (vs. WACC)." },
-    { cat: "Rentabilidade", nome: "ROE", un: "% · anual",
-      def: "Retorno sobre o capital próprio.",
-      f: "Lucro líquido ÷ Patrimônio líquido",
-      interp: "Rentabilidade do acionista; decompõe-se em margem × giro × alavancagem (DuPont).",
-      lim: "Sobe artificialmente com alavancagem — analisar junto com Dívida/PL.",
-      ex: `${F.mm(ll)} ÷ ${F.mm(B.pl)} = ${F.pc(ll / B.pl)} (2025)`,
-      apl: "Comparação com custo de capital próprio (ke) na tese de investimento." },
-
-    { cat: "Liquidez", nome: "Liquidez corrente", un: "× · mensal",
-      def: "Cobertura do passivo de curto prazo pelos ativos de curto prazo.",
-      f: "Ativo circulante ÷ Passivo circulante",
-      interp: "Abaixo de 1,0 exige atenção; muito acima pode indicar capital parado.",
-      lim: "Inclui estoque, que pode não ser líquido; é foto de um dia, não fluxo.",
-      ex: `${F.mm(B.caixa + B.contasReceber + B.estoques)} ÷ ${F.mm(passivoCirc)} = ${F.x2((B.caixa + B.contasReceber + B.estoques) / passivoCirc)}× (2025, com 40% da dívida no CP — premissa)`,
-      apl: "Covenant usual em contratos de dívida." },
-    { cat: "Liquidez", nome: "Liquidez seca", un: "× · mensal",
-      def: "Liquidez corrente sem contar estoques.",
-      f: "(Ativo circulante − Estoques) ÷ Passivo circulante",
-      interp: "Teste mais duro: paga-se o curto prazo sem precisar vender estoque?",
-      lim: "Contas a receber podem ter perdas não provisionadas.",
-      ex: `${F.mm(B.caixa + B.contasReceber)} ÷ ${F.mm(passivoCirc)} = ${F.x2((B.caixa + B.contasReceber) / passivoCirc)}× (2025)`,
-      apl: "Avaliação de crédito de clientes e fornecedores." },
-    { cat: "Liquidez", nome: "Liquidez imediata", un: "× · semanal",
-      def: "Quanto do passivo de curto prazo o caixa cobre hoje.",
-      f: "Caixa e equivalentes ÷ Passivo circulante",
-      interp: "O último colchão em cenário de stress.",
-      lim: "Caixa alto demais tem custo de oportunidade.",
-      ex: `${F.mm(B.caixa)} ÷ ${F.mm(passivoCirc)} = ${F.x2(B.caixa / passivoCirc)}× (2025)`,
-      apl: "Política de caixa mínimo (ver simulador de fluxo de caixa)." },
-
-    { cat: "Capital de giro", nome: "DSO", un: "dias · mensal",
-      def: "Prazo médio efetivo de recebimento de clientes.",
-      f: "Contas a receber ÷ Receita × 365",
-      interp: "Cada dia a mais prende ≈ receita anual ÷ 365 em caixa.",
-      lim: "Mix de clientes e sazonalidade distorcem a média; usar com aging.",
-      ex: `${F.mm(B.contasReceber)} ÷ ${F.mm(rec)} × 365 = ${F.dias(dso)} (2025) · Jul/26: ${F.dias(D.real2026.dso[N - 1])}`,
-      apl: "Meta da política comercial e de crédito." },
-    { cat: "Capital de giro", nome: "DIO", un: "dias · mensal",
-      def: "Dias de estoque ao custo.",
-      f: "Estoques ÷ CPV × 365",
-      interp: "Cobertura de estoque; sobe antes de aparecer nos resultados.",
-      lim: "Estoque estratégico (ruptura) e especulativo têm o mesmo número.",
-      ex: `${F.mm(B.estoques)} ÷ ${F.mm(cpv)} × 365 = ${F.dias(dio)} (2025) · Jul/26: ${F.dias(D.real2026.dio[N - 1])}`,
-      apl: "Meta de S&OP e planejamento de compras." },
-    { cat: "Capital de giro", nome: "DPO", un: "dias · mensal",
-      def: "Prazo médio de pagamento a fornecedores.",
-      f: "Fornecedores ÷ CPV × 365",
-      interp: "Financiamento espontâneo da operação; encurtar DPO consome caixa.",
-      lim: "Esticar prazo demais custa desconto e relacionamento.",
-      ex: `${F.mm(B.fornecedores)} ÷ ${F.mm(cpv)} × 365 = ${F.dias(dpo)} (2025) · Jul/26: ${F.dias(D.real2026.dpo[N - 1])}`,
-      apl: "Agenda de renegociação de suprimentos." },
-    { cat: "Capital de giro", nome: "Ciclo de conversão de caixa (CCC)", un: "dias · mensal",
-      def: "Dias entre pagar fornecedores e receber clientes.",
-      f: "DSO + DIO − DPO",
-      interp: "Síntese do capital de giro: quanto menor, menos caixa a operação exige para girar.",
-      lim: "Média que mistura três dinâmicas diferentes — decompor sempre.",
-      ex: `${F.dias(dso)} + ${F.dias(dio)} − ${F.dias(dpo)} = ${F.dias(dso + dio - dpo)} (2025) · Jul/26: ${F.dias(D.real2026.dso[N - 1] + D.real2026.dio[N - 1] - D.real2026.dpo[N - 1])}`,
-      apl: "KPI-síntese do simulador de capital de giro." },
-
-    { cat: "Alavancagem", nome: "Dívida líquida / EBITDA", un: "× · trimestral",
-      def: "Quantos anos de geração operacional a dívida líquida representa.",
-      f: "(Dívida bruta − Caixa) ÷ EBITDA",
-      interp: "Métrica-padrão de covenant; acima de ~3× o acesso a crédito encarece.",
-      lim: "EBITDA em queda infla o índice rapidamente — testar em stress.",
-      ex: `${F.mm(B.divida - B.caixa)} ÷ ${F.mm(ebitda)} = ${F.x2((B.divida - B.caixa) / ebitda)}× (2025)`,
-      apl: "Limite simulado de 2,5× no módulo de riscos." },
-    { cat: "Alavancagem", nome: "Dívida / PL", un: "× · trimestral",
-      def: "Proporção entre capital de terceiros e capital próprio.",
-      f: "Dívida bruta ÷ Patrimônio líquido",
-      interp: "Estrutura de capital; afeta beta, ke e a capacidade de novos ciclos de investimento.",
-      lim: "Valor contábil do PL pode divergir muito do econômico.",
-      ex: `${F.mm(B.divida)} ÷ ${F.mm(B.pl)} = ${F.x2(B.divida / B.pl)}× (2025)`,
-      apl: "Input da estrutura-alvo no WACC do valuation." },
-    { cat: "Alavancagem", nome: "Cobertura de juros", un: "× · trimestral",
-      def: "Quantas vezes o resultado operacional paga a despesa de juros.",
-      f: "EBIT ÷ Despesa financeira",
-      interp: "Abaixo de ~2× o serviço da dívida passa a competir com a operação.",
-      lim: "Não captura amortizações — complementar com cronograma de dívida.",
-      ex: `${F.mm(ebit)} ÷ ${F.mm(juros)} = ${F.x2(ebit / juros)}× (2025)`,
-      apl: "Sinal antecedente de estresse financeiro." },
-
-    { cat: "Eficiência", nome: "Giro do ativo", un: "× · anual",
-      def: "Receita gerada por unidade de ativo.",
-      f: "Receita ÷ Ativo total",
-      interp: "Eficiência no uso da base de ativos; multiplica a margem no DuPont.",
-      lim: "Ativos arrendados/terceirizados distorcem comparações.",
-      ex: `${F.mm(rec)} ÷ ${F.mm(B.ativoTotal)} = ${F.x2(rec / B.ativoTotal)}× (2025)`,
-      apl: "Comparação de unidades e decisões de verticalização." },
-    { cat: "Eficiência", nome: "Giro do capital de giro", un: "× · anual",
-      def: "Receita por unidade de capital de giro operacional.",
-      f: "Receita ÷ (Clientes + Estoques − Fornecedores)",
-      interp: "Quanto maior, menos giro a operação exige para vender.",
-      lim: "NWC muito baixo pode indicar fragilidade (ruptura, prazo curto de clientes).",
-      ex: `${F.mm(rec)} ÷ ${F.mm(nwc)} = ${F.x2(rec / nwc)}× (2025)`,
-      apl: "Meta conjunta de comercial + suprimentos." },
-
-    { cat: "FP&A", nome: "Variação orçamentária", un: "% · mensal",
-      def: "Desvio do realizado contra o orçamento aprovado.",
-      f: "(Real − Orçado) ÷ Orçado",
-      interp: "Acima do limite de materialidade exige explicação de causa e plano de ação.",
-      lim: "Um orçamento ruim gera variações que não significam gestão ruim.",
-      ex: `(${F.mm(actRev)} − ${F.mm(budRev)}) ÷ ${F.mm(budRev)} = ${F.spc(actRev / budRev - 1)} (receita YTD Jul/26)`,
-      apl: "Gatilho do ritual mensal de fechamento (ver simulador de orçamento)." },
-    { cat: "FP&A", nome: "Acurácia de forecast", un: "% · mensal",
-      def: "Precisão média das projeções contra o realizado.",
-      f: "1 − média(|Real − Projetado| ÷ Real)",
-      interp: "Mede a qualidade do processo de planejamento, não do resultado.",
-      lim: "Pode ser 'jogada' com projeções conservadoras — ler junto com o viés.",
-      ex: `1 − ${F.pc(mape)} = ${F.pc(1 - mape)} (receita mensal vs. orçamento, Jan–Jul/26)`,
-      apl: "KPI do próprio time de FP&A." },
-    { cat: "FP&A", nome: "Viés de forecast", un: "p.p. · mensal",
-      def: "Direção sistemática do erro de projeção.",
-      f: "média(Real − Projetado) ÷ Projetado",
-      interp: "Erro médio com sinal: negativo = plano otimista; positivo = plano conservador.",
-      lim: "Viés próximo de zero pode esconder erros grandes que se cancelam.",
-      ex: `${F.spc(bias)} (receita mensal vs. orçamento, Jan–Jul/26 — plano otimista)`,
-      apl: "Correção estrutural das premissas do próximo ciclo." },
-    { cat: "FP&A", nome: "Run rate", un: "R$ · mensal",
-      def: "Anualização do ritmo corrente.",
-      f: "Realizado YTD ÷ meses × 12",
-      interp: "Referência rápida de fechamento se o ritmo atual persistir.",
-      lim: "Ignora sazonalidade — usar apenas como sanity check.",
-      ex: `${F.mm(actRev)} ÷ ${N} × 12 = ${F.mm(actRev / N * 12)} (receita 2026 anualizada)`,
-      apl: "Sanity check do forecast oficial." },
-    { cat: "FP&A", nome: "Burn rate / runway", un: "R$ por mês · mensal",
-      def: "Velocidade de consumo de caixa e o tempo até o caixa acabar.",
-      f: "Queima média mensal; Runway = Caixa ÷ queima",
-      interp: "KPI vital em operações deficitárias ou projetos com caixa dedicado.",
-      lim: "Queima média esconde picos (13º, dividendos, vencimentos).",
-      ex: `No dataset simulado o fluxo é positivo — runway n/a; o conceito é demonstrado no simulador de fluxo de caixa em cenários de stress.`,
-      apl: "Gatilho de captação antecipada." },
-  ];
-
-  const cats = [...new Set(KPIS.map(k => k.cat))];
-  const lib = document.getElementById("lib");
-  cats.forEach(cat => {
-    const sec = document.createElement("section");
-    sec.className = "blk";
-    sec.innerHTML = `<div class="eyebrow">${cat}</div><div class="grid c2"></div>`;
-    const grid = sec.querySelector(".grid");
-    KPIS.filter(k => k.cat === cat).forEach(k => {
-      const card = document.createElement("div");
-      card.className = "card kpi-card";
-      card.innerHTML = `
-        <h4>${k.nome}</h4>
-        <div class="c-sub" style="font-size:.78rem;color:var(--muted)">${k.un}</div>
-        <div class="f">${k.f}</div>
-        <dl>
-          <dt>Definição</dt><dd>${k.def}</dd>
-          <dt>Interpretação</dt><dd>${k.interp}</dd>
-          <dt>Limitações</dt><dd>${k.lim}</dd>
-          <dt>Exemplo (dataset simulado)</dt><dd>${k.ex}</dd>
-          <dt>Aplicação gerencial</dt><dd>${k.apl}</dd>
-        </dl>`;
-      grid.appendChild(card);
-    });
-    lib.appendChild(sec);
-  });
+  const V = window.Viz, R = window.REAL, F = V.F;
+  const NU = R.nu, AGI = R.agi;
+  const roeNu = NU.plGer["2T26"].lucro * 4 / ((NU.balanco["1T26"].pl + NU.balanco["2T26"].pl) / 2) * 100;
+  const nimAgi = AGI.nimTabela.nii[2] * 4 / AGI.nimTabela.avgIBA[2] * 100;
+  const nimRiscoAgi = (AGI.nimTabela.nii[2] + AGI.nimTabela.provisoes[2]) * 4 / AGI.nimTabela.avgIBA[2] * 100;
+  const eficAgi = -AGI.eficiencia1T26.totalDespesas / AGI.eficiencia1T26.base * 100;
+  const ldrAgi = AGI.kpis.carteira[2] / AGI.depositos.total["1T26"] * 100;
+  const basAgi = AGI.capital.re[2] / AGI.capital.rwa[2] * 100;
+  const cob = AGI.eclEstagios1T26.provisao.map((p, i) => p / AGI.eclEstagios1T26.exposicao[i] * 100);
+  V.renderChecks(document.getElementById("checks"), [
+    { name: "ROE Nu recalculado (lucro anualizado ÷ PL médio IFRS) ≈ 33% divulgado", pass: Math.abs(roeNu - 33) < 0.7, num: F.pcv(roeNu) },
+    { name: "NIM Agi recalculada = 12,0% divulgado", pass: Math.abs(nimAgi - 12.0) < 0.1, num: F.pcv(nimAgi) },
+    { name: "NIM ajustada ao risco Agi recalculada = 7,3% divulgado", pass: Math.abs(nimRiscoAgi - 7.3) < 0.1, num: F.pcv(nimRiscoAgi) },
+    { name: "Eficiência Agi recalculada = 43,2% divulgado", pass: Math.abs(eficAgi - 43.2) < 0.1, num: F.pcv(eficAgi) },
+    { name: "LDR Agi recalculado = 90,3% divulgado", pass: Math.abs(ldrAgi - 90.3) < 0.1, num: F.pcv(ldrAgi) },
+    { name: "Basileia Agi recalculada = 19,3% divulgado", pass: Math.abs(basAgi - 19.3) < 0.1, num: F.pcv(basAgi) },
+    { name: "Cobertura por estágio crescente (1,8% → 38,4% → 80,7%)", pass: cob[0] < cob[1] && cob[1] < cob[2], num: cob.map(c => F.pcv(c)).join(" · ") },
+    { name: "ARPAC ÷ custo de servir do Nu = 17,1× (dois valores divulgados)", pass: Math.abs(NU.op.arpac[5] / NU.op.custoServir[5] - 17.1) < 0.2, num: "17,1×" },
+    { name: "ROE 3T25 do Nu recalculado do workbook ≈ 31% divulgado", pass: Math.abs(NU.cont3T25.lucro * 4 / ((9576.116 + NU.cont3T25.pl) / 2) * 100 - 31) < 1.0, num: F.pcv(NU.cont3T25.lucro * 4 / ((9576.116 + NU.cont3T25.pl) / 2) * 100) },
+    { name: "Múltiplos de mercado publicados em faixa, com classe de fonte distinta (nível 3)", pass: R.mercado.ativos.every(a => a.plMax >= a.plMin && a.pvpaMax >= a.pvpaMin), num: R.mercado.ativos.length + " ativos" },
+  ]);
+  V.renderFontes(document.getElementById("fontes"),
+    ["nu2T26", "nuHist3T25", "nuDF1T26", "nuDF2T26", "agiRel1T26", "agiDF1T26", "itau2T26", "itauIFRS1S26", "bradesco1T26", "santander2T26", "mercadoAgregadores"]);
 })();
 </script>
 </body>

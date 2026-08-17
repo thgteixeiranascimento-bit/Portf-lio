@@ -1,13 +1,20 @@
-# Portfólio — Finanças Corporativas, FP&A, Valuation e BI
+# Portfólio — Finanças Corporativas, FP&A, Valuation e BI · com dados públicos reais
 
-Portfólio técnico em formato de site estático: **10 simuladores financeiros interativos**,
-dashboards executivos, biblioteca de KPIs e uma camada completa de governança analítica
-(protocolo antialucinação, rastreabilidade e checks automáticos de integridade).
+Portfólio técnico em formato de site estático: **análise setorial de cinco instituições financeiras**,
+**dez estudos interativos** construídos sobre divulgações oficiais, dashboards executivos, biblioteca de
+KPIs bancários e uma camada completa de governança analítica (protocolo antialucinação, rastreabilidade,
+divergências documentadas e **147 checks automáticos de integridade**).
 
-> ⚖️ **Protocolo de integridade** — todos os estudos usam a *Aurora Industrial S.A.*, empresa
-> **fictícia** criada para demonstrar técnica. São simulações identificadas, não experiência
-> profissional real nem recomendação de investimento. Ver [`metodologia.html`](metodologia.html)
-> e [`docs/`](docs/).
+> ⚖️ **Protocolo de integridade** — todos os estudos usam **dados públicos de fontes primárias datadas**:
+> Nu Holdings (série completa de 1T25 a 2T26 — releases, reconciliações com asseguração KPMG, DFs IFRS e
+> workbook oficial de dados históricos), Agi/Agibank, Itaú, Bradesco, Santander Brasil e as quatro atas do
+> Copom. Fatos, premissas, estimativas e derivações são rotulados separadamente; **extração documental (nível 1) e
+> informação relatada (nível 3) nunca se misturam**; lacunas são declaradas; **nada é recomendação de
+> investimento**. Ver [`metodologia.html`](metodologia.html) e [`docs/`](docs/).
+>
+> ⚠️ **Conflito de interesse** — o autor é colaborador do **Agibank desde 2025**, e a Agi/Agibank é uma das
+> cinco instituições analisadas. Todo o conteúdo sobre a Agi vem de **documentos públicos**, com tratamento
+> idêntico ao das demais e sujeito aos mesmos checks; nenhuma informação interna foi utilizada.
 
 ## 🌐 Publicar o site (link para o LinkedIn)
 
@@ -25,62 +32,96 @@ https://thgteixeiranascimento-bit.github.io/Portf-lio/
 
 Esse é o link para colocar no LinkedIn (seção *Destaques* ou no campo *Site* do perfil).
 
-Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra
-`http://localhost:8000`.
+Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra `http://localhost:8000`.
 
 ## Conteúdo
 
-| Área | Página | Decisão que suporta |
+| Área | Página | O que entrega |
 |---|---|---|
-| FP&A | [`simuladores/orcamento.html`](simuladores/orcamento.html) | Real × Orçado × Forecast, variações preço/volume/mix, ponte de EBITDA |
-| FP&A | [`simuladores/rolling-forecast.html`](simuladores/rolling-forecast.html) | Rolling forecast 12m com cenários Base/Upside/Downside/Stress |
-| Caixa | [`simuladores/fluxo-de-caixa.html`](simuladores/fluxo-de-caixa.html) | Fluxo direto mensal (IAS 7/CPC 03), runway, necessidade de captação |
-| Caixa | [`simuladores/capital-de-giro.html`](simuladores/capital-de-giro.html) | DSO/DIO/DPO/CCC e o valor de cada dia de prazo |
-| Modelagem | [`simuladores/tres-demonstracoes.html`](simuladores/tres-demonstracoes.html) | DRE + Balanço + Caixa integrados, com painel de integridade |
-| Valuation | [`simuladores/valuation.html`](simuladores/valuation.html) | DCF (FCFF/WACC), sensibilidade WACC×g, football field |
-| Corp. finance | [`simuladores/capex-evte.html`](simuladores/capex-evte.html) | EVTE: VPL, TIR, paybacks, equilíbrio, tornado |
-| Corp. finance | [`simuladores/ma.html`](simuladores/ma.html) | M&A: pro forma, accretion/dilution, preço máximo |
-| Riscos | [`simuladores/riscos.html`](simuladores/riscos.html) | Heatmap de riscos, stress combinado, covenant |
-| Quant | [`simuladores/portfolio.html`](simuladores/portfolio.html) | Fronteira eficiente (educacional) |
-| Dados reais | [`analises/bancos-2026.html`](analises/bancos-2026.html) | Itaú, Bradesco e Santander (1T26/2T26) + ciclo da Selic nas atas do Copom — fontes primárias datadas |
-| BI | [`dashboards.html`](dashboards.html) | Painéis CFO, FP&A, capital de giro e liquidez |
-| KPIs | [`kpis.html`](kpis.html) | Biblioteca documentada com exemplos calculados |
-| Governança | [`metodologia.html`](metodologia.html) | Protocolo, conselho de validação, rastreabilidade, QC |
+| Setorial | [`analises/bancos-2026.html`](analises/bancos-2026.html) | As cinco instituições no 2T26 + ciclo completo da Selic + múltiplos de mercado — 41 checks |
+| FP&A | [`simuladores/orcamento.html`](simuladores/orcamento.html) | Ponte de resultado do Nu (t/t e a/a) sobre o P&L gerencial divulgado |
+| FP&A | [`simuladores/rolling-forecast.html`](simuladores/rolling-forecast.html) | Forecast 12m por drivers ancorado no 2T26 real (estimativas rotuladas) |
+| Caixa | [`simuladores/fluxo-de-caixa.html`](simuladores/fluxo-de-caixa.html) | DFC real da Agi (1T26) com IPO aberto item a item — reconciliação exata |
+| Funding | [`simuladores/capital-de-giro.html`](simuladores/capital-de-giro.html) | Mix de depósitos, varejo × institucional, LDR, custo de captação |
+| Modelagem | [`simuladores/tres-demonstracoes.html`](simuladores/tres-demonstracoes.html) | DRE + balanço + fluxo + mutação do PL da Agi amarrados (exato) |
+| Valuation | [`simuladores/valuation.html`](simuladores/valuation.html) | P/VPA justificado (Gordon) × observado no mercado, com engenharia reversa das premissas implícitas |
+| Corp. finance | [`simuladores/capex-evte.html`](simuladores/capex-evte.html) | Unit economics da expansão México do Nu (EVTE educacional) |
+| Corp. finance | [`simuladores/ma.html`](simuladores/ma.html) | Anatomia do IPO real da Agi na NYSE: oferta, custos, capital, ROAE |
+| Riscos | [`simuladores/riscos.html`](simuladores/riscos.html) | NPL, ECL por estágio (IFRS 9), cobertura, capital e stress declarado |
+| Quant | [`simuladores/portfolio.html`](simuladores/portfolio.html) | Mix e concentração (HHI) das carteiras de crédito divulgadas |
+| BI | [`dashboards.html`](dashboards.html) | 5 painéis: setorial, Nu, Agi, macro/Selic e mercado |
+| KPIs | [`kpis.html`](kpis.html) | Biblioteca de KPIs bancários com exemplos reais calculados |
+| Governança | [`metodologia.html`](metodologia.html) | Protocolo, rastreabilidade, 15 divergências documentadas, conflito de interesse, QC |
 
 ## Estrutura do repositório
 
 ```
 /                       páginas do site (GitHub Pages serve a raiz)
 ├── index.html          home
-├── sobre.html          perfil (lacunas marcadas "DADO NÃO INFORMADO")
-├── dashboards.html     4 dashboards executivos
-├── kpis.html           biblioteca de KPIs
+├── sobre.html          perfil do titular e declaração de conflito de interesse
+├── dashboards.html     5 dashboards executivos
+├── kpis.html           biblioteca de KPIs bancários
 ├── metodologia.html    governança e protocolo de integridade
-├── simuladores/        10 simuladores interativos
+├── analises/           análise setorial (5 instituições + Copom)
+├── simuladores/        10 estudos interativos sobre dados reais
 ├── assets/
 │   ├── css/style.css   tema executivo (claro/escuro)
 │   └── js/
-│       ├── core.js     gráficos SVG, formatação pt-BR, checks
-│       └── data.js     dataset central da empresa fictícia (fonte única)
+│       ├── core.js     gráficos SVG, formatação pt-BR, checks, fontes
+│       └── data.js     dataset central de DADOS PÚBLICOS REAIS (fonte única, com registro de fontes)
 ├── docs/               metodologia, fontes, validação e limitações (Markdown)
 └── automation/
     └── python/cvm_dados_abertos.py   coleta real de dados abertos da CVM
 ```
 
-Arquitetura dos modelos: **Inputs → Cálculos → Outputs → Checks**, com um único dataset
-versionado alimentando todos os módulos (sem números copiados à mão). Ao todo, **44 checks
-automáticos** de consistência são recalculados no navegador a cada mudança de premissa.
+Arquitetura dos estudos: **Fatos (fonte citada) → Premissas explícitas → Cálculos → Outputs rotulados →
+Checks**, com um único dataset versionado alimentando todos os módulos (sem números copiados à mão).
+**147 checks de integridade** recalculados no navegador — somas, pontes e razões conferidas contra o
+divulgado, incluindo verificações cruzadas entre documentos do mesmo emissor (release × DFs IFRS × workbook
+de dados históricos) e a validação da derivação do 3T25 do Nu contra o exercício assegurado pela KPMG.
+
+## Fontes (resumo)
+
+**Nível 1 — extração documental:** Nu Holdings (releases 1T26/2T26; Managerial P&L Reconciliation Reports
+4T25/1T26/2T26 com asseguração limitada KPMG; DFs intermediárias IFRS; workbook oficial "Historical Data
+3Q25"), Agi Inc/Banco Agibank (Earnings Release 1Q26; DFs intermediárias IFRS com revisão limitada EY),
+Itaú Unibanco (apresentação 2T26; Rel. Administração IFRS 1S26), Banco Bradesco (Relatório de Análise
+Econômica e Financeira 1T26), Banco Santander Brasil (apresentações 1T26/2T26) e Banco Central do Brasil
+(atas 277ª, 278ª, **279ª** e 280ª do Copom).
+
+Também **Bradesco 2T26** (Relatório de Análise Econômica e Financeira + DFs IFRS 1S26) e **Agi 2T26**
+(Earnings Release 2Q26 + DFs IFRS revisadas pela EY + Pilar 3), promovidos de relato a extração documental
+em 16/08/2026 — promoção que **corrigiu três erros** (ver `metodologia.html`, divergências 12 a 14).
+
+**Nível 3 — relatado, sem documento anexado:** cotações e múltiplos de agregadores de mercado (publicados
+**em faixa**, porque divergem entre si); Basileia da Nu Pagamentos S.A. (entidade individual, não o
+consolidado do grupo).
+
+Matriz completa com datas, níveis e lacunas: [`docs/fontes.md`](docs/fontes.md).
+
+**Ressalva:** a maior parte dos documentos foi recebida como conversões OCR/planilhas; o workbook XLSX do Nu
+e a ata da 279ª vieram em formato nativo. A conferência contra os originais publicados permanece pendente e
+declarada.
 
 ## Personalização pendente (para o titular)
 
-- [ ] Preencher experiência, formação, certificações e LinkedIn em `sobre.html`
-      (hoje marcados **DADO NÃO INFORMADO**, por regra de integridade);
-- [ ] Conferir as 3 referências metodológicas marcadas "não verificadas" em
-      [`docs/fontes.md`](docs/fontes.md);
+- [ ] Conferir os arquivos OCR contra os PDFs originais dos emissores;
+- [x] ~~Anexar documentos de Bradesco 2T26 e Agi 2T26~~ — recebidos e promovidos a nível 1;
+- [ ] Obter o **índice de capital consolidado do Nu Holdings** no painel de Conglomerados Prudenciais do
+      BCB (o disponível hoje é da Nu Pagamentos S.A., entidade individual);
 - [ ] (Roadmap) versões Excel/VBA e Power BI dos modelos.
+
+## Recursos da interface
+
+- **Alternância de idioma (PT/EN)** — botão no cabeçalho, com preferência salva no navegador. Cobre
+  interface, navegação, rodapé, títulos e seções principais; textos analíticos longos e rótulos de gráficos
+  permanecem em português nesta versão.
+- **Exportação do relatório** — botão que gera um arquivo HTML autocontido (pronto para imprimir em PDF) com
+  o conteúdo da página, os checks de integridade, a **matriz completa de fontes com o nível de cada
+  documento** e a declaração de conflito de interesse. Tudo é montado no navegador.
 
 ## Stack
 
-HTML/CSS/JavaScript puros (sem dependências externas — funciona offline e no GitHub Pages),
-gráficos SVG próprios com tooltips, tema claro/escuro e tabelas de dados acessíveis;
-Python 3 (biblioteca padrão) para a automação de dados públicos da CVM.
+HTML/CSS/JavaScript puros (sem dependências externas — funciona offline e no GitHub Pages), gráficos SVG
+próprios com tooltips e tabelas de dados acessíveis, tema claro/escuro; Python 3 (biblioteca padrão) para
+a automação de dados públicos da CVM.

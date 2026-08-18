@@ -67,7 +67,7 @@ const GRUPOS = {
 
 const SEM_CHECKS = [
   "index.html", "curriculo.html", "carta-apresentacao.html", "sobre.html",
-  "metodologia.html", "dashboards.html", "simuladores/index.html",
+  "kit-linkedin.html", "metodologia.html", "dashboards.html", "simuladores/index.html",
 ];
 
 const PAGINAS = SEM_CHECKS.concat(Object.keys(ESPERADO));

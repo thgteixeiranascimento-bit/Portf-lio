@@ -497,6 +497,72 @@ nav.main a.on::after {
   box-shadow: var(--e-3), inset 0 1px 0 rgba(255,255,255,.3);
 }
 
+/* ---------- linha de prova condensada (dentro do hero) ---------- */
+.prova-linha {
+  display: flex; align-items: baseline; gap: var(--sp-2); flex-wrap: wrap;
+  margin: var(--sp-4) 0 0; padding: 9px 15px; max-width: none;
+  font-size: .87rem; color: var(--ink-2); font-weight: 500;
+  background: color-mix(in srgb, var(--ok) 8%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--ok) 26%, transparent);
+  border-radius: var(--r-full); width: fit-content;
+}
+.prova-linha > span:first-child { color: var(--ok-text); font-weight: 800; }
+.prova-linha a { font-weight: 650; white-space: nowrap; }
+
+/* ---------- resumo executivo de 15 segundos ---------- */
+.resumo15 {
+  display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--e-2);
+}
+.r15 { padding: var(--sp-5); border-right: 1px solid var(--hairline); }
+.r15:last-child { border-right: 0; }
+.r15-r {
+  font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent-ink); margin-bottom: var(--sp-2);
+}
+.r15 p { margin: 0; font-size: .89rem; color: var(--ink-2); max-width: none; }
+@media (max-width: 800px) {
+  .r15 { border-right: 0; border-bottom: 1px solid var(--hairline); }
+  .r15:last-child { border-bottom: 0; }
+}
+
+/* ---------- cauda longa de palavras-chave ---------- */
+.chips-mais { margin: var(--sp-2) 0 var(--sp-3); }
+.chips-mais summary {
+  cursor: pointer; font-size: .82rem; color: var(--muted); font-weight: 600;
+  list-style: none; display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 0;
+}
+.chips-mais summary::before { content: "+"; font-weight: 800; color: var(--accent); }
+.chips-mais[open] summary::before { content: "−"; }
+.chips-mais summary:hover { color: var(--accent-ink); }
+.chips-mais .chip { opacity: .82; }
+
+/* ---------- título formal e intervalo na linha do tempo ---------- */
+.tl-formal {
+  font-size: .74rem; font-weight: 600; color: var(--muted); letter-spacing: .01em;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+  padding: 1px 8px; border-radius: var(--r-full); white-space: nowrap;
+  display: inline-block; margin-left: 4px; text-transform: none;
+}
+.tl-item.gap::before { background: var(--surface); border-color: var(--muted); box-shadow: 0 0 0 4px color-mix(in srgb, var(--muted) 12%, transparent); }
+.tl-item.gap .tl-role { color: var(--muted); }
+.tl-item.gap .tl-del li { border-left-color: color-mix(in srgb, var(--muted) 45%, transparent); }
+
+/* ---------- blocos copiáveis (kit LinkedIn) ---------- */
+.copiavel { position: relative; margin: var(--sp-4) 0; }
+.copiavel pre {
+  white-space: pre-wrap; word-break: break-word; margin: 0;
+  background: var(--surface); font-family: inherit; font-size: .89rem;
+  line-height: 1.6; color: var(--ink-2); padding: var(--sp-5); padding-right: 130px;
+  border-radius: var(--r-lg);
+}
+.copiavel .btn-copiar { position: absolute; top: 12px; right: 12px; }
+@media (max-width: 620px) {
+  .copiavel pre { padding-right: var(--sp-5); padding-top: 52px; }
+}
+
 /* ---------- provas (números com link) ---------- */
 .proofs { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin: var(--sp-6) 0; }
 .proof {

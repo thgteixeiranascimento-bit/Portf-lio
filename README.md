@@ -82,12 +82,12 @@ Nenhuma delas contém volume, custo, taxa, cliente ou qualquer dado operacional 
 | Página | O que faz |
 |---|---|
 | [`metodologia.html`](metodologia.html) | Protocolo antialucinação, rastreabilidade, 15 divergências documentadas, conflito de interesse, QC |
-| [`validacao-perfil.html`](validacao-perfil.html) | **Conselho de validação do perfil**: 12 checks automáticos de rastreabilidade das afirmações biográficas, hierarquia de fontes, 7 divergências entre documentos-fonte e controles de privacidade |
+| [`validacao-perfil.html`](validacao-perfil.html) | **Conselho de validação do perfil**: 12 checks automáticos de rastreabilidade das afirmações biográficas, hierarquia de fontes, 8 divergências entre documentos-fonte e controles de privacidade |
 
 O mesmo protocolo aplicado às demonstrações financeiras é aplicado à biografia: cada afirmação de carreira
 carrega documento-fonte nomeado, classe de confiabilidade (D1 a D4) e marca explícita onde **não** existe
-resultado quantificado divulgável. Sete divergências encontradas ao cruzar o export do LinkedIn com os
-currículos estão publicadas — **três delas aguardando confirmação do titular**, em vez de resolvidas por
+resultado quantificado divulgável. Oito divergências encontradas ao cruzar o export do LinkedIn com os
+currículos estão publicadas — **duas delas aguardando confirmação do titular**, em vez de resolvidas por
 suposição.
 
 **Registro único:** home, currículo, carta e página Sobre leem o mesmo arquivo
@@ -177,8 +177,8 @@ declarada.
 
 ## Pendências declaradas
 
-- [ ] Confirmar com o titular as **três divergências abertas** listadas em [`validacao-perfil.html`](validacao-perfil.html)
-      (data de início no Agibank, conclusão da graduação e o período mai–dez/2025 não descrito);
+- [ ] Confirmar com o titular as **duas divergências abertas** listadas em [`validacao-perfil.html`](validacao-perfil.html)
+      (data de início no Agibank e data de conclusão da graduação);
 - [ ] Conferir os arquivos OCR contra os PDFs originais dos emissores;
 - [ ] Obter o **índice de capital consolidado do Nu Holdings** no painel de Conglomerados Prudenciais do BCB;
 - [ ] Personalizar o slug do LinkedIn (hoje é o numérico gerado automaticamente);

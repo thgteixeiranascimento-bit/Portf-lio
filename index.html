@@ -64,6 +64,12 @@
       <a class="btn-x ghost" href="https://www.linkedin.com/in/thiago-teixeira-nascimento-03a3961a3" target="_blank" rel="noopener">LinkedIn</a>
     </div>
 
+    <p class="prova-linha">
+      <span aria-hidden="true">✓</span>
+      <span id="provaLinha"></span>
+      <a href="metodologia.html" data-en="see the protocol">ver o protocolo</a>
+    </p>
+
     <div class="meta">
       <span>📍 <span data-en="Campinas, SP — Brazil">Campinas, SP — Brasil</span></span>
       <span>🎓 <span data-en="Economics, PUC-Campinas">Economia, PUC-Campinas</span></span>
@@ -72,8 +78,14 @@
     </div>
   </section>
 
-  <!-- ═══════ 2. Três provas verificáveis em um clique ═══════ -->
-  <section class="blk reveal" style="margin-top:var(--sp-6)">
+  <!-- ═══════ 2. Resumo executivo — leitura de 15 segundos ═══════ -->
+  <section class="blk reveal" style="margin-top:var(--sp-5)">
+    <div class="eyebrow" data-en="15-second read">Leitura de 15 segundos</div>
+    <div class="resumo15" id="resumo15"></div>
+  </section>
+
+  <!-- ═══════ 3. Três provas verificáveis em um clique ═══════ -->
+  <section class="blk reveal">
     <div class="eyebrow" data-en="Verifiable proof — one click each">Prova verificável — um clique cada</div>
     <div class="proofs" id="proofs"></div>
   </section>
@@ -102,18 +114,26 @@
           e redução de erro manual.</p>
       </div>
     </div>
-    <div class="chips" id="atsChips" aria-label="Competências técnicas"></div>
-    <p class="muted-note" data-en="Terms listed above appear either in the professional experience declared in the résumé or in an artefact published on this site — never both invented and unproven.">
-      Cada termo acima está ancorado em experiência declarada no currículo ou em um artefato publicado neste site —
-      nenhum é palavra solta para filtro. A página de <a href="validacao-perfil.html">validação do perfil</a> mostra
-      exatamente onde cada um se comprova.
+    <div class="chips" id="atsNucleo" aria-label="Competências técnicas centrais"></div>
+    <details class="chips-mais">
+      <summary id="chipsMaisLabel"></summary>
+      <div class="chips" id="atsCauda" aria-label="Demais competências"></div>
+    </details>
+    <p class="muted-note" data-en="Every term published for screening is anchored in experience declared in the résumé or in an artefact published on this site — none is a loose word added for a filter. The <a href='validacao-perfil.html'>profile validation</a> page checks that automatically and reports any term that anchors nowhere.">
+      Todo termo publicado para triagem está ancorado em experiência declarada no currículo ou em artefato
+      publicado neste site — nenhum é palavra solta acrescentada para filtro. A página de
+      <a href="validacao-perfil.html">validação do perfil</a> confere isso automaticamente e reporta qualquer
+      termo que não ancore em lugar nenhum.
     </p>
   </section>
 
-  <!-- ═══════ 4. Trajetória ═══════ -->
+  <!-- ═══════ 5. Trajetória ═══════ -->
   <section class="blk reveal">
     <div class="eyebrow" data-en="Career">Trajetória</div>
     <h2 style="margin-top:.2em" data-en="Where the practice was built">Onde a prática foi construída</h2>
+
+    <div class="callout accent" id="notaTitulo"></div>
+
     <div class="timeline" id="timeline"></div>
     <p><a class="btn-x outline sm" href="curriculo.html" data-en="Full résumé with all deliveries →">Currículo completo com todas as entregas →</a></p>
   </section>
@@ -234,6 +254,7 @@
       <a class="btn-x primary" href="curriculo.html"><span class="ic" aria-hidden="true">⭳</span><span data-en="Résumé (PDF and .docx)">Currículo (PDF e .docx)</span></a>
       <a class="btn-x outline" href="carta-apresentacao.html" data-en="Cover letter">Carta de apresentação</a>
       <a class="btn-x ghost" href="mailto:thgteixeiranascimento@gmail.com" data-en="Send an e-mail">Enviar e-mail</a>
+      <a class="btn-x ghost" href="kit-linkedin.html" data-en="LinkedIn kit">Kit LinkedIn</a>
     </div>
     <p class="muted-note" data-en="Nothing on this site is investment advice.">Nada neste site é recomendação de investimento.</p>
   </section>
@@ -254,7 +275,20 @@
     /* pitch */
     document.getElementById("pitchHead").textContent = t(P.PITCH.headline, P.PITCH.headlineEn);
     document.getElementById("pitchSub").textContent  = t(P.PITCH.resumo_curto, P.PITCH.resumo_curtoEn);
+    document.getElementById("provaLinha").textContent = t(P.PITCH.prova_linha, P.PITCH.prova_linhaEn);
     document.getElementById("senioridade").textContent = t(P.PITCH.nota_senioridade, P.PITCH.nota_senioridadeEn);
+
+    /* resumo executivo de 15 segundos */
+    document.getElementById("resumo15").innerHTML = P.PITCH.resumo_15s.map(function (b) {
+      return '<div class="r15"><div class="r15-r">' + esc(t(b.r, b.rEn)) + "</div>" +
+        "<p>" + esc(t(b.d, b.dEn)) + "</p></div>";
+    }).join("");
+
+    /* nota sobre o título formal do cargo */
+    var atual = P.EXPERIENCIA.filter(function (e) { return e.atual; })[0];
+    document.getElementById("notaTitulo").innerHTML =
+      '<span class="ct">' + t("Sobre o título do cargo — dito de frente", "On the job title — said up front") + "</span>" +
+      t(atual.notaTitulo, atual.notaTituloEn);
 
     /* provas */
     document.getElementById("proofs").innerHTML = P.PITCH.provas.map(function (p) {
@@ -265,9 +299,15 @@
         '<span class="go">' + esc(t(p.cta, p.ctaEn)) + ' <span class="arw">→</span></span></a>';
     }).join("");
 
-    /* chips de palavras-chave */
-    document.getElementById("atsChips").innerHTML =
-      P.ATS.map(function (k, i) { return '<span class="chip' + (i < 8 ? " hi" : "") + '">' + esc(k) + "</span>"; }).join("");
+    /* chips: núcleo curado em destaque, cauda longa recolhida */
+    var cauda = P.ATS.filter(function (k) { return P.ATS_NUCLEO.indexOf(k) === -1; });
+    document.getElementById("atsNucleo").innerHTML =
+      P.ATS_NUCLEO.map(function (k) { return '<span class="chip hi">' + esc(k) + "</span>"; }).join("");
+    document.getElementById("atsCauda").innerHTML =
+      cauda.map(function (k) { return '<span class="chip">' + esc(k) + "</span>"; }).join("");
+    document.getElementById("chipsMaisLabel").textContent =
+      t("Ver as outras " + cauda.length + " competências e termos técnicos",
+        "See the other " + cauda.length + " competencies and technical terms");
 
     /* trajetória */
     document.getElementById("timeline").innerHTML = P.EXPERIENCIA.filter(function (e) { return !e.secundaria; })
@@ -275,13 +315,16 @@
         var dels = e.entregas.slice(0, 3).map(function (d) {
           return "<li><b>" + esc(t(d.t, d.tEn)) + "</b>" + esc(t(d.d, d.dEn)) + "</li>";
         }).join("");
-        return '<div class="tl-item' + (e.atual ? " now" : "") + '">' +
-          '<div class="tl-head"><span class="co">' + esc(e.empresa) + "</span>" +
+        var formal = e.cargoFormal
+          ? ' <span class="tl-formal">' + t("título formal: ", "formal title: ") + esc(t(e.cargoFormal, e.cargoFormalEn)) + "</span>"
+          : "";
+        return '<div class="tl-item' + (e.atual ? " now" : "") + (e.naoEmprego ? " gap" : "") + '">' +
+          '<div class="tl-head"><span class="co">' + esc(t(e.empresa, e.empresaEn || e.empresa)) + "</span>" +
           '<span class="per">' + esc(e.inicio) + " – " + esc(t(e.fim, e.fimEn)) + " · " + esc(e.local) + "</span></div>" +
-          '<div class="tl-role">' + esc(t(e.cargo, e.cargoEn)) + "</div>" +
+          '<div class="tl-role">' + esc(t(e.cargo, e.cargoEn)) + formal + "</div>" +
           '<p class="tl-sum">' + esc(t(e.resumo, e.resumoEn)) + "</p>" +
-          '<ul class="tl-del">' + dels + "</ul>" +
-          '<div class="tl-stack">' + e.stack.map(function (s) { return '<span class="chip">' + esc(s) + "</span>"; }).join("") + "</div>" +
+          (dels ? '<ul class="tl-del">' + dels + "</ul>" : "") +
+          (e.stack.length ? '<div class="tl-stack">' + e.stack.map(function (s) { return '<span class="chip">' + esc(s) + "</span>"; }).join("") + "</div>" : "") +
           "</div>";
       }).join("");
 

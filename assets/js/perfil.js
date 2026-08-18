@@ -137,6 +137,37 @@
       "with current practice in statistical modelling, KPIs and management reporting at Agibank. " +
       "This portfolio is the executable proof: ten studies on real public financial statements from five institutions, " +
       "three proprietary calculation tools and a governance layer with checks recalculated in the browser.",
+    /* Linha de credibilidade condensada: a prova de rigor precisa aparecer
+       antes das seções densas, para quem escaneia por 15 segundos e não vai
+       rolar até a metodologia. */
+    prova_linha:
+      "182 checks recalculados no navegador · 15 divergências documentadas — três delas corrigindo erro meu",
+    prova_linhaEn:
+      "182 checks recalculated in the browser · 15 divergences documented — three of them correcting an error of my own",
+
+    /* Resumo executivo de 15 segundos: a leitura mínima antes de decidir se
+       vale abrir qualquer outra coisa. */
+    resumo_15s: [
+      {
+        r: "O que sou",
+        rEn: "What I am",
+        d: "Economista pela PUC-Campinas com base contábil de auditoria (EY, IFRS e BR GAAP) e prática atual de análise em banco digital: modelagem estatística, indicadores e reporting gerencial em Power BI, SQL e Python.",
+        dEn: "Economist (PUC-Campinas) with an audit-built accounting foundation (EY, IFRS and BR GAAP) and current analytical practice at a digital bank: statistical modelling, KPIs and management reporting in Power BI, SQL and Python.",
+      },
+      {
+        r: "O que já provei",
+        rEn: "What I have proven",
+        d: "Treze modelos publicados e abertos: dez estudos sobre demonstrações reais de cinco instituições financeiras e três ferramentas de cálculo próprias — todos com os checks aritméticos visíveis e as divergências declaradas.",
+        dEn: "Thirteen published, open models: ten studies over real financial statements from five institutions and three proprietary calculation tools — all with arithmetic checks visible and divergences declared.",
+      },
+      {
+        r: "O que busco",
+        rEn: "What I am looking for",
+        d: "Posição estruturada em FP&A, Planejamento Financeiro, Controladoria ou Riscos no setor financeiro — onde o trabalho analítico que já faço tenha o título e a estrutura correspondentes.",
+        dEn: "A structured position in FP&A, Financial Planning, Controllership or Risk in the financial sector — where the analytical work I already do carries the corresponding title and structure.",
+      },
+    ],
+
     /* Três provas — cada uma com link verificável e sem número inventado. */
     provas: [
       {
@@ -194,6 +225,27 @@
       empresa: "Agibank",
       cargo: "Assistente Administrativo — Processos e Melhoria Contínua",
       cargoEn: "Administrative Assistant — Process and Continuous Improvement",
+      /* O título formal registrado e o escopo real do trabalho não coincidem.
+         Publicar o título sem a explicação cria um descompasso que o leitor
+         resolve sozinho, e normalmente contra o candidato. */
+      cargoFormal: "Assistente Administrativo",
+      cargoFormalEn: "Administrative Assistant",
+      notaTitulo:
+        "Meu registro formal no Agibank é <b>Assistente Administrativo</b>. O escopo do trabalho é analítico: " +
+        "modelagem estatística de inadimplência, churn e cancelamento; indicadores e dashboards de Power BI usados " +
+        "pela liderança; estudos que precificam o impacto de uma iniciativa antes da execução; e a taxonomia de " +
+        "classificação que sustenta o reporte da área. Cito o título formal por integridade — quem conferir meu " +
+        "histórico vai encontrá-lo — e publico as ferramentas ao lado para que o escopo real seja verificável em " +
+        "vez de alegado. É exatamente esse descompasso que busco resolver: uma posição em que o trabalho analítico " +
+        "que já faço tenha o título e a estrutura correspondentes.",
+      notaTituloEn:
+        "My formal title at Agibank is <b>Administrative Assistant</b>. The scope of the work is analytical: " +
+        "statistical modelling of default, churn and cancellation; indicators and Power BI dashboards used by " +
+        "leadership; studies pricing the impact of an initiative before execution; and the classification taxonomy " +
+        "underpinning the area's reporting. I state the formal title for integrity — anyone checking my record will " +
+        "find it — and publish the tools alongside it so the real scope is verifiable rather than merely claimed. " +
+        "That mismatch is precisely what I am looking to resolve: a role where the analytical work I already do " +
+        "carries the corresponding title and structure.",
       local: "Campinas, SP",
       inicio: "jan/2026",
       fim: "atual",
@@ -258,6 +310,45 @@
       ],
       stack: ["Python", "SQL", "Power BI (DAX)", "Excel avançado", "Salesforce", "Birdie", "HTML"],
       fonte: ["LI", "CV_B3", "CV_EY"],
+    },
+    {
+      /* Intervalo entre a saída da EY e a entrada no Agibank. Declarado pelo
+         titular (D3), sem documento comprobatório anexado — e publicado como
+         tal, em vez de deixado como buraco que o leitor preenche sozinho. */
+      id: "estudos-2025",
+      empresa: "Período de estudos",
+      empresaEn: "Period of study",
+      cargo: "Dedicação a estudos e aprofundamento técnico",
+      cargoEn: "Dedicated to study and technical deepening",
+      local: "Campinas, SP",
+      inicio: "mai/2025",
+      fim: "dez/2025",
+      fimEn: "Dec/2025",
+      atual: false,
+      naoEmprego: true,
+      setor: "Sem vínculo empregatício",
+      resumo:
+        "Intervalo entre a saída da EY e a entrada no Agibank, dedicado a estudos.",
+      resumoEn:
+        "Interval between leaving EY and joining Agibank, dedicated to study.",
+      entregas: [
+        {
+          t: "Período dedicado a estudos",
+          tEn: "Period dedicated to study",
+          d: "Intervalo entre a auditoria externa na EY e a entrada no Agibank dedicado a estudos e aprofundamento técnico em finanças e análise de dados.",
+          dEn: "Interval between external audit at EY and joining Agibank, dedicated to study and technical deepening in finance and data analysis.",
+          metrica: null,
+          fonte: ["BRIEF"],
+        },
+      ],
+      stack: [],
+      fonte: ["BRIEF"],
+      nota:
+        "Declarado pelo titular (classe D3), sem documento comprobatório anexado a este portfólio. " +
+        "Publicado para fechar o intervalo com a informação disponível, e não para preenchê-lo com atividade presumida.",
+      notaEn:
+        "Declared by the holder (class D3), with no supporting document attached to this portfolio. " +
+        "Published to close the interval with the available information, not to fill it with presumed activity.",
     },
     {
       id: "ey",
@@ -587,14 +678,25 @@
     },
     {
       n: 3,
-      tema: "Período sem vínculo descrito (mai/2025 – dez/2025)",
+      tema: "Período entre a EY e o Agibank (mai/2025 – dez/2025)",
       achado:
-        "Entre o fim da EY (abr/2025) e o início registrado no Agibank (jan/2026) há oito meses não descritos em nenhum documento-fonte.",
+        "Entre o fim da EY (abr/2025) e o início registrado no Agibank (jan/2026) há oito meses que não aparecem em nenhum documento-fonte: nem no export do LinkedIn, nem nos currículos.",
       tratamento:
-        "Lacuna declarada, não preenchida. Nenhuma atividade foi inventada para cobrir o intervalo; se houver vínculo, curso ou projeto no período, cabe ao titular informar para registro.",
-      status: "Lacuna declarada",
-      fonte: ["LI"],
-      confirmar: true,
+        "O titular declarou que dedicou o período a estudos. A informação foi incorporada à linha do tempo com atribuição explícita de classe D3 (declaração direta, sem documento comprobatório), fechando o intervalo com o que se sabe em vez de deixá-lo em branco — e sem detalhar cursos, instituições ou certificações que não foram informados.",
+      status: "Declarado pelo titular",
+      fonte: ["BRIEF"],
+      confirmar: false,
+    },
+    {
+      n: 8,
+      tema: "Título formal do cargo × escopo do trabalho no Agibank",
+      achado:
+        "O registro formal é “Assistente Administrativo”, enquanto as entregas descritas nos próprios currículos do titular — modelagem estatística, indicadores, dashboards de Power BI para a liderança e estudos de precificação de iniciativas — são de natureza analítica. Publicar apenas o título induz o leitor a subestimar o escopo; publicar apenas o escopo omite o que qualquer verificação de histórico vai encontrar.",
+      tratamento:
+        "Publicados os dois, lado a lado e com explicação: o título formal aparece junto ao cargo funcional na linha do tempo, no currículo e na página Sobre, acompanhado da nota que descreve o escopo real e aponta para as ferramentas que o comprovam.",
+      status: "Declarado",
+      fonte: ["LI", "CV_B3", "CV_EY", "BRIEF"],
+      confirmar: false,
     },
     {
       n: 4,
@@ -687,6 +789,18 @@
      Vocabulário efetivamente usado em descrições de vaga do setor
      financeiro brasileiro. Cada termo só entra na lista se estiver
      ancorado em experiência declarada ou em artefato deste site.   */
+  /* Núcleo curado: o que aparece em destaque na interface. Os 15 termos que
+     efetivamente filtram uma vaga de FP&A ou risco no setor financeiro
+     brasileiro. O restante da lista continua no texto corrido e nos metadados
+     como cauda longa — visível para máquina, sem poluir a leitura humana.
+     Cada string precisa ser idêntica a uma entrada de ATS, para não escapar do
+     check de ancoragem. */
+  const ATS_NUCLEO = [
+    "FP&A", "Planejamento Financeiro", "Orçamento", "Forecast", "Análise de Variações",
+    "Modelagem Financeira", "DRE", "Fluxo de Caixa", "IFRS", "BR GAAP",
+    "Risco de Crédito", "Power BI", "Excel Avançado", "SQL", "Python",
+  ];
+
   const ATS = [
     "FP&A", "Planejamento Financeiro", "Controladoria", "Orçamento", "Budget", "Forecast",
     "Rolling forecast", "Budget × Realizado", "Análise de Variações", "Modelagem Financeira",
@@ -703,10 +817,57 @@
     "Inglês Fluente", "Melhoria Contínua", "Causa-raiz", "TMO", "Central de Atendimento",
   ];
 
+  /* ---------- kit de empacotamento para o LinkedIn ----------------
+     Blocos prontos para colar, derivados deste mesmo registro. Não
+     introduzem nenhuma afirmação nova: são recortes do que já está
+     publicado e verificado.                                          */
+  const LINKEDIN = {
+    headline:
+      "Analista de FP&A e Planejamento Financeiro | Orçamento, Forecast e Análise de Variações | "
+      + "Modelagem Financeira | IFRS e BR GAAP | Risco de Crédito | Power BI, Excel Avançado, SQL e Python | "
+      + "Economista pela PUC-Campinas",
+    sobre:
+      "Economista pela PUC-Campinas, atuo na interseção entre finanças, dados e planejamento. Minha base contábil "
+      + "foi construída em auditoria externa de instituições financeiras na EY, revisando e validando DRE, balanço "
+      + "e fluxo de caixa sob IFRS e BR GAAP e reportando achados em inglês a stakeholders globais. Hoje, no "
+      + "Agibank, aplico regressão linear e logística a inadimplência, churn e cancelamento, construo os "
+      + "indicadores e dashboards de Power BI (DAX) usados pela liderança e automatizo rotinas recorrentes em "
+      + "Python e SQL.\n\n"
+      + "Para que nada disso dependa da minha palavra, publiquei um portfólio técnico onde o trabalho pode ser "
+      + "aberto e conferido: dez estudos sobre demonstrações públicas reais de cinco instituições financeiras, "
+      + "três ferramentas de cálculo que construí do zero e 182 checks aritméticos recalculados no navegador, com "
+      + "as divergências encontradas documentadas em vez de escondidas.\n\n"
+      + "Busco posição estruturada em FP&A, Planejamento Financeiro, Controladoria ou Riscos no setor financeiro.\n\n"
+      + "Portfólio: https://thgteixeiranascimento-bit.github.io/Portf-lio/",
+    destaques: [
+      {
+        titulo: "Análise setorial — cinco bancos brasileiros em 2026",
+        desc: "Itaú, Bradesco e Santander lado a lado com Nu Holdings e Agi: rentabilidade, eficiência, inadimplência, capital e múltiplos, sobre releases e demonstrações IFRS, com 41 checks aritméticos e o ciclo completo da Selic nas atas do Copom.",
+        url: "analises/bancos-2026.html",
+      },
+      {
+        titulo: "Calculadora de antecipação de parcelas — desconto racional",
+        desc: "Quanto o cliente realmente deve ao antecipar parcelas: valor presente por desconto racional, contrastado com os dois erros mais comuns, com o erro evitado quantificado em reais e em percentual.",
+        url: "simuladores/antecipacao-parcelas.html",
+      },
+      {
+        titulo: "Custo de rechamadas na Central de Atendimento",
+        desc: "Volume, taxa de rechamada, TMO e custo por minuto convertidos em custo anual, decompostos por causa-raiz e ordenados por retorno sobre esforço — a lógica de priorização por trás de um plano de redução.",
+        url: "simuladores/rechamadas.html",
+      },
+      {
+        titulo: "Calculadora de juros e amortização — Price, SAC e equivalência de taxas",
+        desc: "Cronograma completo de amortização e conversão de taxas por equivalência, com o tamanho dos dois erros mais comuns de matemática financeira quantificado.",
+        url: "simuladores/calculadora-juros.html",
+      },
+    ],
+  };
+
   window.PERFIL = {
-    versao: "3.0",
+    versao: "3.1",
     atualizado: "18/08/2026",
     PRIVACIDADE, FONTES, IDENTIDADE, PITCH, EXPERIENCIA, FORMACAO,
-    CERTIFICACOES, IDIOMAS, COMPETENCIAS, PROJETOS, DIVERGENCIAS, VAGAS, ATS,
+    CERTIFICACOES, IDIOMAS, COMPETENCIAS, PROJETOS, DIVERGENCIAS, VAGAS,
+    ATS, ATS_NUCLEO, LINKEDIN,
   };
 })();

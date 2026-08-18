@@ -37,6 +37,7 @@
       <span class="ic" aria-hidden="true">W</span><span data-en="Download Word">Baixar Word</span>
     </button>
     <button type="button" class="btn-x ghost sm" id="btnHtml" data-en="Download HTML">Baixar HTML</button>
+    <a class="btn-x ghost sm" href="kit-linkedin.html" data-en="LinkedIn kit">Kit LinkedIn</a>
   </div>
 
   <div class="callout accent no-print" style="margin-top:0">
@@ -126,9 +127,13 @@
       var itens = e.entregas.map(function (d) {
         return "<li><b>" + esc(t(d.t, d.tEn)) + " — </b>" + esc(t(d.d, d.dEn)) + "</li>";
       }).join("");
-      return '<div class="doc-job"><div class="jh"><span class="jc">' + esc(e.empresa) + "</span>" +
+      var formal = e.cargoFormal
+        ? " <span style='font-weight:500;color:var(--muted)'>(" + t("título formal: ", "formal title: ") +
+          esc(t(e.cargoFormal, e.cargoFormalEn)) + ")</span>"
+        : "";
+      return '<div class="doc-job"><div class="jh"><span class="jc">' + esc(t(e.empresa, e.empresaEn || e.empresa)) + "</span>" +
         '<span class="jd">' + esc(e.inicio) + " – " + esc(t(e.fim, e.fimEn)) + " · " + esc(e.local) + "</span></div>" +
-        '<div class="jr">' + esc(t(e.cargo, e.cargoEn)) + "</div>" +
+        '<div class="jr">' + esc(t(e.cargo, e.cargoEn)) + formal + "</div>" +
         "<ul>" + itens + "</ul></div>";
     }).join("");
 

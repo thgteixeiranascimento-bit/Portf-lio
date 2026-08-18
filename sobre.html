@@ -56,6 +56,7 @@
 
   <section class="blk">
     <h2 data-en="Career">Trajetória</h2>
+    <div class="callout accent" id="notaTitulo"></div>
     <div class="timeline" id="timeline"></div>
   </section>
 
@@ -123,17 +124,27 @@
     el("senioridade").innerHTML = "<b>" + t("Objetivo de carreira.", "Career objective.") + "</b> " +
       esc(t(P.PITCH.nota_senioridade, P.PITCH.nota_senioridadeEn));
 
+    /* nota sobre o título formal do cargo */
+    var atual = P.EXPERIENCIA.filter(function (e) { return e.atual; })[0];
+    el("notaTitulo").innerHTML =
+      '<span class="ct">' + t("Sobre o título do cargo — dito de frente", "On the job title — said up front") + "</span>" +
+      t(atual.notaTitulo, atual.notaTituloEn);
+
     /* trajetória completa, com todas as entregas */
     el("timeline").innerHTML = P.EXPERIENCIA.map(function (e) {
       var dels = e.entregas.map(function (d) {
         return "<li><b>" + esc(t(d.t, d.tEn)) + "</b>" + esc(t(d.d, d.dEn)) + "</li>";
       }).join("");
-      return '<div class="tl-item' + (e.atual ? " now" : "") + '">' +
-        '<div class="tl-head"><span class="co">' + esc(e.empresa) + "</span>" +
+      var formal = e.cargoFormal
+        ? ' <span class="tl-formal">' + t("título formal: ", "formal title: ") + esc(t(e.cargoFormal, e.cargoFormalEn)) + "</span>"
+        : "";
+      return '<div class="tl-item' + (e.atual ? " now" : "") + (e.naoEmprego ? " gap" : "") + '">' +
+        '<div class="tl-head"><span class="co">' + esc(t(e.empresa, e.empresaEn || e.empresa)) + "</span>" +
         '<span class="per">' + esc(e.inicio) + " – " + esc(t(e.fim, e.fimEn)) + " · " + esc(e.local) + "</span></div>" +
-        '<div class="tl-role">' + esc(t(e.cargo, e.cargoEn)) + "</div>" +
+        '<div class="tl-role">' + esc(t(e.cargo, e.cargoEn)) + formal + "</div>" +
         '<p class="tl-sum">' + esc(t(e.resumo, e.resumoEn)) + "</p>" +
         (dels ? '<ul class="tl-del">' + dels + "</ul>" : "") +
+        (e.nota ? '<p class="muted-note" style="margin:8px 0 0">' + esc(t(e.nota, e.notaEn)) + "</p>" : "") +
         (e.stack.length ? '<div class="tl-stack">' + e.stack.map(function (s) { return '<span class="chip">' + esc(s) + "</span>"; }).join("") + "</div>" : "") +
         "</div>";
     }).join("");

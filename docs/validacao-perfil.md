@@ -1,6 +1,6 @@
 # Validação do perfil — conselho aplicado à biografia do autor
 
-Versão 3.0 (18/08/2026). Página navegável com os checks recalculados ao vivo:
+Versão 3.1 (18/08/2026). Página navegável com os checks recalculados ao vivo:
 [`validacao-perfil.html`](../validacao-perfil.html).
 
 Um portfólio que audita demonstrações financeiras de terceiros precisa conseguir auditar o próprio currículo.
@@ -62,13 +62,14 @@ Encontradas ao cruzar o export do LinkedIn com os dois currículos preparados pe
 |---|---|---|---|
 | 1 | Data de início no Agibank | Adotado jan/2026, por concordância de três documentos contra redação anterior sem apoio documental | **Corrigido — confirmar** |
 | 2 | Conclusão da graduação | Publicado 2018–2023, adotando a data mais tardia; divergência registrada | **Declarado — confirmar** |
-| 3 | Período mai–dez/2025 sem vínculo descrito | Lacuna declarada, não preenchida; nada foi inventado para cobrir o intervalo | **Lacuna — confirmar** |
+| 3 | Período mai–dez/2025 entre a EY e o Agibank | Titular declarou dedicação a estudos; incorporado à linha do tempo como classe D3, sem detalhar curso ou instituição não informados | Declarado pelo titular |
 | 4 | Classificação na competição universitária | Publicado com atribuição ao titular (D2); o LinkedIn registra a participação, não a colocação | Declarado |
 | 5 | Grafia de certificação | "Fluency Acabemy" no documento-fonte → publicado "Fluency Academy" | Corrigido |
 | 6 | Nomenclatura do cargo atual | Adotada a forma dos currículos, que descreve o escopo; título formal mantido nesta tabela | Declarado |
 | 7 | Ferramentas antes descritas como "em desenvolvimento" | Separada a competência profissional (declarada, com fonte) do artefato publicado (ausente) | Corrigido |
+| 8 | Título formal do cargo × escopo do trabalho no Agibank | Publicados os dois lado a lado, com nota explicando o escopo real e apontando para as ferramentas que o comprovam | Declarado |
 
-**Três itens aguardam confirmação do titular** e permanecem publicados como divergência aberta, não como fato.
+**Dois itens aguardam confirmação do titular** — divergências 1 e 2 — e permanecem publicados como divergência aberta, não como fato.
 
 ### Sobre a divergência 1
 
@@ -86,6 +87,31 @@ O site anterior listava Power BI, Excel/VBA, Power Query e Power Pivot como "ain
 versão". Um leitor podia interpretar isso como ausência de competência — enquanto os documentos-fonte
 registram uso profissional de Power BI (DAX) e Excel avançado. O que faltava era o **artefato publicado**, não
 a competência. As duas coisas agora aparecem separadas e rotuladas em toda parte.
+
+### Sobre a divergência 3
+
+Versões anteriores desta página registravam os oito meses entre a saída da EY (abr/2025) e a entrada no
+Agibank (jan/2026) como **lacuna declarada**: nenhum documento-fonte descrevia o período, e nada foi inventado
+para cobri-lo. O titular informou depois que dedicou o intervalo a estudos.
+
+A informação foi incorporada à linha do tempo com atribuição explícita de **classe D3** — declaração direta,
+sem documento comprobatório anexado. Deliberadamente não se detalha curso, instituição ou certificação: nada
+disso foi informado, e preencher esses campos seria exatamente o tipo de invenção que o protocolo existe para
+impedir. O que mudou foi o estado da informação, de ausente para declarada; o rigor sobre o que se pode
+afirmar continua o mesmo.
+
+### Sobre a divergência 8
+
+O registro formal no Agibank é **Assistente Administrativo**. As entregas descritas nos próprios currículos do
+titular — modelagem estatística de inadimplência e churn, indicadores e dashboards de Power BI usados pela
+liderança, estudos que precificam iniciativas antes da execução, taxonomia de classificação do reporte — são
+de natureza analítica.
+
+Publicar apenas o título induz o leitor a subestimar o escopo. Publicar apenas o escopo omite o que qualquer
+verificação de histórico vai encontrar, e transforma uma diferença explicável em suspeita de inflação. Os dois
+são publicados lado a lado, com a explicação e com as ferramentas que tornam o escopo verificável em vez de
+alegado — e a resolução desse descompasso é declarada como o objetivo de carreira, não escondida como um
+detalhe incômodo.
 
 ---
 
@@ -122,7 +148,7 @@ superfícies.
    entrega apenas a partir deste site. O que o portfólio garante é consistência interna e que nada foi
    inventado para preencher lacuna — não que um empregador confirmaria cada linha.
 2. **Nenhum resultado profissional quantificado é publicado**, pelas razões da seção 4.
-3. **Três divergências aguardam confirmação**, listadas na seção 3.
+3. **Duas divergências aguardam confirmação**, listadas na seção 3.
 4. **As ferramentas próprias são reconstruções públicas** — demonstram o raciocínio, não reproduzem artefatos
    internos e não contêm dado operacional.
 

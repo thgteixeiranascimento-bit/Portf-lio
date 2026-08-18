@@ -3,7 +3,7 @@
 Parecer da versão 2.2 (16/08/2026). Detalhe navegável em [`metodologia.html`](../metodologia.html), seção 6.
 
 > Este conselho cobre os **dados financeiros públicos**. As afirmações **biográficas** do autor têm conselho
-> próprio, com hierarquia de fontes D1–D4, 12 checks automáticos e sete divergências registradas:
+> próprio, com hierarquia de fontes D1–D4, 12 checks automáticos e oito divergências registradas:
 > ver [`validacao-perfil.md`](validacao-perfil.md) e [`validacao-perfil.html`](../validacao-perfil.html).
 
 | # | Perspectiva | O que verificou | Parecer |

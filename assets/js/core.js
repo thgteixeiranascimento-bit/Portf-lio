@@ -623,7 +623,8 @@ ${fontesHTML}
   /* ---------- navegação / rodapé ---------- */
   const NAV = [
     ["index.html", "Início", "Home", "home"],
-    ["simuladores/index.html", "Estudos", "Studies", "sim"],
+    ["curriculo.html", "Currículo", "Résumé", "cv"],
+    ["simuladores/index.html", "Estudos e ferramentas", "Studies & tools", "sim"],
     ["analises/bancos-2026.html", "Análise setorial", "Sector analysis", "ana"],
     ["dashboards.html", "Dashboards", "Dashboards", "dash"],
     ["kpis.html", "KPIs", "KPIs", "kpis"],
@@ -650,10 +651,10 @@ ${fontesHTML}
     const footer = document.createElement("footer");
     footer.className = "site";
     footer.innerHTML = `<div class="wrap">
-      <div data-en="Technical portfolio of Corporate Finance, FP&amp;A, Valuation and BI built on <b>public data from dated primary sources</b> (Nu, Agi/Agibank, Itaú, Bradesco, Santander Brasil and Copom).<br>Facts, assumptions, estimates and derivations are labelled separately. Nothing here is investment advice.<br><b>Conflict of interest:</b> the author has been an employee of Agibank since 2025 — see <a href='${root}sobre.html'>About</a>.">Portfólio técnico de Finanças Corporativas, FP&amp;A, Valuation e BI construído sobre
+      <div data-en="Technical portfolio of Corporate Finance, FP&amp;A, Valuation and BI built on <b>public data from dated primary sources</b> (Nu, Agi/Agibank, Itaú, Bradesco, Santander Brasil and Copom).<br>Facts, assumptions, estimates and derivations are labelled separately. Nothing here is investment advice.<br><b>Conflict of interest:</b> the author is currently an employee of Agibank — see <a href='${root}sobre.html'>About</a>.">Portfólio técnico de Finanças Corporativas, FP&amp;A, Valuation e BI construído sobre
       <b>dados públicos de fontes primárias datadas</b> (Nu, Agi/Agibank, Itaú, Bradesco, Santander Brasil e Copom).<br>
       Fatos, premissas, estimativas e derivações são rotulados separadamente. Nada aqui é recomendação de investimento.<br>
-      <b>Conflito de interesse:</b> o autor é colaborador do Agibank desde 2025 — ver <a href="${root}sobre.html">Sobre</a>.</div>
+      <b>Conflito de interesse:</b> o autor é colaborador do Agibank (vínculo atual) — ver <a href="${root}sobre.html">Sobre</a>.</div>
       <div data-en="Author: <b>Thiago Teixeira Nascimento</b><br>Source code: <a href='https://github.com/thgteixeiranascimento-bit/Portf-lio'>GitHub</a> · <a href='https://www.linkedin.com/in/thiago-teixeira-nascimento-03a3961a3'>LinkedIn</a><br>Methodology and governance: <a href='${root}metodologia.html'>see protocol</a>">Autor: <b>Thiago Teixeira Nascimento</b><br>
       Código-fonte: <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio">GitHub</a> · <a href="https://www.linkedin.com/in/thiago-teixeira-nascimento-03a3961a3">LinkedIn</a><br>
       Metodologia e governança: <a href="${root}metodologia.html">ver protocolo</a></div>
@@ -662,9 +663,46 @@ ${fontesHTML}
 
     document.getElementById("langBtn").addEventListener("click", () => setLang(isEn() ? "pt" : "en"));
     document.getElementById("exportBtn").addEventListener("click", exportarRelatorio);
+
+    /* atalho de teclado: pular direto para o conteúdo */
+    const skip = document.createElement("a");
+    skip.className = "skip-link";
+    skip.href = "#conteudo";
+    skip.textContent = t("Pular para o conteúdo", "Skip to content");
+    skip.setAttribute("data-en", "Skip to content");
+    body.prepend(skip);
+    const main = document.querySelector("main");
+    if (main && !main.id) main.id = "conteudo";
+
+    /* sombra do cabeçalho ao rolar */
+    const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    /* entrada suave dos blocos (respeita prefers-reduced-motion via CSS) */
+    const alvos = document.querySelectorAll(".reveal");
+    if (alvos.length && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver((ents) => {
+        ents.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+      alvos.forEach(el => io.observe(el));
+    } else {
+      alvos.forEach(el => el.classList.add("in"));
+    }
+
     applyLang();
   }
   document.addEventListener("DOMContentLoaded", initSite);
+
+  /* ---------- download de arquivo montado no navegador ---------- */
+  function baixarArquivo(nome, conteudo, mime) {
+    const blob = new Blob([conteudo], { type: (mime || "text/plain") + ";charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = nome;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1500);
+  }
 
   /* ---------- utilidades numéricas ---------- */
   function irr(cashflows, guess) {
@@ -685,5 +723,5 @@ ${fontesHTML}
   }
   const near = (a, b, tol) => Math.abs(a - b) <= (tol == null ? 0.05 : tol);
 
-  window.Viz = { line, bars, waterfall, hbars, scatter, heatTable, renderChecks, renderFontes, F, col, tok, irr, npv, near, niceTicks, t, isEn, setLang, exportarRelatorio };
+  window.Viz = { line, bars, waterfall, hbars, scatter, heatTable, renderChecks, renderFontes, F, col, tok, irr, npv, near, niceTicks, t, isEn, setLang, exportarRelatorio, baixarArquivo };
 })();

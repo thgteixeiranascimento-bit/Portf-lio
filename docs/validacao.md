@@ -2,6 +2,10 @@
 
 Parecer da versão 2.2 (16/08/2026). Detalhe navegável em [`metodologia.html`](../metodologia.html), seção 6.
 
+> Este conselho cobre os **dados financeiros públicos**. As afirmações **biográficas** do autor têm conselho
+> próprio, com hierarquia de fontes D1–D4, 12 checks automáticos e sete divergências registradas:
+> ver [`validacao-perfil.md`](validacao-perfil.md) e [`validacao-perfil.html`](../validacao-perfil.html).
+
 | # | Perspectiva | O que verificou | Parecer |
 |---|---|---|---|
 | 1 | Contador | A = P + PL exato (Nu, 4 períodos incl. 3T25; Agi, 2 períodos); caixa reconcilia; mutação do PL soma; mesmo lucro nas três demonstrações da Agi | ✅ Aprovado |

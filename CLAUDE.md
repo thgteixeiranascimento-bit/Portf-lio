@@ -24,3 +24,21 @@ cd ~/.claude/skills/gstack && ./setup --team
 
 Skills like /qa, /ship, /review, /investigate, and /browse become available after install.
 Use /browse for all web browsing. Use ~/.claude/skills/gstack/... for gstack file paths.
+
+## MCP Servers
+
+### shadcn-ui-mcp-server
+
+[shadcn-ui-mcp-server](https://github.com/Jpisnice/shadcn-ui-mcp-server) (MIT, by Jpisnice) —
+Model Context Protocol server providing AI assistants with access to shadcn/ui v4 components,
+blocks, demos, and source code (React, Svelte, Vue, React Native). Useful for rapid component
+integration in design-heavy projects.
+
+Quick start (requires Claude Code with MCP support):
+```bash
+# With GitHub token (recommended for higher rate limits)
+npx @jpisnice/shadcn-ui-mcp-server --github-api-key ghp_your_token_here
+
+# Or install via .mcpb file in Claude Desktop
+# Download from: https://github.com/Jpisnice/shadcn-ui-mcp-server/releases
+```

@@ -60,3 +60,22 @@ npx @21st-dev/magic API_KEY="your_api_key"
 
 # Get an API key at https://21st.dev/mcp
 ```
+
+## Skills & AI Agent Collections
+
+### Vercel Agent Skills
+
+[Agent Skills](https://github.com/vercel-labs/agent-skills) (by Vercel Labs) —
+A curated collection of skills for AI coding agents covering performance optimization, React/Next.js best practices,
+web design guidelines, writing handbook compliance, React Native patterns, and view transitions.
+Packaged using the [Agent Skills](https://agentskills.io/) format.
+
+Available skills:
+- `vercel-optimize` — audit deployed Vercel projects for cost and performance
+- `react-best-practices` — 40+ performance rules for React and Next.js (from Vercel Engineering)
+- `web-design-guidelines` — 100+ accessibility, performance, and UX rules
+- `writing-guidelines` — Vercel writing handbook with 80+ prose and docs rules
+- `react-native-guidelines` — React Native and Expo best practices
+- `react-view-transitions` — smooth animations using React View Transition API
+
+Installation and usage via [skills.sh](https://skills.sh/) (Agent Skills registry).

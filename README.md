@@ -51,6 +51,7 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra
 
 ```
 /                       páginas do site (GitHub Pages serve a raiz)
+├── CLAUDE.md           contexto do projeto para agentes de IA (+ gstack)
 ├── index.html          home
 ├── sobre.html          perfil (lacunas marcadas "DADO NÃO INFORMADO")
 ├── dashboards.html     4 dashboards executivos
@@ -84,3 +85,15 @@ automáticos** de consistência são recalculados no navegador a cada mudança d
 HTML/CSS/JavaScript puros (sem dependências externas — funciona offline e no GitHub Pages),
 gráficos SVG próprios com tooltips, tema claro/escuro e tabelas de dados acessíveis;
 Python 3 (biblioteca padrão) para a automação de dados públicos da CVM.
+
+## Ferramentas de desenvolvimento assistido
+
+O repositório usa [gstack](https://github.com/garrytan/gstack) (MIT, por Garry Tan) como
+camada de workflows para trabalho assistido por IA — revisão, QA e release em formato de
+slash commands. **O código do gstack não é versionado aqui**: a instalação é global, por
+desenvolvedor, e o repositório só carrega o apontamento em [`CLAUDE.md`](CLAUDE.md).
+
+```bash
+git clone --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack
+cd ~/.claude/skills/gstack && ./setup --team
+```

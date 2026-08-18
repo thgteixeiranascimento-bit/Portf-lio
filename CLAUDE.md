@@ -42,3 +42,21 @@ npx @jpisnice/shadcn-ui-mcp-server --github-api-key ghp_your_token_here
 # Or install via .mcpb file in Claude Desktop
 # Download from: https://github.com/Jpisnice/shadcn-ui-mcp-server/releases
 ```
+
+### 21st MCP (magic-mcp compatibility proxy)
+
+[21st MCP](https://21st.dev/mcp) / [magic-mcp](https://github.com/21st-dev/magic-mcp) (ISC, by 21st) —
+Model Context Protocol server for UI component generation, discovery, and refinement. Tools include
+catalog search (components/themes/templates), UI generation with variants, and logo search. The
+`magic-mcp` package is a compatibility proxy for the unified 21st MCP server.
+
+Quick start:
+```bash
+# Install the 21st CLI (recommended)
+npx @21st-dev/cli@latest init --client claude
+
+# Or use the compatibility proxy
+npx @21st-dev/magic API_KEY="your_api_key"
+
+# Get an API key at https://21st.dev/mcp
+```

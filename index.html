@@ -90,6 +90,67 @@
     <div class="proofs" id="proofs"></div>
   </section>
 
+  <!-- ═══════ 4. Vitrine técnica: gráfico, tabela e premissa ao vivo ═══════ -->
+  <section class="blk reveal">
+    <div class="eyebrow" data-en="Live — not a screenshot">Ao vivo — não é captura de tela</div>
+    <div class="vitrine">
+      <div class="vt-head">
+        <div>
+          <h3 data-en="Nu Holdings — six disclosed quarters, with a labelled assumption">Nu Holdings — seis trimestres divulgados, com premissa rotulada</h3>
+          <p data-en="Real figures from the releases. The dashed point is an author's estimate driven by the assumption below — never presented as guidance. Toggle a series in the legend; the table follows.">
+            Números reais dos releases. O ponto tracejado é estimativa do autor, movida pela premissa abaixo —
+            nunca apresentada como guidance. Ligue e desligue séries na legenda; a tabela acompanha.</p>
+        </div>
+        <div class="seg-pro" id="vtSeg" role="group" aria-label="Métrica"></div>
+      </div>
+
+      <div class="vt-body split">
+        <div class="stack-sm">
+          <figure class="chart" id="vtChart"></figure>
+          <div class="form-grid">
+            <div class="field">
+              <span class="lb">
+                <label for="vtCresc" id="vtCrescRot">Crescimento t/t presumido</label>
+                <output class="out" id="vtCrescOut" for="vtCresc"></output>
+              </span>
+              <input type="range" id="vtCresc" min="-10" max="20" step="0.5" value="6">
+              <span class="hint" data-en="Applies only to the projected quarter (3Q26). Author's assumption — the six quarters before it are disclosed fact. Absolute values move in %; ratios move in percentage points.">
+                Aplica-se apenas ao trimestre projetado (3T26). Premissa do autor — os seis trimestres anteriores são
+                fato divulgado. Valor absoluto anda em %; taxa anda em pontos percentuais.</span>
+            </div>
+            <div class="field">
+              <span class="lb"><label for="vtBase" data-en="Base quarter">Trimestre-base</label></span>
+              <div class="inp">
+                <select id="vtBase" disabled><option id="vtBaseOpt">2T26</option></select>
+                <span class="afx" data-en="fixed">fixo</span>
+              </div>
+              <span class="hint" data-en="The latest quarter with a disclosure document in hand.">
+                O trimestre mais recente com documento de divulgação em mãos.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tbl-wrap" style="--tbl-max:430px">
+          <div class="tbl-cap">
+            <span class="t" id="vtTblT"></span>
+            <span class="u" id="vtTblU"></span>
+          </div>
+          <div class="tbl-scroll">
+            <table class="tbl-pro" id="vtTbl"></table>
+          </div>
+          <div class="tbl-foot" id="vtTblF"></div>
+        </div>
+      </div>
+
+      <div class="vt-foot">
+        <span data-en="■ Source: Nu Holdings 1Q26 and 2Q26 releases, KPMG-assured managerial P&amp;L reconciliations and the official Historical Data 3Q25 workbook.">
+          ■ Fonte: releases 1T26 e 2T26 do Nu Holdings, reconciliações do P&amp;L gerencial com asseguração KPMG e o workbook oficial Historical Data 3T25.</span>
+        <span class="sep" aria-hidden="true">·</span>
+        <a href="simuladores/orcamento.html" data-en="Open the full variance model →">Abrir o modelo completo de variações →</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════ 3. Leitura de 8 segundos: o que eu faço ═══════ -->
   <section class="blk reveal">
     <h2 data-en="What I deliver to a Financial Planning team">O que entrego a um time de Planejamento Financeiro</h2>
@@ -339,8 +400,206 @@
     }).join("");
   }
 
-  document.addEventListener("DOMContentLoaded", render);
-  window.onLangChange = render;
+  /* ═══════════════════════════════════════════════════════════
+     Vitrine técnica — gráfico com legenda interativa, tabela
+     profissional e uma premissa controlada pelo visitante.
+
+     Regra do protocolo aplicada aqui: os seis trimestres vêm do
+     documento (fato); o sétimo é estimativa do autor, desenhada
+     tracejada, rotulada na tabela e nunca somada ao divulgado.
+     ═══════════════════════════════════════════════════════════ */
+  var VT = (function () {
+    var R = window.REAL, F = V.F;
+    /* modo da premissa por natureza da métrica:
+         "mult" — valor absoluto cresce em % sobre a base
+         "pp"   — taxa se desloca em pontos percentuais
+       Somar % a uma razão seria erro de leitura: ROE não "cresce 6%",
+       ele anda p.p.; e no índice de eficiência subir é piorar. */
+    var METRICAS = [
+      { id: "resultado", rot: "Receita e lucro", rotEn: "Revenue and profit",
+        un: "US$ milhões", unEn: "US$ million", fmt: F.mm,
+        modo: "mult", min: -10, max: 20, passo: 0.5, ini: 6,
+        premissa: "Crescimento t/t presumido", premissaEn: "Assumed q/q growth",
+        series: [
+          { key: "receita",    nome: "Receita",      nomeEn: "Revenue",       color: "s1" },
+          { key: "lucroBruto", nome: "Lucro bruto",  nomeEn: "Gross profit",  color: "s3" },
+          { key: "lucro",      nome: "Lucro líquido", nomeEn: "Net profit",   color: "s2" },
+        ] },
+      { id: "rentab", rot: "Rentabilidade", rotEn: "Profitability",
+        un: "% ao trimestre", unEn: "% per quarter", fmt: F.pcv,
+        modo: "pp", min: -5, max: 5, passo: 0.1, ini: 0,
+        premissa: "Deslocamento t/t presumido", premissaEn: "Assumed q/q shift",
+        series: [
+          { key: "roePc",        nome: "ROE",              nomeEn: "ROE",              color: "s1", maiorMelhor: true },
+          { key: "eficienciaPc", nome: "Índice de eficiência", nomeEn: "Efficiency ratio", color: "s2", maiorMelhor: false },
+          { key: "nimRiscoPc",   nome: "NIM ajustada a risco", nomeEn: "Risk-adjusted NIM", color: "s3", maiorMelhor: true },
+        ] },
+      { id: "escala", rot: "Escala", rotEn: "Scale",
+        un: "milhões de clientes · US$ bilhões", unEn: "million customers · US$ billion", fmt: F.mm,
+        modo: "mult", min: -10, max: 20, passo: 0.5, ini: 5,
+        premissa: "Crescimento t/t presumido", premissaEn: "Assumed q/q growth",
+        series: [
+          { key: "clientesMi",  nome: "Clientes (mi)",   nomeEn: "Customers (m)",  color: "s1" },
+          { key: "depositosBi", nome: "Depósitos (US$ bi)", nomeEn: "Deposits (US$ bn)", color: "s3" },
+          { key: "carteiraBi",  nome: "Carteira (US$ bi)",  nomeEn: "Loan book (US$ bn)", color: "s2" },
+        ] },
+    ];
+    var atual = "resultado", cresc = 6, estado = {};
+
+    function met() { return METRICAS.filter(function (m) { return m.id === atual; })[0]; }
+    function proj(vals) {          /* projeta o trimestre seguinte sobre o último valor conhecido */
+      for (var i = vals.length - 1; i >= 0; i--) {
+        if (vals[i] == null) continue;
+        return met().modo === "pp" ? vals[i] + cresc : vals[i] * (1 + cresc / 100);
+      }
+      return null;
+    }
+    /* variação na unidade certa: % para valor absoluto, p.p. para taxa */
+    function delta(a, b) {
+      if (a == null || b == null) return null;
+      if (met().modo === "pp") return a - b;
+      return b === 0 ? null : (a / b - 1) * 100;
+    }
+    function fmtDelta(d) { return d == null ? "—" : met().modo === "pp" ? F.ppv(d) : F.spcv(d); }
+
+    function desenha() {
+      var t = V.t, m = met(), per = R.nu.periodos;
+      var rot = per.map(tri).concat([tri("3T26") + "e"]);
+
+      /* série de fato + série de estimativa: a segunda só existe no último
+         ponto, ligada ao penúltimo, para o tracejado nascer da linha cheia */
+      var series = [];
+      m.series.forEach(function (s) {
+        var vals = R.nu.op[s.key].slice();
+        var visivel = estado[m.id + ":" + s.key];
+        var real = vals.concat([null]);
+        var p = proj(vals);
+        var est = vals.map(function () { return null; }).concat([p]);
+        var ult = vals.length - 1;
+        while (ult >= 0 && vals[ult] == null) ult--;
+        if (ult >= 0) est[ult] = vals[ult];
+        series.push({ name: t(s.nome, s.nomeEn), values: real, color: s.color, kind: "line",
+                      chave: s.key, off: visivel === false });
+        series.push({ name: t(s.nome, s.nomeEn) + " · " + t("estimativa", "estimate"), values: est,
+                      color: s.color, dash: "5 4", kind: "line", legenda: false,
+                      par: s.key, off: visivel === false });
+      });
+
+      /* a legenda só lista as séries de fato; a companheira tracejada segue
+         o mesmo interruptor, via onToggle */
+      V.line(document.getElementById("vtChart"), {
+        labels: rot, series: series, fmt: m.fmt, height: 250, yZero: false,
+        legendToggle: true, twin: false,
+        title: t(m.rot, m.rotEn),   /* o emissor já está no cabeçalho do bloco */
+        sub: t(tri(per[0]) + " a " + tri(per[per.length - 1]) + " divulgado · " + tri("3T26") + " estimado a " + premissaTxt(),
+               tri(per[0]) + " to " + tri(per[per.length - 1]) + " disclosed · " + tri("3T26") + " estimated at " + premissaTxt()),
+        band: { from: per.length - 1, to: rot.length - 1, label: t("estimativa", "estimate") },
+        onToggle: function (s, todas) {
+          todas.forEach(function (o) { if (o.par === s.chave) o.off = s.off; });
+          estado[m.id + ":" + s.chave] = !s.off;
+        },
+      });
+
+      tabela(m, per, t);
+    }
+
+    function tabela(m, per, t) {
+      var cabec = ["<th>" + t("Trimestre", "Quarter") + "</th>"].concat(m.series.map(function (s) {
+        return '<th class="n" scope="col">' + esc(t(s.nome, s.nomeEn)) + "</th>";
+      })).concat(['<th class="n grp" scope="col">Δ ' + tt() +
+        (met().modo === "pp" ? " (p.p.)" : " (%)") + "</th>"]);
+
+      /* o sentido do sinal segue a métrica: no índice de eficiência,
+         subir é piorar — a seta verde iria mentir */
+      var guia = m.series[0], base = R.nu.op[guia.key];
+      function classe(d) {
+        if (d == null) return "na";
+        if (Math.abs(d) < 0.05) return "flat";
+        var bom = guia.maiorMelhor === false ? d < 0 : d > 0;
+        return bom ? "up" : "down";
+      }
+
+      var linhas = per.map(function (p, i) {
+        var cels = m.series.map(function (s) {
+          var v = R.nu.op[s.key][i];
+          return '<td class="n' + (v == null ? " na" : "") + '">' + (v == null ? "—" : m.fmt(v)) + "</td>";
+        }).join("");
+        var d = i === 0 ? null : delta(base[i], base[i - 1]);
+        return '<tr><th scope="row">' + tri(p) + "</th>" + cels +
+          '<td class="n grp ' + classe(d) + '">' + fmtDelta(d) + "</td></tr>";
+      });
+
+      /* linha de estimativa: marcada, nunca confundida com o divulgado */
+      var estCels = m.series.map(function (s) {
+        var p = proj(R.nu.op[s.key]);
+        return '<td class="n' + (p == null ? " na" : "") + '">' + (p == null ? "—" : m.fmt(p)) + "</td>";
+      }).join("");
+      linhas.push('<tr class="est"><th scope="row">' + tri("3T26") + " · " + t("estimativa", "estimate") + "</th>" + estCels +
+        '<td class="n grp ' + classe(cresc) + '">' + fmtDelta(cresc) + "</td></tr>");
+
+      document.getElementById("vtTbl").innerHTML =
+        "<thead><tr>" + cabec.join("") + "</tr></thead><tbody>" + linhas.join("") + "</tbody>";
+      document.getElementById("vtTblT").textContent = t(m.rot, m.rotEn);
+      document.getElementById("vtTblU").textContent = t(m.un, m.unEn);
+      document.getElementById("vtTblF").textContent =
+        t("Δ t/t calculado sobre a primeira coluna. Célula vazia (—) é lacuna declarada, não zero.",
+          "Q/q delta computed on the first column. An empty cell (—) is a declared gap, not a zero.") +
+        (m.modo === "pp"
+          ? t(" Taxa anda em pontos percentuais, não em %.", " A rate moves in percentage points, not in %.")
+          : "");
+    }
+
+    /* "1T25" é a notação dos documentos em português; em inglês o mesmo
+       trimestre se escreve "1Q25". A conversão fica num só lugar. */
+    function tri(p) { return V.isEn() ? p.replace("T", "Q") : p; }
+    function tt() { return V.t("t/t", "q/q"); }
+    function premissaTxt() {
+      return (met().modo === "pp" ? F.ppv(cresc) : F.spcv(cresc)) + " " + tt();
+    }
+
+    function montaSeg() {
+      var t = V.t;
+      document.getElementById("vtSeg").innerHTML = METRICAS.map(function (m) {
+        return '<button type="button" aria-pressed="' + (m.id === atual) + '" data-m="' + m.id + '">' +
+          esc(t(m.rot, m.rotEn)) + "</button>";
+      }).join("");
+      document.getElementById("vtSeg").querySelectorAll("button").forEach(function (b) {
+        b.addEventListener("click", function () {
+          atual = b.dataset.m;
+          montaSeg();
+          configuraFaixa(true);
+        });
+      });
+    }
+
+    /* o controle se reconfigura com a métrica: amplitude, passo, unidade
+       e rótulo mudam porque a natureza da premissa muda junto */
+    function configuraFaixa(reset) {
+      var t = V.t, m = met();
+      var faixa = document.getElementById("vtCresc");
+      faixa.min = m.min; faixa.max = m.max; faixa.step = m.passo;
+      if (reset) faixa.value = m.ini;
+      document.getElementById("vtCrescRot").textContent = t(m.premissa, m.premissaEn);
+      document.getElementById("vtBaseOpt").textContent = tri(R.nu.periodos[R.nu.periodos.length - 1]);
+      sincroniza();
+    }
+
+    function sincroniza() {
+      cresc = parseFloat(document.getElementById("vtCresc").value);
+      document.getElementById("vtCrescOut").textContent = premissaTxt();
+      desenha();
+    }
+
+    function init() {
+      document.getElementById("vtCresc").addEventListener("input", sincroniza);
+      montaSeg();
+      configuraFaixa(true);
+    }
+    return { init: init, redesenha: function () { montaSeg(); configuraFaixa(false); } };
+  })();
+
+  document.addEventListener("DOMContentLoaded", function () { render(); VT.init(); });
+  window.onLangChange = function () { render(); VT.redesenha(); };
 })();
 </script>
 </body>

@@ -159,6 +159,32 @@ Only `400` (regular) and `700` (bold) are used.
 - Hover: `background: var(--surface-2)`, `text-decoration: none`, `color: var(--ink)`
 - Active (`.on`): `color: var(--accent-ink)`, `font-weight: 600`
 
+### Forms (`.field`, `.inp`, `.seg-pro`)
+
+A field is four parts in a fixed order — label, value readout, control, hint — so the eye finds the same thing in the same place in every form on the site.
+
+```
+.field
+  ├── .lb        label (left) + .out live readout (right, pill, --font-num, nowrap)
+  ├── .inp       control frame: input/select + optional .afx unit affix
+  ├── .hint      what the control does and what it does not do
+  └── .err       validation message, revealed by .field.invalid
+```
+
+| Token / rule | Value | Why |
+|---|---|---|
+| `--field-h` | 40px minimum | Touch-target floor; the same figure Stripe holds its fields to |
+| `--hairline-input` | `color-mix(accent 26%, border)` | A cooler, slightly stronger fio than content borders — it says "you can type here" without a fill colour |
+| Focus | border → `--accent` **plus** `--ring` (3px accent halo) | Border alone is too quiet at 1px; the halo carries the state |
+| Invalid | border → `--bad`, `--ring-bad` on focus, `.err` revealed | Colour plus text, never colour alone |
+| Unit affix | `.afx` inside the frame, `--surface-2` fill, hairline divider | The unit stays attached to the number under all wrapping |
+| Disabled | `:has(:disabled)` dims the whole frame | The frame and its affix dim together, not just the input |
+| Readout | pill, `--font-num`, `white-space: nowrap` | A live value that reflows mid-drag is unreadable |
+
+**Segmented control (`.seg-pro`)** — for switching a view, never for submitting. Uses `aria-pressed` on real buttons (not radio styling), 34px minimum button height inside a 3px padded track, and scrolls horizontally below 620px instead of overflowing its container.
+
+**Control-to-metric coupling:** when a control's meaning depends on the selected view, the control reconfigures with it — amplitude, step, unit and label all change together. A slider labelled "growth" that silently becomes a percentage-point shift is a trap; the label, the affix and the readout must all move at once.
+
 ### Layout
 **Container (`.wrap`)**
 - Max-width: 1120px
@@ -208,6 +234,20 @@ All text meets WCAG AA standards for contrast:
 - Links open in same window by default; external links marked
 - Tables use `<th>` for headers, `<tbody>` for data
 
+## Numeric Type Voice
+
+Serious financial interfaces split the type stack in two: an editorial face for prose and a distinct tabular face for figures. Binance does it with BinancePlex, Coinbase with CoinbaseMono, Stripe with `tnum` on every money value. The split is functional, not decorative — a column of numbers that does not align digit-to-digit cannot be scanned.
+
+```
+--font-num:  ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono",
+             "IBM Plex Mono", Menlo, Consolas, monospace
+--num-feat:  tabular-nums slashed-zero
+```
+
+Applied via `.num`, and automatically inside `.tbl-pro td.n`, range outputs, and `input[type=number]`. Never applied to prose. No web font is loaded — the voice comes from the platform monospace stack, so it costs nothing and works offline.
+
+**Rule:** every currency amount, rate, ratio, variance, and total renders in `--font-num`. Every sentence renders in the sans.
+
 ## Data Visualization
 
 ### Chart Color Palette
@@ -223,16 +263,55 @@ SVG implementation (no dependencies):
 - Gridlines: `var(--grid)` with opacity 0.5
 - Tooltips: `var(--surface)` background, `var(--ink)` text
 
-### Data Table Styling
-| Element | Style |
-|---------|-------|
-| Header row | `background: var(--surface-2)`, `font-weight: 700`, `border-bottom: 1px solid var(--grid)` |
-| Body rows | `border-bottom: 1px solid var(--border)` |
-| Alternating rows | None — let grid pattern provide rhythm |
-| Cell padding | 12px horizontal, 10px vertical |
-| Numbers (right-aligned) | Monospace font, `text-align: right` |
-| Negative values | `color: var(--bad)` |
-| Positive values | `color: var(--ok)` |
+### Chart Header & Legend Placement (`.c-head`, `.legend-pro`)
+
+The legend belongs in the chart header row, right-aligned against the title — not below the plot. Below-the-plot legends cost vertical space that the data should own and force the eye to travel down and back up to decode a series. In the header, "what this is" and "who is who" are read in one pass before entering the plot area.
+
+```
+.c-head          flex row · title block left · legend right · wraps on narrow
+.c-titles        flex: 1 1 auto · min-width: 0
+.legend          justify-content: flex-end
+```
+
+On narrow columns the legend wraps beneath the title — that is the intended responsive fallback, not a defect.
+
+**Swatch shape encodes mark type** — the legend must not claim a mark the chart does not draw:
+
+| Class | Shape | Encodes |
+|-------|-------|---------|
+| `.sw` | 12×12 rounded square | area, bar, stacked series |
+| `.sw.line` | 16×3 bar | line series |
+| `.sw.dot` | 9px circle | scatter, point series |
+
+**Interactive legend** (`legendToggle: true`): each key becomes a `<button>` carrying `aria-pressed`, toggling its series. Rules:
+- Never allow the last visible series to be switched off — the guard is in the toggle, not in the styling
+- A toggled-off key drops to `opacity: .45` and its swatch goes `--muted`; the label stays readable
+- Companion series (a dashed forecast paired with a solid actual) declare `legenda: false` and follow their partner through the `onToggle` hook — they never get a legend key of their own
+- The tooltip is dismissed on toggle so a stale readout never survives the redraw
+
+### Data Table (`.tbl-pro`)
+
+| Element | Treatment | Why |
+|---------|-----------|-----|
+| Header row | `position: sticky; top: 0`, backdrop blur, uppercase 0.74rem, 0.07em tracking | The column ruler never leaves the screen on a long table |
+| First column | `position: sticky; left: 0`, own background, right hairline | The row label survives horizontal scroll — without it a wide table is unreadable on mobile |
+| Numeric cells | `.n` → `--font-num` + tabular + slashed zero, right-aligned | Digits align in a column; a slashed zero never reads as an O |
+| Row hover | `color-mix(accent 5%, surface)`, first cell 9% | Tracks the eye across a wide row |
+| Deltas | `.up` / `.down` / `.flat` — arrow glyph **and** color | Colour alone fails for colour-blind readers and in print |
+| Total row | `.tot` — 2px `--baseline` top rule, `--surface-2` fill, weight 700 | The accounting convention for a summed line |
+| Estimate row | `.est` — 2px dashed accent rule, italic, superscript `e` | Marks exactly where disclosed fact ends and the author's estimate begins |
+| Empty cell | `—` with `.na` | A declared gap is not a zero, and must never render as one |
+| Scroll affordance | CSS-only edge shadows via `background-attachment: local/scroll` | Shows clipped content without a scroll listener |
+| Caption | `.tbl-cap` — title left, unit right in uppercase muted | The unit belongs in the frame, not repeated in every cell |
+| Footnote | `.tbl-foot` — how the delta was computed, what `—` means | The reader should never have to guess the arithmetic |
+
+**Rule:** a number in a table never appears without its unit reachable — either in the caption, the column header, or the cell itself.
+
+### Rate versus Value (domain rule)
+
+Absolute values (revenue, profit, balances) move in **percent**. Rates and ratios (ROE, efficiency, NIM, NPL) move in **percentage points**. Rendering a ratio's change as a percent is a category error and the design system must not make it easy: the delta column, the assumption control, and the projection all read the metric's declared `modo` (`"mult"` or `"pp"`) and format accordingly.
+
+The direction of "good" is also per-metric. An efficiency ratio falling is an improvement, so its delta cell must not inherit the green-up / red-down default. Series declare `maiorMelhor: true|false`; the cell class follows the declaration, never the raw sign.
 
 ## Responsive Design
 
@@ -296,6 +375,6 @@ As new components are added, maintain these principles:
 
 ---
 
-**Last updated:** 18/08/2026  
+**Last updated:** 19/08/2026 (v4.0 — numeric voice, `.tbl-pro`, `.legend-pro`, `.field`)  
 **Status:** Documented & validated across all 24 pages and 182 automated checks  
 **Maintenance:** CSS changes cascade via `:root` custom properties; no per-component overrides

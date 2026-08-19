@@ -128,23 +128,62 @@
     return e;
   }
   function scaffold(el, opts, render) {
-    // opts: title, sub, series [{name,color}], twin {head, rows}
+    // opts: title, sub, series [{name,color}], twin {head, rows}, legendToggle
+    /* Cabeçalho em linha: títulos à esquerda, legenda alinhada à direita.
+       Legenda no topo evita a viagem do olho até o rodapé do gráfico e não
+       consome altura útil da área de plotagem. Com legendToggle, cada chave
+       vira botão que liga/desliga a série — sempre mantendo ao menos uma. */
     function draw() {
       el.innerHTML = "";
       el.classList.add("chart");
-      if (opts.title) { const d = document.createElement("div"); d.className = "c-title"; d.textContent = opts.title; el.appendChild(d); }
-      if (opts.sub) { const d = document.createElement("div"); d.className = "c-sub"; d.textContent = opts.sub; el.appendChild(d); }
-      if (opts.series && opts.series.length > 1) {
-        const lg = document.createElement("div"); lg.className = "legend";
-        opts.series.forEach(s => {
-          const k = document.createElement("span"); k.className = "key";
-          k.innerHTML = `<span class="sw ${s.kind === "line" ? "line" : ""}" style="background:${col(s.color)}"></span>${s.name}`;
-          lg.appendChild(k);
-        });
-        el.appendChild(lg);
+      const temSerie = opts.series && opts.series.length > 1;
+      if (opts.title || opts.sub || temSerie) {
+        const head = document.createElement("div"); head.className = "c-head";
+        const tt = document.createElement("div"); tt.className = "c-titles";
+        if (opts.title) { const d = document.createElement("div"); d.className = "c-title"; d.textContent = opts.title; tt.appendChild(d); }
+        if (opts.sub) { const d = document.createElement("div"); d.className = "c-sub"; d.textContent = opts.sub; tt.appendChild(d); }
+        head.appendChild(tt);
+        if (temSerie) {
+          const lg = document.createElement("div");
+          lg.className = "legend" + (opts.legendToggle ? " legend-pro" : "");
+          if (opts.legendToggle) lg.setAttribute("role", "group");
+          lg.setAttribute("aria-label", t("Séries do gráfico", "Chart series"));
+          /* série com legenda:false não ganha chave própria — é o caso da
+             companheira tracejada, que segue o interruptor da série de fato */
+          opts.series.filter(s => s.legenda !== false).forEach(s => {
+            const marca = `<span class="sw ${s.kind === "line" ? "line" : ""}" style="background:${col(s.color)}"></span>`;
+            let k;
+            if (opts.legendToggle) {
+              k = document.createElement("button");
+              k.type = "button"; k.className = "key";
+              k.setAttribute("aria-pressed", s.off ? "false" : "true");
+              if (s.off) k.classList.add("off");
+              k.title = t(s.off ? "Mostrar série" : "Ocultar série", s.off ? "Show series" : "Hide series");
+              k.addEventListener("click", () => {
+                const visiveis = opts.series.filter(x => !x.off && x.legenda !== false).length;
+                if (!s.off && visiveis <= 1) return;   /* nunca esconder a última */
+                s.off = !s.off;
+                if (typeof opts.onToggle === "function") opts.onToggle(s, opts.series);
+                hideTip();
+                el._vizDraw && el._vizDraw();
+              });
+            } else {
+              k = document.createElement("span"); k.className = "key";
+            }
+            k.innerHTML = marca + s.name;
+            lg.appendChild(k);
+          });
+          head.appendChild(lg);
+        }
+        el.appendChild(head);
       }
       const w = Math.max(300, el.clientWidth - 38);
-      const svg = render(w);
+      /* renderiza apenas as séries visíveis, sem que cada tipo de gráfico
+         precise conhecer o estado da legenda */
+      const todas = opts.series;
+      if (todas) opts.series = todas.filter(s => !s.off);
+      let svg;
+      try { svg = render(w); } finally { if (todas) opts.series = todas; }
       el.appendChild(svg);
       if (opts.twin) {
         const d = document.createElement("details"); d.className = "tbl-twin";

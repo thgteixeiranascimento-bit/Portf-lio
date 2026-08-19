@@ -780,3 +780,307 @@ a.card:hover .go::after { transform: translateX(4px); }
 .center { text-align: center; }
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out); }
 .reveal.in { opacity: 1; transform: none; }
+
+/* ════════════════════════════════════════════════════════════
+   CAMADA PRO — v4.0  ·  dados, gráficos e formulários
+   ------------------------------------------------------------
+   Três famílias de componentes que faltavam ao sistema:
+
+     1. voz tipográfica numérica     (--font-num)
+     2. tabela de dados profissional (.tbl-pro)
+     3. legenda de gráfico e campos  (.legend-pro, .field)
+
+   O padrão vem de como plataformas financeiras sérias tratam
+   número: Binance (BinancePlex), Coinbase (CoinbaseMono) e
+   Stripe (tnum) separam a voz do texto da voz do algarismo.
+   Aqui a separação é feita sem nenhuma fonte externa.
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+  /* voz do algarismo: usada em toda cifra, taxa, variação e total */
+  --font-num: ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono",
+              "IBM Plex Mono", Menlo, Consolas, monospace;
+  --num-feat: tabular-nums slashed-zero;
+  /* fio mais frio para campo de formulário — separa "onde se digita"
+     de "onde se lê" sem precisar de cor de fundo diferente */
+  --hairline-input: color-mix(in srgb, var(--accent) 26%, var(--border));
+  --field-h: 40px;                       /* altura mínima de alvo de toque */
+  --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+  --ring-bad: 0 0 0 3px color-mix(in srgb, var(--bad) 22%, transparent);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --hairline-input: color-mix(in srgb, var(--accent) 34%, var(--border)); }
+}
+
+.num, .tbl-pro td.n, .tbl-pro th.n {
+  font-family: var(--font-num); font-variant-numeric: var(--num-feat);
+  letter-spacing: -.01em;
+}
+
+/* ────────────────────────────────────────────────
+   1. GRÁFICO — cabeçalho e legenda interativa
+   ──────────────────────────────────────────────── */
+
+/* título à esquerda, legenda alinhada à direita na mesma linha:
+   o olho lê "o que é" e "quem é quem" antes de entrar na plotagem,
+   e a legenda não rouba altura da área de dados. */
+.c-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--sp-3) var(--sp-5); flex-wrap: wrap; margin-bottom: var(--sp-2);
+}
+.c-titles { min-width: 0; flex: 1 1 auto; }
+figure.chart .c-head .c-sub { margin: 2px 0 0; }
+.c-head .legend { margin: 2px 0 0; flex: 0 1 auto; justify-content: flex-end; }
+
+.legend .key { line-height: 1.3; }
+.legend .sw { flex: none; }
+.legend .sw.line { height: 3px; width: 16px; border-radius: 2px; }
+.legend .sw.dot  { width: 9px; height: 9px; border-radius: 50%; }
+
+/* legenda com chaves clicáveis: filtro direto no gráfico */
+.legend-pro { gap: 4px; }
+.legend-pro .key {
+  border: 1px solid transparent; background: transparent; color: var(--ink-2);
+  font: inherit; font-size: .8rem; cursor: pointer;
+  padding: 4px 10px; border-radius: var(--r-full);
+  transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease),
+              color var(--dur-1) var(--ease), opacity var(--dur-1) var(--ease);
+}
+.legend-pro .key:hover { background: var(--surface-2); border-color: var(--hairline); color: var(--ink); }
+.legend-pro .key.off { opacity: .45; }
+.legend-pro .key.off .sw { background: var(--muted) !important; }
+.legend-pro .key.off:hover { opacity: .75; }
+
+/* leitura de valor no hover, ao lado da legenda */
+.c-readout {
+  font-family: var(--font-num); font-variant-numeric: var(--num-feat);
+  font-size: .82rem; color: var(--ink-2); white-space: nowrap;
+}
+.c-readout b { color: var(--ink); font-weight: 700; }
+
+/* ────────────────────────────────────────────────
+   2. TABELA DE DADOS PROFISSIONAL
+   ──────────────────────────────────────────────── */
+
+.tbl-wrap {
+  position: relative; margin: var(--sp-4) 0;
+  border: 1px solid var(--hairline); border-radius: var(--r-lg);
+  background: var(--surface); box-shadow: var(--e-1); overflow: hidden;
+}
+.tbl-wrap > .tbl-scroll {
+  overflow: auto; max-height: var(--tbl-max, none);
+  margin: 0; border: 0; border-radius: 0; background: transparent;
+  /* sombras de rolagem: indicam conteúdo cortado à esquerda e à direita
+     sem nenhum script — coladas na própria superfície da tabela */
+  background:
+    linear-gradient(to right, var(--surface) 30%, transparent) left / 28px 100% no-repeat local,
+    linear-gradient(to left,  var(--surface) 30%, transparent) right / 28px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, color-mix(in srgb, var(--ink) 13%, transparent), transparent) left / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, color-mix(in srgb, var(--ink) 13%, transparent), transparent) right / 12px 100% no-repeat scroll;
+}
+.tbl-wrap .tbl-cap {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3);
+  flex-wrap: wrap; padding: var(--sp-4) var(--sp-5) var(--sp-3);
+  border-bottom: 1px solid var(--hairline);
+}
+.tbl-wrap .tbl-cap .t { font-weight: 700; font-size: .95rem; color: var(--ink); }
+.tbl-wrap .tbl-cap .u {
+  font-size: .76rem; color: var(--muted); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.tbl-wrap .tbl-foot {
+  padding: var(--sp-3) var(--sp-5); border-top: 1px solid var(--hairline);
+  font-size: .78rem; color: var(--muted); background: var(--surface-2);
+}
+
+table.tbl-pro { border-collapse: separate; border-spacing: 0; width: 100%; font-size: .86rem; }
+
+/* cabeçalho fixo: a régua de colunas nunca sai da tela na rolagem vertical */
+table.tbl-pro thead th {
+  position: sticky; top: 0; z-index: 3;
+  background: color-mix(in srgb, var(--surface) 92%, var(--ink) 8%);
+  backdrop-filter: blur(6px);
+  color: var(--ink-2); font-weight: 700; font-size: .74rem;
+  text-transform: uppercase; letter-spacing: .07em;
+  padding: 10px 14px; text-align: right;
+  border-bottom: 1px solid var(--baseline);
+  /* o rótulo da coluna pode quebrar em duas linhas; o número, nunca.
+     É o que impede um cabeçalho longo de empurrar a coluna de variação
+     para fora da vista. */
+  white-space: normal; line-height: 1.25; text-wrap: balance;
+}
+table.tbl-pro thead th.n { min-width: 76px; }
+table.tbl-pro thead th:first-child { text-align: left; z-index: 4; left: 0; }
+
+table.tbl-pro tbody td { padding: 9px 14px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--grid); color: var(--ink-2); }
+table.tbl-pro tbody tr:last-child td { border-bottom: 0; }
+
+/* primeira coluna fixa: o rótulo da linha acompanha a rolagem horizontal */
+table.tbl-pro th:first-child,
+table.tbl-pro td:first-child {
+  position: sticky; left: 0; z-index: 2;
+  text-align: left; background: var(--surface);
+  color: var(--ink); font-weight: 600;
+  border-right: 1px solid var(--grid);
+}
+table.tbl-pro tbody tr:hover td { background: color-mix(in srgb, var(--accent) 5%, var(--surface)); }
+table.tbl-pro tbody tr:hover td:first-child { background: color-mix(in srgb, var(--accent) 9%, var(--surface)); }
+
+/* célula numérica: voz mono, tabular, zero cortado */
+table.tbl-pro td.n, table.tbl-pro th.n {
+  font-family: var(--font-num); font-variant-numeric: var(--num-feat); letter-spacing: -.01em;
+}
+/* variação com sinal semântico — cor nunca sozinha: vem com seta */
+table.tbl-pro td.up::before   { content: "▲ "; font-size: .72em; }
+table.tbl-pro td.down::before { content: "▼ "; font-size: .72em; }
+table.tbl-pro td.up   { color: var(--ok-text); font-weight: 600; }
+table.tbl-pro td.down { color: var(--bad); font-weight: 600; }
+table.tbl-pro td.flat { color: var(--muted); }
+table.tbl-pro td.na   { color: var(--muted); }
+
+/* grupos de coluna e linha de total */
+table.tbl-pro .grp { border-left: 1px solid var(--baseline); }
+table.tbl-pro tbody tr.tot td {
+  font-weight: 700; color: var(--ink);
+  border-top: 2px solid var(--baseline); border-bottom: 0;
+  background: var(--surface-2);
+}
+table.tbl-pro tbody tr.tot td:first-child { background: var(--surface-2); }
+table.tbl-pro tbody tr.sub td { color: var(--muted); font-size: .82rem; }
+
+/* fronteira entre fato e estimativa: régua tracejada, do mesmo traço da
+   linha tracejada do gráfico — o leitor vê onde o documento termina */
+table.tbl-pro tbody tr.est td,
+table.tbl-pro tbody tr.est th {
+  border-top: 2px dashed color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+  font-style: italic;
+}
+table.tbl-pro tbody tr.est th::after {
+  content: "e"; font-style: normal; font-size: .62rem; font-weight: 800;
+  vertical-align: super; color: var(--accent-ink); margin-left: 3px;
+}
+
+/* barra proporcional dentro da célula — magnitude visível sem sair da tabela */
+.cellbar { display: block; height: 4px; border-radius: 2px; background: var(--accent); margin-top: 4px; opacity: .55; }
+
+@media (max-width: 640px) {
+  table.tbl-pro thead th, table.tbl-pro tbody td { padding: 8px 10px; font-size: .8rem; }
+}
+
+/* ────────────────────────────────────────────────
+   3. FORMULÁRIOS — campo, dica, unidade e estado
+   ──────────────────────────────────────────────── */
+
+.form-grid {
+  display: grid; gap: var(--sp-4) var(--sp-5);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+.field { display: grid; gap: 5px; min-width: 0; }
+.field > .lb {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-2);
+  font-size: .82rem; font-weight: 600; color: var(--ink);
+}
+.field > .lb > :first-child { min-width: 0; }
+.field > .lb .out {
+  font-family: var(--font-num); font-variant-numeric: var(--num-feat);
+  font-weight: 700; color: var(--accent-ink); font-size: .85rem;
+  flex: none; white-space: nowrap;      /* a leitura do valor nunca quebra em duas linhas */
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  border-radius: var(--r-full); padding: 2px 10px;
+}
+.field > .hint { font-size: .75rem; color: var(--muted); line-height: 1.4; }
+.field > .err { font-size: .75rem; color: var(--bad); font-weight: 600; display: none; }
+.field.invalid > .err { display: block; }
+
+/* controle com afixo de unidade dentro da moldura */
+.inp {
+  display: flex; align-items: stretch; min-height: var(--field-h);
+  border: 1px solid var(--hairline-input); border-radius: var(--r-sm);
+  background: var(--page); overflow: hidden;
+  transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+.inp:focus-within { border-color: var(--accent); box-shadow: var(--ring); }
+.field.invalid .inp { border-color: var(--bad); }
+.field.invalid .inp:focus-within { box-shadow: var(--ring-bad); }
+.inp input, .inp select {
+  flex: 1 1 auto; min-width: 0; border: 0; background: transparent; color: var(--ink);
+  font: inherit; font-size: .92rem; padding: 8px 12px; outline: none;
+}
+.inp input[type=number] { font-family: var(--font-num); font-variant-numeric: var(--num-feat); }
+.inp .afx {
+  display: grid; place-items: center; padding: 0 11px; flex: none;
+  font-size: .8rem; font-weight: 700; color: var(--muted);
+  background: var(--surface-2); border-left: 1px solid var(--hairline);
+}
+.inp .afx.pre { border-left: 0; border-right: 1px solid var(--hairline); }
+.inp input:disabled, .inp select:disabled { color: var(--muted); cursor: not-allowed; }
+.inp:has(:disabled) { background: var(--surface-2); opacity: .7; }
+
+/* range com trilho tokenizado */
+.field input[type=range] {
+  width: 100%; accent-color: var(--accent); height: 22px; cursor: pointer;
+}
+.field input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* controle segmentado com alvo de 40px e estado pressionado acessível */
+.seg-pro { display: inline-flex; padding: 3px; gap: 2px; background: var(--surface-2); border: 1px solid var(--hairline); border-radius: var(--r-md); }
+.seg-pro button {
+  border: 0; background: transparent; color: var(--ink-2);
+  font: inherit; font-size: .86rem; font-weight: 600; cursor: pointer;
+  padding: 8px 15px; border-radius: calc(var(--r-md) - 4px); min-height: 34px;
+  transition: background var(--dur-1) var(--ease), color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
+}
+.seg-pro button:hover { color: var(--ink); }
+.seg-pro button[aria-pressed="true"] {
+  background: var(--surface); color: var(--accent-ink); box-shadow: var(--e-1);
+}
+/* em tela estreita o controle rola em vez de estourar a caixa */
+@media (max-width: 620px) {
+  .seg-pro { display: flex; width: 100%; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .seg-pro::-webkit-scrollbar { display: none; }
+  .seg-pro button { flex: 0 0 auto; white-space: nowrap; }
+}
+
+/* ────────────────────────────────────────────────
+   4. VITRINE TÉCNICA (home)
+   ──────────────────────────────────────────────── */
+
+.vitrine {
+  border: 1px solid var(--hairline); border-radius: var(--r-xl);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 5%, var(--surface)), var(--surface));
+  box-shadow: var(--e-2); overflow: hidden; margin: var(--sp-5) 0;
+}
+.vitrine .vt-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--sp-4); flex-wrap: wrap;
+  padding: var(--sp-5) var(--sp-5) var(--sp-4);
+  border-bottom: 1px solid var(--hairline);
+}
+.vitrine .vt-head h3 { margin: 4px 0 0; font-size: 1.08rem; letter-spacing: -.01em; }
+.vitrine .vt-head p { margin: 4px 0 0; font-size: .85rem; color: var(--ink-2); max-width: 62ch; }
+.vitrine .vt-body { padding: var(--sp-5); display: grid; gap: var(--sp-5); }
+.vitrine figure.chart { margin: 0; box-shadow: none; }
+.vitrine .tbl-wrap { margin: 0; }
+.vitrine .vt-foot {
+  padding: var(--sp-4) var(--sp-5); border-top: 1px solid var(--hairline);
+  background: var(--surface-2); font-size: .78rem; color: var(--muted);
+  display: flex; gap: var(--sp-3) var(--sp-5); flex-wrap: wrap; align-items: center;
+}
+.vitrine .vt-foot .sep { color: var(--hairline); }
+@media (min-width: 1000px) {
+  /* a tabela precisa caber inteira: cinco colunas com a variação à direita.
+     Recortar justamente a coluna Δ esconderia o que a tabela existe para dizer. */
+  .vitrine .vt-body.split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr); align-items: start; }
+}
+@media (max-width: 700px) {
+  .vitrine .vt-head, .vitrine .vt-body, .vitrine .vt-foot { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+}
+
+@media print {
+  .legend-pro .key { border: 0; }
+  .tbl-wrap { break-inside: avoid; }
+  table.tbl-pro thead th { position: static; backdrop-filter: none; }
+  table.tbl-pro th:first-child, table.tbl-pro td:first-child { position: static; }
+}

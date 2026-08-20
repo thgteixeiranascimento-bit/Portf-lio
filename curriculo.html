@@ -171,7 +171,7 @@
         "Python script (standard library) extracting CVM open data, documented and executable in the repository.") + "</li>";
 
     document.getElementById("cv").innerHTML =
-      '<h1 class="doc-h1">' + esc(P.IDENTIDADE.nome) + "</h1>" +
+      '<h2 class="doc-h1">' + esc(P.IDENTIDADE.nome) + "</h2>" +
       '<div class="doc-role">' + esc(t(vg.titulo, vg.tituloEn)) + "</div>" +
       '<div class="doc-contact">' + contatoHTML() + "</div>" +
 
@@ -201,7 +201,7 @@
         var f = P.FONTES[id];
         return "<tr><td style='white-space:normal'>" + esc(f.doc) + "</td><td style='white-space:normal'>" + esc(f.origem) +
           "</td><td>" + esc(f.data) + "</td><td style='text-align:center'>" + f.classe +
-          "</td><td style='white-space:normal'>" + esc(f.nota) + "</td></tr>";
+          "</td><td style='white-space:normal'>" + esc(V.t(f.nota, f.notaEn)) + "</td></tr>";
       }).join("") + "</tbody>";
   }
 

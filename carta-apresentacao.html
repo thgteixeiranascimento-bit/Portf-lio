@@ -187,7 +187,7 @@
     contato.push('<a href="' + I.site + '">' + I.site.replace(/^https:\/\//, "") + "</a>");
 
     document.getElementById("carta").innerHTML =
-      '<h1 class="doc-h1">' + esc(I.nome) + "</h1>" +
+      '<h2 class="doc-h1">' + esc(I.nome) + "</h2>" +
       '<div class="doc-contact" style="margin-bottom:2em">' +
         contato.map(function (c) { return "<span>" + c + "</span>"; }).join('<span aria-hidden="true">·</span>') +
       "</div>" +

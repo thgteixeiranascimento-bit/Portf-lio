@@ -43,60 +43,98 @@
 </script>
 </head>
 <body data-page="home" data-root="">
+<div class="progresso" aria-hidden="true"><span id="progressoBarra"></span></div>
 <main class="wrap">
 
-  <!-- ═══════ 1. Abertura: quem, o quê, prova, ação ═══════ -->
-  <section class="hero-pro">
-    <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
-      <div class="monogram" aria-hidden="true">TN</div>
-      <div style="flex:1 1 420px;min-width:280px">
-        <span class="kicker" data-en="Available for FP&amp;A · Financial Planning · Risk">Disponível para FP&amp;A · Planejamento Financeiro · Riscos</span>
-        <div class="name" style="margin-top:14px">Thiago Teixeira Nascimento</div>
-        <h1 id="pitchHead">Transformo divulgação financeira em decisão — com fonte, check aritmético e lacuna declarada.</h1>
-        <p class="sub" id="pitchSub"></p>
+  <!-- ═══════ 1. Capa editorial: quem, o quê, prova, ação ═══════ -->
+  <section class="capa">
+    <div class="capa-top meta-row">
+      <span class="meta-lbl" id="capaKicker"></span>
+      <span class="meta-lbl" aria-hidden="true">01</span>
+    </div>
+
+    <div class="capa-grid">
+      <div>
+        <div class="nome">Thiago Teixeira Nascimento</div>
+        <h1 class="display" id="capaH1"></h1>
+        <p class="sob" id="pitchSub"></p>
+
+        <div class="btns">
+          <a class="btn-x primary" href="curriculo.html"><span class="ic" aria-hidden="true">⭳</span><span data-en="Download résumé">Baixar currículo</span></a>
+          <a class="btn-x outline" href="simuladores/index.html"><span class="ic" aria-hidden="true">◧</span><span data-en="See the 13 models">Ver os 13 modelos</span></a>
+          <a class="btn-x ghost" href="carta-apresentacao.html" data-en="Cover letter">Carta de apresentação</a>
+          <a class="btn-x ghost" href="https://www.linkedin.com/in/thiago-teixeira-nascimento-03a3961a3" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+
+        <p class="prova-linha">
+          <span aria-hidden="true">✓</span>
+          <span id="provaLinha"></span>
+          <a href="metodologia.html" data-en="see the protocol">ver o protocolo</a>
+        </p>
       </div>
+
+      <figure class="retrato" id="retrato">
+        <div class="moldura">
+          <!-- ═══ RETRATO ═══════════════════════════════════════════════════
+               Para publicar a foto: salve o arquivo em assets/img/retrato.jpg,
+               apague o bloco <div class="vazio">…</div> abaixo e descomente a
+               linha seguinte. O tratamento em preto e branco é aplicado por CSS,
+               então a mesma foto serve aos temas claro e escuro.
+               Instruções completas e o que faz uma boa foto: assets/img/LEIA-ME.md
+
+          <img src="assets/img/retrato.jpg" alt="Thiago Teixeira Nascimento" width="1200" height="1500">
+          ════════════════════════════════════════════════════════════════ -->
+          <div class="vazio" id="retratoVazio">
+            <span class="ini" aria-hidden="true">TN</span>
+            <span class="txt" data-en="Portrait pending — see assets/img/LEIA-ME.md">Retrato a incluir — ver assets/img/LEIA-ME.md</span>
+          </div>
+        </div>
+        <figcaption class="cap" data-en="Campinas, SP · Brazil">Campinas, SP · Brasil</figcaption>
+      </figure>
     </div>
 
-    <div class="btns">
-      <a class="btn-x primary" href="curriculo.html"><span class="ic" aria-hidden="true">⭳</span><span data-en="Download résumé">Baixar currículo</span></a>
-      <a class="btn-x outline" href="simuladores/index.html"><span class="ic" aria-hidden="true">◧</span><span data-en="See the 13 models">Ver os 13 modelos</span></a>
-      <a class="btn-x ghost" href="carta-apresentacao.html" data-en="Cover letter">Carta de apresentação</a>
-      <a class="btn-x ghost" href="https://www.linkedin.com/in/thiago-teixeira-nascimento-03a3961a3" target="_blank" rel="noopener">LinkedIn</a>
-    </div>
+    <div class="capa-stats stagger" id="capaStats"></div>
 
-    <p class="prova-linha">
-      <span aria-hidden="true">✓</span>
-      <span id="provaLinha"></span>
-      <a href="metodologia.html" data-en="see the protocol">ver o protocolo</a>
-    </p>
+    <div class="selos" id="capaSelos" aria-label="Competências centrais"></div>
 
-    <div class="meta">
-      <span>📍 <span data-en="Campinas, SP — Brazil">Campinas, SP — Brasil</span></span>
-      <span>🎓 <span data-en="Economics, PUC-Campinas">Economia, PUC-Campinas</span></span>
-      <span>🗣 <span data-en="Fluent English (global stakeholders)">Inglês fluente (stakeholders globais)</span></span>
-      <span>✉️ <a href="mailto:thgteixeiranascimento@gmail.com">thgteixeiranascimento@gmail.com</a></span>
+    <div class="meta-row" style="border-bottom:0;border-top:var(--rule);padding:var(--sp-4) 0 0;margin-top:var(--sp-4)">
+      <span class="meta-lbl" data-en="Economics · PUC-Campinas">Economia · PUC-Campinas</span>
+      <span class="meta-lbl" data-en="Fluent English">Inglês fluente</span>
+      <span class="meta-lbl"><a href="mailto:thgteixeiranascimento@gmail.com">thgteixeiranascimento@gmail.com</a></span>
     </div>
   </section>
 
   <!-- ═══════ 2. Resumo executivo — leitura de 15 segundos ═══════ -->
   <section class="blk reveal" style="margin-top:var(--sp-5)">
-    <div class="eyebrow" data-en="15-second read">Leitura de 15 segundos</div>
+    <div class="sec-mark">
+      <span class="n">02</span>
+      <span class="t" data-en="15-second read">Leitura de 15 segundos</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
     <div class="resumo15" id="resumo15"></div>
   </section>
 
   <!-- ═══════ 3. Três provas verificáveis em um clique ═══════ -->
   <section class="blk reveal">
-    <div class="eyebrow" data-en="Verifiable proof — one click each">Prova verificável — um clique cada</div>
-    <div class="proofs" id="proofs"></div>
+    <div class="sec-mark">
+      <span class="n">03</span>
+      <span class="t" data-en="Verifiable proof — one click each">Prova verificável — um clique cada</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <div class="proofs stagger" id="proofs"></div>
   </section>
 
   <!-- ═══════ 4. Vitrine técnica: gráfico, tabela e premissa ao vivo ═══════ -->
   <section class="blk reveal">
-    <div class="eyebrow" data-en="Live — not a screenshot">Ao vivo — não é captura de tela</div>
+    <div class="sec-mark">
+      <span class="n">04</span>
+      <span class="t" data-en="Live — not a screenshot">Ao vivo — não é captura de tela</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
     <div class="vitrine">
       <div class="vt-head">
         <div>
-          <h3 data-en="Nu Holdings — six disclosed quarters, with a labelled assumption">Nu Holdings — seis trimestres divulgados, com premissa rotulada</h3>
+          <h2 data-en="Nu Holdings — six disclosed quarters, with a labelled assumption" style="margin:4px 0 0;font-size:1.08rem">Nu Holdings — seis trimestres divulgados, com premissa rotulada</h2>
           <p data-en="Real figures from the releases. The dashed point is an author's estimate driven by the assumption below — never presented as guidance. Toggle a series in the legend; the table follows.">
             Números reais dos releases. O ponto tracejado é estimativa do autor, movida pela premissa abaixo —
             nunca apresentada como guidance. Ligue e desligue séries na legenda; a tabela acompanha.</p>
@@ -153,9 +191,14 @@
 
   <!-- ═══════ 3. Leitura de 8 segundos: o que eu faço ═══════ -->
   <section class="blk reveal">
+    <div class="sec-mark">
+      <span class="n">05</span>
+      <span class="t" data-en="What I deliver">O que entrego</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
     <h2 data-en="What I deliver to a Financial Planning team">O que entrego a um time de Planejamento Financeiro</h2>
-    <div class="grid c3">
-      <div class="card">
+    <div class="grid c3 stagger">
+      <div class="card lift">
         <h3 data-en="Budget, forecast and variance">Orçamento, forecast e variações</h3>
         <p data-en="Budget cycle, driver-based rolling forecast and budget-versus-actual bridges that explain <b>why</b> the result moved — not just by how much. Built here over the disclosed managerial P&amp;L of a listed bank.">
           Ciclo de <b>orçamento</b>, <b>rolling forecast</b> por drivers e pontes de <b>budget × realizado</b> que explicam
@@ -190,7 +233,11 @@
 
   <!-- ═══════ 5. Trajetória ═══════ -->
   <section class="blk reveal">
-    <div class="eyebrow" data-en="Career">Trajetória</div>
+    <div class="sec-mark">
+      <span class="n">06</span>
+      <span class="t" data-en="Career">Trajetória</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
     <h2 style="margin-top:.2em" data-en="Where the practice was built">Onde a prática foi construída</h2>
 
     <div class="callout accent" id="notaTitulo"></div>
@@ -201,22 +248,30 @@
 
   <!-- ═══════ 5. Ferramentas próprias ═══════ -->
   <section class="blk reveal">
-    <div class="eyebrow" data-en="Proprietary tools — built from scratch">Ferramentas próprias — construídas do zero</div>
+    <div class="sec-mark">
+      <span class="n">07</span>
+      <span class="t" data-en="Proprietary tools — built from scratch">Ferramentas próprias — construídas do zero</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
     <h2 style="margin-top:.2em" data-en="Calculation that removes operational error">Cálculo que remove erro operacional</h2>
     <p data-en="Three working tools, not screenshots: each one takes a problem that costs money in a real operation — wrong rate conversion, mispriced early settlement, repeat calls — and turns it into a model that anyone can open and test in the browser.">
       Três ferramentas funcionais, não capturas de tela: cada uma pega um problema que custa dinheiro numa operação
       real — conversão de taxa errada, antecipação precificada errada, rechamada — e o transforma em um modelo que
       qualquer pessoa abre e testa no navegador.
     </p>
-    <div class="grid c3" id="projetos"></div>
+    <div class="grid c3 stagger" id="projetos"></div>
   </section>
 
   <!-- ═══════ 6. Estudos sobre dados públicos ═══════ -->
   <section class="blk reveal">
-    <div class="eyebrow" data-en="Studies on real public disclosure">Estudos sobre divulgação pública real</div>
+    <div class="sec-mark">
+      <span class="n">08</span>
+      <span class="t" data-en="Studies on real public disclosure">Estudos sobre divulgação pública real</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
     <h2 style="margin-top:.2em" data-en="Ten models over five financial institutions">Dez modelos sobre cinco instituições financeiras</h2>
-    <div class="grid c2">
-      <a class="card" href="analises/bancos-2026.html">
+    <div class="grid c2 stagger">
+      <a class="card lift" href="analises/bancos-2026.html">
         <h3 data-en="Sector analysis — incumbents versus digital banks">Análise setorial — incumbentes × digitais</h3>
         <p data-en="Itaú, Bradesco and Santander alongside Nu Holdings and Agi: profitability, efficiency, asset quality, capital and market multiples — with comparability caveats explicit and the full Selic cycle from the Copom minutes as backdrop.">
           Itaú, Bradesco e Santander lado a lado com Nu Holdings e Agi: rentabilidade, eficiência, inadimplência,
@@ -268,10 +323,14 @@
 
   <!-- ═══════ 7. Governança (segunda camada, para quem se aprofunda) ═══════ -->
   <section class="blk reveal">
-    <div class="eyebrow" data-en="Second layer — for whoever goes deeper">Segunda camada — para quem se aprofunda</div>
+    <div class="sec-mark">
+      <span class="n">09</span>
+      <span class="t" data-en="Second layer — for whoever goes deeper">Segunda camada — para quem se aprofunda</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
     <h2 style="margin-top:.2em" data-en="Why you can trust the numbers on this site">Por que os números deste site são confiáveis</h2>
-    <div class="grid c3">
-      <a class="card" href="metodologia.html">
+    <div class="grid c3 stagger">
+      <a class="card lift" href="metodologia.html">
         <h3 data-en="Anti-hallucination protocol">Protocolo antialucinação</h3>
         <p data-en="Disclosed fact, author's assumption and model estimate are <b>always labelled separately</b>. Documentary extraction (level 1) and reported information (level 3) never mix. Gaps are declared, not filled.">
           Fato divulgado, premissa do autor e estimativa de modelo aparecem <b>sempre rotulados separadamente</b>.
@@ -333,9 +392,25 @@
   function render() {
     var t = V.t;
 
-    /* pitch */
-    document.getElementById("pitchHead").textContent = t(P.PITCH.headline, P.PITCH.headlineEn);
-    document.getElementById("pitchSub").textContent  = t(P.PITCH.resumo_curto, P.PITCH.resumo_curtoEn);
+    /* capa: manchete com uma palavra acentuada, e não a frase inteira colorida */
+    var h1 = V.isEn() ? P.PITCH.capa_h1En : P.PITCH.capa_h1;
+    document.getElementById("capaKicker").textContent = t(P.PITCH.capa_kicker, P.PITCH.capa_kickerEn);
+    document.getElementById("capaH1").innerHTML =
+      esc(h1[0]) + ' <span class="em">' + esc(h1[1]) + "</span>" + (h1[2] ? " " + esc(h1[2]) : "");
+
+    /* números da capa, conferíveis e com a página que os prova a um clique */
+    document.getElementById("capaStats").innerHTML = P.PITCH.capa_stats.map(function (s) {
+      return '<a class="st" href="' + s.href + '" style="color:inherit;text-decoration:none">' +
+        '<div class="v" data-conta="' + s.v + '">' + s.v + esc(s.suf) + "</div>" +
+        '<div class="k">' + esc(t(s.k, s.kEn)) + "</div></a>";
+    }).join("");
+
+    document.getElementById("capaSelos").innerHTML = P.PITCH.capa_selos.map(function (s, i) {
+      return '<span class="selo' + (i === 0 ? " on" : "") + '">' + esc(s) + "</span>";
+    }).join("");
+
+    /* a tese completa, logo abaixo do display */
+    document.getElementById("pitchSub").textContent = t(P.PITCH.capa_tese, P.PITCH.capa_teseEn);
     document.getElementById("provaLinha").textContent = t(P.PITCH.prova_linha, P.PITCH.prova_linhaEn);
     document.getElementById("senioridade").textContent = t(P.PITCH.nota_senioridade, P.PITCH.nota_senioridadeEn);
 
@@ -598,7 +673,92 @@
     return { init: init, redesenha: function () { montaSeg(); configuraFaixa(false); } };
   })();
 
-  document.addEventListener("DOMContentLoaded", function () { render(); VT.init(); });
+  /* ═══════════════════════════════════════════════════════════
+     Camada de movimento. Tudo aqui é enfeite: se o navegador não
+     suportar, ou se a pessoa pedir menos movimento, a página
+     continua inteira e legível — nada de conteúdo depende disto.
+     ═══════════════════════════════════════════════════════════ */
+  var MOV = (function () {
+    var quieto = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* barra de progresso de leitura */
+    function progresso() {
+      var barra = document.getElementById("progressoBarra");
+      if (!barra || quieto) return;
+      var pendente = false;
+      function atualiza() {
+        var h = document.documentElement;
+        var max = h.scrollHeight - h.clientHeight;
+        barra.style.width = (max <= 0 ? 0 : (h.scrollTop / max) * 100) + "%";
+        pendente = false;
+      }
+      addEventListener("scroll", function () {
+        if (!pendente) { pendente = true; requestAnimationFrame(atualiza); }
+      }, { passive: true });
+      atualiza();
+    }
+
+    /* revelação escalonada. `.reveal` já é observado pelo core.js em todas as
+       páginas; aqui cuida-se apenas de `.stagger`, para não observar o mesmo
+       elemento duas vezes. */
+    function revelacao() {
+      var alvos = document.querySelectorAll(".stagger");
+      if (!("IntersectionObserver" in window) || quieto) {
+        alvos.forEach(function (e) { e.classList.add("in"); });
+        return;
+      }
+      var obs = new IntersectionObserver(function (ents) {
+        ents.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add("in"); obs.unobserve(e.target); }
+        });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+      alvos.forEach(function (e) { obs.observe(e); });
+    }
+
+    /* contagem dos números da capa: só a primeira vez, e só se houver motivo */
+    function contagem() {
+      var nums = document.querySelectorAll("[data-conta]");
+      if (!nums.length) return;
+      if (quieto || !("IntersectionObserver" in window)) return;   /* o valor final já está no HTML */
+      var obs = new IntersectionObserver(function (ents) {
+        ents.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          obs.unobserve(e.target);
+          var alvo = parseFloat(e.target.dataset.conta), t0 = null, dur = 900;
+          var suf = e.target.textContent.replace(/[\d.,]/g, "");
+          function passo(ts) {
+            if (t0 === null) t0 = ts;
+            var k = Math.min(1, (ts - t0) / dur);
+            var eased = 1 - Math.pow(1 - k, 3);
+            e.target.textContent = Math.round(alvo * eased) + suf;
+            if (k < 1) requestAnimationFrame(passo);
+          }
+          requestAnimationFrame(passo);
+        });
+      }, { threshold: 0.6 });
+      nums.forEach(function (n) { obs.observe(n); });
+    }
+
+    /* paralaxe contido no retrato: alguns pixels, nunca o suficiente para enjoar */
+    function paralaxe() {
+      var r = document.getElementById("retrato");
+      if (!r || quieto) return;
+      var pendente = false;
+      addEventListener("scroll", function () {
+        if (pendente) return;
+        pendente = true;
+        requestAnimationFrame(function () {
+          var y = Math.max(-14, Math.min(14, window.scrollY * 0.035));
+          r.style.transform = "translateY(" + y + "px)";
+          pendente = false;
+        });
+      }, { passive: true });
+    }
+
+    return { init: function () { progresso(); revelacao(); contagem(); paralaxe(); } };
+  })();
+
+  document.addEventListener("DOMContentLoaded", function () { render(); VT.init(); MOV.init(); });
   window.onLangChange = function () { render(); VT.redesenha(); };
 })();
 </script>

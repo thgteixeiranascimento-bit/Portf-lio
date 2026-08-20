@@ -96,7 +96,7 @@
     <details class="doc">
       <summary data-en="Method, regulatory boundary and origin">Método, fronteira regulatória e origem</summary>
       <div class="inner">
-        <h4 data-en="Formulas">Fórmulas</h4>
+        <h3 class="h4-vis" data-en="Formulas">Fórmulas</h3>
         <pre><code>Desconto racional (correto)     VP = Σ PMT / (1 + i)^k ,  k = 1..q
 Forma fechada (anuidade)        VP = PMT · [1 − (1+i)^−q] / i
 Soma nominal (erro 1)           VN = PMT · q
@@ -105,7 +105,7 @@ Desconto comercial linear (erro 2)  VC = Σ PMT · (1 − i·k)</code></pre>
           <code>q</code> é a quantidade de parcelas antecipadas e <code>k</code>, quantos períodos cada uma
           ainda estava distante do vencimento.
         </p>
-        <h4 data-en="Regulatory boundary — read this before using any number">Fronteira regulatória — leia antes de usar qualquer número</h4>
+        <h3 class="h4-vis" data-en="Regulatory boundary — read this before using any number">Fronteira regulatória — leia antes de usar qualquer número</h3>
         <p data-en="Brazilian consumer law establishes the customer's right to settle a debt early with a <b>proportional reduction of interest and other charges</b> (Consumer Protection Code, article 52, §2). Present value by rational discount is the financially correct expression of that principle, and it is what this tool computes. It is <b>not</b>, however, a statement of what a given contract owes: the applicable rate, the treatment of fees, insurance and taxes already incurred, and the exact convention for counting periods are defined by the contract and by the institution's rules. This tool models the method — it does not quote a contract.">
           A legislação consumerista brasileira estabelece o direito do cliente de quitar antecipadamente com
           <b>redução proporcional dos juros e demais acréscimos</b> (Código de Defesa do Consumidor, artigo 52,
@@ -115,14 +115,14 @@ Desconto comercial linear (erro 2)  VC = Σ PMT · (1 − i·k)</code></pre>
           de contagem de períodos são definidos pelo contrato e pelas regras da instituição. Esta ferramenta
           modela o método — não cotiza um contrato.
         </p>
-        <h4 data-en="Why this matters operationally">Por que isso importa operacionalmente</h4>
+        <h3 class="h4-vis" data-en="Why this matters operationally">Por que isso importa operacionalmente</h3>
         <p data-en="A wrong settlement figure is not a rounding problem. It is charged to a customer, disputed, corrected and re-explained — consuming a second contact in the Contact Centre for a case that was already closed. The <a href='rechamadas.html'>repeat-call cost model</a> puts a currency figure on exactly that chain.">
           Um valor de quitação errado não é problema de arredondamento. Ele é cobrado de um cliente, contestado,
           corrigido e reexplicado — consumindo um segundo contato na Central de Atendimento para um caso que já
           estava encerrado. O <a href="rechamadas.html">modelo de custo de rechamadas</a> coloca valor em reais
           exatamente nessa cadeia.
         </p>
-        <h4 data-en="Origin">Origem</h4>
+        <h3 class="h4-vis" data-en="Origin">Origem</h3>
         <p data-en="Built for this portfolio as a public reconstruction of a class of calculation the author works with professionally. It contains no volume, cost, rate, customer or any operational data from any employer.">
           Construída para este portfólio como reconstrução pública de uma classe de cálculo com que o autor
           trabalha profissionalmente. Não contém volume, custo, taxa, cliente ou qualquer dado operacional de

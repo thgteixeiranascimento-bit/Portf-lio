@@ -375,6 +375,33 @@ As new components are added, maintain these principles:
 
 ---
 
-**Last updated:** 19/08/2026 (v4.0 — numeric voice, `.tbl-pro`, `.legend-pro`, `.field`)  
+## Editorial Layer (v5.0)
+
+The cover borrows its *grammar* from an editorial design portfolio — brutal scale contrast, numbered section markers, a monochrome portrait layered with type, one decisive accent, composition that bleeds past the container. It deliberately does **not** borrow that reference's costume: brush-script display type and hot red would wreck the credibility this site spends every other page building, and in a finance interface red already means loss (`--bad`). Register is not decoration; the wrong one costs the interview.
+
+### Display scale
+```
+--d-1: clamp(2.5rem, 1.7rem + 3.4vw, 4.4rem)   cover headline
+--d-2: clamp(1.9rem, 1.35rem + 2.4vw, 3rem)    secondary covers
+--d-3: clamp(1.15rem, 1.02rem + .7vw, 1.55rem) thesis line under a display
+--track-display: -.045em    --track-meta: .22em
+```
+
+**Rule:** display scale demands few words. A full sentence at `--d-1` fills the viewport and pushes every proof below the fold — the cover headline is three or four words, and the thesis goes on the line beneath it at `--d-3`.
+
+**Accent on one word only** (`.em`): a background highlight, never an underline. Underlining display type makes readers try to click it.
+
+### Section markers (`.sec-mark`)
+`01 / SECTION NAME` above a 2px rule — how an institutional report organises itself, and it gives a scanning reader a spine. Numbers are literal in the HTML so they survive translation.
+
+### Portrait (`.retrato`)
+High-contrast monochrome via CSS filter, not baked into the file — one image serves both themes and can be swapped without re-editing. An accent plate offset behind it supplies depth. While no photo exists the slot renders a typographic fallback; it never fabricates a face. Swap instructions live in `assets/img/LEIA-ME.md`.
+
+### Motion
+Reading-progress bar, staggered reveal (`.stagger`), count-up on cover figures, contained parallax (±14px) on the portrait, lift on hover (`.lift`). All of it is ornament: every one is disabled under `prefers-reduced-motion`, and no content depends on any of it. Count-up writes the final value into the HTML first, so a reader without IntersectionObserver still sees the number.
+
+---
+
+**Last updated:** 19/08/2026 (v5.0 — editorial cover, section markers, portrait, motion)  
 **Status:** Documented & validated across all 24 pages and 182 automated checks  
 **Maintenance:** CSS changes cascade via `:root` custom properties; no per-component overrides

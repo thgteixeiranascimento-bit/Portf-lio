@@ -47,6 +47,7 @@ const ESPERADO = {
   "simuladores/antecipacao-parcelas.html": 7,
   "simuladores/rechamadas.html": 8,
   "validacao-perfil.html": 12,
+  "conselho.html": 12,
 };
 
 /* Grupos usados nas afirmações públicas do site. */
@@ -63,6 +64,7 @@ const GRUPOS = {
     "simuladores/rechamadas.html",
   ],
   "Validação do perfil": ["validacao-perfil.html"],
+  "Validação do trabalho": ["conselho.html"],
 };
 
 const SEM_CHECKS = [

@@ -350,7 +350,7 @@
       Object.keys(P.FONTES).map(function (id) {
         var f = P.FONTES[id];
         return "<tr><td style='white-space:normal'>" + esc(f.doc) + "</td><td style='white-space:normal'>" + esc(f.origem) +
-          "</td><td>" + esc(f.data) + "</td><td style='text-align:center'><b>" + f.classe + "</b></td><td style='white-space:normal'>" + esc(f.nota) + "</td></tr>";
+          "</td><td>" + esc(f.data) + "</td><td style='text-align:center'><b>" + f.classe + "</b></td><td style='white-space:normal'>" + esc(V.t(f.nota, f.notaEn)) + "</td></tr>";
       }).join("") + "</tbody>";
 
     /* ---------- divergências ---------- */
@@ -359,14 +359,16 @@
       "<thead><tr><th>#</th><th>" + t("Tema", "Subject") + "</th><th>" + t("Achado", "Finding") + "</th><th>" + t("Tratamento", "Treatment") +
       "</th><th>" + t("Status", "Status") + "</th></tr></thead><tbody>" +
       P.DIVERGENCIAS.map(function (d) {
-        return "<tr><td>" + d.n + "</td><td style='white-space:normal'>" + esc(d.tema) + "</td><td style='white-space:normal'>" + esc(d.achado) +
-          "</td><td style='white-space:normal'>" + esc(d.tratamento) + "</td><td style='white-space:normal'>" +
-          (d.confirmar ? "⚠️ " : "✅ ") + esc(d.status) + "</td></tr>";
+        return "<tr><td>" + d.n + "</td><td style='white-space:normal'>" + esc(V.t(d.tema, d.temaEn)) +
+          "</td><td style='white-space:normal'>" + esc(V.t(d.achado, d.achadoEn)) +
+          "</td><td style='white-space:normal'>" + esc(V.t(d.tratamento, d.tratamentoEn)) +
+          "</td><td style='white-space:normal'>" +
+          (d.confirmar ? "⚠️ " : "✅ ") + esc(V.t(d.status, d.statusEn)) + "</td></tr>";
       }).join("") + "</tbody>";
 
     el("pendentes").innerHTML = '<span class="ct">' + t("Itens abertos — dependem de confirmação do titular", "Open items — awaiting the holder's confirmation") + "</span>" +
       "<ul style='margin:6px 0 0;padding-left:20px'>" +
-      divAbertas.map(function (d) { return "<li>" + esc(d.tema) + "</li>"; }).join("") + "</ul>" +
+      divAbertas.map(function (d) { return "<li>" + esc(V.t(d.tema, d.temaEn)) + "</li>"; }).join("") + "</ul>" +
       "<p style='margin:8px 0 0;font-size:.85rem'>" +
       t("Enquanto não confirmados, permanecem publicados como divergência aberta — não como fato.",
         "Until confirmed, they remain published as an open divergence — not as fact.") + "</p>";

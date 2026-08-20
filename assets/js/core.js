@@ -696,7 +696,8 @@ ${fontesHTML}
       <b>Conflito de interesse:</b> o autor é colaborador do Agibank (vínculo atual) — ver <a href="${root}sobre.html">Sobre</a>.</div>
       <div data-en="Author: <b>Thiago Teixeira Nascimento</b><br>Source code: <a href='https://github.com/thgteixeiranascimento-bit/Portf-lio'>GitHub</a> · <a href='https://www.linkedin.com/in/thiago-teixeira-nascimento-03a3961a3'>LinkedIn</a><br>Methodology and governance: <a href='${root}metodologia.html'>see protocol</a>">Autor: <b>Thiago Teixeira Nascimento</b><br>
       Código-fonte: <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio">GitHub</a> · <a href="https://www.linkedin.com/in/thiago-teixeira-nascimento-03a3961a3">LinkedIn</a><br>
-      Metodologia e governança: <a href="${root}metodologia.html">ver protocolo</a></div>
+      Metodologia e governança: <a href="${root}metodologia.html">ver protocolo</a><br>
+      Conselhos de validação: <a href="${root}conselho.html">do trabalho</a> · <a href="${root}validacao-perfil.html">do perfil</a></div>
     </div>`;
     body.appendChild(footer);
 

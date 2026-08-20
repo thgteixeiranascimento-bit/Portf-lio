@@ -1084,3 +1084,259 @@ table.tbl-pro tbody tr.est th::after {
   table.tbl-pro thead th { position: static; backdrop-filter: none; }
   table.tbl-pro th:first-child, table.tbl-pro td:first-child { position: static; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   CAMADA EDITORIAL — v5.0  ·  capa, escala e movimento
+   ------------------------------------------------------------
+   Lê a gramática de um portfólio editorial de design gráfico e a
+   traduz para o registro de finanças institucionais.
+
+   O que se toma da referência:
+     · contraste brutal de escala — um display enorme contra
+       rótulos minúsculos de tracking largo;
+     · marcação numerada de seção ("01 / TRAJETÓRIA"), que é como
+       relatório institucional se organiza;
+     · retrato monocromático em camadas com a tipografia;
+     · um único acento, usado com decisão;
+     · composição que sangra a borda em vez de caber na caixa.
+
+   O que NÃO se toma, deliberadamente:
+     · a tipografia de pincel e o vermelho quente da referência.
+       Num portfólio de crédito e FP&A, vermelho já significa
+       perda e erro (é o token --bad), e letra de grafite destrói
+       a credibilidade que o resto do site constrói. Registro
+       errado custa a vaga; a estrutura é o que se aproveita.
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+  /* escala de display editorial — fluida, tracking negativo forte */
+  --d-1: clamp(2.5rem, 1.7rem + 3.4vw, 4.4rem);
+  --d-2: clamp(1.9rem, 1.35rem + 2.4vw, 3rem);
+  --d-3: clamp(1.15rem, 1.02rem + .7vw, 1.55rem);
+  --track-display: -.045em;
+  --track-meta: .22em;
+  /* régua editorial */
+  --rule: 1px solid var(--hairline);
+  --rule-forte: 2px solid var(--ink);
+}
+
+/* ---------- barra de progresso de leitura ---------- */
+.progresso {
+  position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 120;
+  background: transparent; pointer-events: none;
+}
+.progresso span {
+  display: block; height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--s3));
+  transition: width 60ms linear;
+}
+
+/* ---------- rótulo meta: minúsculo, caixa alta, tracking largo ---------- */
+.meta-lbl {
+  font-size: .68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--track-meta); color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* linha de meta que abre e fecha um bloco, como cabeçalho de relatório */
+.meta-row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--sp-4); flex-wrap: wrap;
+  padding-bottom: var(--sp-3); border-bottom: var(--rule);
+}
+
+/* ---------- marcador numerado de seção ---------- */
+.sec-mark {
+  display: flex; align-items: baseline; gap: var(--sp-4);
+  margin-bottom: var(--sp-4); padding-top: var(--sp-3);
+  border-top: var(--rule-forte);
+}
+.sec-mark .n {
+  font-family: var(--font-num); font-size: .78rem; font-weight: 700;
+  color: var(--accent-ink); letter-spacing: .06em; flex: none;
+}
+.sec-mark .t {
+  font-size: .72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--track-meta); color: var(--ink-2);
+}
+.sec-mark .rule { flex: 1 1 auto; height: 1px; background: var(--hairline); align-self: center; }
+
+/* ---------- capa editorial ---------- */
+.capa {
+  position: relative; padding: var(--sp-6) 0 var(--sp-7);
+  border-bottom: var(--rule);
+}
+.capa .capa-top { margin-bottom: clamp(28px, 5vw, 64px); }
+.capa-grid {
+  display: grid; gap: clamp(20px, 3vw, 44px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .capa-grid { grid-template-columns: minmax(0, 1.25fr) minmax(240px, .75fr); }
+}
+
+/* o display: escala grande, tracking apertado, quebra controlada */
+.capa h1.display {
+  font-size: var(--d-1); line-height: 1.03; letter-spacing: var(--track-display);
+  font-weight: 700; margin: 0; color: var(--ink);
+  text-wrap: balance;
+}
+.capa h1.display .em {
+  /* a palavra que carrega o argumento recebe o acento, uma vez só */
+  color: var(--accent-ink); position: relative; white-space: nowrap;
+}
+.capa h1.display .em::after {
+  /* realce atrás da palavra, não sublinhado: sublinhar em display faz o
+     leitor ler como link e tentar clicar */
+  content: ""; position: absolute; left: -.06em; right: -.06em; bottom: .04em; top: .12em;
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  border-radius: 4px; z-index: -1;
+}
+.capa .sob {
+  font-size: var(--d-3); color: var(--ink-2); font-weight: 400;
+  max-width: 46ch; margin: var(--sp-4) 0 0; line-height: 1.45;
+  letter-spacing: -.012em;
+}
+.capa .nome {
+  font-size: .72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--track-meta); color: var(--ink-2); margin-bottom: var(--sp-3);
+}
+
+/* ---------- retrato monocromático em camadas ---------- */
+.retrato {
+  position: relative; justify-self: center; width: 100%;
+  max-width: 340px; aspect-ratio: 4 / 5;
+}
+.retrato .moldura {
+  position: absolute; inset: 0; border-radius: var(--r-lg); overflow: hidden;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+  box-shadow: var(--e-3);
+}
+.retrato img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  /* tratamento monocromático de alto contraste: é o que faz qualquer
+     retrato parecer intencional, e é o recurso da referência */
+  filter: grayscale(1) contrast(1.14) brightness(1.02);
+  transition: filter var(--dur-3) var(--ease), transform var(--dur-3) var(--ease-out);
+}
+.retrato:hover img { filter: grayscale(.55) contrast(1.08); transform: scale(1.02); }
+@media (prefers-color-scheme: dark) {
+  .retrato img { filter: grayscale(1) contrast(1.06) brightness(.92); }
+}
+/* placa de acento atrás do retrato — a camada que dá profundidade */
+.retrato::before {
+  content: ""; position: absolute; inset: 14px -14px -14px 14px;
+  border-radius: var(--r-lg); z-index: -1;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--accent) 26%, transparent), transparent 62%);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+}
+/* etiqueta sobre o retrato */
+.retrato .cap {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  padding: 26px 14px 11px; color: #fff;
+  font-size: .64rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .16em;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,.72));
+}
+/* enquanto não existe foto, um retrato desenhado ocupa o lugar sem
+   fingir ser uma fotografia */
+.retrato .vazio {
+  position: absolute; inset: 0; display: grid; place-items: center; gap: 10px;
+  align-content: center; text-align: center; padding: var(--sp-5);
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 65%),
+    var(--surface-2);
+}
+.retrato .vazio .ini {
+  font-size: 3rem; font-weight: 700; letter-spacing: -.03em; line-height: 1;
+  color: var(--accent-ink);
+}
+.retrato .vazio .txt { font-size: .68rem; color: var(--muted); letter-spacing: .06em; max-width: 22ch; line-height: 1.5; }
+
+/* ---------- estatística de capa (números que contam) ---------- */
+.capa-stats {
+  display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  margin-top: clamp(28px, 4vw, 52px); border-top: var(--rule);
+}
+.capa-stats .st { padding: var(--sp-4) var(--sp-4) 0 0; }
+.capa-stats .st .v {
+  font-family: var(--font-num); font-variant-numeric: var(--num-feat);
+  font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2.1rem); font-weight: 700;
+  letter-spacing: -.03em; line-height: 1; color: var(--ink);
+}
+.capa-stats .st .k {
+  font-size: .68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .13em; color: var(--muted); margin-top: 6px; line-height: 1.4;
+}
+
+/* ---------- selo circular de competência ---------- */
+.selos { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin: var(--sp-5) 0; }
+.selo {
+  width: 92px; height: 92px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; text-align: center; padding: 8px;
+  font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+  line-height: 1.25; border: 1px solid var(--hairline); background: var(--surface);
+  color: var(--ink-2); box-shadow: var(--e-1);
+  transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out),
+              background var(--dur-2) var(--ease), color var(--dur-2) var(--ease);
+}
+.selo:hover { transform: translateY(-3px); box-shadow: var(--e-3); }
+.selo.on {
+  background: linear-gradient(155deg, var(--accent), color-mix(in srgb, var(--accent) 55%, var(--s3)));
+  color: #fff; border-color: transparent;
+}
+
+/* ---------- revelação escalonada ---------- */
+.stagger > * { opacity: 0; transform: translateY(16px); }
+.stagger.in > * {
+  opacity: 1; transform: none;
+  transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+}
+.stagger.in > *:nth-child(1) { transition-delay: 0ms; }
+.stagger.in > *:nth-child(2) { transition-delay: 70ms; }
+.stagger.in > *:nth-child(3) { transition-delay: 140ms; }
+.stagger.in > *:nth-child(4) { transition-delay: 210ms; }
+.stagger.in > *:nth-child(5) { transition-delay: 280ms; }
+.stagger.in > *:nth-child(6) { transition-delay: 350ms; }
+
+/* ---------- realce de cartão sob o ponteiro ---------- */
+.lift { transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out); }
+.lift:hover { transform: translateY(-4px); box-shadow: var(--e-4); }
+
+/* movimento contido: quem pede menos movimento não recebe nenhum */
+@media (prefers-reduced-motion: reduce) {
+  .stagger > *, .stagger.in > * { opacity: 1; transform: none; transition: none; }
+  .progresso { display: none; }
+  .retrato:hover img { transform: none; }
+  .lift:hover { transform: none; }
+}
+
+@media print {
+  .progresso, .retrato::before { display: none; }
+  .capa { border-bottom: 0; }
+  .stagger > * { opacity: 1; transform: none; }
+}
+
+/* a linha de prova, dentro da capa, deixa de ser pílula: com duas linhas de
+   texto a forma arredondada vira uma bolha larga. Aqui ela vira um bloco
+   com régua de acento à esquerda, que é como um dado auditado se apresenta. */
+.capa .prova-linha {
+  display: block; width: auto; max-width: 62ch;
+  border-radius: var(--r-md);
+  border-left: 3px solid var(--ok);
+  padding: var(--sp-3) var(--sp-4);
+  margin-top: var(--sp-5);
+}
+.capa .prova-linha > span:first-child { margin-right: 6px; }
+.capa .prova-linha a { margin-left: 6px; }
+
+/* Correções de hierarquia de títulos apontadas pelo conselho de validação.
+   Os níveis mudaram para não haver salto (h1→h3, h2→h4); o tamanho aparente
+   é preservado por classe, porque a hierarquia é semântica e a escala é visual
+   — são duas coisas diferentes e não precisam andar juntas. */
+h2.h3-vis { font-size: 1.08rem; margin: 1.4em 0 .4em; letter-spacing: 0; }
+.card h2.h3-vis { margin-top: 0; }
+h3.h4-vis { font-size: .88rem; margin: 14px 0 4px; }
+details.doc h3.h4-vis { margin: 14px 0 4px; font-size: .88rem; }
+.kpi-card h3.h4-vis { margin: 0 0 2px; font-size: 1rem; }

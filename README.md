@@ -24,9 +24,10 @@ Um portfólio técnico em formato de site estático que serve a dois leitores ao
 oficiais, **três ferramentas de cálculo próprias**, dashboards executivos, biblioteca de KPIs bancários e uma
 camada completa de governança analítica.
 
-**182 checks recalculados no navegador** — 147 nos estudos sobre dados públicos, 23 nas ferramentas próprias e
-12 na validação do próprio currículo. A contagem é medida por
-[`automation/node/verificar_paginas.js`](automation/node/verificar_paginas.js), não escrita à mão.
+**194 checks recalculados no navegador** — 147 nos estudos sobre dados públicos, 23 nas ferramentas próprias,
+12 na validação do próprio currículo e 12 na validação do trabalho como um todo. A contagem é medida por
+[`automation/node/verificar_paginas.js`](automation/node/verificar_paginas.js), não escrita à mão, e o
+[`conselho.js`](automation/node/conselho.js) reprova a publicação se o número publicado divergir do apurado.
 
 > ⚖️ **Protocolo de integridade** — todos os estudos usam **dados públicos de fontes primárias datadas**:
 > Nu Holdings (série completa de 1T25 a 2T26 — releases, reconciliações com asseguração KPMG, DFs IFRS e
@@ -83,6 +84,7 @@ Nenhuma delas contém volume, custo, taxa, cliente ou qualquer dado operacional 
 |---|---|
 | [`metodologia.html`](metodologia.html) | Protocolo antialucinação, rastreabilidade, 15 divergências documentadas, conflito de interesse, QC |
 | [`validacao-perfil.html`](validacao-perfil.html) | **Conselho de validação do perfil**: 12 checks automáticos de rastreabilidade das afirmações biográficas, hierarquia de fontes, 8 divergências entre documentos-fonte e controles de privacidade |
+| [`conselho.html`](conselho.html) | **Conselho de validação do trabalho**: nove frentes de auditoria medidas sobre o site inteiro — execução, navegação, aritmética, registro único, ancoragem, fontes, acessibilidade, idioma e higiene —, com os achados que reprovaram a primeira execução e as pendências que seguem abertas |
 
 O mesmo protocolo aplicado às demonstrações financeiras é aplicado à biografia: cada afirmação de carreira
 carrega documento-fonte nomeado, classe de confiabilidade (D1 a D4) e marca explícita onde **não** existe
@@ -105,6 +107,7 @@ os documentos baixados nunca saem de sincronia com o site.
 ├── carta-apresentacao.html carta personalizável por empresa e vaga
 ├── sobre.html             perfil, trajetória e conflito de interesse
 ├── validacao-perfil.html  conselho de validação do perfil
+├── conselho.html          conselho de validação do trabalho (nove frentes)
 ├── dashboards.html        5 dashboards executivos
 ├── kpis.html              biblioteca de KPIs bancários
 ├── metodologia.html       governança e protocolo de integridade
@@ -120,7 +123,9 @@ os documentos baixados nunca saem de sincronia com o site.
 ├── references/            submodules de referência de design e metodologia
 └── automation/
     ├── python/cvm_dados_abertos.py    coleta real de dados abertos da CVM
-    └── node/verificar_paginas.js      QC automatizado: erros de JS e contagem de checks
+    └── node/
+        ├── verificar_paginas.js      QC automatizado: erros de JS e contagem de checks
+        └── conselho.js               auditoria em nove frentes sobre o site inteiro
 ```
 
 ---
@@ -134,11 +139,14 @@ python3 -m http.server 8765
 
 # controle de qualidade automatizado (dependência só de desenvolvimento)
 npm install playwright-core
-node automation/node/verificar_paginas.js
+node automation/node/verificar_paginas.js   # erro de JS e contagem de checks
+node automation/node/conselho.js            # as nove frentes de auditoria
 ```
 
 O verificador abre cada página em um navegador real e reprova se encontrar erro de JavaScript, check de
-integridade em estado "falhou" ou divergência entre a contagem apurada e a publicada.
+integridade em estado "falhou" ou divergência entre a contagem apurada e a publicada. O conselho vai além:
+confere link quebrado, número publicado contra número medido, ancoragem das palavras-chave, hierarquia de
+títulos, rótulo de formulário, resíduo de português em modo inglês e arquivo referenciado que não existe.
 
 ---
 
@@ -179,6 +187,10 @@ declarada.
 
 - [ ] Confirmar com o titular as **duas divergências abertas** listadas em [`validacao-perfil.html`](validacao-perfil.html)
       (data de início no Agibank e data de conclusão da graduação);
+- [ ] Traduzir os **171 blocos de prosa** que ainda aparecem em português com a interface em inglês — medido a
+      cada execução pela frente H do [`conselho.js`](automation/node/conselho.js) e publicado em
+      [`conselho.html`](conselho.html);
+- [ ] Incluir a **fotografia do titular** na capa (ver [`assets/img/LEIA-ME.md`](assets/img/LEIA-ME.md));
 - [ ] Conferir os arquivos OCR contra os PDFs originais dos emissores;
 - [ ] Obter o **índice de capital consolidado do Nu Holdings** no painel de Conglomerados Prudenciais do BCB;
 - [ ] Personalizar o slug do LinkedIn (hoje é o numérico gerado automaticamente);

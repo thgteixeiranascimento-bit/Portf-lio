@@ -307,6 +307,7 @@ section.blk { margin: 40px 0; }
 }
 .tabs button.on { color: var(--accent-ink); font-weight: 700; border-bottom-color: var(--accent); }
 .tabpane { display: none; }
+.print-title { display: none; }
 .tabpane.on { display: block; }
 
 /* kpi library */
@@ -324,6 +325,12 @@ section.blk { margin: 40px 0; }
 }
 
 @media print {
-  header.site, .controls, details.tbl-twin { display: none; }
+  header.site, .controls, details.tbl-twin, .tabs { display: none; }
   body { background: #fff; }
+  /* painéis por abas (ex.: dashboards.html): mostrar todo o conteúdo na exportação,
+     não só a aba selecionada na tela */
+  .tabpane { display: block !important; }
+  .tabpane + .tabpane { margin-top: 28px; border-top: 1px solid #ccc; padding-top: 20px; }
+  figure.chart, .tile, .banner { break-inside: avoid; page-break-inside: avoid; }
+  .print-title { display: block !important; font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; }
 }

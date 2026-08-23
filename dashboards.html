@@ -33,6 +33,7 @@
 
   <!-- ===================== CFO ===================== -->
   <section class="tabpane on" id="pane-cfo">
+    <h2 class="print-title">CFO / Executivo</h2>
     <div class="banner"><span>🎯</span><div><b>Problema que este painel resolve:</b>
       dar à diretoria, em uma tela, a resposta às três perguntas da reunião mensal — estamos entregando o
       resultado? o caixa está protegido? a alavancagem está sob controle?</div></div>
@@ -46,6 +47,7 @@
 
   <!-- ===================== FP&A ===================== -->
   <section class="tabpane" id="pane-fpa">
+    <h2 class="print-title">FP&amp;A</h2>
     <div class="banner"><span>🎯</span><div><b>Problema que este painel resolve:</b>
       transformar o fechamento mensal em agenda de ação — onde o desvio está, qual driver o explica
       e que precisão o processo de forecast vem entregando.</div></div>
@@ -59,6 +61,7 @@
 
   <!-- ===================== Working capital ===================== -->
   <section class="tabpane" id="pane-wc">
+    <h2 class="print-title">Capital de giro</h2>
     <div class="banner"><span>🎯</span><div><b>Problema que este painel resolve:</b>
       mostrar quanto caixa a operação está prendendo em prazos, qual componente está piorando e o
       tamanho do prêmio de reverter a tendência — a ponte entre o operacional e a tesouraria.</div></div>
@@ -69,6 +72,7 @@
 
   <!-- ===================== Liquidez ===================== -->
   <section class="tabpane" id="pane-liq">
+    <h2 class="print-title">Liquidez</h2>
     <div class="banner"><span>🎯</span><div><b>Problema que este painel resolve:</b>
       antecipar o risco de liquidez — trajetória do caixa, perfil de vencimento da dívida e a folga
       contra o caixa mínimo de política — antes que o problema chegue à tesouraria.</div></div>
@@ -272,6 +276,19 @@
       // re-render dos gráficos do painel exibido (largura era 0 enquanto oculto)
       document.querySelectorAll("#pane-" + b.dataset.t + " figure.chart").forEach(f => f._vizDraw && f._vizDraw());
     });
+  });
+
+  /* ============ exportação / impressão ============ */
+  // na impressão o CSS mostra todas as abas de uma vez (ver @media print); os
+  // gráficos das abas que estavam ocultas foram desenhados com largura mínima,
+  // então redesenhamos tudo na largura real antes de gerar o PDF e voltamos ao
+  // estado normal (só a aba ativa) depois.
+  window.addEventListener("beforeprint", () => {
+    document.querySelectorAll("figure.chart").forEach(f => f._vizDraw && f._vizDraw());
+  });
+  window.addEventListener("afterprint", () => {
+    const onBtn = document.querySelector("#tabs button.on");
+    if (onBtn) document.querySelectorAll("#pane-" + onBtn.dataset.t + " figure.chart").forEach(f => f._vizDraw && f._vizDraw());
   });
 })();
 </script>

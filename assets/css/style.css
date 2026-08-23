@@ -33,6 +33,7 @@
   --seq-400: #3987e5; --seq-500: #256abf; --seq-600: #184f95; --seq-700: #0d366b;
   --neutral-mid: #f0efec;
   --shadow: 0 1px 2px rgba(11,11,11,.04), 0 4px 16px rgba(11,11,11,.05);
+  --font-serif: Georgia, "Iowan Old Style", "Times New Roman", Times, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -310,6 +311,9 @@ section.blk { margin: 40px 0; }
 .print-title { display: none; }
 .tabpane.on { display: block; }
 
+/* masthead exibido só na exportação/impressão (ver core.js initSite) */
+.print-meta { display: none; }
+
 /* kpi library */
 .kpi-card h4 { margin: 0 0 2px; font-size: 1rem; }
 .kpi-card .f { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .8rem; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; margin: 8px 0; color: var(--ink); overflow-x: auto; }
@@ -325,12 +329,78 @@ section.blk { margin: 40px 0; }
 }
 
 @media print {
-  header.site, .controls, details.tbl-twin, .tabs { display: none; }
-  body { background: #fff; }
-  /* painéis por abas (ex.: dashboards.html): mostrar todo o conteúdo na exportação,
-     não só a aba selecionada na tela */
+  /* ---------- base: sempre tema claro no papel, mesmo com o SO em modo escuro ---------- */
+  :root {
+    color-scheme: light;
+    --page: #ffffff; --surface: #ffffff; --surface-2: #f4f3f0;
+    --ink: #101010; --ink-2: #3d3c39; --muted: #6b6a65;
+    --grid: #d8d7d0; --baseline: #b9b8ae; --border: rgba(11,11,11,.16);
+    --s1: #1f5fad; --s2: #c1541f; --s3: #147f57; --s4: #b52f2e;
+    --accent: #1f5fad; --accent-ink: #17457f;
+    --ok-text: #0a6b0a; --shadow: none;
+  }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+  @page { size: A4; margin: 15mm 14mm 16mm; }
+  body { background: #fff; font-size: 10.6pt; line-height: 1.42; }
+  .wrap { max-width: none; padding: 0; }
+  p { orphans: 3; widows: 3; }
+
+  /* elementos exclusivos da experiência web, sem função no papel */
+  header.site, .tabs, .viz-tip { display: none !important; }
+  a { color: var(--accent-ink); text-decoration: none; }
+
+  /* ---------- masthead impresso (ver core.js) ---------- */
+  .print-meta {
+    display: flex !important; justify-content: space-between; align-items: baseline;
+    gap: 16px; font-size: 8pt; letter-spacing: .06em; text-transform: uppercase;
+    color: #444; border-bottom: 1.5pt solid #101010; padding-bottom: 8px; margin-bottom: 22px;
+  }
+
+  /* ---------- tipografia de relatório executivo ---------- */
+  h1, h2, h3, .hero-num { font-family: var(--font-serif); }
+  h1, h2, h3 { break-after: avoid; page-break-after: avoid; color: #000; }
+  h1 { font-size: 21pt; margin-top: 0; }
+  h2 { font-size: 14pt; margin: 1.6em 0 .5em; }
+  h3 { font-size: 11.5pt; }
+  .hero { padding: 0 0 6px; }
+  .hero .tags { margin: 10px 0 4px; }
+
+  /* ---------- cartões e blocos: menos "web", mais "documento" ---------- */
+  .card, figure.chart, .tile, .banner, .controls, .tbl-scroll, .check, details.doc {
+    box-shadow: none; background: #fff; border-color: var(--grid);
+  }
+  .card, .tile, .banner, .check, figure.chart, .controls, details.doc h4 + p, table.tbl tr {
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  section.blk { margin: 26px 0; }
+
+  /* ---------- abas (ex.: dashboards.html): mostrar todo o conteúdo, não só a aba ativa ---------- */
   .tabpane { display: block !important; }
-  .tabpane + .tabpane { margin-top: 28px; border-top: 1px solid #ccc; padding-top: 20px; }
-  figure.chart, .tile, .banner { break-inside: avoid; page-break-inside: avoid; }
-  .print-title { display: block !important; font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; }
+  .tabpane + .tabpane { margin-top: 24px; border-top: 1px solid var(--grid); padding-top: 18px; }
+  .print-title { display: block !important; font-family: var(--font-serif); font-size: 13pt; font-weight: 700; margin: 0 0 10px; }
+
+  /* ---------- painéis de premissas: viram uma lista legível em vez de sumir ---------- */
+  .controls .head .tag { display: none; }
+  .ctrl input[type=range], .ctrl input[type=number], .ctrl select { display: none; }
+  .controls .row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px 26px; }
+  .ctrl { margin: 0; }
+  .ctrl label { border-bottom: 1px dotted var(--grid); padding: 3px 0; margin-bottom: 0; }
+
+  /* ---------- documentação do estudo: expandida automaticamente (ver core.js) ---------- */
+  details.doc summary { cursor: default; }
+  details.doc summary::before { content: none; }
+  details.doc .inner { border-top-color: var(--grid); }
+
+  /* dado de apoio ao gráfico (redundante com o próprio gráfico) some do papel */
+  details.tbl-twin { display: none; }
+
+  /* URL por extenso para links externos — o papel não é clicável */
+  a[href^="http"]:not(.card)::after {
+    content: " (" attr(href) ")"; font-size: 8.4pt; color: var(--muted); word-break: break-all;
+  }
+
+  /* ---------- rodapé: nota de documento, não navegação de site ---------- */
+  footer.site { border-top: 1px solid var(--grid); margin-top: 34px; padding: 14px 0 0; }
+  footer.site .wrap { display: block; font-size: 8pt; }
+  footer.site .wrap > div + div { margin-top: 6px; }
 }

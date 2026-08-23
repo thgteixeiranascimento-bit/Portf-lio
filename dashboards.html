@@ -279,13 +279,9 @@
   });
 
   /* ============ exportação / impressão ============ */
-  // na impressão o CSS mostra todas as abas de uma vez (ver @media print); os
-  // gráficos das abas que estavam ocultas foram desenhados com largura mínima,
-  // então redesenhamos tudo na largura real antes de gerar o PDF e voltamos ao
-  // estado normal (só a aba ativa) depois.
-  window.addEventListener("beforeprint", () => {
-    document.querySelectorAll("figure.chart").forEach(f => f._vizDraw && f._vizDraw());
-  });
+  // o redesenho dos gráficos antes de imprimir é feito globalmente pelo
+  // core.js (beforeprint); aqui só falta devolver a visão de "uma aba só"
+  // depois que a impressão termina, já que todas ficam visíveis no PDF.
   window.addEventListener("afterprint", () => {
     const onBtn = document.querySelector("#tabs button.on");
     if (onBtn) document.querySelectorAll("#pane-" + onBtn.dataset.t + " figure.chart").forEach(f => f._vizDraw && f._vizDraw());

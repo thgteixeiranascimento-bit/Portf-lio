@@ -465,6 +465,16 @@
     const body = document.body;
     const root = body.dataset.root || "";
     const page = body.dataset.page || "";
+    const secao = (NAV.find(([, , id]) => id === page) || [])[1];
+
+    // masthead exclusivo da exportação/impressão — some na tela, aparece no PDF
+    const meta = document.createElement("div");
+    meta.className = "print-meta";
+    const hoje = new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
+    meta.innerHTML = `<span>Portfólio — Finanças Corporativas &amp; FP&amp;A</span>
+      <span>${secao ? secao + " · " : ""}Exportado em ${hoje}</span>`;
+    body.prepend(meta);
+
     const header = document.createElement("header");
     header.className = "site";
     header.innerHTML = `<div class="wrap bar">
@@ -484,6 +494,23 @@
     body.appendChild(footer);
   }
   document.addEventListener("DOMContentLoaded", initSite);
+
+  /* ---------- exportação / impressão (site-wide) ----------
+     Ao mandar imprimir/exportar em PDF, o navegador só renderiza o que está
+     visível: <details> fechado (documentação do estudo) não aparece, e
+     gráficos desenhados enquanto ocultos (ex.: abas) ficam com a largura
+     mínima. Corrige as duas coisas antes de imprimir e devolve o estado
+     original da página depois. */
+  let _printOpenedDetails = [];
+  window.addEventListener("beforeprint", () => {
+    _printOpenedDetails = Array.from(document.querySelectorAll("details.doc:not([open])"));
+    _printOpenedDetails.forEach(d => d.setAttribute("open", ""));
+    document.querySelectorAll("figure.chart").forEach(f => f._vizDraw && f._vizDraw());
+  });
+  window.addEventListener("afterprint", () => {
+    _printOpenedDetails.forEach(d => d.removeAttribute("open"));
+    _printOpenedDetails = [];
+  });
 
   /* ---------- utilidades numéricas ---------- */
   function irr(cashflows, guess) {

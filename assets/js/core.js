@@ -272,7 +272,7 @@
         const yA = yOf(b.from), yB = yOf(b.to);
         const top = Math.min(yA, yB), bh = Math.max(1.5, Math.abs(yA - yB));
         const fav = opts.invert ? -b.v : b.v; // invert: delta positivo é desfavorável (ex.: aumento de NWC)
-        const c = b.k === "d" ? (fav >= 0 ? col("s1") : col("s4")) : tok("--baseline");
+        const c = b.k === "d" ? (fav >= 0 ? col("s1") : col("s4")) : tok("--anchor");
         const r = svgEl("rect", { x, y: top, width: bw, height: bh, rx: 3, fill: c });
         r.addEventListener("mousemove", ev => showTip(`<div class="t">${b.l}</div>` + tipRow(b.k === "d" ? "Variação" : "Total", c, b.k === "d" ? F.smm(b.v) : fmt(b.v)), ev.clientX, ev.clientY));
         r.addEventListener("mouseleave", hideTip);
@@ -406,7 +406,7 @@
       const t = hi === lo ? 0 : (v - lo) / (hi - lo);
       const idx = Math.min(seq.length - 1, Math.floor(t * seq.length));
       const bg = tok(seq[idx]);
-      const ink = idx >= 3 ? "#ffffff" : "#0b0b0b";
+      const ink = tok(idx >= 4 ? "--seq-ink-hi" : "--seq-ink-lo");
       return `background:${bg};color:${ink}`;
     }
     el.innerHTML = "";
@@ -429,7 +429,7 @@
     el.appendChild(scroll);
     const note = document.createElement("div");
     note.className = "c-sub"; note.style.marginTop = "6px";
-    note.textContent = "Escala de cor: azul mais escuro = valor mais alto. Célula destacada = premissa central.";
+    note.textContent = "Escala de cor: âmbar mais claro = valor mais alto. Célula destacada = premissa central.";
     el.appendChild(note);
   }
 
@@ -451,7 +451,7 @@
     return { total: n, ok };
   }
 
-  /* ---------- navegação / rodapé ---------- */
+  /* ---------- navegação, faixa de indicadores e rodapé ---------- */
   const NAV = [
     ["index.html", "Início", "home"],
     ["simuladores/index.html", "Simuladores", "sim"],
@@ -461,28 +461,76 @@
     ["metodologia.html", "Metodologia", "met"],
     ["sobre.html", "Sobre", "sobre"],
   ];
+  const TICKER = [
+    ["Simuladores", "10 interativos"],
+    ["Checks", "44 automáticos"],
+    ["Dashboards", "4 painéis"],
+    ["Dataset", "fonte única"],
+    ["Dados reais", "bancos 1T26 · 2T26"],
+    ["Stack", "HTML · SVG · Python"],
+  ];
+  const EMAIL = "thgteixeiranascimento@gmail.com";
+
   function initSite() {
     const body = document.body;
     const root = body.dataset.root || "";
     const page = body.dataset.page || "";
+
     const header = document.createElement("header");
     header.className = "site";
     header.innerHTML = `<div class="wrap bar">
-      <a class="logo" href="${root}index.html">Portfólio <span>Finanças Corporativas &amp; FP&amp;A</span></a>
+      <a class="logo" href="${root}index.html">Finanças Corporativas <span>·</span> FP&amp;A</a>
       <nav class="main">${NAV.map(([href, lab, id]) => `<a href="${root}${href}" class="${id === page ? "on" : ""}">${lab}</a>`).join("")}</nav>
+      <a class="cta-contato" href="mailto:${EMAIL}">Contato</a>
     </div>`;
     body.prepend(header);
+
+    const ticker = document.createElement("div");
+    ticker.className = "ticker";
+    ticker.innerHTML = `<div class="wrap">${TICKER.map(([k, v]) =>
+      `<span class="item"><span class="k">${k}</span><span class="v">${v}</span></span>`).join("")}</div>`;
+    header.after(ticker);
+
     const footer = document.createElement("footer");
     footer.className = "site";
     footer.innerHTML = `<div class="wrap">
-      <div>Portfólio técnico de Finanças Corporativas, FP&amp;A, Valuation e BI.<br>
-      Simuladores usam <b>empresa fictícia (simulações identificadas)</b>; análises com dados públicos citam fonte e data.
-      Nada aqui representa experiência profissional real nem recomendação de investimento.</div>
+      <div style="max-width:60ch">Simuladores usam <b>empresa fictícia (simulações identificadas)</b>; análises com dados
+      públicos citam fonte e data. Nada aqui representa experiência profissional real nem recomendação de investimento.<br>
+      <span class="sig">Thiago Teixeira Nascimento</span></div>
       <div>Código-fonte: <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio">GitHub</a><br>
-      Metodologia e governança: <a href="${root}metodologia.html">ver protocolo</a></div>
+      Metodologia e governança: <a href="${root}metodologia.html">ver protocolo</a><br>
+      <span class="meta">FP&amp;A · Modelagem financeira · Valuation · BI</span></div>
     </div>`;
     body.appendChild(footer);
+
+    initFilters();
   }
+
+  /* ---------- filtro por etiqueta ----------
+     <div class="filters" data-filter-for="#alvo"> com botões [data-tag]
+     e itens [data-filterable][data-tags="a,b"] dentro do alvo.        */
+  function initFilters() {
+    document.querySelectorAll(".filters[data-filter-for]").forEach(bar => {
+      const target = document.querySelector(bar.dataset.filterFor);
+      if (!target) return;
+      const items = [...target.querySelectorAll("[data-filterable]")];
+      const buttons = [...bar.querySelectorAll("button[data-tag]")];
+      function apply(tag) {
+        buttons.forEach(b => b.classList.toggle("on", b.dataset.tag === tag));
+        buttons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.tag === tag)));
+        items.forEach(it => {
+          const tags = (it.dataset.tags || "").split(",").map(t => t.trim());
+          it.classList.toggle("hide", tag !== "*" && !tags.includes(tag));
+        });
+      }
+      bar.addEventListener("click", e => {
+        const b = e.target.closest("button[data-tag]");
+        if (b) apply(b.dataset.tag);
+      });
+      apply(buttons.find(b => b.classList.contains("on"))?.dataset.tag || "*");
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", initSite);
 
   /* ---------- utilidades numéricas ---------- */

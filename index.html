@@ -23,24 +23,29 @@
 <body data-page="home" data-root="">
 <main class="wrap">
 
-  <section class="hero">
+  <section class="hero fade-up">
     <div class="eyebrow">Portfólio técnico · FP&amp;A · Finanças Corporativas · Valuation · BI</div>
-    <h1>Transformar dados financeiros em análise — e análise em decisão.</h1>
+    <h1>Transformar dados financeiros em análise — e análise em <em>decisão.</em></h1>
     <p class="lead">
       Este portfólio é uma <strong>prova prática de capacidade técnica e de raciocínio financeiro</strong>:
       modelos interativos de três demonstrações, orçamento e forecast, fluxo de caixa, valuation,
       viabilidade de investimentos, M&amp;A e riscos — todos com premissas explícitas,
       verificações automáticas de consistência e documentação auditável.
     </p>
-    <div class="tags">
-      <span class="tag">FP&amp;A</span>
-      <span class="tag">Modelagem financeira</span>
-      <span class="tag">Valuation / DCF</span>
-      <span class="tag">Fluxo de caixa &amp; capital de giro</span>
-      <span class="tag">Business Intelligence</span>
-      <span class="tag">Gestão de riscos</span>
+    <div class="actions">
+      <a class="btn-solid" href="simuladores/index.html">Ver simuladores →</a>
+      <a class="btn-ghost" href="dashboards.html">Dashboards</a>
+    </div>
+
+    <div class="statrow">
+      <div class="s"><div class="n">10</div><div class="l">Simuladores interativos</div></div>
+      <div class="s"><div class="n">44</div><div class="l">Checks automáticos</div></div>
+      <div class="s"><div class="n">4</div><div class="l">Dashboards executivos</div></div>
+      <div class="s"><div class="n">1</div><div class="l">Dataset central versionado</div></div>
     </div>
   </section>
+
+  <div class="divider"></div>
 
   <div class="banner">
     <span>⚖️</span>
@@ -55,94 +60,129 @@
   </div>
 
   <section class="blk">
-    <div class="eyebrow">Núcleo — FP&amp;A e gestão de caixa</div>
-    <h2 style="margin-top:.2em">Planejamento, orçamento e liquidez</h2>
-    <div class="grid c2">
-      <a class="card" href="simuladores/orcamento.html">
+    <div class="eyebrow">01 / Modelos</div>
+    <h2>Doze módulos, cada um com uma decisão declarada.</h2>
+    <p class="lead" style="margin-bottom:0">
+      Arquitetura comum a todos: <strong>inputs → cálculos → outputs → checks</strong>, alimentados por um
+      único dataset versionado. Filtre pela área de interesse.
+    </p>
+
+    <div class="filters" data-filter-for="#modelos" role="group" aria-label="Filtrar módulos por área">
+      <button type="button" data-tag="*" class="on">Todos</button>
+      <button type="button" data-tag="FP&amp;A">FP&amp;A</button>
+      <button type="button" data-tag="Caixa">Caixa</button>
+      <button type="button" data-tag="Modelagem">Modelagem</button>
+      <button type="button" data-tag="Valuation">Valuation</button>
+      <button type="button" data-tag="Riscos">Riscos</button>
+      <button type="button" data-tag="BI">BI</button>
+      <button type="button" data-tag="Dados reais">Dados reais</button>
+    </div>
+
+    <div class="grid c3 seam" id="modelos">
+      <a class="card" href="simuladores/orcamento.html" data-filterable data-tags="FP&amp;A">
+        <div class="head-row"><span class="idx">#01</span><span class="metric">Real × Orçado</span></div>
         <h3>Real vs. Orçado vs. Forecast</h3>
+        <div class="sub-title">Variações preço · volume · mix</div>
         <p>Análise de variações YTD com decomposição preço × volume × mix, ponte de EBITDA e leitura executiva de cada desvio: causa, materialidade e ação recomendada.</p>
-        <span class="go">Abrir simulador →</span>
+        <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">Orçamento</span></div>
       </a>
-      <a class="card" href="simuladores/rolling-forecast.html">
-        <h3>Rolling Forecast 12 meses</h3>
-        <p>Horizonte móvel com cenários Base, Upside, Downside e Stress; drivers de crescimento, preço, inflação, câmbio e inadimplência ajustáveis em tempo real.</p>
-        <span class="go">Abrir simulador →</span>
+      <a class="card" href="simuladores/rolling-forecast.html" data-filterable data-tags="FP&amp;A">
+        <div class="head-row"><span class="idx">#02</span><span class="metric">12 meses</span></div>
+        <h3>Rolling Forecast 12m</h3>
+        <div class="sub-title">Base · Upside · Downside · Stress</div>
+        <p>Horizonte móvel com quatro cenários; drivers de crescimento, preço, inflação, câmbio e inadimplência ajustáveis em tempo real.</p>
+        <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">Cenários</span></div>
       </a>
-      <a class="card" href="simuladores/fluxo-de-caixa.html">
+      <a class="card" href="simuladores/fluxo-de-caixa.html" data-filterable data-tags="Caixa">
+        <div class="head-row"><span class="idx">#03</span><span class="metric">IAS 7 / CPC 03</span></div>
         <h3>Fluxo de caixa &amp; liquidez</h3>
-        <p>Fluxo direto mensal (operacional, investimento, financiamento), runway, necessidade de capital e reconciliação completa entre caixa inicial e final.</p>
-        <span class="go">Abrir simulador →</span>
+        <div class="sub-title">Método direto mensal</div>
+        <p>Fluxo direto (operacional, investimento, financiamento), runway, necessidade de capital e reconciliação completa entre caixa inicial e final.</p>
+        <div class="tags"><span class="tag">Caixa</span><span class="tag">Liquidez</span></div>
       </a>
-      <a class="card" href="simuladores/capital-de-giro.html">
+      <a class="card" href="simuladores/capital-de-giro.html" data-filterable data-tags="Caixa">
+        <div class="head-row"><span class="idx">#04</span><span class="metric">DSO · DIO · DPO</span></div>
         <h3>Capital de giro</h3>
-        <p>DSO, DIO, DPO e ciclo de conversão de caixa: quanto cada dia de prazo custa em caixa e o efeito de crescimento sobre a necessidade de capital de giro.</p>
-        <span class="go">Abrir simulador →</span>
+        <div class="sub-title">Ciclo de conversão de caixa</div>
+        <p>Quanto cada dia de prazo custa em caixa e o efeito do crescimento sobre a necessidade de capital de giro.</p>
+        <div class="tags"><span class="tag">Caixa</span><span class="tag">CCC</span></div>
       </a>
-    </div>
-  </section>
-
-  <section class="blk">
-    <div class="eyebrow">Modelagem &amp; Corporate Finance</div>
-    <h2 style="margin-top:.2em">Modelos integrados e decisões de investimento</h2>
-    <div class="grid c2">
-      <a class="card" href="simuladores/tres-demonstracoes.html">
-        <h3>Modelo de três demonstrações</h3>
-        <p>DRE, Balanço e Fluxo de Caixa integrados e projetados por drivers, com painel de integridade: A = P + PL, reconciliação de caixa, PL e dívida.</p>
-        <span class="go">Abrir modelo →</span>
+      <a class="card" href="simuladores/tres-demonstracoes.html" data-filterable data-tags="Modelagem">
+        <div class="head-row"><span class="idx">#05</span><span class="metric">DRE · BP · DFC</span></div>
+        <h3>Três demonstrações integradas</h3>
+        <div class="sub-title">Projeção por drivers</div>
+        <p>DRE, Balanço e Fluxo de Caixa integrados, com painel de integridade: A = P + PL, reconciliação de caixa, PL e dívida.</p>
+        <div class="tags"><span class="tag">Modelagem</span><span class="tag">Checks</span></div>
       </a>
-      <a class="card" href="simuladores/valuation.html">
+      <a class="card" href="simuladores/valuation.html" data-filterable data-tags="Valuation">
+        <div class="head-row"><span class="idx">#06</span><span class="metric">FCFF · WACC</span></div>
         <h3>Valuation — DCF e múltiplos</h3>
-        <p>FCFF descontado ao WACC com perpetuidade e múltiplo de saída, matriz de sensibilidade WACC × g e triangulação com múltiplos (football field).</p>
-        <span class="go">Abrir modelo →</span>
+        <div class="sub-title">Sensibilidade WACC × g</div>
+        <p>FCFF descontado ao WACC com perpetuidade e múltiplo de saída, matriz de sensibilidade e triangulação por múltiplos (football field).</p>
+        <div class="tags"><span class="tag">Valuation</span><span class="tag">DCF</span></div>
       </a>
-      <a class="card" href="simuladores/capex-evte.html">
+      <a class="card" href="simuladores/capex-evte.html" data-filterable data-tags="Valuation">
+        <div class="head-row"><span class="idx">#07</span><span class="metric">VPL · TIR · Payback</span></div>
         <h3>CAPEX / EVTE</h3>
-        <p>Estudo de viabilidade de projeto: VPL, TIR, payback simples e descontado, ponto de equilíbrio e análise de sensibilidade (tornado) por driver.</p>
-        <span class="go">Abrir estudo →</span>
+        <div class="sub-title">Estudo de viabilidade</div>
+        <p>VPL, TIR, payback simples e descontado, ponto de equilíbrio e análise de sensibilidade (tornado) por driver.</p>
+        <div class="tags"><span class="tag">Valuation</span><span class="tag">Investimentos</span></div>
       </a>
-      <a class="card" href="simuladores/ma.html">
-        <h3>M&amp;A — accretion / dilution</h3>
-        <p>Simulação de aquisição: estrutura de financiamento, sinergias, custos de integração, pro forma e sensibilidade do retorno ao preço pago.</p>
-        <span class="go">Abrir estudo →</span>
+      <a class="card" href="simuladores/ma.html" data-filterable data-tags="Valuation">
+        <div class="head-row"><span class="idx">#08</span><span class="metric">Accretion / dilution</span></div>
+        <h3>M&amp;A — pro forma</h3>
+        <div class="sub-title">Preço máximo defensável</div>
+        <p>Estrutura de financiamento, sinergias, custos de integração, resultado pro forma e sensibilidade do retorno ao preço pago.</p>
+        <div class="tags"><span class="tag">Valuation</span><span class="tag">M&amp;A</span></div>
+      </a>
+      <a class="card" href="simuladores/riscos.html" data-filterable data-tags="Riscos">
+        <div class="head-row"><span class="idx">#09</span><span class="metric">Heatmap · Stress</span></div>
+        <h3>Gestão de riscos</h3>
+        <div class="sub-title">Probabilidade × impacto</div>
+        <p>Mapa de calor de riscos, stress testing combinado e efeito sobre o covenant de alavancagem.</p>
+        <div class="tags"><span class="tag">Riscos</span><span class="tag">Covenant</span></div>
+      </a>
+      <a class="card" href="simuladores/portfolio.html" data-filterable data-tags="Riscos">
+        <div class="head-row"><span class="idx">#10</span><span class="metric">Educacional</span></div>
+        <h3>Portfólio — fronteira eficiente</h3>
+        <div class="sub-title">Média-variância (Markowitz)</div>
+        <p>Fronteira eficiente com carteiras simuladas. Modelo educacional — não é recomendação de investimento.</p>
+        <div class="tags"><span class="tag">Riscos</span><span class="tag">Quant</span></div>
+      </a>
+      <a class="card" href="analises/bancos-2026.html" data-filterable data-tags="Dados reais">
+        <div class="head-row"><span class="idx">#11</span><span class="metric">1T26 · 2T26</span></div>
+        <h3>Bancos brasileiros 2026</h3>
+        <div class="sub-title">Dados públicos, fontes datadas</div>
+        <p>Itaú, Bradesco e Santander e o ciclo da Selic nas atas do Copom — fontes primárias datadas, com checks e rastreabilidade.</p>
+        <div class="tags"><span class="tag">Dados reais</span><span class="tag">Setor bancário</span></div>
+      </a>
+      <a class="card" href="dashboards.html" data-filterable data-tags="BI">
+        <div class="head-row"><span class="idx">#12</span><span class="metric">4 painéis</span></div>
+        <h3>Dashboards executivos</h3>
+        <div class="sub-title">CFO · FP&amp;A · giro · liquidez</div>
+        <p>Cada painel declara explicitamente o problema de negócio que resolve e a decisão que suporta.</p>
+        <div class="tags"><span class="tag">BI</span><span class="tag">Visualização</span></div>
       </a>
     </div>
   </section>
 
+  <div class="divider"></div>
+
   <section class="blk">
-    <div class="eyebrow">Amplitude técnica</div>
-    <h2 style="margin-top:.2em">Riscos, dados e análise quantitativa</h2>
+    <div class="eyebrow">02 / Referência e governança</div>
+    <h2>A camada que sustenta os números.</h2>
     <div class="grid c3">
-      <a class="card" href="analises/bancos-2026.html">
-        <h3>Análise com dados reais — bancos 2026</h3>
-        <p>Itaú, Bradesco e Santander (1T26/2T26) e o ciclo da Selic nas atas do Copom — fontes primárias datadas, com checks e rastreabilidade.</p>
-        <span class="go">Abrir análise →</span>
-      </a>
-      <a class="card" href="dashboards.html">
-        <h3>Dashboards executivos</h3>
-        <p>Visões CFO, FP&amp;A, capital de giro e liquidez — cada painel declara o problema de negócio que resolve.</p>
-        <span class="go">Ver dashboards →</span>
-      </a>
-      <a class="card" href="simuladores/riscos.html">
-        <h3>Gestão de riscos</h3>
-        <p>Mapa de calor probabilidade × impacto, stress testing combinado e efeito sobre covenant de alavancagem.</p>
-        <span class="go">Abrir módulo →</span>
-      </a>
-      <a class="card" href="simuladores/portfolio.html">
-        <h3>Portfólio (educacional)</h3>
-        <p>Fronteira eficiente de Markowitz com carteiras simuladas — modelo educacional, não é recomendação.</p>
-        <span class="go">Abrir módulo →</span>
-      </a>
-      <a class="card" href="kpis.html">
+      <a class="card rail" href="kpis.html" style="--rail:#d4a843">
         <h3>Biblioteca de KPIs</h3>
         <p>Indicadores documentados: definição, fórmula, interpretação, limitações e exemplo calculado.</p>
         <span class="go">Ver biblioteca →</span>
       </a>
-      <a class="card" href="metodologia.html">
+      <a class="card rail" href="metodologia.html" style="--rail:#2a8c7e">
         <h3>Metodologia &amp; governança</h3>
         <p>Protocolo antialucinação, conselho de validação, hierarquia de fontes e matriz de rastreabilidade.</p>
         <span class="go">Ver protocolo →</span>
       </a>
-      <a class="card" href="https://github.com/thgteixeiranascimento-bit/Portf-lio/tree/main/automation">
+      <a class="card rail" href="https://github.com/thgteixeiranascimento-bit/Portf-lio/tree/main/automation" style="--rail:#7c6ae6">
         <h3>Automação (Python)</h3>
         <p>Script real e executável de coleta de dados abertos da CVM — código documentado no repositório.</p>
         <span class="go">Ver código →</span>
@@ -150,9 +190,12 @@
     </div>
   </section>
 
+  <div class="divider"></div>
+
   <section class="blk">
-    <h2>Como este portfólio demonstra competência</h2>
-    <div class="grid c3">
+    <div class="eyebrow">03 / Método</div>
+    <h2>Como este portfólio demonstra competência.</h2>
+    <div class="grid c3 seam">
       <div class="card">
         <h3>Rigor antes de estética</h3>
         <p>Cada modelo publica seus checks de consistência (balanço fecha, caixa reconcilia, pontes somam) recalculados a cada mudança de premissa — erros não são ocultados.</p>
@@ -168,26 +211,58 @@
     </div>
   </section>
 
-  <section class="blk">
-    <h2>Ferramentas e stack</h2>
-    <p>
-      <strong>Demonstrado neste portfólio:</strong> modelagem financeira interativa (JavaScript/SVG, arquitetura inputs → cálculos → outputs → checks),
-      visualização de dados orientada a decisão, automação de coleta de dados públicos em Python (CVM — Dados Abertos) e
-      documentação/versionamento em Git.
-    </p>
-    <p>
-      <strong>Em desenvolvimento — ainda não incluído nesta versão:</strong> versões dos modelos em Excel/VBA (Power Query, Power Pivot)
-      e dashboards em Power BI (modelagem dimensional + DAX). Serão adicionados ao repositório com a mesma governança.
-    </p>
-  </section>
+  <div class="divider"></div>
 
   <section class="blk">
-    <h2>Contato</h2>
-    <p>
-      E-mail: <a href="mailto:thgteixeiranascimento@gmail.com">thgteixeiranascimento@gmail.com</a><br>
-      Código-fonte e histórico: <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio">github.com/thgteixeiranascimento-bit/Portf-lio</a><br>
-      Perfil profissional: ver <a href="sobre.html">Sobre</a>.
+    <div class="eyebrow">04 / Stack</div>
+    <h2>Ferramentas e frameworks.</h2>
+    <div class="grid c3 seam">
+      <div class="card">
+        <h3 class="mono" style="color:var(--accent);font-size:.95rem">JavaScript / SVG</h3>
+        <p>Modelagem interativa no navegador — arquitetura inputs → cálculos → outputs → checks, gráficos próprios com tooltip e tabela equivalente.</p>
+      </div>
+      <div class="card">
+        <h3 class="mono" style="color:var(--accent);font-size:.95rem">Python</h3>
+        <p>Automação de coleta de dados públicos (CVM — Dados Abertos), com biblioteca padrão e código versionado.</p>
+      </div>
+      <div class="card">
+        <h3 class="mono" style="color:var(--accent);font-size:.95rem">Git</h3>
+        <p>Versionamento do dataset central e das páginas; histórico auditável de cada alteração de premissa ou fonte.</p>
+      </div>
+      <div class="card">
+        <h3 class="mono" style="color:var(--accent);font-size:.95rem">Excel / VBA</h3>
+        <p>Em desenvolvimento — versões dos modelos com Power Query e Power Pivot. Ainda não incluído nesta versão.</p>
+      </div>
+      <div class="card">
+        <h3 class="mono" style="color:var(--accent);font-size:.95rem">Power BI</h3>
+        <p>Em desenvolvimento — modelagem dimensional e DAX, com a mesma governança dos modelos publicados.</p>
+      </div>
+      <div class="card">
+        <h3 class="mono" style="color:var(--accent);font-size:.95rem">Governança</h3>
+        <p>Protocolo de integridade, hierarquia de fontes, rastreabilidade e checks automáticos aplicados a cada módulo.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="blk" id="contato">
+    <div class="eyebrow">05 / Contato</div>
+    <h2>Vamos conversar.</h2>
+    <p class="lead">
+      Aberto a oportunidades em FP&amp;A, modelagem financeira, valuation e business intelligence.
+      Perfil e abordagem analítica em <a href="sobre.html">Sobre</a>.
     </p>
+    <div class="grid c2" style="margin-top:24px">
+      <a class="card" href="mailto:thgteixeiranascimento@gmail.com">
+        <div class="head-row"><span class="metric">E-mail</span><span class="idx">→</span></div>
+        <h3 style="font-size:1rem">thgteixeiranascimento@gmail.com</h3>
+      </a>
+      <a class="card" href="https://github.com/thgteixeiranascimento-bit/Portf-lio">
+        <div class="head-row"><span class="metric">GitHub</span><span class="idx">→</span></div>
+        <h3 style="font-size:1rem">thgteixeiranascimento-bit/Portf-lio</h3>
+      </a>
+    </div>
   </section>
 
 </main>

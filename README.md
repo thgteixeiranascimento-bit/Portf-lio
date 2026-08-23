@@ -58,7 +58,7 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra
 ├── metodologia.html    governança e protocolo de integridade
 ├── simuladores/        10 simuladores interativos
 ├── assets/
-│   ├── css/style.css   tema executivo (claro/escuro)
+│   ├── css/style.css   tema editorial escuro (Lora + Inter + JetBrains Mono)
 │   └── js/
 │       ├── core.js     gráficos SVG, formatação pt-BR, checks
 │       └── data.js     dataset central da empresa fictícia (fonte única)
@@ -81,6 +81,23 @@ automáticos** de consistência são recalculados no navegador a cada mudança d
 
 ## Stack
 
-HTML/CSS/JavaScript puros (sem dependências externas — funciona offline e no GitHub Pages),
-gráficos SVG próprios com tooltips, tema claro/escuro e tabelas de dados acessíveis;
+HTML/CSS/JavaScript puros (sem bibliotecas nem build — publica direto no GitHub Pages),
+gráficos SVG próprios com tooltips, tema editorial escuro e tabelas de dados acessíveis;
 Python 3 (biblioteca padrão) para a automação de dados públicos da CVM.
+
+A tipografia usa Google Fonts (Lora, Inter e JetBrains Mono) via `@import` em
+`assets/css/style.css`. É o único recurso remoto do site: sem rede, as pilhas de fallback
+(Georgia, system-ui e ui-monospace) mantêm o layout e a legibilidade intactos.
+
+### Identidade visual
+
+| Papel | Token | Valor |
+|---|---|---|
+| Fundo / superfície | `--page` / `--surface` | `#09090f` / `#10121a` |
+| Texto / texto secundário | `--ink` / `--ink-2` | `#e6e3db` / `#a8a49c` |
+| Primária (âmbar) | `--accent`, `--s1` | `#d4a843` |
+| Série 2 / 3 / 4 | `--s2` / `--s3` / `--s4` | `#7c6ae6` / `#2a8c7e` / `#e05c5c` |
+| Hairline | `--border` | `#1e2333` |
+
+Os gráficos leem esses tokens em tempo de execução (`getComputedStyle`), então trocar a
+paleta no CSS repropaga para todos os SVGs, heatmaps e tabelas sem tocar em JavaScript.

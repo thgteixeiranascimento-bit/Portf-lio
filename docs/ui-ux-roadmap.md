@@ -8,8 +8,8 @@ Este documento descreve melhorias visuais e de experiência do usuário, inspira
 
 ## 📐 Design System & Tokens
 
-### Cores (Tema Claro/Escuro)
-- ✅ **Implementado:** Dark mode nativo com `@media (prefers-color-scheme: dark)`
+### Cores (tema escuro único)
+- ✅ **Implementado (v6.0):** tema editorial escuro — grafite `#09090f`, acento âmbar `#d4a843`, séries âmbar/vermelho/teal/violeta. Não há mais ramo `prefers-color-scheme`: a folha declara `color-scheme: dark` e o claro existe só em `@media print`. Ver `DESIGN.md`.
 - 🔄 **Refinável:**
   - Tokens de cor mais explícitos em CSS (variáveis nomeadas semanticamente)
   - Paleta expandida: sucesso, aviso, erro, informação
@@ -27,7 +27,7 @@ Este documento descreve melhorias visuais e de experiência do usuário, inspira
 ```
 
 ### Tipografia
-- ✅ **Implementado:** Sistema base com fallbacks
+- ✅ **Implementado (v6.0):** Lora (títulos e algarismo de display), Inter (texto) e JetBrains Mono (rótulo, coluna e algarismo de grade) — woff2 variáveis servidas de `assets/fonts/`, sem requisição externa
 - 🎯 **Melhorias:**
   - Escala de tamanhos consistente (16px base, escala de ouro 1.125)
   - Altura de linha otimizada por tipo (heading vs body)

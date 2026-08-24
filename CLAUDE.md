@@ -3,7 +3,7 @@
 ## Sobre este projeto
 
 Portfólio técnico de **Finanças Corporativas, FP&A, Valuation e BI** construído com:
-- **Stack:** HTML/CSS/JavaScript puro (sem dependências externas)
+- **Stack:** HTML/CSS/JavaScript puro (sem dependências externas; fontes servidas de `assets/fonts/`)
 - **Dados:** Públicos de fontes primárias datadas (Nu Holdings, Agi/Agibank, Itaú, Bradesco, Santander Brasil, Copom)
 - **Integridade:** 147 checks automáticos recalculados no navegador
 - **Publicação:** GitHub Pages estático
@@ -18,7 +18,7 @@ Portfólio técnico de **Finanças Corporativas, FP&A, Valuation e BI** constru�
 Consulta dos padrões de design em **shadcn-ui** para elevar a qualidade visual do portfólio:
 - Tokens de design (cores, tipografia, espaçamento)
 - Componentes acessíveis (botões, cards, navegação, tabelas)
-- Dark mode nativo (já implementado, refinável)
+- Tema escuro editorial único (grafite #09090f, acento âmbar) — sem tema claro
 - Padrões de interação responsivos
 
 **Quando usar:** Refatorações de CSS, novos componentes, melhorias de acessibilidade, temas.
@@ -82,7 +82,7 @@ references/
 
 | Componente | Tecnologia |
 |---|---|
-| **HTML/CSS** | Vanilla + tema claro/escuro nativo |
+| **HTML/CSS** | Vanilla + tema escuro editorial (claro apenas em impressão) |
 | **JavaScript** | `core.js` (gráficos SVG, checks, formatação pt-BR) |
 | **Dados** | `data.js` (dataset central, fonte única) |
 | **Servidor** | GitHub Pages (estático) |
@@ -96,7 +96,7 @@ references/
 Antes de fazer push:
 
 - [ ] Verificar se os 147 checks passam (console do navegador)
-- [ ] Testar temas claro/escuro
+- [ ] Testar em tela e em impressão (`@media print`: currículo e carta em papel)
 - [ ] Validar responsividade (mobile, tablet, desktop)
 - [ ] Revisar acessibilidade (contrast, alt text, ARIA)
 - [ ] Conferir links internos e externos

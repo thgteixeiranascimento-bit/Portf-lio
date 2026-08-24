@@ -3,18 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09090f">
 <title>Gestão de Riscos — Heatmap e Stress Testing</title>
 <meta name="description" content="Mapa de riscos probabilidade × impacto, stress testing combinado sobre EBITDA e caixa, e teste de covenant de alavancagem.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 <style>
-  table.riskmap { border-collapse: separate; border-spacing: 3px; width: 100%; max-width: 640px; }
-  table.riskmap th { color: var(--muted); font-weight: 600; font-size: .74rem; padding: 4px; text-align: center; }
-  table.riskmap td { height: 64px; border-radius: 8px; text-align: center; vertical-align: middle; font-weight: 700; font-size: .82rem; }
-  table.riskmap td .dot { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); margin: 1px; font-size: .74rem; color: var(--ink); }
-  .risk-leg { display: flex; gap: 16px; flex-wrap: wrap; font-size: .8rem; color: var(--ink-2); margin: 10px 0; }
+  table.riskmap { border-collapse: separate; border-spacing: 2px; width: 100%; max-width: 640px; }
+  table.riskmap th { font-family: 'JetBrains Mono', monospace; color: var(--muted); font-weight: 500; font-size: .66rem; letter-spacing: .045em; padding: 4px; text-align: center; }
+  table.riskmap td { height: 64px; border-radius: 2px; text-align: center; vertical-align: middle; font-weight: 600; font-size: .82rem; }
+  table.riskmap td .dot { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); margin: 1px; font-family: 'JetBrains Mono', monospace; font-size: .66rem; color: var(--ink); }
+  .risk-leg { display: flex; gap: 16px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--ink-2); margin: 10px 0; }
   .risk-leg span { display: inline-flex; align-items: center; gap: 6px; }
-  .risk-leg i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  .risk-leg i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 </style>
 </head>
 <body data-page="sim" data-root="../">
@@ -136,7 +139,7 @@
         const e = p * imp;
         const [cor] = sevClass(e);
         const aqui = RISCOS.filter(r => r.p === p && r.i === imp);
-        html += `<td style="background:color-mix(in srgb, ${cor} 30%, var(--surface))">${aqui.map(r => `<span class="dot" title="${r.nome}">${r.id}</span>`).join("")}</td>`;
+        html += `<td style="background:color-mix(in srgb, ${cor} 40%, var(--surface))">${aqui.map(r => `<span class="dot" title="${r.nome}">${r.id}</span>`).join("")}</td>`;
       }
       html += "</tr>";
     }

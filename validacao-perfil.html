@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-en="Profile validation council — traceability of every biographical claim">Conselho de validação do perfil — rastreabilidade de cada afirmação</title>
+<meta name="description" content="Conselho de validação aplicado ao próprio currículo: checks automáticos de rastreabilidade, divergências entre documentos-fonte, controles de privacidade e sete pareceres independentes.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="canonical" href="https://thgteixeiranascimento-bit.github.io/Portf-lio/validacao-perfil.html">
+</head>
+<body data-page="met" data-root="">
+<main class="wrap">
+
+  <section class="hero-pro">
+    <span class="kicker" data-en="Analytical governance · Applied to the author">Governança analítica · Aplicada ao autor</span>
+    <h1 style="max-width:26ch" data-en="A portfolio that audits banks should be able to audit its own CV.">Um portfólio que audita bancos precisa conseguir auditar o próprio currículo.</h1>
+    <p class="sub" data-en="The studies on this site declare their sources, level their reliability and register every divergence found. Applying anything less to the biography would be an obvious double standard. So the same protocol runs here: each career claim carries a named source document, a reliability class and an explicit mark where no disclosable figure exists — and the checks below recalculate that in your browser, right now.">
+      Os estudos deste site declaram suas fontes, nivelam a confiabilidade e registram toda divergência
+      encontrada. Aplicar menos que isso à biografia seria um duplo padrão evidente. Então o mesmo protocolo roda
+      aqui: cada afirmação de carreira carrega documento-fonte nomeado, classe de confiabilidade e marca
+      explícita onde <b>não</b> existe número divulgável — e os checks abaixo recalculam isso no seu navegador,
+      agora.
+    </p>
+  </section>
+
+  <div class="verdict" id="veredito"></div>
+
+  <section class="blk">
+    <h2 data-en="1 · Automatic checks">1 · Checks automáticos</h2>
+    <p data-en="Recalculated on page load from the fact registry in <code>assets/js/perfil.js</code>, which is the single source for the home page, the résumé, the cover letter and the About page. A claim that fails here fails on every surface at once — that is the point of having one registry.">
+      Recalculados ao carregar a página a partir do registro de fatos em <code>assets/js/perfil.js</code>, que é
+      a fonte única da home, do currículo, da carta e da página Sobre. Uma afirmação que falha aqui falha em
+      todas as superfícies ao mesmo tempo — é exatamente para isso que existe um registro único.
+    </p>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="2 · Source hierarchy for the biography">2 · Hierarquia de fontes da biografia</h2>
+    <p data-en="Market data on this site is graded from level 1 (documentary extraction) to level 3 (reported). Biographical claims need their own scale, because they all originate with the same person — what changes is whether a third party can verify them.">
+      Os dados de mercado deste site são graduados do nível 1 (extração documental) ao nível 3 (relatado).
+      Afirmações biográficas precisam de escala própria, porque todas se originam da mesma pessoa — o que muda é
+      se um terceiro consegue conferi-las.
+    </p>
+    <div class="tbl-scroll"><table class="tbl" id="tblClasses"></table></div>
+    <div class="tbl-scroll"><table class="tbl" id="tblFontes"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="3 · Divergences between source documents">3 · Divergências entre documentos-fonte</h2>
+    <p data-en="Found while cross-reading the LinkedIn export against the two résumés prepared by the holder. Registered rather than silently resolved — including the ones that corrected earlier text on this very site.">
+      Encontradas ao cruzar o export do LinkedIn com os dois currículos preparados pelo titular. Registradas em
+      vez de resolvidas em silêncio — inclusive as que corrigiram texto anterior deste próprio site.
+    </p>
+    <div class="tbl-scroll"><table class="tbl" id="tblDiv"></table></div>
+    <div class="callout warn" id="pendentes"></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="4 · Competencies: declared versus demonstrated">4 · Competências: declaradas × demonstradas</h2>
+    <p data-en="A competency declared in a résumé and a competency demonstrated in an artefact are different objects, and conflating them is the most common form of inflation in a portfolio. Below, each one is marked for what it is. An item marked “declared” is not a weaker claim — it is an honest one: the professional practice exists and is registered in a source document, but the public artefact proving it does not exist on this site, usually because the work belongs to an employer.">
+      Competência declarada em currículo e competência demonstrada em artefato são objetos diferentes, e
+      confundi-los é a forma mais comum de inflação em portfólio. Abaixo, cada uma está marcada pelo que é. Um
+      item marcado como “declarada” não é uma afirmação mais fraca — é uma afirmação honesta: a prática
+      profissional existe e está registrada em documento-fonte, mas o artefato público que a comprova não existe
+      neste site, em geral porque o trabalho pertence a um empregador.
+    </p>
+    <div class="skill-grid" id="skills"></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="5 · Keywords: anchored, not sprinkled">5 · Palavras-chave: ancoradas, não polvilhadas</h2>
+    <p data-en="Screening systems read keywords, which creates an obvious incentive to stuff a page with terms nobody can back up. The check below inverts that incentive: every term published for screening is searched against the text of the declared experience, the competency registry and the published artefacts. A term that anchors nowhere is reported here rather than quietly kept.">
+      Sistemas de triagem leem palavras-chave, o que cria um incentivo óbvio para encher a página de termos que
+      ninguém consegue sustentar. O check abaixo inverte esse incentivo: cada termo publicado para triagem é
+      procurado no texto da experiência declarada, no registro de competências e nos artefatos publicados. Um
+      termo que não ancora em lugar nenhum é reportado aqui, em vez de silenciosamente mantido.
+    </p>
+    <div class="out-grid" id="outsAts"></div>
+    <div class="chips" id="chipsAts"></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="6 · Privacy controls">6 · Controles de privacidade</h2>
+    <p data-en="A public portfolio is not a job application: what a recruiter receives in a private channel and what sits on an indexable page are different exposures. These switches decide what appears where, and they live in the registry so the decision is explicit rather than accidental.">
+      Portfólio público não é candidatura: o que um recrutador recebe em canal privado e o que fica numa página
+      indexável são exposições diferentes. Estes interruptores decidem o que aparece onde, e vivem no registro
+      para que a decisão seja explícita, e não acidental.
+    </p>
+    <div class="tbl-scroll"><table class="tbl" id="tblPriv"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="7 · Seven independent opinions">7 · Sete pareceres independentes</h2>
+    <p data-en="The same seven-perspective structure used to validate the market studies, applied here to the recruitment material.">
+      A mesma estrutura de sete perspectivas usada para validar os estudos de mercado, aplicada aqui ao material
+      de recrutamento.
+    </p>
+    <div class="tbl-scroll"><table class="tbl">
+      <thead><tr>
+        <th>#</th><th data-en="Perspective">Perspectiva</th><th data-en="What it verified">O que verificou</th><th data-en="Opinion">Parecer</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>1</td><td data-en="Recruiter (first 8 seconds)">Recrutador (8 primeiros segundos)</td>
+          <td style="white-space:normal" data-en="The home page opens with name, target role, one-line pitch and three linked proofs; the methodological apparatus was moved to a second layer. Résumé and cover letter are reachable in one click from any page.">A home abre com nome, cargo-alvo, pitch de uma linha e três provas linkadas; o aparato metodológico foi movido para segunda camada. Currículo e carta estão a um clique de qualquer página.</td>
+          <td>✅ <span data-en="Approved">Aprovado</span></td></tr>
+        <tr><td>2</td><td data-en="Automated screening (ATS)">Triagem automatizada (ATS)</td>
+          <td style="white-space:normal" data-en="Semantic HTML, structured Person metadata, keywords in title, description and body; a downloadable résumé in Word and PDF. Every published term is anchored — verified by the check in section 5.">HTML semântico, metadados estruturados de Pessoa, palavras-chave em título, descrição e corpo; currículo baixável em Word e PDF. Todo termo publicado é ancorado — verificado pelo check da seção 5.</td>
+          <td>✅ <span data-en="Approved">Aprovado</span></td></tr>
+        <tr><td>3</td><td data-en="Auditor of claims">Auditor das afirmações</td>
+          <td style="white-space:normal" data-en="Every experience and every delivery carries a named source document. No quantified result is published without a source, and none exists in the registry — internal outcomes are not disclosable.">Toda experiência e toda entrega carrega documento-fonte nomeado. Nenhum resultado quantificado é publicado sem fonte, e nenhum existe no registro — resultados internos não são divulgáveis.</td>
+          <td>⚠️ <span data-en="Approved with caveat">Aprovado com ressalva</span></td></tr>
+        <tr><td>4</td><td data-en="Compliance and confidentiality">Compliance e confidencialidade</td>
+          <td style="white-space:normal" data-en="Conflict of interest declared in the footer, on the About page, in the methodology and on the home. The three proprietary tools carry user-defined illustrative parameters and no employer's operational data.">Conflito de interesse declarado no rodapé, na página Sobre, na metodologia e na home. As três ferramentas próprias têm parâmetros ilustrativos definidos pelo usuário e nenhum dado operacional de empregador.</td>
+          <td>✅ <span data-en="Approved">Aprovado</span></td></tr>
+        <tr><td>5</td><td data-en="Methodologist">Metodologista</td>
+          <td style="white-space:normal" data-en="Declared competency and demonstrated competency are separated and labelled. Eight divergences between source documents are tabulated, two of them still awaiting the holder's confirmation.">Competência declarada e competência demonstrada estão separadas e rotuladas. Oito divergências entre documentos-fonte estão tabeladas, duas delas ainda aguardando confirmação do titular.</td>
+          <td>⚠️ <span data-en="Approved with caveat">Aprovado com ressalva</span></td></tr>
+        <tr><td>6</td><td data-en="Hiring manager in finance">Gestor contratante em finanças</td>
+          <td style="white-space:normal" data-en="Technical depth is verifiable in one click and exceeds what is usual at entry level. The seniority question is addressed proactively on the home page instead of being left for the interviewer to raise.">Profundidade técnica verificável em um clique e acima do usual no nível de entrada. A questão de senioridade é endereçada proativamente na home, em vez de deixada para o entrevistador levantar.</td>
+          <td>✅ <span data-en="Approved">Aprovado</span></td></tr>
+        <tr><td>7</td><td data-en="Data privacy">Privacidade de dados</td>
+          <td style="white-space:normal" data-en="Home address is never published. Phone number and PcD status are governed by explicit switches in the registry and stay out of the indexable page — they travel only in the downloaded document the holder chooses to send.">Endereço residencial nunca é publicado. Telefone e condição de PcD são governados por interruptores explícitos no registro e ficam fora da página indexável — viajam apenas no documento baixado que o titular escolhe enviar.</td>
+          <td>✅ <span data-en="Approved">Aprovado</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="8 · Consolidated opinion and standing caveats">8 · Parecer consolidado e ressalvas permanentes</h2>
+    <div class="callout warn">
+      <span class="ct" data-en="⚠️ VALIDATED WITH CAVEATS">⚠️ VALIDADO COM RESSALVAS</span>
+      <ol style="margin:8px 0 0;padding-left:20px">
+        <li data-en="<b>Employment history depends on the holder.</b> No third party can verify a start date, a job title or a delivery from this site alone. What the portfolio can guarantee is internal consistency and that nothing was invented to fill a gap — not that an employer would confirm each line. Verification belongs in the interview and in the employment record.">
+          <b>O histórico de emprego depende do titular.</b> Nenhum terceiro consegue verificar data de início,
+          cargo ou entrega apenas a partir deste site. O que o portfólio garante é consistência interna e que
+          nada foi inventado para preencher lacuna — não que um empregador confirmaria cada linha. A conferência
+          cabe à entrevista e ao registro trabalhista.</li>
+        <li data-en="<b>No quantified professional result is published.</b> Percentages of saving, error reduction or productivity gain achieved inside an employer are not disclosable, so none appears — here or in the résumé. Where a figure would be expected, the method is described instead, and the tools that demonstrate it are open to be tested.">
+          <b>Nenhum resultado profissional quantificado é publicado.</b> Percentuais de economia, de redução de
+          erro ou de ganho de produtividade obtidos dentro de um empregador não são divulgáveis, então nenhum
+          aparece — nem aqui nem no currículo. Onde um número seria esperado, descreve-se o método, e as
+          ferramentas que o demonstram ficam abertas para teste.</li>
+        <li data-en="<b>Two divergences await the holder's confirmation</b> — the start date at Agibank and the graduation date. They are published as open items rather than resolved by assumption. The interval between April 2025 and January 2026, previously a blank gap, was closed with the holder's declaration that the period was dedicated to study — published as class D3, without detailing a course or institution that was not reported.">
+          <b>Duas divergências aguardam confirmação do titular</b> — a data de início no Agibank e a data de
+          conclusão da graduação. Estão publicadas como itens abertos, e não resolvidas por suposição. O
+          intervalo entre abril de 2025 e janeiro de 2026, antes uma lacuna em branco, foi fechado com a
+          declaração do titular de que se dedicou a estudos no período — publicada como classe D3, sem detalhar
+          curso ou instituição que não foram informados.</li>
+        <li data-en="<b>The proprietary tools are public reconstructions.</b> They demonstrate the class of calculation and the reasoning, with parameters the visitor controls. They are not the internal artefacts, do not reproduce them and contain no operational data.">
+          <b>As ferramentas próprias são reconstruções públicas.</b> Demonstram a classe de cálculo e o
+          raciocínio, com parâmetros que o visitante controla. Não são os artefatos internos, não os reproduzem e
+          não contêm dado operacional.</li>
+      </ol>
+    </div>
+    <p data-en="Nothing on this site is investment advice. The market studies' own validation council, covering the public financial data, is in <a href='metodologia.html'>Methodology &amp; Governance</a>.">
+      Nada neste site é recomendação de investimento. O conselho de validação dos estudos de mercado, que cobre
+      os dados financeiros públicos, está em <a href="metodologia.html">Metodologia &amp; Governança</a>.
+    </p>
+  </section>
+
+</main>
+<script src="assets/js/perfil.js"></script>
+<script src="assets/js/core.js"></script>
+<script>
+(function () {
+  "use strict";
+  var P = window.PERFIL, V = window.Viz;
+  var el = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  /* normalização para busca de termos: sem acento, minúsculas, sem plural simples */
+  function norm(s) {
+    return String(s).toLowerCase()
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9]+/g, " ")
+      .replace(/\b(\w+?)s\b/g, "$1")     /* singulariza plurais regulares */
+      .replace(/\s+/g, " ").trim();
+  }
+
+  /* corpo de texto onde uma palavra-chave pode ancorar */
+  function corpus() {
+    var partes = [];
+    P.EXPERIENCIA.forEach(function (e) {
+      partes.push(e.empresa, e.cargo, e.cargoEn, e.resumo, e.setor, e.stack.join(" "));
+      e.entregas.forEach(function (d) { partes.push(d.t, d.d); });
+    });
+    P.COMPETENCIAS.forEach(function (g) {
+      partes.push(g.grupo);
+      g.itens.forEach(function (i) { partes.push(i.k, i.evidencia || ""); });
+    });
+    P.PROJETOS.forEach(function (pr) {
+      partes.push(pr.nome, pr.problema, pr.entrega, pr.competencias.join(" "));
+    });
+    P.FORMACAO.forEach(function (f) { partes.push(f.instituicao, f.curso, f.destaque); });
+    P.IDIOMAS.forEach(function (i) { partes.push(i.lingua, i.nivel); });
+    P.CERTIFICACOES.forEach(function (c) { partes.push(c.nome); });
+    partes.push(P.PITCH.resumo, P.IDENTIDADE.titulo, P.IDENTIDADE.subtitulo);
+    return norm(partes.join(" "));
+  }
+
+  function analisarAts() {
+    var c = corpus();
+    var orf = P.ATS.filter(function (k) { return c.indexOf(norm(k)) === -1; });
+    return { total: P.ATS.length, orfas: orf, ancoradas: P.ATS.length - orf.length, corpus: c };
+  }
+
+  function render() {
+    var t = V.t;
+    var ats = analisarAts();
+
+    /* ---------- checks automáticos ---------- */
+    var expTodas = P.EXPERIENCIA;
+    var entregas = [];
+    expTodas.forEach(function (e) { e.entregas.forEach(function (d) { entregas.push({ e: e, d: d }); }); });
+
+    var semFonteExp = expTodas.filter(function (e) { return !e.fonte || !e.fonte.length; });
+    var semFonteEnt = entregas.filter(function (x) { return !x.d.fonte || !x.d.fonte.length; });
+
+    /* resultado quantificado sem fonte: procura número seguido de % ou R$ no texto da entrega */
+    var padraoNumero = /(\d+[.,]?\d*\s*%)|(R\$\s*\d)|(\bmilh(ão|ões)\b)/i;
+    var quantSemFonte = entregas.filter(function (x) {
+      return padraoNumero.test(x.d.d) && x.d.metrica === null;
+    });
+
+    var fontesValidas = entregas.every(function (x) {
+      return x.d.fonte.every(function (f) { return !!P.FONTES[f]; });
+    }) && expTodas.every(function (e) {
+      return e.fonte.every(function (f) { return !!P.FONTES[f]; });
+    });
+
+    var divSemTratamento = P.DIVERGENCIAS.filter(function (d) { return !d.tratamento || !d.status; });
+    var divAbertas = P.DIVERGENCIAS.filter(function (d) { return d.confirmar; });
+
+    var totalComp = 0, comEvid = 0;
+    P.COMPETENCIAS.forEach(function (g) {
+      g.itens.forEach(function (i) { totalComp++; if (i.evidencia) comEvid++; });
+    });
+
+    var projSemLink = P.PROJETOS.filter(function (p) { return !p.href; });
+
+    /* cronologia: ordena por data e procura lacunas não registradas */
+    var MES = { jan: 0, fev: 1, mar: 2, abr: 3, mai: 4, jun: 5, jul: 6, ago: 7, set: 8, out: 9, nov: 10, dez: 11 };
+    function toIdx(s) {
+      if (!s || /atual|present/i.test(s)) return 9999;
+      var m = String(s).toLowerCase().match(/([a-z]{3})\/(\d{4})/);
+      return m ? parseInt(m[2], 10) * 12 + (MES[m[1]] != null ? MES[m[1]] : 0) : null;
+    }
+    var hoje = new Date().getFullYear() * 12 + new Date().getMonth();
+    var datasValidas = expTodas.every(function (e) {
+      var a = toIdx(e.inicio), b = toIdx(e.fim);
+      if (a === null) return false;
+      if (a > hoje) return false;                       /* início no futuro */
+      if (b !== 9999 && b !== null && b < a) return false;  /* fim antes do início */
+      return true;
+    });
+
+    var privExplicita = ["telefone", "endereco", "pcd"].every(function (k) {
+      var p = P.PRIVACIDADE[k];
+      return p && typeof p.publicar_site === "boolean" && typeof p.publicar_curriculo === "boolean";
+    });
+
+    var checks = [
+      { name: "Toda experiência profissional declara ao menos um documento-fonte",
+        nameEn: "Every professional experience declares at least one source document",
+        pass: semFonteExp.length === 0,
+        detail: expTodas.length + t(" experiências, ", " experiences, ") + semFonteExp.length + t(" sem fonte", " without a source") },
+      { name: "Toda entrega declarada aponta para documento-fonte",
+        nameEn: "Every declared delivery points to a source document",
+        pass: semFonteEnt.length === 0,
+        detail: entregas.length + t(" entregas verificadas", " deliveries verified"), num: semFonteEnt.length + t(" órfãs", " orphaned") },
+      { name: "Todo identificador de fonte citado existe na matriz de fontes",
+        nameEn: "Every source identifier cited exists in the source matrix",
+        pass: fontesValidas, detail: Object.keys(P.FONTES).length + t(" documentos registrados", " documents registered") },
+      { name: "Nenhum resultado quantificado é publicado sem métrica com fonte",
+        nameEn: "No quantified result is published without a sourced metric",
+        pass: quantSemFonte.length === 0,
+        detail: quantSemFonte.length === 0
+          ? t("nenhum percentual ou valor não fundamentado no texto das entregas", "no unfounded percentage or figure in the delivery text")
+          : quantSemFonte.length + t(" entrega(s) com número sem métrica", " delivery(ies) with a figure and no metric") },
+      { name: "Toda divergência entre documentos tem tratamento e status declarados",
+        nameEn: "Every divergence between documents has a declared treatment and status",
+        pass: divSemTratamento.length === 0,
+        detail: P.DIVERGENCIAS.length + t(" divergências registradas", " divergences registered"),
+        num: divAbertas.length + t(" aguardando confirmação", " awaiting confirmation") },
+      { name: "Competências separam demonstrada (artefato) de declarada (documento)",
+        nameEn: "Competencies separate demonstrated (artefact) from declared (document)",
+        pass: comEvid > 0 && comEvid < totalComp,
+        detail: comEvid + "/" + totalComp + t(" com artefato navegável neste site", " with a navigable artefact on this site"),
+        num: (totalComp - comEvid) + t(" declaradas", " declared") },
+      { name: "Toda palavra-chave publicada para triagem ancora em experiência, competência ou artefato",
+        nameEn: "Every keyword published for screening anchors in experience, competency or artefact",
+        pass: ats.orfas.length === 0,
+        detail: ats.ancoradas + "/" + ats.total + t(" termos ancorados", " terms anchored"),
+        num: ats.orfas.length === 0 ? t("nenhum termo solto", "no loose term") : ats.orfas.join(", ") },
+      { name: "Todo projeto publicado tem artefato navegável",
+        nameEn: "Every published project has a navigable artefact",
+        pass: projSemLink.length === 0, detail: P.PROJETOS.length + t(" projetos, todos com link", " projects, all linked") },
+      { name: "Cronologia consistente: sem data futura e sem fim anterior ao início",
+        nameEn: "Consistent chronology: no future date and no end before start",
+        pass: datasValidas, detail: t("verificada nas ", "verified across ") + expTodas.length + t(" experiências", " experiences") },
+      { name: "Controles de privacidade explícitos para dado sensível",
+        nameEn: "Explicit privacy controls for sensitive data",
+        pass: privExplicita, detail: t("telefone, endereço e PcD com decisão registrada", "phone, address and PcD status with a registered decision") },
+      { name: "Conflito de interesse declarado e vinculado ao emprego atual",
+        nameEn: "Conflict of interest declared and tied to current employment",
+        pass: expTodas.some(function (e) { return e.atual && /agibank/i.test(e.empresa); }),
+        detail: t("Agibank consta como vínculo atual e como instituição analisada", "Agibank appears as current employer and as an analysed institution") },
+      { name: "Registro único: currículo, carta, home e Sobre leem a mesma fonte",
+        nameEn: "Single registry: résumé, letter, home and About read the same source",
+        pass: !!(window.PERFIL && P.versao),
+        detail: "perfil.js v" + P.versao + " · " + P.atualizado }
+    ];
+    var res = V.renderChecks(el("checks"), checks);
+
+    /* ---------- veredito ---------- */
+    var pct = res.ok / res.total;
+    el("veredito").className = "verdict" + (pct === 1 ? "" : " warn");
+    el("veredito").innerHTML =
+      '<div class="score">' + res.ok + "/" + res.total + "</div>" +
+      '<div class="txt"><b>' + (pct === 1
+        ? t("Todos os checks de rastreabilidade aprovados.", "All traceability checks passed.")
+        : t("Há check reprovado — ver detalhe abaixo.", "A check failed — see the detail below.")) +
+      "</b> " + t(
+        "Isso significa que nenhuma afirmação publicada está órfã de documento-fonte e que nenhum número foi introduzido sem base. Não significa — e não pode significar — que um terceiro tenha conferido o histórico junto aos empregadores: essa verificação pertence à entrevista, e a ressalva está declarada na seção 8.",
+        "This means no published claim is orphaned from a source document and no figure was introduced without a basis. It does not — and cannot — mean that a third party has verified the history with the employers: that verification belongs in the interview, and the caveat is declared in section 8."
+      ) + "</div>";
+
+    /* ---------- classes de fonte ---------- */
+    var CLASSES = [
+      ["D1", t("Documento oficial exportado", "Official exported document"), t("Gerado por plataforma a partir do perfil do titular (export do LinkedIn).", "Generated by a platform from the holder's profile (LinkedIn export)."), t("Conferível por terceiros no perfil público.", "Verifiable by third parties on the public profile.")],
+      ["D2", t("Documento preparado pelo titular", "Document prepared by the holder"), t("Currículos e cartas em .docx usados em candidaturas reais.", "Résumés and letters in .docx used in real applications."), t("Depende de confirmação em entrevista ou comprovante.", "Depends on confirmation in interview or supporting evidence.")],
+      ["D3", t("Declaração direta do titular", "Direct declaration by the holder"), t("Briefing ao construir este site, sem documento anexado.", "Briefing while building this site, with no attached document."), t("Menor nível: publicado sempre com atribuição explícita.", "Lowest level: always published with explicit attribution.")],
+      ["D4", t("Verificável publicamente", "Publicly verifiable"), t("Código e páginas deste repositório.", "Code and pages in this repository."), t("Maior nível: o artefato é a própria prova.", "Highest level: the artefact is the proof itself.")]
+    ];
+    el("tblClasses").innerHTML =
+      "<caption>" + t("Escala de confiabilidade aplicada à biografia", "Reliability scale applied to the biography") + "</caption>" +
+      "<thead><tr><th>" + t("Classe", "Class") + "</th><th>" + t("Definição", "Definition") + "</th><th>" + t("Origem", "Origin") +
+      "</th><th>" + t("Conferibilidade", "Verifiability") + "</th></tr></thead><tbody>" +
+      CLASSES.map(function (c) {
+        return "<tr><td><b>" + c[0] + "</b></td><td style='white-space:normal'>" + c[1] +
+          "</td><td style='white-space:normal'>" + c[2] + "</td><td style='white-space:normal'>" + c[3] + "</td></tr>";
+      }).join("") + "</tbody>";
+
+    el("tblFontes").innerHTML =
+      "<caption>" + t("Documentos-fonte deste perfil", "Source documents for this profile") + "</caption>" +
+      "<thead><tr><th>" + t("Documento", "Document") + "</th><th>" + t("Origem", "Origin") + "</th><th>" + t("Data", "Date") +
+      "</th><th>" + t("Classe", "Class") + "</th><th>" + t("Observação", "Note") + "</th></tr></thead><tbody>" +
+      Object.keys(P.FONTES).map(function (id) {
+        var f = P.FONTES[id];
+        return "<tr><td style='white-space:normal'>" + esc(f.doc) + "</td><td style='white-space:normal'>" + esc(f.origem) +
+          "</td><td>" + esc(f.data) + "</td><td style='text-align:center'><b>" + f.classe + "</b></td><td style='white-space:normal'>" + esc(V.t(f.nota, f.notaEn)) + "</td></tr>";
+      }).join("") + "</tbody>";
+
+    /* ---------- divergências ---------- */
+    el("tblDiv").innerHTML =
+      "<caption>" + t("Divergências identificadas e como foram tratadas", "Divergences identified and how they were treated") + "</caption>" +
+      "<thead><tr><th>#</th><th>" + t("Tema", "Subject") + "</th><th>" + t("Achado", "Finding") + "</th><th>" + t("Tratamento", "Treatment") +
+      "</th><th>" + t("Status", "Status") + "</th></tr></thead><tbody>" +
+      P.DIVERGENCIAS.map(function (d) {
+        return "<tr><td>" + d.n + "</td><td style='white-space:normal'>" + esc(V.t(d.tema, d.temaEn)) +
+          "</td><td style='white-space:normal'>" + esc(V.t(d.achado, d.achadoEn)) +
+          "</td><td style='white-space:normal'>" + esc(V.t(d.tratamento, d.tratamentoEn)) +
+          "</td><td style='white-space:normal'>" +
+          (d.confirmar ? "⚠️ " : "✅ ") + esc(V.t(d.status, d.statusEn)) + "</td></tr>";
+      }).join("") + "</tbody>";
+
+    el("pendentes").innerHTML = '<span class="ct">' + t("Itens abertos — dependem de confirmação do titular", "Open items — awaiting the holder's confirmation") + "</span>" +
+      "<ul style='margin:6px 0 0;padding-left:20px'>" +
+      divAbertas.map(function (d) { return "<li>" + esc(V.t(d.tema, d.temaEn)) + "</li>"; }).join("") + "</ul>" +
+      "<p style='margin:8px 0 0;font-size:.85rem'>" +
+      t("Enquanto não confirmados, permanecem publicados como divergência aberta — não como fato.",
+        "Until confirmed, they remain published as an open divergence — not as fact.") + "</p>";
+
+    /* ---------- competências ---------- */
+    el("skills").innerHTML = P.COMPETENCIAS.map(function (g) {
+      return '<div class="skill-card"><h3>' + esc(t(g.grupo, g.grupoEn)) + "</h3><ul class='skill-list'>" +
+        g.itens.map(function (i) {
+          return "<li>" + (i.evidencia
+            ? '<span class="ev yes">' + t("demonstrada", "demonstrated") + '</span><a href="' + i.evidencia + '">' + esc(i.k) + "</a>"
+            : '<span class="ev no">' + t("declarada", "declared") + "</span><span>" + esc(i.k) + "</span>") + "</li>";
+        }).join("") + "</ul></div>";
+    }).join("");
+
+    /* ---------- palavras-chave ---------- */
+    el("outsAts").innerHTML =
+      '<div class="out hero-out"><div class="k">' + t("Termos publicados", "Terms published") + '</div><div class="v">' + ats.total + '</div><div class="h">' + t("vocabulário de triagem do setor", "sector screening vocabulary") + "</div></div>" +
+      '<div class="out ok-out"><div class="k">' + t("Ancorados", "Anchored") + '</div><div class="v">' + ats.ancoradas + '</div><div class="h">' + t("com respaldo no registro", "backed by the registry") + "</div></div>" +
+      '<div class="out ' + (ats.orfas.length ? "bad-out" : "") + '"><div class="k">' + t("Sem âncora", "Unanchored") + '</div><div class="v">' + ats.orfas.length + '</div><div class="h">' + t("reportados, não escondidos", "reported, not hidden") + "</div></div>";
+    el("chipsAts").innerHTML = P.ATS.map(function (k) {
+      var ok = ats.corpus.indexOf(norm(k)) !== -1;
+      return '<span class="chip' + (ok ? " hi" : "") + '" title="' + (ok ? t("ancorado no registro", "anchored in the registry") : t("sem âncora — reportado no check", "unanchored — reported in the check")) + '">' +
+        (ok ? "" : "⚠ ") + esc(k) + "</span>";
+    }).join("");
+
+    /* ---------- privacidade ---------- */
+    var rotulos = {
+      telefone: [t("Telefone", "Phone number"), t("Fica fora da página pública para reduzir exposição a coleta automatizada; viaja no documento que o titular envia.", "Kept off the public page to reduce exposure to automated scraping; travels in the document the holder sends.")],
+      endereco: [t("Endereço residencial", "Home address"), t("Nunca publicado, em nenhuma superfície. Consta apenas do documento-fonte original, que não é distribuído.", "Never published, on any surface. It appears only in the original source document, which is not distributed.")],
+      pcd: [t("Condição de PcD", "Disability status"), t("Consta dos currículos preparados pelo titular e é mantida no documento baixável; fica fora da página indexável, porque a decisão de divulgar cabe ao titular a cada candidatura.", "Appears in the résumés prepared by the holder and is kept in the downloadable document; kept off the indexable page, because the decision to disclose belongs to the holder in each application.")]
+    };
+    el("tblPriv").innerHTML =
+      "<caption>" + t("O que aparece onde", "What appears where") + "</caption>" +
+      "<thead><tr><th>" + t("Dado", "Data") + "</th><th>" + t("Página pública", "Public page") + "</th><th>" + t("Currículo baixável", "Downloadable résumé") +
+      "</th><th>" + t("Razão", "Rationale") + "</th></tr></thead><tbody>" +
+      Object.keys(P.PRIVACIDADE).map(function (k) {
+        var p = P.PRIVACIDADE[k];
+        return "<tr><td>" + rotulos[k][0] + "</td><td>" + (p.publicar_site ? "✅" : "—") + "</td><td>" +
+          (p.publicar_curriculo ? "✅" : "—") + "</td><td style='white-space:normal'>" + rotulos[k][1] + "</td></tr>";
+      }).join("") + "</tbody>";
+  }
+
+  document.addEventListener("DOMContentLoaded", render);
+  window.onLangChange = render;
+})();
+</script>
+</body>
+</html>

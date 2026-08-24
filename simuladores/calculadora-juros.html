@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de juros e amortização — Price, SAC e taxa equivalente</title>
+<meta name="description" content="Calculadora de juros simples e compostos, conversão de taxas por equivalência e cronograma completo de amortização em Price e SAC, com checks aritméticos recalculados no navegador.">
+<meta name="keywords" content="calculadora de juros, juros compostos, taxa equivalente, Tabela Price, SAC, amortização, matemática financeira, CET, valor presente">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero-pro">
+    <span class="kicker" data-en="Proprietary tool · Financial mathematics">Ferramenta própria · Matemática financeira</span>
+    <h1 style="max-width:22ch" data-en="Interest and amortisation — the arithmetic that operations get wrong">Juros e amortização — a aritmética que a operação erra</h1>
+    <p class="sub" data-en="Two errors repeat in credit operations: converting a monthly rate into an annual one by multiplying it by twelve, and treating Price and SAC as if they cost the same. Both change the amount charged to a customer. This tool resolves the arithmetic and shows the size of each error.">
+      Dois erros se repetem em operações de crédito: converter taxa mensal em anual multiplicando por doze, e
+      tratar Price e SAC como se custassem o mesmo. Os dois mudam o valor cobrado de um cliente. Esta ferramenta
+      resolve a aritmética e mostra o tamanho de cada erro.
+    </p>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:var(--sp-4)">
+      <span class="tag sim" data-en="Own tool — no company data">Ferramenta própria — sem dado de empresa</span>
+      <span class="tag prem" data-en="Parameters defined by the user">Parâmetros definidos pelo usuário</span>
+      <span class="tag nao" data-en="Not investment advice">Não é recomendação de investimento</span>
+    </div>
+  </section>
+
+  <div class="controls">
+    <div class="head">
+      <span class="t" data-en="Assumptions">Premissas</span>
+      <div class="seg" id="segSis" role="group" aria-label="Sistema de amortização">
+        <button type="button" data-s="price" class="on">Price</button>
+        <button type="button" data-s="sac">SAC</button>
+        <button type="button" data-s="bullet" data-en="Bullet">Bullet</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="ctrl">
+        <label for="pv"><span data-en="Amount financed (R$)">Valor financiado (R$)</span><output id="oPv"></output></label>
+        <input type="number" id="pv" value="10000" min="100" step="100">
+      </div>
+      <div class="ctrl">
+        <label for="taxa"><span data-en="Rate (%)">Taxa (%)</span><output id="oTaxa"></output></label>
+        <input type="number" id="taxa" value="2.5" min="0" max="30" step="0.01">
+      </div>
+      <div class="ctrl">
+        <label for="unid" data-en="Rate basis">Base da taxa</label>
+        <select id="unid">
+          <option value="m" data-en="per month (p.m.)">ao mês (a.m.)</option>
+          <option value="a" data-en="per year (p.a.)">ao ano (a.a.)</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label for="n"><span data-en="Term (months)">Prazo (meses)</span><output id="oN"></output></label>
+        <input type="range" id="n" value="24" min="1" max="120" step="1">
+      </div>
+    </div>
+  </div>
+
+  <section class="blk">
+    <h2 data-en="1 · Result">1 · Resultado</h2>
+    <div class="out-grid" id="outs"></div>
+    <p class="muted-note" id="notaSis"></p>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="2 · Rate equivalence — where the most common error lives">2 · Equivalência de taxas — onde mora o erro mais comum</h2>
+    <p data-en="A rate does not change basis by multiplication. Going from monthly to annual is <code>(1+i)<sup>12</sup> − 1</code>, not <code>i × 12</code>. On a 2.5% monthly rate the difference is more than four percentage points a year — enough to misprice a whole portfolio.">
+      Taxa não muda de base por multiplicação. De mensal para anual é <code>(1+i)<sup>12</sup> − 1</code>, e não
+      <code>i × 12</code>. Numa taxa de 2,5% ao mês a diferença passa de quatro pontos percentuais ao ano — o
+      suficiente para precificar uma carteira inteira errado.
+    </p>
+    <div class="out-grid" id="outsTaxa"></div>
+    <figure class="chart" id="chTaxa"></figure>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="3 · Amortisation schedule">3 · Cronograma de amortização</h2>
+    <figure class="chart" id="chSaldo"></figure>
+    <figure class="chart" id="chComp"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="tblCron"></table></div>
+    <p class="muted-note" data-en="Table shows the first 12 periods and the total row. The full schedule is used in every calculation and in the checks below.">
+      A tabela mostra os 12 primeiros períodos e a linha de total. O cronograma completo é usado em todos os
+      cálculos e nos checks abaixo.
+    </p>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="4 · Price versus SAC — same rate, different cost">4 · Price × SAC — mesma taxa, custo diferente</h2>
+    <p data-en="With identical principal, rate and term, SAC amortises faster, so the outstanding balance on which interest accrues falls faster. The total interest is therefore lower — at the price of a heavier first installment. Neither is “cheaper”: they distribute cash flow differently, and confusing them misprices the operation.">
+      Com principal, taxa e prazo idênticos, o SAC amortiza mais rápido, então o saldo devedor sobre o qual o
+      juro incide cai mais rápido. O total de juros fica menor — ao custo de uma primeira parcela mais pesada.
+      Nenhum é “mais barato”: eles distribuem o fluxo de caixa de forma diferente, e confundi-los precifica a
+      operação errado.
+    </p>
+    <div class="out-grid" id="outsComp"></div>
+    <figure class="chart" id="chPS"></figure>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="5 · Integrity checks">5 · Checks de integridade</h2>
+    <p data-en="Every check below is recalculated from the full schedule each time an assumption changes. They are independent identities: if the schedule were wrong, at least one would fail.">
+      Cada check abaixo é recalculado a partir do cronograma completo a cada alteração de premissa. São
+      identidades independentes: se o cronograma estivesse errado, ao menos uma falharia.
+    </p>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <details class="doc">
+      <summary data-en="Method, formulas and boundaries">Método, fórmulas e fronteiras</summary>
+      <div class="inner">
+        <h3 class="h4-vis" data-en="Formulas used">Fórmulas usadas</h3>
+        <pre><code>Equivalência de taxas    i_ano = (1 + i_mês)^12 − 1
+Parcela Price (PMT)      PMT = PV · i / (1 − (1+i)^−n)
+Amortização SAC          A = PV / n ;  J_k = Saldo_(k−1) · i
+Juros simples            M = PV · (1 + i·n)
+Juros compostos          M = PV · (1 + i)^n
+Valor presente do fluxo  PV = Σ PMT_k / (1+i)^k</code></pre>
+        <h3 class="h4-vis" data-en="What this tool is not">O que esta ferramenta não é</h3>
+        <p data-en="It computes the financial mathematics of an amortisation schedule. It is <b>not</b> a CET (total effective cost) calculator: CET must include fees, insurance, taxes (IOF) and registration costs defined by the contract and by Central Bank rules, none of which are modelled here. Nor is it a quotation: no product, institution or actual contractual condition is represented.">
+          Ela resolve a matemática financeira de um cronograma de amortização. <b>Não</b> é uma calculadora de CET
+          (Custo Efetivo Total): o CET precisa incluir tarifas, seguros, tributos (IOF) e custos de registro
+          definidos pelo contrato e pela regulação do Banco Central, nada disso modelado aqui. Também não é
+          cotação: nenhum produto, instituição ou condição contratual real está representado.
+        </p>
+        <h3 class="h4-vis" data-en="Origin">Origem</h3>
+        <p data-en="Built for this portfolio as a public reconstruction of a class of calculation the author works with professionally. It contains no volume, cost, rate or any operational data from any employer.">
+          Construída para este portfólio como reconstrução pública de uma classe de cálculo com que o autor
+          trabalha profissionalmente. Não contém volume, custo, taxa ou qualquer dado operacional de empregador.
+        </p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/core.js"></script>
+<script>
+(function () {
+  "use strict";
+  var V = window.Viz, F = V.F, t = V.t;
+  var sistema = "price";
+
+  var el = function (id) { return document.getElementById(id); };
+  var brl = function (v) { return "R$ " + new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v); };
+  var pc2 = function (v) { return new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v * 100) + "%"; };
+
+  /* ---------- núcleo de cálculo ---------- */
+  function taxaMensal() {
+    var r = parseFloat(el("taxa").value) / 100;
+    if (!isFinite(r) || r < 0) r = 0;
+    return el("unid").value === "a" ? Math.pow(1 + r, 1 / 12) - 1 : r;
+  }
+
+  function cronograma(pv, i, n, sis) {
+    var linhas = [], saldo = pv, k, juros, amort, pmt;
+    var pmtPrice = i === 0 ? pv / n : pv * i / (1 - Math.pow(1 + i, -n));
+    for (k = 1; k <= n; k++) {
+      juros = saldo * i;
+      if (sis === "price")      { pmt = pmtPrice; amort = pmt - juros; }
+      else if (sis === "sac")   { amort = pv / n; pmt = amort + juros; }
+      else                      { amort = (k === n ? pv : 0); pmt = amort + juros; }
+      if (k === n) { amort = saldo; pmt = amort + juros; }   /* fecha resíduo de arredondamento */
+      saldo = saldo - amort;
+      linhas.push({ k: k, pmt: pmt, juros: juros, amort: amort, saldo: Math.abs(saldo) < 1e-9 ? 0 : saldo });
+    }
+    return linhas;
+  }
+
+  var soma = function (a, f) { return a.reduce(function (s, x) { return s + f(x); }, 0); };
+
+  function calcular() {
+    var pv = Math.max(0, parseFloat(el("pv").value) || 0);
+    var n  = parseInt(el("n").value, 10) || 1;
+    var im = taxaMensal();
+    var ia = Math.pow(1 + im, 12) - 1;
+
+    el("oPv").textContent = brl(pv);
+    el("oN").textContent = n + " " + t("meses", "months");
+    el("oTaxa").textContent = el("unid").value === "a" ? pc2(im) + " a.m." : pc2(ia) + " a.a.";
+
+    var cr = cronograma(pv, im, n, sistema);
+    var totPmt = soma(cr, function (l) { return l.pmt; });
+    var totJur = soma(cr, function (l) { return l.juros; });
+    var totAmo = soma(cr, function (l) { return l.amort; });
+
+    /* comparativo entre sistemas */
+    var crP = cronograma(pv, im, n, "price"), crS = cronograma(pv, im, n, "sac");
+    var jurP = soma(crP, function (l) { return l.juros; }), jurS = soma(crS, function (l) { return l.juros; });
+
+    /* juros simples × composto sobre o mesmo prazo */
+    var montanteSimples = pv * (1 + im * n);
+    var montanteComposto = pv * Math.pow(1 + im, n);
+
+    /* ---------- painel de resultado ---------- */
+    var nome = { price: "Price", sac: "SAC", bullet: t("Bullet", "Bullet") }[sistema];
+    var linhaPmt = sistema === "price"
+      ? { k: t("Parcela fixa", "Fixed installment"), v: brl(cr[0].pmt), h: t("todas as " + n + " parcelas iguais", "all " + n + " installments equal") }
+      : { k: t("1ª → última parcela", "1st → last installment"), v: brl(cr[0].pmt), h: t("última: ", "last: ") + brl(cr[n - 1].pmt) };
+
+    el("outs").innerHTML =
+      card("hero-out", linhaPmt.k, linhaPmt.v, linhaPmt.h) +
+      card("", t("Total pago", "Total paid"), brl(totPmt), t("principal + juros", "principal + interest")) +
+      card("bad-out", t("Total de juros", "Total interest"), brl(totJur), pc2(totJur / pv) + t(" sobre o principal", " of principal")) +
+      card("", t("Sistema", "System"), nome, t(n + " meses · ", n + " months · ") + pc2(im) + " a.m.");
+
+    el("notaSis").textContent = sistema === "bullet"
+      ? t("Bullet: só juros durante o contrato e o principal integral no vencimento — o saldo devedor não cai, então o juro total é o mais alto dos três.",
+          "Bullet: interest only during the contract and full principal at maturity — the balance never falls, so total interest is the highest of the three.")
+      : sistema === "sac"
+        ? t("SAC: amortização constante. A parcela começa mais alta e cai a cada mês, porque o juro incide sobre um saldo que diminui em linha reta.",
+            "SAC: constant amortisation. The installment starts higher and falls each month, because interest accrues on a balance falling in a straight line.")
+        : t("Price: parcela constante. No início a maior parte da parcela é juro; a amortização só ganha peso ao longo do contrato.",
+            "Price: constant installment. Early on most of the installment is interest; amortisation only gains weight over the contract.");
+
+    /* ---------- equivalência de taxas ---------- */
+    var erradaAno = im * 12;
+    el("outsTaxa").innerHTML =
+      card("", t("Taxa mensal", "Monthly rate"), pc2(im), t("base do cálculo", "calculation basis")) +
+      card("ok-out", t("Anual equivalente (correta)", "Equivalent annual (correct)"), pc2(ia), "(1+i)¹² − 1") +
+      card("bad-out", t("Anual por multiplicação (errada)", "Annual by multiplication (wrong)"), pc2(erradaAno), "i × 12") +
+      card("", t("Erro da multiplicação", "Error of multiplying"), F.ppv((ia - erradaAno) * 100), t("subestima a taxa real", "understates the true rate"));
+
+    var meses = [], eqv = [], mult = [];
+    for (var m = 1; m <= 12; m++) { meses.push(m + "m"); eqv.push((Math.pow(1 + im, m) - 1) * 100); mult.push(im * m * 100); }
+    V.line(el("chTaxa"), {
+      title: t("Taxa acumulada: equivalência composta × multiplicação simples", "Accumulated rate: compound equivalence × simple multiplication"),
+      sub: t("Quanto mais longo o prazo, maior a distância entre o certo e o atalho.", "The longer the term, the wider the gap between the correct method and the shortcut."),
+      labels: meses, fmt: function (v) { return F.pcv2(v); }, height: 230,
+      series: [
+        { name: t("Equivalência composta", "Compound equivalence"), values: eqv, color: "s1" },
+        { name: t("Multiplicação (errada)", "Multiplication (wrong)"), values: mult, color: "s4" }
+      ]
+    });
+
+    /* ---------- cronograma ---------- */
+    var labels = cr.map(function (l) { return l.k; });
+    V.line(el("chSaldo"), {
+      title: t("Saldo devedor ao longo do contrato", "Outstanding balance over the contract"),
+      sub: nome + " · " + n + t(" meses", " months"),
+      labels: labels, fmt: brl, height: 230,
+      series: [{ name: t("Saldo devedor", "Outstanding balance"), values: cr.map(function (l) { return l.saldo; }), color: "s1" }]
+    });
+    V.bars(el("chComp"), {
+      title: t("Composição da parcela: juro × amortização", "Installment composition: interest × amortisation"),
+      sub: t("Onde o dinheiro do cliente efetivamente vai, mês a mês", "Where the customer's money actually goes, month by month"),
+      labels: labels, fmt: brl, height: 240,
+      series: [
+        { name: t("Juros", "Interest"), values: cr.map(function (l) { return l.juros; }), color: "s4" },
+        { name: t("Amortização", "Amortisation"), values: cr.map(function (l) { return l.amort; }), color: "s3" }
+      ]
+    });
+
+    var linhas = cr.slice(0, 12).map(function (l) {
+      return "<tr><td>" + l.k + "</td><td>" + brl(l.pmt) + "</td><td>" + brl(l.juros) + "</td><td>" + brl(l.amort) + "</td><td>" + brl(l.saldo) + "</td></tr>";
+    }).join("");
+    if (n > 12) linhas += '<tr class="sub"><td>…</td><td colspan="4">' + t("períodos 13 a ", "periods 13 to ") + n + "</td></tr>";
+    el("tblCron").innerHTML =
+      "<caption>" + t("Cronograma — ", "Schedule — ") + nome + "</caption>" +
+      "<thead><tr><th>" + t("Mês", "Month") + "</th><th>" + t("Parcela", "Installment") + "</th><th>" + t("Juros", "Interest") +
+      "</th><th>" + t("Amortização", "Amortisation") + "</th><th>" + t("Saldo", "Balance") + "</th></tr></thead><tbody>" + linhas +
+      '<tr class="tot"><td>' + t("Total", "Total") + "</td><td>" + brl(totPmt) + "</td><td>" + brl(totJur) + "</td><td>" + brl(totAmo) + "</td><td>" + brl(0) + "</td></tr></tbody>";
+
+    /* ---------- Price × SAC ---------- */
+    el("outsComp").innerHTML =
+      card("", "Price — " + t("juros totais", "total interest"), brl(jurP), t("1ª parcela: ", "1st installment: ") + brl(crP[0].pmt)) +
+      card("", "SAC — " + t("juros totais", "total interest"), brl(jurS), t("1ª parcela: ", "1st installment: ") + brl(crS[0].pmt)) +
+      card("hero-out", t("Diferença de juros", "Interest difference"), brl(jurP - jurS), t("Price custa mais em juros totais", "Price costs more in total interest")) +
+      card("", t("Juros simples × compostos", "Simple × compound interest"), brl(montanteComposto - montanteSimples),
+           t("quanto a capitalização acrescenta em ", "what compounding adds over ") + n + t(" meses", " months"));
+
+    V.bars(el("chPS"), {
+      title: t("Parcela mês a mês: Price × SAC", "Installment month by month: Price × SAC"),
+      sub: t("Mesmo principal, mesma taxa, mesmo prazo — trajetórias de caixa diferentes", "Same principal, same rate, same term — different cash trajectories"),
+      labels: labels, fmt: brl, height: 240,
+      series: [
+        { name: "Price", values: crP.map(function (l) { return l.pmt; }), color: "s1" },
+        { name: "SAC", values: crS.map(function (l) { return l.pmt; }), color: "s3" }
+      ]
+    });
+
+    /* ---------- checks ---------- */
+    var vpFluxo = cr.reduce(function (s, l) { return s + l.pmt / Math.pow(1 + im, l.k); }, 0);
+    var tol = 0.01;
+    var checks = [
+      { name: "Soma das amortizações = principal financiado",
+        nameEn: "Sum of amortisations = principal financed",
+        pass: Math.abs(totAmo - pv) < tol, detail: brl(totAmo) + " = " + brl(pv), num: t("exato", "exact") },
+      { name: "Saldo devedor após a última parcela = zero",
+        nameEn: "Outstanding balance after the last installment = zero",
+        pass: Math.abs(cr[n - 1].saldo) < tol, detail: brl(cr[n - 1].saldo), num: t("quitado", "settled") },
+      { name: "Total pago = principal + total de juros",
+        nameEn: "Total paid = principal + total interest",
+        pass: Math.abs(totPmt - (pv + totJur)) < tol, detail: brl(totPmt) + " = " + brl(pv) + " + " + brl(totJur) },
+      { name: "Valor presente das parcelas descontadas à taxa contratada = principal",
+        nameEn: "Present value of installments discounted at the contract rate = principal",
+        pass: Math.abs(vpFluxo - pv) < Math.max(tol, pv * 1e-6), detail: brl(vpFluxo), num: t("desconto racional", "rational discount") },
+      { name: "Equivalência de taxas: (1 + i_mês)¹² = 1 + i_ano",
+        nameEn: "Rate equivalence: (1 + i_month)¹² = 1 + i_year",
+        pass: Math.abs(Math.pow(1 + im, 12) - (1 + ia)) < 1e-12, detail: pc2(im) + " a.m. ≡ " + pc2(ia) + " a.a." },
+      { name: "Juros compostos ≥ juros simples no mesmo prazo",
+        nameEn: "Compound interest ≥ simple interest over the same term",
+        pass: montanteComposto >= montanteSimples - tol, detail: brl(montanteComposto) + " ≥ " + brl(montanteSimples) },
+      { name: "SAC acumula menos juros que Price com mesmos principal, taxa e prazo",
+        nameEn: "SAC accrues less interest than Price with the same principal, rate and term",
+        pass: jurS <= jurP + tol, detail: brl(jurS) + " ≤ " + brl(jurP) },
+      { name: "Juro de cada período = saldo anterior × taxa",
+        nameEn: "Interest in each period = previous balance × rate",
+        pass: cr.every(function (l, idx) {
+          var ant = idx === 0 ? pv : cr[idx - 1].saldo;
+          return Math.abs(l.juros - ant * im) < tol;
+        }), detail: t("verificado nos ", "verified across all ") + n + t(" períodos", " periods") }
+    ];
+    V.renderChecks(el("checks"), checks);
+  }
+
+  function card(cls, k, v, h) {
+    return '<div class="out ' + cls + '"><div class="k">' + k + '</div><div class="v">' + v + '</div><div class="h">' + (h || "") + "</div></div>";
+  }
+
+  function ligar() {
+    ["pv", "taxa", "n", "unid"].forEach(function (id) {
+      el(id).addEventListener("input", calcular);
+      el(id).addEventListener("change", calcular);
+    });
+    document.querySelectorAll("#segSis button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        sistema = b.dataset.s;
+        document.querySelectorAll("#segSis button").forEach(function (x) { x.classList.remove("on"); });
+        b.classList.add("on");
+        calcular();
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () { ligar(); calcular(); });
+  window.onLangChange = calcular;
+})();
+</script>
+</body>
+</html>

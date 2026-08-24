@@ -3,79 +3,71 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#09090f">
-<title>CAPEX / EVTE — Viabilidade de Investimento</title>
-<meta name="description" content="Estudo de viabilidade técnico-econômica: VPL, TIR, payback simples e descontado, ponto de equilíbrio, cenários e análise de sensibilidade.">
+<title>Unit Economics de Expansão — México (Nu)</title>
+<meta name="description" content="EVTE educacional ancorado nos fatos divulgados da operação mexicana do Nu: valor presente, drivers e tornado de sensibilidade sob premissas explícitas do autor.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body data-page="sim" data-root="../">
 <main class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">Corporate finance · 7 de 10</div>
-    <h1>CAPEX / EVTE — nova linha de montagem</h1>
+    <div class="eyebrow">Corporate finance · Viabilidade de expansão · Âncoras reais + premissas</div>
+    <h1>Unit economics do México — o estudo de expansão do Nu</h1>
     <p class="lead">
-      Estudo de viabilidade técnico-econômica de uma expansão de capacidade da
-      <strong>Aurora Industrial S.A. (empresa fictícia)</strong>: fluxo de caixa incremental do projeto,
-      VPL, TIR, paybacks, ponto de equilíbrio e sensibilidade — com conclusão executiva explícita.
+      Um EVTE de expansão começa com o que se sabe: no México, o Nu divulgou <strong>16 milhões de clientes
+      (jul/26)</strong>, <strong>ARPAC de US$ 12,3/mês</strong> — mais que o dobro do Brasil no estágio análogo
+      (US$ 5,6) — e <strong>break-even alcançado no 1T26</strong>. Sobre essas âncoras, o modelo abaixo estima o
+      valor da operação sob <strong>premissas explícitas do autor</strong> — um exercício de técnica, não uma
+      avaliação da companhia.
     </p>
     <div class="tags">
-      <span class="tag sim">Simulação — estudo de caso fictício</span>
-      <span class="tag prem">Premissas ajustáveis</span>
-    </div>
-    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
-      Aprovar, adiar ou redesenhar o projeto de investimento — e, se aprovado, com que metas mínimas de
-      volume e preço o business case se sustenta.</div></div>
-  </section>
-
-  <section class="blk">
-    <h2>Premissas do projeto</h2>
-    <div class="controls">
-      <div class="head">
-        <span class="t">Cenário</span>
-        <span class="seg" id="segCen">
-          <button data-c="base" class="on">Base</button>
-          <button data-c="otim">Otimista</button>
-          <button data-c="pess">Pessimista</button>
-          <button data-c="stress">Stress</button>
-        </span>
-      </div>
-      <div class="row">
-        <div class="ctrl"><label>Investimento inicial (CAPEX) <output id="oInv"></output></label><input type="range" id="iInv" min="30" max="120" step="5"></div>
-        <div class="ctrl"><label>Volume adicional pleno <output id="oVol"></output></label><input type="range" id="iVol" min="300" max="1500" step="50"></div>
-        <div class="ctrl"><label>Preço unitário <output id="oPre"></output></label><input type="range" id="iPre" min="34" max="58" step="1"></div>
-        <div class="ctrl"><label>Custo variável (% do preço) <output id="oCv"></output></label><input type="range" id="iCv" min="50" max="80" step="1"></div>
-        <div class="ctrl"><label>Custos fixos incrementais / ano <output id="oFix"></output></label><input type="range" id="iFix" min="0" max="12" step="0.5"></div>
-        <div class="ctrl"><label>TMA / taxa de desconto <output id="oTma"></output></label><input type="range" id="iTma" min="8" max="22" step="0.5"></div>
-        <div class="ctrl"><label>Ramp-up no ano 1 <output id="oRmp"></output></label><input type="range" id="iRmp" min="30" max="100" step="5"></div>
-      </div>
-      <p style="margin:12px 0 0;font-size:.8rem" class="c-sub">
-        <span class="tag prem">Premissa</span> vida útil de 8 anos; depreciação linear até o valor residual de R$ 5,0 mm;
-        capital de giro = 19% da receita incremental (investido conforme a receita cresce, recuperado no ano final);
-        IR 34%; ano 2 em diante a plena capacidade. Valores em R$ mm; preço em R$ mil/unidade.
-      </p>
+      <span class="tag okv">Âncoras: dado público (Nu)</span>
+      <span class="tag prem">Modelo: premissas do autor</span>
+      <span class="tag nao">Não é recomendação de investimento</span>
     </div>
   </section>
 
   <section class="blk">
-    <h2>Resultado e conclusão executiva</h2>
-    <div class="tiles" id="tiles"></div>
-    <div class="banner" id="conclusao"></div>
-    <figure class="chart" id="chFcf"></figure>
-    <figure class="chart" id="chAcum"></figure>
+    <h2>Âncoras divulgadas <span class="tag okv">FATO</span></h2>
+    <div class="tiles">
+      <div class="tile"><div class="lbl">Clientes no México</div><div class="val">16,0 mi</div><div class="sub">15,8 mi no 2T26; 16 mi em jul/26 · 16,5% da população adulta</div></div>
+      <div class="tile"><div class="lbl">ARPAC México</div><div class="val">US$ 12,3</div><div class="sub">vs. US$ 5,6 no Brasil no mesmo estágio (divulgado)</div></div>
+      <div class="tile"><div class="lbl">Break-even</div><div class="val">1T26</div><div class="sub">divulgado no release do 1T26</div></div>
+      <div class="tile"><div class="lbl">Depósitos · LDR</div><div class="val">US$ 5,7 bi · 35%</div><div class="sub">otimização deliberada de captação</div></div>
+    </div>
+    <p style="font-size:.83rem">Duas âncoras usadas como aproximação vêm do consolidado (não há abertura México
+    nos documentos): taxa de atividade (83,5%) e custo de servir (US$ 1,0/cliente ativo/mês) — simplificação
+    declarada do modelo.</p>
   </section>
 
-  <section class="blk">
-    <h2>Cenários</h2>
-    <div class="tbl-scroll"><table class="tbl" id="tbCen"></table></div>
-  </section>
+  <div class="controls">
+    <div class="head"><span class="t">Premissas do modelo (horizonte de 5 anos) <span class="tag prem">PREMISSA</span></span></div>
+    <div class="row">
+      <div class="ctrl"><label for="inGc">Crescimento de clientes (a.a.) <output id="oGc">15%</output></label>
+        <input type="range" id="inGc" min="0" max="30" step="1" value="15"></div>
+      <div class="ctrl"><label for="inGa">Crescimento do ARPAC (a.a.) <output id="oGa">8%</output></label>
+        <input type="range" id="inGa" min="0" max="15" step="0.5" value="8"></div>
+      <div class="ctrl"><label for="inM">Conversão da receita líquida em resultado <output id="oM">25%</output></label>
+        <input type="range" id="inM" min="5" max="45" step="1" value="25"></div>
+      <div class="ctrl"><label for="inKe">Taxa de desconto (US$, nominal) <output id="oKe">18%</output></label>
+        <input type="range" id="inKe" min="10" max="28" step="0.5" value="18"></div>
+      <div class="ctrl"><label for="inGp">Crescimento na perpetuidade <output id="oGp">4%</output></label>
+        <input type="range" id="inGp" min="0" max="6" step="0.5" value="4"></div>
+    </div>
+    <p style="font-size:.83rem;margin:8px 0 0">"Conversão em resultado" agrega tudo que o modelo não abre
+    (custo de crédito, captação, opex além do custo de servir, impostos) — é a premissa mais forte e por isso
+    está no tornado. Receita = clientes × atividade × ARPAC × 12; resultado = (receita − custo de servir) ×
+    conversão; VP = fluxos descontados + perpetuidade de Gordon no ano 5.</p>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+  <figure class="chart" id="chFluxo"></figure>
+  <figure class="chart" id="chTornado"></figure>
 
   <section class="blk">
-    <h2>Sensibilidade — o que mais move o VPL</h2>
-    <figure class="chart" id="chTornado"></figure>
+    <h2>Projeção anual <span class="tag prem">ESTIMATIVA</span></h2>
+    <div class="tbl-scroll"><table class="tbl" id="tb"></table></div>
   </section>
 
   <section class="blk">
@@ -83,201 +75,95 @@
     <div id="checks"></div>
   </section>
 
-  <section class="blk">
-    <h2>Documentação do estudo</h2>
-    <details class="doc">
-      <summary>Ficha padrão do estudo (contexto → validação)</summary>
-      <div class="inner">
-        <h4>1. Contexto</h4><p>A Linha Compacta opera próxima da capacidade no cenário simulado; expandir exige nova linha de montagem.</p>
-        <h4>2. Problema</h4><p>O retorno incremental do projeto supera o custo de capital? Sob que volume mínimo o caso se sustenta?</p>
-        <h4>3. Dados</h4><p>DADO SIMULADO — preço e estrutura de margem derivados do dataset central; parâmetros do projeto são premissas ajustáveis.</p>
-        <h4>4. Fontes</h4><p>Metodologia clássica de orçamento de capital (VPL/TIR/payback sobre fluxo incremental). Números fictícios.</p>
-        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — painel acima; depreciação linear; NWC proporcional à receita; sem inflação; fluxos em moeda constante.</p>
-        <h4>6. Metodologia</h4><p>Fluxo de caixa incremental após impostos: EBIT×(1−IR) + depreciação − ΔNWC; investimento em t0; residual + recuperação do NWC no ano final; VPL à TMA; TIR por bissecção; ponto de equilíbrio resolvendo VPL=0 em volume.</p>
-        <h4>7. Modelo</h4><p>JavaScript no navegador; inputs → cálculos → outputs → checks.</p>
-        <h4>8. Cenários</h4><p>Base, Otimista, Pessimista e Stress (presets) + ajuste livre + tornado de sensibilidade.</p>
-        <h4>9. Resultado</h4><p>Valores estimados pelo modelo sob as premissas adotadas.</p>
-        <h4>10. Insights</h4><p>No caso base simulado o VPL é positivo com folga sobre volume — a variável crítica é preço/custo variável (margem de contribuição), não o CAPEX.</p>
-        <h4>11. Impacto potencial</h4><p>Substitui a aprovação binária por metas mínimas contratáveis (volume e preço de equilíbrio) e cenário de abandono explícito.</p>
-        <h4>12. Limitações</h4><p>Dados fictícios; sem opções reais (adiar/expandir/abandonar); sem canibalização da linha atual; TMA única para todos os cenários.</p>
-        <h4>13. Validação</h4><p>Checks aritméticos automáticos aprovados. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; dados de entrada simulados.</p>
-      </div>
-    </details>
-  </section>
+  <section class="blk" id="fontes"></section>
 
 </main>
-<script src="../assets/js/core.js"></script>
 <script src="../assets/js/data.js"></script>
+<script src="../assets/js/core.js"></script>
 <script>
 (function () {
   "use strict";
-  const V = window.Viz, F = window.Viz.F;
-  const VIDA = 8, RESIDUAL = 5.0, TAX = 0.34, NWC_PCT = 0.19;
+  const V = window.Viz, F = V.F, R = window.REAL;
+  const MX = R.nu.mexico;
+  const ATIVIDADE = 0.835, CUSTO_SERVIR = 1.0; // aproximações do consolidado (declarado)
+  const $ = id => document.getElementById(id);
 
-  const PRESETS = {
-    base:   { inv: 60, vol: 900, pre: 46, cv: 65, fix: 4, tma: 13, rmp: 60 },
-    otim:   { inv: 55, vol: 1100, pre: 48, cv: 63, fix: 4, tma: 13, rmp: 75 },
-    pess:   { inv: 70, vol: 700, pre: 44, cv: 68, fix: 5, tma: 14, rmp: 50 },
-    stress: { inv: 80, vol: 550, pre: 42, cv: 71, fix: 6, tma: 16, rmp: 40 },
-  };
-  const NOMES = { base: "Base", otim: "Otimista", pess: "Pessimista", stress: "Stress" };
-
-  const ids = { inv: "iInv", vol: "iVol", pre: "iPre", cv: "iCv", fix: "iFix", tma: "iTma", rmp: "iRmp" };
-  function setP(p) { for (const k in ids) document.getElementById(ids[k]).value = p[k]; }
-  function getP() { const p = {}; for (const k in ids) p[k] = +document.getElementById(ids[k]).value; return p; }
-
-  function projeto(p) {
-    // p.pre em R$ mil/un → receita em R$ mm = vol × pre / 1000
-    const dep = (p.inv - RESIDUAL) / VIDA;
-    const fluxos = [-p.inv];         // t0
-    const detalhe = [];
-    let nwcAnt = 0;
-    for (let t = 1; t <= VIDA; t++) {
-      const fator = t === 1 ? p.rmp / 100 : 1;
-      const receita = p.vol * fator * p.pre / 1000;
-      const cvar = receita * p.cv / 100;
-      const ebitda = receita - cvar - p.fix;
-      const ebit = ebitda - dep;
-      const imposto = Math.max(0, ebit) * TAX;
-      const nwc = receita * NWC_PCT;
-      const dNwc = nwc - nwcAnt;
-      let fcf = ebit - imposto + dep - dNwc;
-      if (t === VIDA) fcf += RESIDUAL + nwc; // recuperação do residual e do NWC
-      fluxos.push(fcf);
-      detalhe.push({ t, receita, ebitda, ebit, imposto, dNwc, fcf });
-      nwcAnt = nwc;
+  function modelo(p) {
+    const anos = [];
+    for (let t = 1; t <= 5; t++) {
+      const clientes = MX.clientesMiJul26 * Math.pow(1 + p.gc / 100, t);       // milhões
+      const ativos = clientes * ATIVIDADE;
+      const arpac = MX.arpac * Math.pow(1 + p.ga / 100, t);
+      const receita = ativos * arpac * 12;                                      // US$ mm (mi clientes × US$/mês × 12)
+      const servir = -ativos * CUSTO_SERVIR * 12;
+      const resultado = (receita + servir) * p.m / 100;
+      anos.push({ t, clientes, ativos, arpac, receita, servir, resultado });
     }
-    const vpl = V.npv(p.tma / 100, fluxos);
-    const tir = V.irr(fluxos);
-    // paybacks
-    let acum = fluxos[0], pay = null;
-    for (let t = 1; t <= VIDA; t++) { const ant = acum; acum += fluxos[t]; if (pay == null && acum >= 0) pay = t - 1 + (-ant / fluxos[t]); }
-    let acumD = fluxos[0], payD = null;
-    for (let t = 1; t <= VIDA; t++) { const ant = acumD; const f = fluxos[t] / Math.pow(1 + p.tma / 100, t); acumD += f; if (payD == null && acumD >= 0) payD = t - 1 + (-ant / f); }
-    return { fluxos, detalhe, vpl, tir, pay, payD };
+    const ke = p.ke / 100, gp = Math.min(p.gp / 100, ke - 0.01);
+    let vp = 0;
+    anos.forEach(a => vp += a.resultado / Math.pow(1 + ke, a.t));
+    const terminal = anos[4].resultado * (1 + gp) / (ke - gp) / Math.pow(1 + ke, 5);
+    return { anos, vp, terminal, total: vp + terminal };
   }
 
-  function breakevenVolume(p) {
-    let lo = 0, hi = 4000;
-    const f = v => projeto({ ...p, vol: v }).vpl;
-    if (f(lo) > 0) return 0;
-    if (f(hi) < 0) return null;
-    for (let i = 0; i < 80; i++) { const mid = (lo + hi) / 2; if (f(mid) >= 0) hi = mid; else lo = mid; }
-    return (lo + hi) / 2;
-  }
-
-  function tile(lbl, val_, sub, cls) {
-    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val" ${cls ? `style="color:var(--${cls})"` : ""}>${val_}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+  function premissas() {
+    return { gc: +$("inGc").value, ga: +$("inGa").value, m: +$("inM").value, ke: +$("inKe").value, gp: +$("inGp").value };
   }
 
   function render() {
-    const p = getP();
-    document.getElementById("oInv").textContent = "R$ " + p.inv + " mm";
-    document.getElementById("oVol").textContent = F.mm0(p.vol) + " un/ano";
-    document.getElementById("oPre").textContent = "R$ " + p.pre + " mil";
-    document.getElementById("oCv").textContent = p.cv + "%";
-    document.getElementById("oFix").textContent = "R$ " + p.fix.toFixed(1) + " mm";
-    document.getElementById("oTma").textContent = p.tma + "% a.a.";
-    document.getElementById("oRmp").textContent = p.rmp + "%";
+    const p = premissas();
+    $("oGc").textContent = F.pcv(p.gc); $("oGa").textContent = F.pcv(p.ga); $("oM").textContent = F.pcv(p.m);
+    $("oKe").textContent = F.pcv(p.ke); $("oGp").textContent = F.pcv(p.gp);
+    const m = modelo(p);
 
-    const m = projeto(p);
-    const be = breakevenVolume(p);
-    const viavel = m.vpl > 0 && m.tir != null && m.tir > p.tma / 100;
-    const folga = m.vpl / p.inv;
+    $("tiles").innerHTML = [
+      { lbl: "VP dos 5 anos", val: F.usd0(m.vp) + " mm", sub: "fluxos descontados a " + F.pcv(p.ke) },
+      { lbl: "Valor terminal (VP)", val: F.usd0(m.terminal) + " mm", sub: "perpetuidade g = " + F.pcv(p.gp) },
+      { lbl: "Valor da operação (estimado)", val: F.usd0(m.total) + " mm", sub: "sob as premissas escolhidas" },
+      { lbl: "Receita ano 1 (estimada)", val: F.usd0(m.anos[0].receita) + " mm", sub: "clientes × atividade × ARPAC × 12" },
+    ].map(t => `<div class="tile"><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div><div class="sub">${t.sub}</div></div>`).join("");
 
-    document.getElementById("tiles").innerHTML =
-      tile("VPL @ TMA " + p.tma + "%", F.smm(m.vpl), "fluxo incremental de " + VIDA + " anos", m.vpl >= 0 ? "ok-text" : "bad") +
-      tile("TIR", m.tir == null ? "n/a" : F.pc(m.tir), "vs. TMA de " + F.pc(p.tma / 100), m.tir != null && m.tir > p.tma / 100 ? "ok-text" : "bad") +
-      tile("Payback simples", m.pay == null ? "> " + VIDA + " anos" : m.pay.toFixed(1) + " anos", "sem desconto") +
-      tile("Payback descontado", m.payD == null ? "> " + VIDA + " anos" : m.payD.toFixed(1) + " anos", "@ TMA") +
-      tile("Volume de equilíbrio (VPL = 0)", be == null ? "n/a" : F.mm0(be) + " un/ano", be == null ? "" : "premissa atual: " + F.mm0(p.vol) + " un/ano");
-
-    const conc = document.getElementById("conclusao");
-    if (viavel && folga >= 0.10) {
-      conc.innerHTML = `<span>✅</span><div><b>Conclusão executiva: economicamente viável sob as premissas adotadas.</b>
-        VPL de ${F.smm(m.vpl)} (${F.pc0(folga)} do investimento) e TIR de ${F.pc(m.tir)} acima da TMA.
-        Recomendação simulada: aprovar com metas mínimas de ${be == null ? "—" : F.mm0(be)} un/ano e monitoramento trimestral do ramp-up.</div>`;
-    } else if (viavel) {
-      conc.innerHTML = `<span>⚠️</span><div><b>Conclusão executiva: viável sob condições.</b>
-        VPL positivo (${F.smm(m.vpl)}) mas com folga estreita (${F.pc0(folga)} do investimento) — pequenas frustrações de volume ou preço
-        tornam o projeto destruidor de valor. Recomendação simulada: renegociar CAPEX/preço antes de aprovar.</div>`;
-    } else {
-      conc.innerHTML = `<span>❌</span><div><b>Conclusão executiva: economicamente inviável sob as premissas adotadas.</b>
-        ${m.vpl <= 0 ? "VPL negativo (" + F.smm(m.vpl) + ")" : "TIR abaixo da TMA"} — o projeto não remunera o custo de capital.
-        Recomendação simulada: redesenhar (CAPEX, escala ou preço) ou não aprovar.</div>`;
-    }
-
-    const labels = ["t0"].concat(m.detalhe.map(d => "Ano " + d.t));
-    V.bars(document.getElementById("chFcf"), {
-      title: "Fluxo de caixa incremental do projeto (R$ mm)",
-      sub: "Inclui investimento em t0 e recuperação de residual + NWC no ano final",
-      labels,
-      series: [{ name: "FCF", values: m.fluxos, color: "s1" }],
-    });
-    let acum = 0;
-    const acumD = m.fluxos.map((f, t) => (acum += f / Math.pow(1 + p.tma / 100, t)));
-    V.line(document.getElementById("chAcum"), {
-      title: "VPL acumulado ao longo da vida (R$ mm)",
-      sub: "Cruza zero no payback descontado · valor estimado sob as premissas adotadas",
-      labels,
-      series: [{ name: "VPL acumulado", values: acumD, color: "s3", kind: "line" }],
+    V.bars($("chFluxo"), {
+      title: "Resultado anual estimado da operação México (US$ mm)",
+      sub: "Estimativa do autor — não é projeção da companhia",
+      labels: m.anos.map(a => "Ano " + a.t),
+      series: [{ name: "Resultado", values: m.anos.map(a => a.resultado), color: "s1" }],
+      fmt: F.usd0,
     });
 
-    /* cenários */
-    let html = `<caption>Comparação de cenários (presets — PREMISSA DO MODELO)</caption>
-      <thead><tr><th>Cenário</th><th>CAPEX</th><th>Volume</th><th>Preço</th><th>TMA</th><th>VPL</th><th>TIR</th><th>Payback desc.</th></tr></thead><tbody>`;
-    for (const c in PRESETS) {
-      const pc = PRESETS[c], mc = projeto(pc);
-      html += `<tr><td>${NOMES[c]}</td><td>${F.mm(pc.inv)}</td><td>${F.mm0(pc.vol)} un</td><td>R$ ${pc.pre} mil</td><td>${pc.tma}%</td>
-        <td class="${mc.vpl >= 0 ? "pos" : "neg"}">${F.smm(mc.vpl)}</td>
-        <td>${mc.tir == null ? "n/a" : F.pc(mc.tir)}</td>
-        <td>${mc.payD == null ? "> " + VIDA + "a" : mc.payD.toFixed(1) + "a"}</td></tr>`;
-    }
-    html += "</tbody>";
-    document.getElementById("tbCen").innerHTML = html;
-
-    /* tornado */
-    const choques = [
-      { l: "Preço +10%", d: { pre: p.pre * 1.1 } },
-      { l: "Volume +10%", d: { vol: p.vol * 1.1 } },
-      { l: "Custo variável −5 p.p.", d: { cv: p.cv - 5 } },
-      { l: "CAPEX −10%", d: { inv: p.inv * 0.9 } },
-      { l: "TMA −1 p.p.", d: { tma: p.tma - 1 } },
-      { l: "Ramp-up +10 p.p.", d: { rmp: Math.min(100, p.rmp + 10) } },
-    ];
-    const itens = choques.map(c => ({ l: c.l, v: projeto({ ...p, ...c.d }).vpl - m.vpl }))
-      .sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
-    V.hbars(document.getElementById("chTornado"), {
-      title: "Δ VPL por choque favorável de premissa (R$ mm)",
-      sub: "Vs. VPL do cenário atual de " + F.smm(m.vpl),
-      items: itens,
-      labelW: 210,
+    /* tornado: ±20% relativo em cada driver */
+    const base = m.total;
+    const varia = (k, fator) => { const q = { ...p }; q[k] = p[k] * fator; return modelo(q).total; };
+    const drivers = [["m", "Conversão em resultado"], ["gc", "Crescimento de clientes"], ["ke", "Taxa de desconto"], ["ga", "Crescimento do ARPAC"], ["gp", "g na perpetuidade"]];
+    const items = drivers.map(([k, nome]) => {
+      const lo = varia(k, 0.8), hi = varia(k, 1.2);
+      return { l: nome + " ±20%", lo: Math.min(lo, hi), hi: Math.max(lo, hi), mark: base };
+    }).sort((a, b) => (b.hi - b.lo) - (a.hi - a.lo));
+    V.hbars($("chTornado"), {
+      title: "Tornado — sensibilidade do valor estimado (US$ mm)",
+      sub: "Cada driver variado ±20% relativo, demais constantes · marca = cenário central",
+      items, fmt: F.usd0, labelW: 230, center: base,
+      markValue: base, markLabel: "central",
     });
 
-    /* checks */
-    const vplRecalc = m.fluxos.reduce((a, f, t) => a + f / Math.pow(1 + p.tma / 100, t), 0);
-    const cVpl = V.near(m.vpl, vplRecalc, 0.01);
-    const cTir = m.tir == null || Math.abs(V.npv(m.tir, m.fluxos)) < 0.02;
-    const cAcum = V.near(acumD[acumD.length - 1], m.vpl, 0.02);
-    const cBe = be == null || V.near(projeto({ ...p, vol: be }).vpl, 0, 0.05);
-    V.renderChecks(document.getElementById("checks"), [
-      { name: "VPL recalculado de forma independente confere", pass: cVpl, num: F.smm(m.vpl) + " = " + F.smm(vplRecalc) },
-      { name: "VPL na TIR ≈ 0 (definição da TIR)", pass: cTir, num: m.tir == null ? "TIR inexistente" : F.smm(V.npv(m.tir, m.fluxos)) },
-      { name: "VPL acumulado no ano final = VPL total", pass: cAcum, num: F.smm(acumD[acumD.length - 1]) },
-      { name: "VPL no volume de equilíbrio ≈ 0", pass: cBe, num: be == null ? "sem equilíbrio no intervalo" : F.smm(projeto({ ...p, vol: be }).vpl) },
+    $("tb").innerHTML =
+      `<caption>Projeção anual — ESTIMATIVA sob premissas do autor (US$ mm, exceto indicado)</caption>
+       <thead><tr><th>Ano</th><th>Clientes (mi)</th><th>Ativos (mi)</th><th>ARPAC (US$/mês)</th><th>Receita</th><th>Custo de servir</th><th>Resultado</th></tr></thead>
+       <tbody>${m.anos.map(a => `<tr><td>Ano ${a.t}</td><td>${F.mm(a.clientes)}</td><td>${F.mm(a.ativos)}</td><td>${F.x2(a.arpac)}</td><td>${F.usd0(a.receita)}</td><td>${F.usd0(a.servir)}</td><td>${F.usd0(a.resultado)}</td></tr>`).join("")}</tbody>`;
+
+    const rec1 = MX.clientesMiJul26 * Math.pow(1 + p.gc / 100, 1) * ATIVIDADE * MX.arpac * Math.pow(1 + p.ga / 100, 1) * 12;
+    V.renderChecks($("checks"), [
+      { name: "Âncoras = divulgado (16,0 mi clientes · ARPAC US$ 12,3 · break-even 1T26)", pass: MX.clientesMiJul26 === 16.0 && MX.arpac === 12.3 && MX.breakeven === "1T26", num: "conferido" },
+      { name: "Receita do ano 1 recalculada de forma independente = receita do modelo", pass: V.near(rec1, m.anos[0].receita, 0.5), num: F.usd0(rec1) },
+      { name: "VP total = soma dos fluxos descontados + terminal (identidade)", pass: V.near(m.vp + m.terminal, m.total, 0.01), num: F.usd0(m.total) },
+      { name: "Restrição g < Ke na perpetuidade respeitada", pass: p.gp / 100 < p.ke / 100, num: F.pcv(p.gp) + " < " + F.pcv(p.ke) },
+      { name: "Aproximações do consolidado (atividade 83,5% · custo de servir US$ 1,0) declaradas", pass: true, num: "declarado" },
     ]);
   }
 
-  document.querySelectorAll("#segCen button").forEach(b => {
-    b.addEventListener("click", () => {
-      document.querySelectorAll("#segCen button").forEach(x => x.classList.remove("on"));
-      b.classList.add("on");
-      setP(PRESETS[b.dataset.c]);
-      render();
-    });
-  });
-  for (const k in ids) document.getElementById(ids[k]).addEventListener("input", render);
-  setP(PRESETS.base);
+  ["inGc", "inGa", "inM", "inKe", "inGp"].forEach(id => $(id).addEventListener("input", render));
+  V.renderFontes($("fontes"), ["nu1T26", "nu2T26"],
+    "Âncoras do México conforme releases; taxa de atividade e custo de servir são médias consolidadas usadas como aproximação (declarado). Todo o restante é premissa/estimativa do autor.");
   render();
 })();
 </script>

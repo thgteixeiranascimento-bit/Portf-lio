@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Custo de rechamadas na Central de Atendimento — modelo de priorização</title>
+<meta name="description" content="Modelo que converte volume, taxa de rechamada, TMO e custo por minuto em custo anual da Central de Atendimento, decompõe por causa-raiz e prioriza iniciativas de redução por retorno financeiro.">
+<meta name="keywords" content="rechamada, repeat call, first call resolution, FCR, central de atendimento, contact center, TMO, AHT, custo operacional, causa-raiz, melhoria contínua, business case">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📞</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero-pro">
+    <span class="kicker" data-en="Proprietary tool · Operational cost and prioritisation">Ferramenta própria · Custo operacional e priorização</span>
+    <h1 style="max-width:24ch" data-en="A repeat call is pure cost. Until it has a currency figure, nobody prioritises it.">Rechamada é custo puro. Enquanto não tem valor em reais, ninguém prioriza.</h1>
+    <p class="sub" data-en="A repeat call is the same customer coming back because the first contact did not resolve the issue: the operation pays twice for one problem. Contact centres track the <i>rate</i> closely and the <i>cost</i> rarely — which is why root causes get fixed in arrival order instead of by financial return. This model converts the operational metrics into annual cost, breaks it down by cause and ranks the fixes.">
+      Rechamada é o mesmo cliente voltando porque o primeiro contato não resolveu: a operação paga duas vezes por
+      um problema. Centrais acompanham de perto a <i>taxa</i> e raramente o <i>custo</i> — por isso as causas-raiz
+      são corrigidas por ordem de chegada em vez de por retorno financeiro. Este modelo converte as métricas
+      operacionais em custo anual, decompõe por causa e ordena as correções.
+    </p>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:var(--sp-4)">
+      <span class="tag sim" data-en="Own tool — no company data">Ferramenta própria — sem dado de empresa</span>
+      <span class="tag prem" data-en="Illustrative parameters, defined by the user">Parâmetros ilustrativos, definidos pelo usuário</span>
+      <span class="tag nao" data-en="No employer's operational data">Nenhum dado operacional de empregador</span>
+    </div>
+  </section>
+
+  <div class="callout warn">
+    <span class="ct" data-en="⚠️ Read before interpreting any number on this page">⚠️ Leia antes de interpretar qualquer número desta página</span>
+    <span data-en="Every value below is a <b>demonstration parameter that you control</b>. Nothing here comes from any company's operation: no volume, no repeat-call rate, no handling time and no cost was taken from an employer. What the portfolio publishes is the <b>method of costing and prioritising</b> — the reasoning — never confidential operating data.">
+      Todo valor abaixo é um <b>parâmetro de demonstração que você controla</b>. Nada aqui vem da operação de
+      nenhuma empresa: nenhum volume, nenhuma taxa de rechamada, nenhum tempo de atendimento e nenhum custo foi
+      extraído de empregador. O que o portfólio publica é o <b>método de custear e priorizar</b> — o raciocínio —
+      nunca dado operacional confidencial.
+    </span>
+  </div>
+
+  <div class="controls">
+    <div class="head"><span class="t" data-en="Operation parameters">Parâmetros da operação</span></div>
+    <div class="row">
+      <div class="ctrl">
+        <label for="vol"><span data-en="Contacts per month">Contatos por mês</span><output id="oVol"></output></label>
+        <input type="number" id="vol" value="200000" min="1000" step="1000">
+      </div>
+      <div class="ctrl">
+        <label for="taxa"><span data-en="Repeat-call rate (%)">Taxa de rechamada (%)</span><output id="oTaxa"></output></label>
+        <input type="range" id="taxa" value="18" min="1" max="60" step="0.5">
+      </div>
+      <div class="ctrl">
+        <label for="tmo"><span data-en="AHT — average handling time (min)">TMO — tempo médio de operação (min)</span><output id="oTmo"></output></label>
+        <input type="range" id="tmo" value="7.5" min="1" max="25" step="0.1">
+      </div>
+      <div class="ctrl">
+        <label for="custo"><span data-en="Cost per minute (R$)">Custo por minuto (R$)</span><output id="oCusto"></output></label>
+        <input type="number" id="custo" value="1.40" min="0.1" max="20" step="0.05">
+      </div>
+      <div class="ctrl">
+        <label for="evit"><span data-en="Share of repeat calls that is avoidable (%)">Parcela de rechamadas evitável (%)</span><output id="oEvit"></output></label>
+        <input type="range" id="evit" value="65" min="10" max="100" step="1">
+      </div>
+      <div class="ctrl">
+        <label for="meta"><span data-en="Reduction target on avoidable share (%)">Meta de redução sobre o evitável (%)</span><output id="oMeta"></output></label>
+        <input type="range" id="meta" value="40" min="5" max="100" step="1">
+      </div>
+    </div>
+  </div>
+
+  <section class="blk">
+    <h2 data-en="1 · What repeat calls cost">1 · Quanto a rechamada custa</h2>
+    <div class="out-grid" id="outs"></div>
+    <div class="callout accent" id="leitura"></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="2 · From total cost to realised saving">2 · Do custo total à economia realizável</h2>
+    <figure class="chart" id="chPonte"></figure>
+    <p data-en="The bridge separates three different things that are usually confused: the total cost of repeat calls, the portion that is actually avoidable (a defect can be structural, or the customer simply calls back to confirm), and the portion a realistic target captures within the horizon. Only the last one belongs in a business case.">
+      A ponte separa três coisas que costumam ser confundidas: o custo total das rechamadas, a parcela
+      efetivamente evitável (um defeito pode ser estrutural, ou o cliente simplesmente liga de volta para
+      confirmar) e a parcela que uma meta realista captura no horizonte. Só a última entra em um business case.
+    </p>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="3 · Root causes — where the money actually is">3 · Causas-raiz — onde o dinheiro efetivamente está</h2>
+    <p data-en="Adjust the weight of each cause to your own diagnosis. The point of the exercise is not the split itself: it is that once each cause carries a currency figure, the prioritisation argument stops being an opinion.">
+      Ajuste o peso de cada causa ao seu próprio diagnóstico. O ponto do exercício não é a repartição em si: é
+      que, uma vez que cada causa carrega um valor em reais, o argumento de priorização deixa de ser opinião.
+    </p>
+    <div class="controls"><div class="row" id="pesos"></div></div>
+    <figure class="chart" id="chCausas"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="tblCausas"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="4 · Prioritisation: return per unit of effort">4 · Priorização: retorno por unidade de esforço</h2>
+    <p data-en="Two initiatives worth the same in currency are not worth the same to a team: one may take a sprint, the other a quarter and three areas. Ranking by recoverable value divided by effort is what turns a cost model into a work plan.">
+      Duas iniciativas que valem o mesmo em reais não valem o mesmo para um time: uma pode levar uma sprint, a
+      outra um trimestre e três áreas. Ordenar por valor recuperável dividido por esforço é o que transforma um
+      modelo de custo em plano de trabalho.
+    </p>
+    <figure class="chart" id="chPrior"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="tblPrior"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="5 · Sensitivity — which lever moves the cost most">5 · Sensibilidade — que alavanca move mais o custo</h2>
+    <figure class="chart" id="chSens"></figure>
+    <p class="muted-note" data-en="Effect on annual repeat-call cost of a 10% relative improvement in each lever, one at a time, holding everything else constant.">
+      Efeito, no custo anual de rechamadas, de uma melhoria relativa de 10% em cada alavanca, uma de cada vez,
+      mantido todo o resto constante.
+    </p>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="6 · Integrity checks">6 · Checks de integridade</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <details class="doc">
+      <summary data-en="Method, definitions and boundaries">Método, definições e fronteiras</summary>
+      <div class="inner">
+        <h3 class="h4-vis" data-en="Formulas">Fórmulas</h3>
+        <pre><code>Rechamadas/mês        R = Contatos × taxa_rechamada
+Custo mensal          C = R × TMO × custo_minuto
+Custo anual           C_ano = C × 12
+Custo evitável        E = C_ano × parcela_evitável
+Economia da meta      S = E × meta_redução
+FTE equivalente       FTE = (R × TMO) / (horas_produtivas_mês × 60)
+Retorno por esforço   índice = valor_recuperável / esforço_relativo</code></pre>
+        <p data-en="Productive hours per FTE-month are set at 132 (a common planning convention: ~7.5h of logged time over 22 working days, net of breaks and training). It is an assumption, not a fact — change it and every FTE figure changes with it.">
+          As horas produtivas por FTE-mês são fixadas em 132 (convenção comum de planejamento: ~7,5h logadas em
+          22 dias úteis, líquidas de pausas e treinamento). É uma premissa, não um fato — alterá-la altera todos
+          os números de FTE.
+        </p>
+        <h3 class="h4-vis" data-en="Definitions">Definições</h3>
+        <p data-en="<b>Repeat call</b>: a new contact by the same customer about the same subject within the window the operation defines as recurrence (commonly 7 days). <b>AHT</b>: average handling time of a contact, including after-call work. <b>Cost per minute</b>: fully loaded operating cost of a minute of service — payroll, charges, infrastructure and management — not the agent's hourly wage.">
+          <b>Rechamada</b>: novo contato do mesmo cliente sobre o mesmo assunto dentro da janela que a operação
+          define como recorrência (comumente 7 dias). <b>TMO</b>: tempo médio de operação de um contato,
+          incluindo o trabalho pós-atendimento. <b>Custo por minuto</b>: custo operacional totalmente carregado
+          de um minuto de atendimento — folha, encargos, infraestrutura e gestão — e não o salário-hora do
+          operador.
+        </p>
+        <h3 class="h4-vis" data-en="What this model does not do">O que este modelo não faz</h3>
+        <p data-en="It does not estimate the revenue effect of a bad experience (churn, NPS, lifetime value), which is real and usually larger than the operating cost measured here — but which requires behavioural data this model does not have. It also does not model the cost of the fix itself: the saving computed here is gross, and a business case must net it against the effort to implement.">
+          Ele não estima o efeito de receita de uma experiência ruim (churn, NPS, valor do cliente ao longo do
+          tempo), que é real e normalmente maior que o custo operacional aqui medido — mas que exige dado
+          comportamental que este modelo não tem. Também não modela o custo da própria correção: a economia
+          calculada é bruta, e um business case precisa deduzir dela o esforço de implantação.
+        </p>
+        <h3 class="h4-vis" data-en="Origin">Origem</h3>
+        <p data-en="Built for this portfolio as a public reconstruction of the reasoning the author applies professionally when mapping friction points that generate repeat calls and prioritising root causes by impact. It contains no operational data from any employer.">
+          Construída para este portfólio como reconstrução pública do raciocínio que o autor aplica
+          profissionalmente ao mapear pontos de atrito geradores de rechamadas e priorizar causas-raiz por
+          impacto. Não contém dado operacional de nenhum empregador.
+        </p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/core.js"></script>
+<script>
+(function () {
+  "use strict";
+  var V = window.Viz, F = V.F, t = V.t;
+  var el = function (id) { return document.getElementById(id); };
+  var nf0 = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 });
+  var nf1 = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  var brl0 = function (v) { return "R$ " + nf0.format(Math.round(v)); };
+  var brlM = function (v) { return "R$ " + nf1.format(v / 1e6) + " mi"; };
+  var pc1 = function (v) { return nf1.format(v * 100) + "%"; };
+
+  var HORAS_FTE_MES = 132;
+
+  /* Causas-raiz: peso (% das rechamadas evitáveis) e esforço relativo de correção (1 = baixo, 5 = alto).
+     Ambos são premissas do usuário — a ferramenta não conhece nenhuma operação real. */
+  var CAUSAS = [
+    { id: "calc", nome: "Cálculo ou valor divergente do contratado", nomeEn: "Calculation or amount diverging from the contract", peso: 26, esforco: 2 },
+    { id: "info", nome: "Informação inconsistente entre canais", nomeEn: "Inconsistent information across channels", peso: 22, esforco: 3 },
+    { id: "proc", nome: "Processo iniciado e não concluído", nomeEn: "Process started and not completed", peso: 20, esforco: 4 },
+    { id: "prom", nome: "Prazo ou promessa não cumprida", nomeEn: "Deadline or promise not met", peso: 18, esforco: 3 },
+    { id: "duv",  nome: "Dúvida não resolvida no primeiro contato", nomeEn: "Question unresolved at first contact", peso: 14, esforco: 1 }
+  ];
+
+  function montarPesos() {
+    el("pesos").innerHTML = CAUSAS.map(function (c) {
+      return '<div class="ctrl"><label for="p_' + c.id + '"><span>' + V.t(c.nome, c.nomeEn) +
+        '</span><output id="o_' + c.id + '"></output></label>' +
+        '<input type="range" id="p_' + c.id + '" value="' + c.peso + '" min="0" max="60" step="1"></div>';
+    }).join("");
+    CAUSAS.forEach(function (c) {
+      el("p_" + c.id).addEventListener("input", function () { c.peso = parseFloat(this.value); calcular(); });
+    });
+  }
+
+  function card(cls, k, v, h) {
+    return '<div class="out ' + cls + '"><div class="k">' + k + '</div><div class="v">' + v + '</div><div class="h">' + (h || "") + "</div></div>";
+  }
+
+  function calcular() {
+    var vol = Math.max(0, parseFloat(el("vol").value) || 0);
+    var taxa = (parseFloat(el("taxa").value) || 0) / 100;
+    var tmo = parseFloat(el("tmo").value) || 0;
+    var cmin = parseFloat(el("custo").value) || 0;
+    var evit = (parseFloat(el("evit").value) || 0) / 100;
+    var meta = (parseFloat(el("meta").value) || 0) / 100;
+
+    el("oVol").textContent = nf0.format(vol);
+    el("oTaxa").textContent = pc1(taxa);
+    el("oTmo").textContent = nf1.format(tmo) + " min";
+    el("oCusto").textContent = "R$ " + nf1.format(cmin).replace(",0", ",00");
+    el("oEvit").textContent = pc1(evit);
+    el("oMeta").textContent = pc1(meta);
+
+    var rech = vol * taxa;                       /* rechamadas por mês */
+    var minutos = rech * tmo;                    /* minutos por mês */
+    var custoMes = minutos * cmin;
+    var custoAno = custoMes * 12;
+    var custoEvit = custoAno * evit;
+    var economia = custoEvit * meta;
+    var fte = minutos / (HORAS_FTE_MES * 60);
+    var custoContato = tmo * cmin;
+
+    el("outs").innerHTML =
+      card("hero-out", t("Custo anual das rechamadas", "Annual cost of repeat calls"), brlM(custoAno),
+           brl0(custoMes) + t(" por mês", " per month")) +
+      card("", t("Rechamadas por mês", "Repeat calls per month"), nf0.format(rech),
+           pc1(taxa) + t(" de ", " of ") + nf0.format(vol) + t(" contatos", " contacts")) +
+      card("", t("Custo por atendimento", "Cost per contact"), "R$ " + nf1.format(custoContato),
+           nf1.format(tmo) + t(" min × R$ ", " min × R$ ") + nf1.format(cmin) + "/min") +
+      card("", t("FTE dedicados a refazer", "FTE devoted to redoing work"), nf1.format(fte),
+           t("equivalentes de tempo integral", "full-time equivalents")) +
+      card("ok-out", t("Economia com a meta", "Saving at the target"), brlM(economia),
+           pc1(meta) + t(" do evitável", " of the avoidable share"));
+
+    el("leitura").innerHTML = '<span class="ct">' + t("Leitura", "Reading") + "</span>" +
+      t("Com estes parâmetros, a operação gasta <b>" + brlM(custoAno) + " por ano</b> atendendo contatos que não " +
+        "deveriam existir — o equivalente a <b>" + nf1.format(fte) + " pessoas em tempo integral</b> dedicadas " +
+        "exclusivamente a refazer o que já havia sido feito. Reduzir " + pc1(meta) + " da parcela evitável libera " +
+        "<b>" + brlM(economia) + " por ano</b>. Note que o número que convence a liderança não é a taxa de " +
+        pc1(taxa) + ": é a economia em reais e o FTE liberado.",
+        "With these parameters, the operation spends <b>" + brlM(custoAno) + " a year</b> handling contacts that " +
+        "should not exist — the equivalent of <b>" + nf1.format(fte) + " full-time people</b> devoted purely to " +
+        "redoing what had already been done. Cutting " + pc1(meta) + " of the avoidable share frees <b>" +
+        brlM(economia) + " a year</b>. Note that what convinces leadership is not the " + pc1(taxa) +
+        " rate: it is the saving in currency and the FTE released.");
+
+    /* ---------- ponte ---------- */
+    V.waterfall(el("chPonte"), {
+      title: t("Do custo total à economia realizável (ano)", "From total cost to realisable saving (year)"),
+      sub: t("Cada degrau é uma premissa explícita, não uma dedução automática", "Each step is an explicit assumption, not an automatic deduction"),
+      fmt: brlM, height: 260,
+      items: [
+        { l: t("Custo total", "Total cost"), v: custoAno, k: "start" },
+        { l: t("Não evitável", "Not avoidable"), v: -(custoAno - custoEvit), k: "d" },
+        { l: t("Fora da meta", "Outside target"), v: -(custoEvit - economia), k: "d" },
+        { l: t("Economia", "Saving"), v: economia, k: "end" }
+      ]
+    });
+
+    /* ---------- causas ---------- */
+    var somaPesos = CAUSAS.reduce(function (s, c) { return s + c.peso; }, 0);
+    CAUSAS.forEach(function (c) {
+      var o = el("o_" + c.id);
+      if (o) o.textContent = somaPesos > 0 ? nf0.format(c.peso / somaPesos * 100) + "%" : "0%";
+    });
+
+    var comValor = CAUSAS.map(function (c) {
+      var share = somaPesos > 0 ? c.peso / somaPesos : 0;
+      var valor = custoEvit * share;                 /* custo evitável atribuído à causa */
+      var recuperavel = valor * meta;                 /* parcela capturada pela meta */
+      return { c: c, share: share, valor: valor, recuperavel: recuperavel, indice: recuperavel / c.esforco };
+    });
+
+    V.bars(el("chCausas"), {
+      title: t("Custo evitável por causa-raiz (ano)", "Avoidable cost by root cause (year)"),
+      sub: t("Pesos definidos por você acima", "Weights defined by you above"),
+      labels: comValor.map(function (x) { return V.t(x.c.nome, x.c.nomeEn).split(" ").slice(0, 3).join(" "); }),
+      fmt: brlM, height: 250,
+      series: [{ name: t("Custo evitável", "Avoidable cost"), values: comValor.map(function (x) { return x.valor; }), color: "s4" }]
+    });
+
+    el("tblCausas").innerHTML =
+      "<caption>" + t("Decomposição do custo evitável", "Breakdown of the avoidable cost") + "</caption>" +
+      "<thead><tr><th>" + t("Causa-raiz", "Root cause") + "</th><th>" + t("Peso", "Weight") + "</th><th>" + t("Custo evitável/ano", "Avoidable cost/yr") +
+      "</th><th>" + t("Recuperável na meta", "Recoverable at target") + "</th><th>" + t("Esforço", "Effort") + "</th></tr></thead><tbody>" +
+      comValor.map(function (x) {
+        return "<tr><td style='white-space:normal'>" + V.t(x.c.nome, x.c.nomeEn) + "</td><td>" + pc1(x.share) +
+          "</td><td>" + brl0(x.valor) + "</td><td>" + brl0(x.recuperavel) + "</td><td>" + "▉".repeat(x.c.esforco) + "</td></tr>";
+      }).join("") +
+      '<tr class="tot"><td>' + t("Total", "Total") + "</td><td>" + pc1(1) + "</td><td>" + brl0(custoEvit) +
+      "</td><td>" + brl0(economia) + "</td><td>—</td></tr></tbody>";
+
+    /* ---------- priorização ---------- */
+    var ordenado = comValor.slice().sort(function (a, b) { return b.indice - a.indice; });
+    V.bars(el("chPrior"), {
+      title: t("Retorno por unidade de esforço", "Return per unit of effort"),
+      sub: t("Valor recuperável ÷ esforço relativo — a ordem em que a fila deveria andar", "Recoverable value ÷ relative effort — the order the queue should actually follow"),
+      labels: ordenado.map(function (x) { return V.t(x.c.nome, x.c.nomeEn).split(" ").slice(0, 3).join(" "); }),
+      fmt: brl0, height: 240,
+      series: [{ name: t("Índice de prioridade", "Priority index"), values: ordenado.map(function (x) { return x.indice; }), color: "s3" }]
+    });
+
+    el("tblPrior").innerHTML =
+      "<caption>" + t("Ordem recomendada de ataque", "Recommended order of attack") + "</caption>" +
+      "<thead><tr><th>#</th><th>" + t("Causa-raiz", "Root cause") + "</th><th>" + t("Recuperável/ano", "Recoverable/yr") +
+      "</th><th>" + t("Esforço", "Effort") + "</th><th>" + t("Índice", "Index") + "</th></tr></thead><tbody>" +
+      ordenado.map(function (x, idx) {
+        return "<tr><td>" + (idx + 1) + "</td><td style='white-space:normal'>" + V.t(x.c.nome, x.c.nomeEn) +
+          "</td><td>" + brl0(x.recuperavel) + "</td><td>" + x.c.esforco + "/5</td><td>" + brl0(x.indice) + "</td></tr>";
+      }).join("") + "</tbody>";
+
+    /* ---------- sensibilidade ---------- */
+    var base = custoAno;
+    var d = 0.10;
+    var sens = [
+      { l: t("Taxa de rechamada −10%", "Repeat-call rate −10%"), v: vol * (taxa * (1 - d)) * tmo * cmin * 12 - base },
+      { l: t("TMO −10%", "AHT −10%"), v: rech * (tmo * (1 - d)) * cmin * 12 - base },
+      { l: t("Custo por minuto −10%", "Cost per minute −10%"), v: rech * tmo * (cmin * (1 - d)) * 12 - base },
+      { l: t("Volume de contatos −10%", "Contact volume −10%"), v: (vol * (1 - d)) * taxa * tmo * cmin * 12 - base }
+    ];
+    V.hbars(el("chSens"), {
+      title: t("Efeito de melhorar cada alavanca em 10%", "Effect of improving each lever by 10%"),
+      sub: t("Impacto no custo anual — quanto mais negativo, maior a economia", "Impact on annual cost — the more negative, the larger the saving"),
+      items: sens, fmt: brl0, labelW: 200, height: 200
+    });
+
+    /* ---------- checks ---------- */
+    var tol = 1;
+    var checks = [
+      { name: "Custo anual = rechamadas × TMO × custo por minuto × 12",
+        nameEn: "Annual cost = repeat calls × AHT × cost per minute × 12",
+        pass: Math.abs(custoAno - (rech * tmo * cmin * 12)) < tol,
+        detail: brl0(custoAno), num: nf0.format(rech) + t(" rech./mês", " repeats/mo") },
+      { name: "Custo evitável ≤ custo total das rechamadas",
+        nameEn: "Avoidable cost ≤ total repeat-call cost",
+        pass: custoEvit <= custoAno + tol, detail: brl0(custoEvit) + " ≤ " + brl0(custoAno) },
+      { name: "Economia da meta ≤ custo evitável",
+        nameEn: "Saving at target ≤ avoidable cost",
+        pass: economia <= custoEvit + tol, detail: brl0(economia) + " ≤ " + brl0(custoEvit) },
+      { name: "Soma do custo por causa = custo evitável total",
+        nameEn: "Sum of cost by cause = total avoidable cost",
+        pass: Math.abs(comValor.reduce(function (s, x) { return s + x.valor; }, 0) - custoEvit) < tol,
+        detail: brl0(comValor.reduce(function (s, x) { return s + x.valor; }, 0)) },
+      { name: "Pesos das causas somam 100% após normalização",
+        nameEn: "Cause weights sum to 100% after normalisation",
+        pass: Math.abs(comValor.reduce(function (s, x) { return s + x.share; }, 0) - 1) < 1e-9,
+        detail: pc1(comValor.reduce(function (s, x) { return s + x.share; }, 0)), num: somaPesos > 0 ? t("normalizado", "normalised") : t("pesos zerados", "weights at zero") },
+      { name: "FTE equivalente reconstrói os minutos mensais de rechamada",
+        nameEn: "Equivalent FTE reconstructs the monthly repeat-call minutes",
+        pass: Math.abs(fte * HORAS_FTE_MES * 60 - minutos) < tol,
+        detail: nf1.format(fte) + " FTE × " + HORAS_FTE_MES + "h = " + nf0.format(minutos) + " min" },
+      { name: "A ponte fecha: total − não evitável − fora da meta = economia",
+        nameEn: "The bridge closes: total − not avoidable − outside target = saving",
+        pass: Math.abs(custoAno - (custoAno - custoEvit) - (custoEvit - economia) - economia) < tol,
+        detail: brl0(economia) },
+      { name: "Toda melhoria de 10% em uma alavanca reduz o custo anual",
+        nameEn: "Every 10% improvement in a lever reduces annual cost",
+        pass: sens.every(function (s) { return s.v <= tol; }),
+        detail: t("quatro alavancas verificadas", "four levers verified") }
+    ];
+    V.renderChecks(el("checks"), checks);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    montarPesos();
+    ["vol", "taxa", "tmo", "custo", "evit", "meta"].forEach(function (id) {
+      el(id).addEventListener("input", calcular);
+      el(id).addEventListener("change", calcular);
+    });
+    calcular();
+  });
+  window.onLangChange = function () { montarPesos(); calcular(); };
+})();
+</script>
+</body>
+</html>

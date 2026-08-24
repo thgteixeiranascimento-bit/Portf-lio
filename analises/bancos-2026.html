@@ -3,304 +3,547 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#09090f">
-<title>Bancos Brasileiros 2026 — Análise de Dados Públicos</title>
-<meta name="description" content="Análise comparativa de dados públicos: resultados de Itaú, Bradesco e Santander Brasil em 2026 e o ciclo da Selic nas atas do Copom — com rastreabilidade completa.">
+<title>Sistema Bancário Brasileiro 2026 — Análise de Dados Públicos</title>
+<meta name="description" content="Análise comparativa de dados públicos: Itaú, Bradesco, Santander Brasil, Nu Holdings e Agi/Agibank em 2026, com o ciclo da Selic nas atas do Copom — rastreabilidade completa e checks de integridade.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body data-page="ana" data-root="../">
 <main class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">Análise de dados públicos · Equity research (estrutura)</div>
-    <h1>Grandes bancos privados brasileiros — 2026</h1>
+    <div class="eyebrow" data-en="Public data analysis · Sector monitoring framework">Análise de dados públicos · Estrutura de acompanhamento setorial</div>
+    <h1 data-en="The Brazilian banking system in 2026 — incumbents and digitals">Sistema bancário brasileiro em 2026 — incumbentes e digitais</h1>
     <p class="lead">
-      Primeiro projeto deste portfólio construído sobre <strong>dados reais</strong>: resultados divulgados por
-      <strong>Itaú Unibanco (2T26), Bradesco (1T26) e Santander Brasil (1T26/2T26)</strong> e o ciclo de juros nas
-      <strong>atas do Copom</strong> (277ª, 278ª e 280ª reuniões). Cada número abaixo é <strong>FATO extraído de
-      documento identificado e datado</strong>; toda leitura analítica está separada e rotulada como interpretação.
+      Cinco instituições: <strong>Itaú Unibanco</strong>, <strong>Bradesco</strong>,
+      <strong>Santander Brasil</strong>, <strong>Nu Holdings</strong> (série completa de 1T25 a 2T26, em US$)
+      e <strong>Agi/Agibank</strong> — com o <strong>ciclo completo da Selic</strong> nas quatro atas do Copom
+      e um panorama de <strong>múltiplos de mercado</strong>. Cada número carrega sua
+      <strong>classe de fonte</strong>: extração documental (nível 1) e informação relatada (nível 3) são
+      publicadas lado a lado, mas nunca confundidas — e toda leitura analítica está separada e rotulada.
     </p>
     <div class="tags">
-      <span class="tag okv">Dado público — fontes primárias datadas</span>
+      <span class="tag okv">Extração documental — nível 1</span>
+      <span class="tag">Relato de fonte pública — nível 3</span>
       <span class="tag nao">Não é recomendação de investimento</span>
     </div>
     <div class="banner"><span>🎯</span><div><b>O que este projeto demonstra?</b>
-      Capacidade de trabalhar com dados primários reais: extrair, reconciliar (checks aritméticos contra os
-      próprios documentos), comparar bases distintas com honestidade metodológica e transformar divulgações
-      em leitura executiva — sem opinar sobre preço de ativos, que não é objeto desta análise.</div></div>
+      Trabalho com dados primários reais: extrair, reconciliar (checks aritméticos contra os próprios
+      documentos), comparar bases distintas com honestidade metodológica — moedas diferentes não se somam,
+      métricas com definições próprias não se comparam sem ressalva — e transformar divulgações em leitura
+      executiva, sem opinar sobre preço de ativos.</div></div>
   </section>
 
   <section class="blk">
     <h2>1 · Contexto macro — o ciclo da Selic nas atas do Copom <span class="tag">FATO</span></h2>
     <p>
-      Decisões registradas nas atas fornecidas (a ata da 279ª reunião, de junho/2026, <b>não foi fornecida</b> —
-      o nível da taxa entre abril e agosto não é afirmado aqui):
+      Com a ata da <b>279ª reunião</b> agora disponível em fonte primária, a série está <b>completa</b>:
+      quatro reuniões consecutivas, quatro cortes de 0,25 p.p. — o caminho antes declarado como lacuna
+      foi encerrado.
     </p>
     <div class="tbl-scroll"><table class="tbl">
       <thead><tr><th>Reunião</th><th>Data</th><th>Decisão</th><th>Selic resultante</th></tr></thead>
       <tbody>
-        <tr><td>277ª</td><td>17–18/03/2026</td><td>redução</td><td>14,75% a.a.</td></tr>
-        <tr><td>278ª</td><td>28–29/04/2026</td><td>redução</td><td>14,50% a.a.</td></tr>
-        <tr><td>279ª</td><td>jun/2026</td><td colspan="2">DOCUMENTO NÃO FORNECIDO</td></tr>
-        <tr><td>280ª</td><td>04–05/08/2026</td><td>redução</td><td>14,00% a.a.</td></tr>
+        <tr><td>277ª</td><td>17–18/03/2026</td><td>redução de 0,25 p.p.</td><td>14,75% a.a.</td></tr>
+        <tr><td>278ª</td><td>28–29/04/2026</td><td>redução de 0,25 p.p.</td><td>14,50% a.a.</td></tr>
+        <tr><td>279ª</td><td>16–17/06/2026</td><td>redução de 0,25 p.p. (unânime)</td><td>14,25% a.a.</td></tr>
+        <tr><td>280ª</td><td>04–05/08/2026</td><td>redução de 0,25 p.p.</td><td>14,00% a.a.</td></tr>
       </tbody>
     </table></div>
     <figure class="chart" id="chSelic"></figure>
     <p>
-      Da nota da decisão da 280ª reunião (acessada em 13/08/2026): expectativas de inflação da pesquisa Focus
-      em <b>5,0% para 2026</b> e <b>4,2% para 2027</b>, acima da meta; projeção do Copom de <b>3,2% para o
-      1º trimestre de 2028</b> (horizonte relevante) no cenário de referência; inflação cheia em desaceleração,
-      porém ainda acima do limite superior da meta, com balanço de riscos de <b>assimetria altista</b>.
+      <b>Da ata da 279ª reunião:</b> Focus em <b>5,30% para 2026</b> e <b>4,10% para 2027</b>; projeção do
+      Copom no cenário de referência de <b>5,2% para 2026</b> e <b>3,7% para o 4º trimestre de 2027</b>
+      (horizonte relevante), contra 3,5% na projeção anterior — ou seja, <b>afastamento da meta</b>. Câmbio de
+      referência em R$ 5,10/US$; balanço de riscos com assimetria altista.
     </p>
-    <p><span class="tag prem">Interpretação</span> Um ciclo de calibração para baixo da Selic (−0,75 p.p. entre março
-      e agosto nas atas fornecidas) tende a reduzir gradualmente o custo de captação e a pressão sobre a
-      inadimplência das carteiras — mas com o Copom sinalizando cautela, a velocidade do ciclo permanece
-      condicionada à convergência das expectativas. Efeitos sobre cada banco dependem de mix de carteira
-      e sensibilidade de margem, não analisados individualmente aqui.</p>
+    <p>
+      Um trecho que merece leitura literal: o Comitê <b>debateu trajetórias alternativas</b> capazes de trazer
+      a inflação à meta dentro do horizonte relevante, mas as descartou por exigirem "variações abruptas e de
+      grande magnitude na Selic", ausentes da Focus, do QPC e da precificação de mercado. Optou por trajetórias
+      com <b>combinações de pausa e retomada</b> do ciclo, nas quais a inflação converge à meta apenas no
+      <b>1º trimestre de 2028</b>. Da nota da 280ª (agosto): Focus de 5,0% e 4,2%, projeção de 3,2% no 1T28.
+    </p>
+    <p><span class="tag prem">Interpretação</span> A queda acumulada de 0,75 p.p. entre março e agosto tende a
+      aliviar custo de captação e serviço da dívida das famílias, com defasagem. Mas a própria ata da 279ª
+      mostra um Comitê que <em>piorou</em> sua projeção de inflação no horizonte relevante (3,5% → 3,7%) e que
+      escolheu não acelerar — o ciclo é de calibração cautelosa, não de afrouxamento agressivo. Para os bancos,
+      isso significa alívio gradual de funding sem um choque de demanda por crédito no curto prazo.</p>
   </section>
 
   <section class="blk">
-    <h2>2 · Comparativo de resultados divulgados <span class="tag">FATO</span></h2>
+    <h2>2 · Incumbentes — Itaú, Bradesco e Santander Brasil <span class="tag">FATO</span></h2>
     <p>
       Atenção metodológica: os três bancos reportam em <b>bases gerenciais próprias</b> e definem carteira de
-      crédito de formas distintas (Itaú: com garantias financeiras e títulos privados; Santander: carteira ampliada;
-      Bradesco: carteira expandida). Os períodos também diferem — o relatório do Bradesco disponível é do
-      <b>1T26</b>. Comparações diretas exigem essas ressalvas.
+      crédito de formas distintas (Itaú: com garantias financeiras e títulos privados; Santander: carteira
+      ampliada; Bradesco: carteira expandida).
     </p>
+    <div class="banner"><span>✅</span><div>
+      <b>Bradesco 2T26 — promovido a extração documental.</b> Com o Relatório de Análise Econômica e
+      Financeira do 2T26 em mãos, os números saíram de relato (nível 3) para <b>nível 1</b> e entraram nos
+      checks aritméticos. <b>A conferência corrigiu um erro:</b> o relato dizia provisões
+      "+22,6% no trimestre", mas o documento mostra <b>+3,3% t/t</b> — os 22,6% são a variação
+      <b>anual</b>. Também atualizou o capital principal, que no 2T26 é de <b>11,3%</b> e não 10,2%
+      (esse era o 1T26). É exatamente para isso que a separação entre relato e documento existe.
+    </div></div>
     <div class="tbl-scroll"><table class="tbl" id="tbComp"></table></div>
     <figure class="chart" id="chLucro"></figure>
-    <figure class="chart" id="chRoe"></figure>
-  </section>
-
-  <section class="blk">
-    <h2>3 · Ciclo de crédito — o caso Santander <span class="tag">FATO</span></h2>
-    <p>
-      A série trimestral divulgada pelo Santander permite acompanhar o custo do risco ao longo de um ano
-      completo. No 2T26, o resultado de PDD subiu para R$ 7,65 bi (+20,6% vs. 1T26) e o lucro recorrente recuou
-      20,4% no trimestre, com ROAE de 12,5%.
-    </p>
     <figure class="chart" id="chCredito"></figure>
   </section>
 
   <section class="blk">
-    <h2>4 · Leitura executiva <span class="tag prem">Interpretação</span></h2>
+    <h2>3 · Digitais — Nu Holdings (US$) <span class="tag">FATO</span></h2>
+    <p>
+      O Nu reporta em <b>dólares</b> e com <b>P&amp;L gerencial próprio</b>, reconciliado ao IFRS em relatório
+      com asseguração limitada da KPMG. Com o <b>workbook oficial de dados históricos do 3T25</b> e o
+      <b>relatório de reconciliação do 4T25/exercício de 2025</b>, a série está agora <b>completa</b> —
+      a lacuna do 3T25 foi encerrada.
+    </p>
+    <div class="banner"><span>🔍</span><div>
+      <b>Como o 3T25 gerencial foi obtido.</b> A companhia publicou o P&amp;L gerencial do 3T25 dentro do
+      total do exercício, não isoladamente. O valor aqui é <b>derivado por diferença</b>: exercício de 2025
+      assegurado pela KPMG <b>menos</b> os três trimestres divulgados. O resultado passa por quatro
+      verificações independentes — os componentes de receita somam o total derivado, os custos diretos somam,
+      a cascata fecha no lucro bruto e, decisivamente, o <b>lucro gerencial derivado (US$ 782,7 mm) coincide
+      com o lucro contábil IFRS do workbook (US$ 782,678 mm)</b>, como exige a neutralidade do framework.
+      É cálculo do autor, rotulado como tal — não um número publicado pela companhia.
+    </div></div>
+    <div class="tiles" id="tilesNu"></div>
+    <figure class="chart" id="chNuLucro"></figure>
+    <figure class="chart" id="chNuRent"></figure>
+    <p><span class="tag prem">Interpretação</span> O 2T26 marca o primeiro trimestre com lucro acima de US$ 1 bi
+      (fato divulgado). A expansão da NIM ajustada ao risco (9,5% → 12,4% no trimestre) veio acompanhada de
+      NPL 90+ subindo a 6,9% — coerente com a estratégia declarada pela companhia de expansão deliberada em
+      segmentos de maior risco e maior retorno; a sustentabilidade dessa troca é a variável a acompanhar.</p>
+  </section>
+
+  <section class="blk">
+    <h2>4 · Digitais/especializados — Agi (Agibank) <span class="tag">FATO</span></h2>
+    <p>
+      A Agi listou na NYSE em <b>11/02/2026</b> (ticker AGBK) e reporta em R$, com demonstrações IFRS revisadas
+      pela EY. Foco em crédito consignado (87% da carteira com garantia).
+    </p>
+    <div class="tiles" id="tilesAgi"></div>
+    <figure class="chart" id="chAgiSerie"></figure>
+    <p><span class="tag prem">Interpretação</span> O lucro do 1T26 (R$ 186,5 mm) caiu 47,7% a/a — a companhia
+      atribui o recuo à paralisação temporária da originação de consignado INSS (dez/25–jan/26, efeito
+      setorial) e à base forte de 1T25; na comparação recorrente t/t, o lucro cresceu 15,3%. O ROAE LTM de
+      26,1% já reflete o PL engordado pelo IPO — efeito mecânico documentado no
+      <a href="../simuladores/ma.html">estudo do IPO</a>.</p>
+    <div class="banner"><span>✅</span><div>
+      <b>Agi 2T26 — promovido a extração documental.</b> Com o Earnings Release 2Q26 e as demonstrações
+      IFRS revisadas pela EY, o trimestre saiu de relato para <b>nível 1</b>. Lucro de <b>R$ 200,3 mm</b>
+      (+7,4% t/t, −24,4% a/a), receita de <b>R$ 3.171,0 mm</b>, carteira de <b>R$ 37,1 bi</b> (+4,4% t/t),
+      <b>7,59 mi</b> de clientes, <b>NPL de 3,3%</b> com cobertura de <b>182,6%</b>, Basileia de
+      <b>18,7%</b> e <b>ROAE LTM de 21,6%</b>. <b>A conferência corrigiu o ROAE:</b> o valor de 26,1% que
+      circulava referia-se ao <b>1T26</b>, não ao 2T26.
+      <br><span class="tag prem">Interpretação</span> O EBT caiu 46,8% t/t enquanto o lucro subiu 7,4% —
+      divergência explicada no próprio release por provisionamento antecipado das novas safras
+      (R$ 562,2 mm, +12,7% t/t) e por alíquota efetiva beneficiada pela alocação dos recursos do IPO.
+      A companhia descreve o trimestre como ponto de inflexão operacional, com o retorno financeiro
+      previsto para os trimestres seguintes — leitura da administração, não deste portfólio.
+    </div></div>
+  </section>
+
+  <section class="blk">
+    <h2>5 · Comparativo de índices — as cinco instituições <span class="tag">FATO</span></h2>
+    <p>
+      Comparação apenas de <b>razões percentuais</b> (nunca valores absolutos entre moedas). Definições e
+      períodos diferem — cada barra carrega seu rótulo; a leitura correta é de <b>ordem de grandeza</b>, não
+      de ranking preciso.
+    </p>
+    <figure class="chart" id="chRoe5"></figure>
+    <figure class="chart" id="chEfic5"></figure>
+    <figure class="chart" id="chNpl5"></figure>
+    <div class="tbl-scroll"><table class="tbl">
+      <caption>Capital regulatório — métricas divulgadas (não são a mesma régua)</caption>
+      <thead><tr><th>Instituição</th><th>Métrica divulgada</th><th>Valor</th><th>Data-base</th></tr></thead>
+      <tbody>
+        <tr><td>Itaú Unibanco</td><td>CET1</td><td>12,3%</td><td>jun/26</td></tr>
+        <tr><td>Santander Brasil</td><td>CET1 (Basileia 15,3%)</td><td>11,2%</td><td>jun/26</td></tr>
+        <tr><td>Bradesco</td><td>CET1 (Nível I 12,8% · Basileia 15,5%)</td><td>11,3%</td><td>jun/26</td></tr>
+        <tr><td>Agi (Agibank)</td><td>Basileia 18,7% · Nível I 17,6% (limites 10,5% / 8,0%)</td><td>18,7%</td><td>jun/26</td></tr>
+        <tr><td>Nu Holdings</td><td>Índice de capital não consta dos documentos fornecidos</td><td>n/d</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="blk">
+    <h2>6 · Múltiplos de mercado <span class="tag nao">Nível 3 — agregadores</span></h2>
+    <div class="banner"><span>⚠️</span><div>
+      <b>Mudança de classe de fonte — leia antes da tabela.</b> Tudo até aqui veio de documentos dos
+      emissores. Os números abaixo vêm de <b>agregadores de mercado</b> (Investing.com, Status Invest,
+      Investidor10 e cobertura de imprensa), relatados pelo titular. Eles <b>divergem entre si para o mesmo
+      papel na mesma data</b> — por isso aparecem como <b>faixa</b>, nunca como valor único. São fotografia
+      de agosto/2026 e mudam a cada pregão. <b>Não são recomendação, preço-alvo ou opinião sobre valor
+      justo</b>; entram aqui como contexto factual e como insumo do
+      <a href="../simuladores/valuation.html">exercício técnico de valuation</a>.
+    </div></div>
+    <div class="tbl-scroll"><table class="tbl" id="tbMercado"></table></div>
+    <figure class="chart" id="chPvpa"></figure>
+    <h3>As divergências entre agregadores — documentadas</h3>
+    <div class="grid c3" id="divergencias"></div>
+    <p><span class="tag prem">Interpretação</span> A dispersão entre agregadores é, por si só, um achado
+      metodológico: o mesmo papel aparece com P/L de 18,2× ou 21,6× conforme a fonte, e o dividend yield do
+      Bradesco varia de 5,7% a 9,5% para janelas quase idênticas. Um analista que cita "o P/L do Nu" sem
+      dizer qual fonte e qual base de lucro está reportando ruído como se fosse fato. Por isso este portfólio
+      não escolhe um número — mostra a faixa e nomeia a divergência.</p>
+  </section>
+
+  <section class="blk">
+    <h2>7 · Capital do Nu — o que se sabe e o que não se sabe <span class="tag">FATO + lacuna</span></h2>
+    <p>
+      O índice de capital consolidado da Nu Holdings <b>não consta dos releases nem das demonstrações
+      fornecidas</b>. O dado público mais próximo, relatado a partir do IF.data do Banco Central, refere-se à
+      <b>Nu Pagamentos S.A. em set/2025</b> — uma <b>entidade individual do conglomerado, não o grupo</b>:
+      Basileia de <b>14,6%</b> e Capital Nível I de <b>13,0%</b>, contra 15,9% (Bradesco) e 16,4% (Itaú) no
+      mesmo corte, com recuo de 1,2 e 1,5 p.p. em doze meses.
+    </p>
+    <p>
+      A distinção importa: comparar a Basileia de uma entidade do Nu com a do consolidado do Itaú é comparar
+      coisas diferentes. O consolidado do grupo exigiria consulta ao painel de Conglomerados Prudenciais do
+      BCB — <b>não realizada</b>. Por isso este número aparece rotulado como nível 3 e <b>fora</b> do
+      comparativo de capital da seção 5.
+    </p>
+  </section>
+
+  <section class="blk">
+    <h2>8 · Leitura executiva <span class="tag prem">Interpretação</span></h2>
     <p>Leituras analíticas construídas sobre os fatos acima — não são fatos divulgados nem recomendações:</p>
     <div class="grid c3">
       <div class="card">
-        <h3>Dispersão de rentabilidade</h3>
-        <p>O ROE recorrente do Itaú (24,3% no 2T26) opera em outro patamar frente a Bradesco (ROAE 15,8% no 1T26)
-        e Santander (12,5% no 2T26). A eficiência ajuda a explicar: 37,3% (Itaú, 1S26) e 39,3% (Santander, 2T26)
-        contra IEO de 46,9% no Bradesco (1T26) — bases de cálculo distintas, mas a ordem é consistente.</p>
+        <h3>Dois modelos de rentabilidade</h3>
+        <p>O Nu opera com ROE de 33% e índice de eficiência de 19,5% — estrutura de custos de plataforma
+        digital. Entre os incumbentes, o Itaú (ROE 24,3%, eficiência 37,3%) segue em patamar próprio frente a
+        Bradesco (15,8%) e Santander (12,5%). A Agi (ROAE LTM 26,1%) fica entre os dois mundos, com eficiência
+        de 43,2% típica de modelo com rede física própria.</p>
       </div>
       <div class="card">
-        <h3>Custo do risco em alta seletiva</h3>
-        <p>Santander reportou PDD +20,6% t/t no 2T26; Bradesco, PDD expandida +9,5% t/t no 1T26 com reforço
-        para casos específicos de grandes empresas e piora em crédito rural antigo, mantendo NPL 90d em 4,2%.
-        O ciclo de crédito não é homogêneo entre bancos e segmentos.</p>
+        <h3>Custo do risco: trajetórias opostas</h3>
+        <p>Santander viu PDD subir 20,6% t/t; Bradesco reforçou provisões para grandes empresas e rural.
+        No Nu, o custo do crédito <em>caiu</em> 9% t/t por sazonalidade, mas o NPL 90+ subiu a 6,9% — reflexo
+        do mix mais arriscado. A Agi, com 87% da carteira em consignado, mantém NPL de 3,6% e cobertura de
+        164,9% — o risco de crédito é estruturalmente distinto entre os cinco modelos de negócio.</p>
       </div>
       <div class="card">
-        <h3>Capital em faixas distintas</h3>
-        <p>CET1 divulgado: Itaú 12,3% (jun/26, +0,3 p.p. no tri), Santander 11,2% (jun/26), Bradesco 10,2%
-        (mar/26, após impactos regulatórios no trimestre, com visão pro forma acima de dez/25 segundo o próprio
-        relatório). Folgas de capital diferentes implicam graus de liberdade diferentes para crescer e distribuir.</p>
+        <h3>Capital: folgas muito diferentes</h3>
+        <p>A Agi saiu do IPO com Basileia de 19,3% — folga de 8,8 p.p. sobre o limite regulatório citado no
+        próprio release. Entre os grandes, CET1 varia de 10,2% (Bradesco, após impactos regulatórios no 1T26)
+        a 12,3% (Itaú). Folgas distintas implicam graus de liberdade distintos para crescer carteira e
+        distribuir resultados.</p>
       </div>
     </div>
   </section>
 
   <section class="blk">
-    <h2>5 · O que falta para uma tese completa <span class="tag">Dado não informado</span></h2>
+    <h2>9 · O que foi encerrado e o que ainda falta</h2>
+    <h3>Lacunas encerradas nesta revisão <span class="tag okv">Resolvido</span></h3>
     <ul>
-      <li><b>Preços de mercado e múltiplos</b> (P/L, P/VPA, dividend yield) — não fornecidos; sem eles, não há
-        valuation nem recomendação possível, e nada aqui deve ser lido como tal;</li>
-      <li><b>Bradesco 2T26</b> e demais concorrentes (Banco do Brasil, por exemplo) — documentos não fornecidos;</li>
-      <li><b>Ata da 279ª reunião do Copom</b> (jun/26) — trajetória intermediária da Selic não afirmada;</li>
-      <li><b>Conferência contra os PDFs originais</b> — os arquivos analisados são conversões OCR fornecidas pelo
-        titular; números críticos foram cruzados por checks aritméticos internos (abaixo), mas a conferência
-        documental completa permanece pendente.</li>
+      <li><b>Nu 3T25</b> — encerrada pelo workbook oficial de dados históricos (IFRS completo) e pela
+        derivação do gerencial a partir do exercício assegurado;</li>
+      <li><b>Ata da 279ª reunião do Copom</b> — obtida em fonte primária; a série da Selic está completa;</li>
+      <li><b>Bradesco 2T26 e Agi 2T26</b> — obtidos como <b>relato</b> (nível 3), não como documento;</li>
+      <li><b>Preços e múltiplos de mercado</b> — obtidos de agregadores (nível 3), como faixa;</li>
+      <li><b>CSVs "Dados Históricos" do Nu</b> — os arquivos CSV continuam trazendo apenas a aba de índice,
+        mas o <b>XLSX veio completo</b> (13 abas) e substituiu a fonte.</li>
+    </ul>
+    <h3>Lacunas que permanecem <span class="tag nao">Dado não informado</span></h3>
+    <ul>
+      <li><b>Índice de capital consolidado do Nu Holdings</b> — só há o da Nu Pagamentos S.A. (entidade
+        individual, set/2025), como explicado na seção 7;</li>
+      <li><b>Documentos originais de Bradesco 2T26 e Agi 2T26</b> — enquanto forem relato, permanecem
+        nível 3 e fora dos checks aritméticos;</li>
+      <li><b>Taxa de câmbio oficial</b> para converter Nu (US$) e os demais (R$) — segue ausente; valores
+        absolutos continuam não comparáveis entre moedas;</li>
+      <li><b>Conferência contra os PDFs originais</b> — os arquivos de Itaú, Bradesco, Santander, Agi e dos
+        releases do Nu seguem como conversões OCR; a ata da 279ª e o workbook do Nu vieram em formato nativo;</li>
+      <li><b>Séries de mercado</b> (histórico de preço, volume, volatilidade) — só há a fotografia pontual.</li>
     </ul>
   </section>
 
   <section class="blk">
     <h2>Checks de integridade — os números conferem entre si?</h2>
-    <p>Verificações aritméticas cruzando aberturas e totais <b>dentro dos próprios documentos</b>:</p>
+    <p>Verificações aritméticas cruzando aberturas, totais e <b>documentos distintos do mesmo emissor</b>
+      (release × demonstração IFRS):</p>
     <div id="checks"></div>
   </section>
 
-  <section class="blk">
-    <h2>Matriz de rastreabilidade</h2>
-    <div class="tbl-scroll"><table class="tbl">
-      <thead><tr><th>Documento</th><th>Emissor</th><th>Data do documento</th><th>Nível</th><th>Uso nesta análise</th></tr></thead>
-      <tbody>
-        <tr><td style="white-space:normal">Apresentação de resultados 2T26</td><td>Itaú Unibanco Holding S.A.</td><td>05/08/2026</td><td>1</td><td style="white-space:normal">Resultado, ROE, carteira, margem, custo do crédito, DNDJ, capital</td></tr>
-        <tr><td style="white-space:normal">Demonstrações contábeis condensadas IFRS + Relatório da Administração 1S26</td><td>Itaú Unibanco Holding S.A.</td><td>30/06/2026</td><td>1</td><td style="white-space:normal">Índice de eficiência 1S26 (modelo gerencial BRGAAP)</td></tr>
-        <tr><td style="white-space:normal">Apresentação de resultados 1T26 (BRGAAP)</td><td>Banco Santander (Brasil) S.A.</td><td>29/04/2026</td><td>1</td><td style="white-space:normal">Resultado, ROAE, eficiência, PDD, carteira 1T26</td></tr>
-        <tr><td style="white-space:normal">Apresentação de resultados 2T26 (BRGAAP)</td><td>Banco Santander (Brasil) S.A.</td><td>29/07/2026</td><td>1</td><td style="white-space:normal">Resultado, ROAE, eficiência, NPL, custo de crédito, capital 2T26 e séries trimestrais</td></tr>
-        <tr><td style="white-space:normal">Relatório de Análise Econômica e Financeira 1T26</td><td>Banco Bradesco S.A.</td><td>1T26 (divulgação do trimestre)</td><td>1</td><td style="white-space:normal">Resultado, ROAE, IEO, PDD expandida, carteira, NPL, Basileia</td></tr>
-        <tr><td style="white-space:normal">Atas da 277ª, 278ª e 280ª reuniões do Copom + nota da decisão da 280ª</td><td>Banco Central do Brasil</td><td>18/03, 29/04 e 05/08/2026</td><td>1</td><td style="white-space:normal">Trajetória da Selic, expectativas e balanço de riscos</td></tr>
-      </tbody>
-    </table></div>
-    <p style="font-size:.85rem">
-      Arquivos recebidos como conversões OCR em 13–14/08/2026, fornecidos pelo titular do portfólio.
-      Os documentos originais pertencem aos respectivos emissores e estão disponíveis em seus canais oficiais de
-      relações com investidores e em <a href="https://www.bcb.gov.br">bcb.gov.br</a>. Valores em base gerencial de
-      cada emissor; R$ mm salvo indicação.
-    </p>
-  </section>
+  <section class="blk" id="fontes"></section>
 
   <section class="blk">
     <h2>Documentação do estudo</h2>
     <details class="doc">
       <summary>Ficha padrão do estudo (contexto → validação)</summary>
       <div class="inner">
-        <h4>1. Contexto</h4><p>Ciclo de afrouxamento monetário iniciado em 2026 (Selic de 14,75% para 14,00% entre março e agosto, nas atas fornecidas) com grandes bancos privados divulgando resultados de 1T26/2T26.</p>
-        <h4>2. Problema</h4><p>Estruturar a base factual de um acompanhamento setorial: quem está entregando rentabilidade, como se comporta o custo do risco e qual a folga de capital de cada banco.</p>
-        <h4>3. Dados</h4><p>DADO PÚBLICO — divulgações oficiais dos três bancos e atas do Copom, listadas na matriz de rastreabilidade.</p>
-        <h4>4. Fontes</h4><p>Fontes primárias (nível 1). Recebidas como conversões OCR fornecidas pelo titular; conferência contra os PDFs originais pendente (declarado).</p>
-        <h4>5. Premissas</h4><p>Nenhuma premissa de projeção — esta versão é estritamente descritiva. As únicas convenções são as bases gerenciais de cada emissor, mantidas como divulgadas.</p>
-        <h4>6. Metodologia</h4><p>Extração literal de indicadores; reconciliação aritmética interna (checks); comparação com ressalvas explícitas de base e período; separação FATO × INTERPRETAÇÃO.</p>
-        <h4>7. Modelo</h4><p>Página estática com dados citados no código-fonte e checks recalculados no navegador.</p>
-        <h4>8. Cenários</h4><p>Não aplicável nesta versão (sem projeções).</p>
-        <h4>9. Resultado</h4><p>Painel comparativo factual + leitura executiva rotulada como interpretação.</p>
-        <h4>10. Insights</h4><p>Dispersão relevante de ROE e eficiência entre os três bancos; custo do risco subindo de forma seletiva; posições de capital em faixas distintas.</p>
-        <h4>11. Impacto potencial</h4><p>Base auditável para evoluir a um equity research completo quando preços de mercado e demais trimestres forem incorporados.</p>
-        <h4>12. Limitações</h4><p>Períodos distintos (Bradesco 1T26); bases gerenciais e definições de carteira não homogêneas; OCR sem conferência contra o original; sem dados de mercado; sem projeções.</p>
-        <h4>13. Validação</h4><p>Checks aritméticos internos aprovados. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — fatos de fontes primárias com rastreabilidade, ressalvadas a conversão OCR e a assimetria de períodos. Não é recomendação de investimento.</p>
+        <h3 class="h4-vis">1. Contexto</h3><p>Ciclo de afrouxamento monetário em 2026 (Selic 14,75% → 14,00% nas atas fornecidas) com incumbentes e bancos digitais divulgando resultados de 1T26/2T26 — incluindo o primeiro trimestre do Nu com lucro acima de US$ 1 bi e o primeiro resultado da Agi como listada na NYSE.</p>
+        <h3 class="h4-vis">2. Problema</h3><p>Estruturar a base factual de um acompanhamento setorial: quem entrega rentabilidade, como se comporta o custo do risco em cada modelo de negócio e qual a folga de capital de cada instituição.</p>
+        <h3 class="h4-vis">3. Dados</h3><p>DADO PÚBLICO — divulgações oficiais das cinco instituições e atas do Copom, listadas em "Fontes deste estudo".</p>
+        <h3 class="h4-vis">4. Fontes</h3><p>Fontes primárias (nível 1), incluindo demonstrações IFRS com revisão limitada (EY, na Agi) e relatórios de reconciliação com asseguração limitada (KPMG, no Nu). Recebidas como conversões OCR/planilhas; conferência contra os originais pendente (declarado).</p>
+        <h3 class="h4-vis">5. Premissas</h3><p>Nenhuma premissa de projeção — esta página é estritamente descritiva. As únicas convenções são as bases divulgadas por cada emissor, mantidas como estão.</p>
+        <h3 class="h4-vis">6. Metodologia</h3><p>Extração literal; reconciliação aritmética interna e entre documentos do mesmo emissor; comparação apenas de razões percentuais entre instituições, com ressalvas; separação FATO × INTERPRETAÇÃO.</p>
+        <h3 class="h4-vis">7. Modelo</h3><p>Página estática com dados citados no código-fonte (assets/js/data.js) e checks recalculados no navegador.</p>
+        <h3 class="h4-vis">8. Cenários</h3><p>Não aplicável nesta página (sem projeções). Exercícios de projeção e stress vivem nos módulos dedicados, rotulados como estimativa.</p>
+        <h3 class="h4-vis">9. Resultado</h3><p>Painel comparativo factual de cinco instituições + leitura executiva rotulada como interpretação.</p>
+        <h3 class="h4-vis">10. Insights</h3><p>Dispersão de ROE entre modelos de negócio; custo do risco com trajetórias opostas (sazonalidade × mix); capital em faixas muito distintas; digitais reportando em moedas e bases diferentes dos incumbentes.</p>
+        <h3 class="h4-vis">11. Impacto potencial</h3><p>Base auditável para evoluir a um acompanhamento setorial completo quando preços de mercado e demais trimestres forem incorporados.</p>
+        <h3 class="h4-vis">12. Limitações</h3><p>Períodos assimétricos (Bradesco/Agi 1T26); moedas distintas (Nu em US$); bases gerenciais e definições de NPL/carteira não homogêneas; crescimento do Nu divulgado em base FX-neutra; OCR sem conferência contra o original; sem dados de mercado; sem projeções.</p>
+        <h3 class="h4-vis">13. Validação</h3><p>Checks aritméticos internos e entre documentos aprovados. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — fatos de fontes primárias com rastreabilidade, ressalvadas a conversão OCR e a assimetria de períodos/moedas. Não é recomendação de investimento.</p>
       </div>
     </details>
   </section>
 
 </main>
+<script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
 <script>
 (function () {
   "use strict";
-  const V = window.Viz, F = V.F;
+  const V = window.Viz, F = V.F, R = window.REAL;
+  const NU = R.nu, AGI = R.agi, IT = R.itau, BR = R.bradesco, SA = R.santander;
 
-  /* ================= FATOS EXTRAÍDOS (DADO PÚBLICO) =================
-     Cada valor abaixo foi extraído dos documentos listados na matriz de
-     rastreabilidade desta página. R$ mm salvo indicação. Nada é estimado. */
-  const FATO = {
-    selic: [
-      { l: "18/mar (277ª)", v: 14.75 },
-      { l: "29/abr (278ª)", v: 14.50 },
-      { l: "05/ago (280ª)", v: 14.00 },
-    ],
-    itau: { // Apresentação 2T26 (05/08/2026), base recorrente gerencial
-      lucro1T: 12282, lucro2T: 12407, lucro1S: 24689,
-      roe2T: 0.243, roeBrasil2T: 0.257,
-      carteiraTotal: 1522.4, carteiraBrasil: 1269.4, carteiraLatam: 253.0, // R$ bi, jun/26
-      carteiraYoY: 0.096,
-      margemClientes2T: 32557, custoCredito2T: 10139, dndj2T: 16728,
-      cet1: 0.123, nivel1: 0.138, // jun/26
-      eficiencia1S: 0.373, // Relatório da Administração IFRS 1S26 (modelo gerencial BRGAAP)
-    },
-    santander: { // Apresentações 1T26 (29/04/2026) e 2T26 (29/07/2026), BRGAAP
-      lucro1T: 3788, lucro2T: 3014,
-      roae1T: 0.160, roae2T: 0.125,
-      efic1T: 0.377, efic2T: 0.393,
-      pdd1T: 6344, pdd2T: 7654, pdd2T25: 6862,
-      npl90: [3.3, 3.1, 3.3, 3.4, 3.3],          // Jun/25, Set/25, Dez/25, Mar/26, Jun/26 (%)
-      custoCredito: [3.90, 3.86, 3.76, 3.73, 3.81], // 2T25..2T26, acumulado 12m (%)
-      carteira: 714.769, carteiraYoY: 0.058,     // R$ bi, jun/26 (ampliada)
-      cartPF: 263.424, cartConsumo: 100.766, cartPME: 95.957, cartGrandes: 254.623,
-      margem2T: 15341, comissoes2T: 5334, receita2T: 20675,
-      cet1: 0.112, basileia: 0.153,              // jun/26
-    },
-    bradesco: { // Relatório de Análise Econômica e Financeira 1T26
-      lucro1T: 6811, lucro4T25: 6516, lucro1T25: 5864, deltaTt: 0.045,
-      roae1T: 0.158, ieo1T: 0.469,
-      margem1T: 20051, margemClientes: 19498, margemMercado: 553,
-      pddExp1T: 9667, pddDeltaTt: 0.095,
-      carteira: 1090, carteiraYoY: 0.084,        // R$ bi, mar/26 (expandida)
-      npl90: 0.042,
-      cet1: 0.102, nivel1: 0.120, basileia: 0.149, // mar/26
-    },
-  };
-
-  /* ---------- gráfico Selic ---------- */
+  /* ---------- Selic ---------- */
+  const selicOk = R.selic.decisoes.filter(d => d.valor != null);
   V.line(document.getElementById("chSelic"), {
     title: "Selic definida pelo Copom em 2026 (% a.a.)",
-    sub: "Atas 277ª, 278ª e 280ª · a reunião 279ª (jun/26) não foi fornecida e não é interpolada",
-    labels: FATO.selic.map(d => d.l),
-    series: [{ name: "Selic", values: FATO.selic.map(d => d.v), color: "s1", kind: "line" }],
-    fmt: v => v.toFixed(2).replace(".", ",") + "%",
-    yZero: false,
+    sub: "Série completa: atas 277ª, 278ª, 279ª e 280ª · quatro cortes consecutivos de 0,25 p.p.",
+    labels: selicOk.map(d => d.rotulo),
+    series: [{ name: "Selic", values: selicOk.map(d => d.valor), color: "s1", kind: "line" }],
+    fmt: F.pcv2, yZero: false,
   });
 
-  /* ---------- tabela comparativa ---------- */
+  /* ---------- incumbentes: tabela ---------- */
   const nd = '<span style="color:var(--muted)">n/d</span>';
   document.getElementById("tbComp").innerHTML = `
-    <caption>Indicadores divulgados — período mais recente disponível em cada documento</caption>
+    <caption>Indicadores divulgados — período mais recente disponível em cada documento (R$)</caption>
     <thead><tr><th>Indicador</th><th>Itaú Unibanco</th><th>Bradesco</th><th>Santander Brasil</th></tr></thead>
     <tbody>
-      <tr class="sub"><td>Período / base</td><td>2T26 · recorrente gerencial</td><td>1T26 · recorrente</td><td>2T26 · BRGAAP gerencial</td></tr>
-      <tr><td>Lucro líquido recorrente</td><td>${F.mm(FATO.itau.lucro2T)}</td><td>${F.mm(FATO.bradesco.lucro1T)}</td><td>${F.mm(FATO.santander.lucro2T)}</td></tr>
-      <tr><td>ROE / ROAE</td><td>${F.pc(FATO.itau.roe2T)}</td><td>${F.pc(FATO.bradesco.roae1T)}</td><td>${F.pc(FATO.santander.roae2T)}</td></tr>
-      <tr><td>Índice de eficiência¹</td><td>${F.pc(FATO.itau.eficiencia1S)} (1S26)</td><td>${F.pc(FATO.bradesco.ieo1T)} (IEO)</td><td>${F.pc(FATO.santander.efic2T)}</td></tr>
-      <tr><td>Inadimplência 90 dias²</td><td>${nd}</td><td>${F.pc(FATO.bradesco.npl90)}</td><td>${F.pc(FATO.santander.npl90[4] / 100)}</td></tr>
-      <tr><td>Carteira de crédito² (R$ bi)</td><td>${F.mm(FATO.itau.carteiraTotal)}</td><td>${F.mm(FATO.bradesco.carteira)}</td><td>${F.mm(FATO.santander.carteira)}</td></tr>
-      <tr><td>Crescimento da carteira a/a</td><td>${F.spc(FATO.itau.carteiraYoY)}</td><td>${F.spc(FATO.bradesco.carteiraYoY)}</td><td>${F.spc(FATO.santander.carteiraYoY)}</td></tr>
-      <tr><td>Capital principal (CET1)</td><td>${F.pc(FATO.itau.cet1)}</td><td>${F.pc(FATO.bradesco.cet1)}</td><td>${F.pc(FATO.santander.cet1)}</td></tr>
+      <tr class="sub"><td>Período / base</td><td>2T26 · recorrente gerencial</td><td>2T26 · recorrente</td><td>2T26 · BRGAAP gerencial</td></tr>
+      <tr><td>Lucro líquido recorrente (R$ mm)</td><td>${F.mm(IT.lucro2T)}</td><td>${F.mm(BR.t2_26.lucroRecorrente)}</td><td>${F.mm(SA.lucro2T)}</td></tr>
+      <tr><td>ROE / ROAE</td><td>${F.pcv(IT.roe2T)}</td><td>${F.pcv(BR.t2_26.roae)}</td><td>${F.pcv(SA.roae2T)}</td></tr>
+      <tr><td>Índice de eficiência¹</td><td>${F.pcv(IT.eficiencia1S)} (1S26)</td><td>${F.pcv(BR.t2_26.ieo)} (IEO)</td><td>${F.pcv(SA.efic2T)}</td></tr>
+      <tr><td>Inadimplência 90 dias²</td><td>${nd}</td><td>${F.pcv(BR.t2_26.npl90)}</td><td>${F.pcv(SA.npl90[4])}</td></tr>
+      <tr><td>Carteira de crédito² (R$ bi)</td><td>${F.mm(IT.carteiraTotalBi)}</td><td>${F.mm(BR.t2_26.carteiraExpandida/1000)}</td><td>${F.mm(SA.carteiraBi)}</td></tr>
+      <tr><td>Crescimento da carteira a/a</td><td>${F.spcv(IT.carteiraYoY)}</td><td>${F.spcv(BR.t2_26.carteiraDeltaAa)}</td><td>${F.spcv(SA.carteiraYoY)}</td></tr>
+      <tr><td>Capital principal (CET1)</td><td>${F.pcv(IT.cet1)}</td><td>${F.pcv(BR.t2_26.cet1)}</td><td>${F.pcv(SA.cet1)}</td></tr>
     </tbody>`;
   const nota = document.createElement("p");
   nota.style.fontSize = ".8rem";
-  nota.innerHTML = "¹ Metodologias próprias de cada banco — comparar com cautela. ² Definições de carteira e de atraso diferem entre os bancos (com garantias/títulos privados, ampliada, expandida); “n/d” = não extraído com segurança do documento fornecido.";
+  nota.innerHTML = "¹ Metodologias próprias de cada banco — comparar com cautela. ² Definições de carteira e de atraso diferem (com garantias/títulos privados, ampliada, expandida); “n/d” = não extraído com segurança do documento fornecido.";
   document.getElementById("tbComp").closest(".tbl-scroll").after(nota);
 
-  /* ---------- lucro por trimestre ---------- */
   V.bars(document.getElementById("chLucro"), {
-    title: "Lucro líquido recorrente por trimestre (R$ mm)",
-    sub: "Bradesco 2T26: documento não fornecido — a barra ausente é a lacuna, não zero",
+    title: "Incumbentes — lucro líquido recorrente por trimestre (R$ mm)",
+    sub: "Todos os valores são extração documental (nível 1) — o 2T26 do Bradesco foi promovido de relato em 16/08/2026",
     labels: ["Itaú Unibanco", "Bradesco", "Santander Brasil"],
     series: [
-      { name: "1T26", values: [FATO.itau.lucro1T, FATO.bradesco.lucro1T, FATO.santander.lucro1T], color: "s1" },
-      { name: "2T26", values: [FATO.itau.lucro2T, null, FATO.santander.lucro2T], color: "s3" },
+      { name: "1T26", values: [IT.lucro1T, BR.lucro1T, SA.lucro1T], color: "s1" },
+      { name: "2T26", values: [IT.lucro2T, BR.t2_26.lucro, SA.lucro2T], color: "s3" },
     ],
     fmt: F.mm0,
   });
 
-  /* ---------- ROE ---------- */
-  V.hbars(document.getElementById("chRoe"), {
-    title: "Rentabilidade sobre o patrimônio — último período divulgado",
-    sub: "Itaú e Santander: 2T26 · Bradesco: 1T26 · metodologias gerenciais próprias",
-    items: [
-      { l: "Itaú (ROE recorrente, 2T26)", v: 24.3 },
-      { l: "Bradesco (ROAE, 1T26)", v: 15.8 },
-      { l: "Santander (ROAE, 2T26)", v: 12.5 },
-    ],
-    fmt: v => v.toFixed(1).replace(".", ",") + "%",
-    labelW: 250,
-  });
-
-  /* ---------- ciclo de crédito Santander ---------- */
   V.line(document.getElementById("chCredito"), {
     title: "Santander Brasil — inadimplência e custo do crédito (%)",
     sub: "Séries divulgadas na apresentação 2T26 · NPL sobre carteira ampliada; custo de crédito acumulado 12 meses",
-    labels: ["Jun/25", "Set/25", "Dez/25", "Mar/26", "Jun/26"],
+    labels: SA.nplLabels,
     series: [
-      { name: "NPL > 90 dias", values: FATO.santander.npl90, color: "s2", kind: "line" },
-      { name: "Custo de crédito (12m)", values: FATO.santander.custoCredito, color: "s1", kind: "line" },
+      { name: "NPL > 90 dias", values: SA.npl90, color: "s2", kind: "line" },
+      { name: "Custo de crédito (12m)", values: SA.custoCredito12m, color: "s1", kind: "line" },
     ],
-    fmt: v => v.toFixed(2).replace(".", ",") + "%",
-    yZero: false,
+    fmt: F.pcv2, yZero: false,
   });
 
+  /* ---------- Nu ---------- */
+  const nuTiles = [
+    { lbl: "Clientes (2T26)", val: "138,9 mi", sub: "+4 mi no trimestre · 118 mi no Brasil" },
+    { lbl: "Receita 2T26 (gerencial)", val: F.usd(NU.plGer["2T26"].receita) + " mm", sub: "+39% a/a em base FX-neutra (divulgado)" },
+    { lbl: "Lucro líquido 2T26", val: F.usd(NU.plGer["2T26"].lucro) + " mm", sub: "primeiro trimestre acima de US$ 1 bi" },
+    { lbl: "ROE 2T26", val: "33%", sub: "IFRS: recalculado em 32,8% do balanço (check abaixo)" },
+    { lbl: "NIM ajustada ao risco", val: "12,4%", sub: "9,5% no 1T26 (+2,9 p.p. t/t)" },
+    { lbl: "NPL 90+ / 15-90", val: "6,9% · 4,8%", sub: "expansão deliberada em maior risco (divulgado)" },
+  ];
+  document.getElementById("tilesNu").innerHTML = nuTiles.map(t =>
+    `<div class="tile"><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div><div class="sub">${t.sub}</div></div>`).join("");
+
+  V.bars(document.getElementById("chNuLucro"), {
+    title: "Nu Holdings — receita, lucro bruto e lucro líquido (US$ mm, gerencial)",
+    sub: "Série completa · 3T25 derivado do exercício de 2025 assegurado (KPMG), com identidades verificadas",
+    labels: NU.periodos,
+    series: [
+      { name: "Receita total", values: NU.op.receita, color: "s1" },
+      { name: "Lucro bruto", values: NU.op.lucroBruto, color: "s3" },
+      { name: "Lucro líquido", values: NU.op.lucro, color: "s2" },
+    ],
+    fmt: F.usd0,
+  });
+
+  V.line(document.getElementById("chNuRent"), {
+    title: "Nu Holdings — rentabilidade e qualidade de ativos (%)",
+    sub: "ROE, NIM ajustada ao risco e NPLs conforme divulgado (metodologia própria da companhia)",
+    labels: NU.periodos,
+    series: [
+      { name: "ROE", values: NU.op.roePc, color: "s1", kind: "line" },
+      { name: "NIM ajustada ao risco", values: NU.op.nimRiscoPc, color: "s3", kind: "line" },
+      { name: "NPL 90+", values: NU.op.npl90, color: "s4", kind: "line" },
+      { name: "NPL 15-90", values: NU.op.npl1590, color: "s2", kind: "line" },
+    ],
+    fmt: F.pcv, yZero: false,
+  });
+
+  /* ---------- Agi ---------- */
+  const agiTiles = [
+    { lbl: "Clientes ativos (1T26)", val: "7,07 mi", sub: "+52,6% a/a" },
+    { lbl: "Lucro líquido 1T26", val: F.brl(AGI.kpis.lucro[2]), sub: "recorrente: +15,3% t/t · −47,7% a/a" },
+    { lbl: "ROAE LTM", val: "26,1%", sub: "PL inflado pelo IPO — efeito mecânico" },
+    { lbl: "Carteira de crédito", val: "R$ 35,5 bi", sub: "87% com garantia (consignado)" },
+    { lbl: "NPL > 90 dias", val: "3,6%", sub: "cobertura de 164,9%" },
+    { lbl: "Basileia", val: "19,3%", sub: "limite regulatório citado: 10,5%" },
+  ];
+  document.getElementById("tilesAgi").innerHTML = agiTiles.map(t =>
+    `<div class="tile"><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div><div class="sub">${t.sub}</div></div>`).join("");
+
+  V.bars(document.getElementById("chAgiSerie"), {
+    title: "Agi — lucro líquido e patrimônio líquido (R$ mm)",
+    sub: "1T25, 4T25 e 1T26 conforme release · PL do 1T26 inclui os recursos do IPO",
+    labels: AGI.periodos,
+    series: [
+      { name: "Lucro líquido", values: AGI.kpis.lucro, color: "s1" },
+      { name: "PL (÷10)", values: AGI.kpis.pl.map(v => v / 10), color: "s3" },
+    ],
+    fmt: F.mm0,
+  });
+
+  /* ---------- comparativo 5 instituições ---------- */
+  V.hbars(document.getElementById("chRoe5"), {
+    title: "Rentabilidade sobre o patrimônio — último período divulgado (%)",
+    sub: "Todos no 2T26 · definições próprias (ROE gerencial, ROAE, ROAE LTM) — comparar ordem de grandeza, não ranking",
+    items: [
+      { l: "Nu (ROE, 2T26)", v: 33 },
+      { l: "Itaú (ROE recorrente, 2T26)", v: 24.3 },
+      { l: "Agi (ROAE LTM, 2T26)", v: 21.6 },
+      { l: "Bradesco (ROAE, 2T26)", v: 16.2 },
+      { l: "Santander (ROAE, 2T26)", v: 12.5 },
+    ],
+    fmt: F.pcv, signed: false, labelW: 250,
+  });
+
+  V.hbars(document.getElementById("chEfic5"), {
+    title: "Índice de eficiência — último período divulgado (%; menor = melhor)",
+    sub: "Todos no 2T26 · metodologias próprias de cada emissor — a comparação é indicativa",
+    items: [
+      { l: "Nu (2T26)", v: 19.5 },
+      { l: "Itaú (1S26)", v: 37.3 },
+      { l: "Santander (2T26)", v: 39.3 },
+      { l: "Bradesco (IEO, 2T26)", v: 46.5 },
+      { l: "Agi (recorrente, 2T26)", v: 48.9 },
+    ],
+    fmt: F.pcv, signed: false, labelW: 250,
+  });
+
+  V.hbars(document.getElementById("chNpl5"), {
+    title: "Inadimplência > 90 dias — último período divulgado (%)",
+    sub: "Todos no 2T26 · bases distintas: Nu carteira própria em US$; Agi consignado; Santander ampliada; Bradesco expandida · Itaú: n/d",
+    items: [
+      { l: "Nu (NPL 90+, 2T26)", v: 6.9 },
+      { l: "Bradesco (2T26)", v: 4.3 },
+      { l: "Agi (2T26)", v: 3.3 },
+      { l: "Santander (2T26)", v: 3.3 },
+    ],
+    fmt: F.pcv, signed: false, labelW: 250,
+  });
+
+  /* ---------- múltiplos de mercado ---------- */
+  const M = R.mercado;
+  const fx2 = v => F.x2(v) + "×";
+  document.getElementById("tbMercado").innerHTML =
+    `<caption>Preços e múltiplos — faixas observadas entre agregadores (${M.dataConsulta}) · nível 3</caption>
+     <thead><tr><th>Ativo</th><th>Preço</th><th>P/L</th><th>P/VPA</th><th>Dividend yield</th><th>ROE divulgado (nível 1)</th></tr></thead>
+     <tbody>${M.ativos.map(a => `<tr>
+        <td style="white-space:normal"><b>${a.nome}</b><br><span style="color:var(--muted);font-size:.85em">${a.ticker}</span></td>
+        <td>${a.moeda} ${R.faixa(a.precoMin, a.precoMax, F.x2)}</td>
+        <td>${R.faixa(a.plMin, a.plMax, fx2)}</td>
+        <td>${R.faixa(a.pvpaMin, a.pvpaMax, fx2)}</td>
+        <td>${a.dy === 0 ? "0%" : R.faixa(a.dyMin, a.dyMax, F.pcv)}</td>
+        <td>${F.pcv(a.roeRef)}<br><span style="color:var(--muted);font-size:.85em">${a.roeNota}</span></td>
+      </tr>`).join("")}</tbody>`;
+
+  V.hbars(document.getElementById("chPvpa"), {
+    title: "P/VPA observado — faixa entre agregadores (×)",
+    sub: "Barra = faixa entre a menor e a maior leitura · fotografia de agosto/2026, não série",
+    items: M.ativos.map(a => ({ l: a.nome, lo: a.pvpaMin, hi: a.pvpaMax === a.pvpaMin ? a.pvpaMin * 1.001 : a.pvpaMax, color: "s1" })),
+    fmt: fx2, labelW: 190,
+  });
+
+  document.getElementById("divergencias").innerHTML = M.ativos.map(a =>
+    `<div class="card"><h3>${a.nome}</h3><p>${a.divergencia}</p></div>`).join("");
+
   /* ---------- checks ---------- */
-  const S = FATO.santander, B = FATO.bradesco, I = FATO.itau;
-  const somaCartS = S.cartPF + S.cartConsumo + S.cartPME + S.cartGrandes; // em R$ mm ÷1000 = bi
-  V.renderChecks(document.getElementById("checks"), [
-    { name: "Itaú: lucro 1T26 + 2T26 = 1S26 divulgado", pass: V.near(I.lucro1T + I.lucro2T, I.lucro1S, 1), num: F.mm0(I.lucro1T + I.lucro2T) + " = " + F.mm0(I.lucro1S) },
-    { name: "Itaú: carteira Brasil + América Latina = total divulgado (R$ bi)", pass: V.near(I.carteiraBrasil + I.carteiraLatam, I.carteiraTotal, 0.1), num: F.mm(I.carteiraBrasil + I.carteiraLatam) + " = " + F.mm(I.carteiraTotal) },
-    { name: "Santander: margem financeira + comissões = receita total 2T26", pass: V.near(S.margem2T + S.comissoes2T, S.receita2T, 1), num: F.mm0(S.margem2T + S.comissoes2T) + " = " + F.mm0(S.receita2T) },
-    { name: "Santander: soma das linhas de carteira = total divulgado (R$ mm)", pass: V.near(somaCartS, S.carteira, 2), num: F.mm0(somaCartS) + " ≈ " + F.mm0(S.carteira) },
-    { name: "Santander: variação da PDD t/t recalculada = +20,6% divulgado", pass: Math.abs((S.pdd2T / S.pdd1T - 1) - 0.206) < 0.002, num: F.spc(S.pdd2T / S.pdd1T - 1) },
-    { name: "Bradesco: margem com clientes + mercado = margem financeira total", pass: V.near(B.margemClientes + B.margemMercado, B.margem1T, 1), num: F.mm0(B.margemClientes + B.margemMercado) + " = " + F.mm0(B.margem1T) },
-    { name: "Bradesco: variação do lucro t/t recalculada = +4,5% divulgado", pass: Math.abs((B.lucro1T / B.lucro4T25 - 1) - B.deltaTt) < 0.002, num: F.spc(B.lucro1T / B.lucro4T25 - 1) },
-    { name: "Copom: trajetória da Selic estritamente decrescente nas atas fornecidas", pass: FATO.selic.every((d, i) => i === 0 || d.v < FATO.selic[i - 1].v), num: "14,75 → 14,50 → 14,00" },
-  ]);
+  const somaCartS = SA.cartPF + SA.cartConsumo + SA.cartPME + SA.cartGrandes;
+  const g2 = NU.plGer["2T26"], g1 = NU.plGer["1T26"];
+  const b2 = NU.balanco["2T26"], b1 = NU.balanco["1T26"], b0 = NU.balanco["4T25"];
+  const roeNuRecalc = (g2.lucro * 4) / ((b1.pl + b2.pl) / 2) * 100;
+  const lucro1S26Nu = g1.lucro + g2.lucro;
+  const abDF = AGI.balancoDF["1T26"];
+  const checks = [
+    { name: "Itaú: lucro 1T26 + 2T26 = 1S26 divulgado", pass: V.near(IT.lucro1T + IT.lucro2T, IT.lucro1S, 1), num: F.mm0(IT.lucro1T + IT.lucro2T) + " = " + F.mm0(IT.lucro1S) },
+    { name: "Itaú: carteira Brasil + América Latina = total divulgado (R$ bi)", pass: V.near(IT.carteiraBrasilBi + IT.carteiraLatamBi, IT.carteiraTotalBi, 0.1), num: F.mm(IT.carteiraBrasilBi + IT.carteiraLatamBi) + " = " + F.mm(IT.carteiraTotalBi) },
+    { name: "Santander: margem financeira + comissões = receita total 2T26", pass: V.near(SA.margem2T + SA.comissoes2T, SA.receita2T, 1), num: F.mm0(SA.margem2T + SA.comissoes2T) + " = " + F.mm0(SA.receita2T) },
+    { name: "Santander: soma das linhas de carteira = total divulgado (R$ bi)", pass: V.near(somaCartS, SA.carteiraBi, 2), num: F.mm0(somaCartS) + " ≈ " + F.mm0(SA.carteiraBi) },
+    { name: "Santander: variação da PDD t/t recalculada = +20,6% divulgado", pass: Math.abs((SA.pdd2T / SA.pdd1T - 1) - 0.206) < 0.002, num: F.spc(SA.pdd2T / SA.pdd1T - 1) },
+    { name: "Bradesco: margem com clientes + mercado = margem total (1T26 e 2T26)", pass: V.near(BR.margemClientes + BR.margemMercado, BR.margem1T, 1) && V.near(BR.t2_26.margemClientes + BR.t2_26.margemMercado, BR.t2_26.margem, 1), num: F.mm0(BR.t2_26.margem) },
+    { name: "Bradesco: margem financeira − PDD expandida = margem líquida (2T26)", pass: V.near(BR.t2_26.margem - BR.t2_26.pddExp, BR.t2_26.margemLiquida, 1), num: F.mm0(BR.t2_26.margemLiquida) },
+    { name: "Bradesco: lucro 1T26 + 2T26 = 1S26 recorrente divulgado", pass: V.near(BR.t2_26.lucro1T26 + BR.t2_26.lucroRecorrente, BR.t2_26.lucro1S26, 1), num: F.mm0(BR.t2_26.lucro1S26) },
+    { name: "Bradesco: PDD +3,3% t/t e +22,6% a/a recalculadas (correção do relato)", pass: Math.abs((BR.t2_26.pddExp / BR.pddExp1T - 1) * 100 - BR.t2_26.pddDeltaTt) < 0.1, num: F.spcv((BR.t2_26.pddExp / BR.pddExp1T - 1) * 100) + " t/t" },
+    { name: "Bradesco: Basileia = Nível I + Nível II (2T26)", pass: V.near(BR.t2_26.nivel1 + BR.t2_26.nivel2, 15.5, 0.05), num: "12,8 + 2,7 = 15,5%" },
+    { name: "Agi: carteira com garantia + sem garantia = total (2T26)", pass: V.near(AGI.t2_26.securedTotal + AGI.t2_26.unsecuredTotal, AGI.t2_26.carteira, 0.15), num: F.mm0(AGI.t2_26.carteira) },
+    { name: "Agi: INSS + privado + público = consignado total (2T26)", pass: V.near(AGI.t2_26.inss + AGI.t2_26.privado + AGI.t2_26.publico, AGI.t2_26.payrollTotal, 0.15), num: F.mm0(AGI.t2_26.payrollTotal) },
+    { name: "Agi: instrumentos de captação somam o total (2T26)", pass: V.near(AGI.t2_26.depositos.vista + AGI.t2_26.depositos.cdb + AGI.t2_26.depositos.dpge + AGI.t2_26.depositos.lfCdi + AGI.t2_26.depositos.colateralizadas + AGI.t2_26.depositos.bonds, AGI.t2_26.depositos.total, 0.15), num: F.mm0(AGI.t2_26.depositos.total) },
+    { name: "Agi: Basileia recalculada (RE ÷ RWA) = 18,7% divulgado (2T26)", pass: Math.abs(AGI.t2_26.re / AGI.t2_26.rwa * 100 - AGI.t2_26.basileia) < 0.1, num: F.pcv(AGI.t2_26.re / AGI.t2_26.rwa * 100) },
+    { name: "Agi: LDR recalculado = 92,9% divulgado (2T26)", pass: Math.abs(AGI.t2_26.carteira / AGI.t2_26.depositos.total * 100 - AGI.t2_26.ldr) < 0.15, num: F.pcv(AGI.t2_26.carteira / AGI.t2_26.depositos.total * 100) },
+    { name: "Agi: balanço IFRS do 2T26 fecha (A = P + PL, exato)", pass: V.near(AGI.balancoDF2T26.passivos + AGI.balancoDF2T26.pl, AGI.balancoDF2T26.ativos, 0.001), num: F.mm0(AGI.balancoDF2T26.ativos) },
+    { name: "Agi: lucro 1T26 + 2T26 = 1S26 nas DFs revisadas (exato)", pass: V.near(186.535 + AGI.balancoDF2T26.lucro2T26, AGI.balancoDF2T26.lucro1S26, 0.001), num: "186,535 + 200,276 = 386,811" },
+    { name: "Bradesco: variação do lucro t/t recalculada = +4,5% divulgado", pass: Math.abs((BR.lucro1T / BR.lucro4T25 - 1) * 100 - BR.deltaTt) < 0.2, num: F.spc(BR.lucro1T / BR.lucro4T25 - 1) },
+    { name: "Copom: série completa e estritamente decrescente (4 atas)", pass: selicOk.length === 4 && selicOk.every((d, i) => i === 0 || d.valor < selicOk[i - 1].valor), num: "14,75 → 14,50 → 14,25 → 14,00" },
+    { name: "Copom: os quatro cortes são de 0,25 p.p. cada (recalculado das atas)", pass: selicOk.slice(1).every((d, i) => Math.abs((selicOk[i].valor - d.valor) - 0.25) < 1e-9), num: "−0,25 × 3 = −0,75 p.p. no período" },
+    { name: "Nu: lucro 1T26 + 2T26 (releases) = lucro 1S26 na mutação do PL IFRS", pass: V.near(lucro1S26Nu, NU.mutacaoPl1S26.lucro, 0.15), num: F.usd(lucro1S26Nu) + " ≈ " + F.usd(NU.mutacaoPl1S26.lucro) },
+    { name: "Nu: balanço IFRS fecha (A = P + PL) nos 3 períodos", pass: [b0, b1, b2].every(b => V.near(b.passivos + b.pl, b.ativos, 0.01)), num: F.usd0(b2.passivos) + " + " + F.usd0(b2.pl) + " = " + F.usd0(b2.ativos) },
+    { name: "Nu: ROE 2T26 recalculado do balanço IFRS ≈ 33% divulgado (lucro anualizado ÷ PL médio)", pass: Math.abs(roeNuRecalc - 33) < 0.7, num: F.pcv(roeNuRecalc) + " ≈ 33%" },
+    { name: "Nu: cartões + sem garantia + com garantia = carteira total (US$ bi)", pass: V.near(NU.carteiraMix2T26.cartoes + NU.carteiraMix2T26.semGarantia + NU.carteiraMix2T26.comGarantia, NU.carteiraMix2T26.total, 0.05), num: "26,0 + 10,3 + 3,1 = 39,4" },
+    { name: "Nu: depósitos por país ≈ total (US$ bi; componentes arredondados somam 45,4)", pass: V.near(NU.depositosPais2T26.brasil + NU.depositosPais2T26.mexico + NU.depositosPais2T26.colombia, NU.depositosPais2T26.total, 0.15), num: "36,4 + 5,7 + 3,3 ≈ 45,3" },
+    { name: "Agi: balanço IFRS fecha (A = P + PL) em mar/26", pass: V.near(abDF.passivos + abDF.pl, abDF.ativos, 0.01), num: F.mm0(abDF.passivos) + " + " + F.mm0(abDF.pl) + " = " + F.mm0(abDF.ativos) },
+    { name: "Agi: carteira com garantia + sem garantia = total (R$ bi)", pass: V.near(AGI.carteiraMix1T26.securedBi + AGI.carteiraMix1T26.unsecuredBi, AGI.kpis.carteira[2] / 1000, 0.05), num: "30,7 + 4,8 = 35,5" },
+    { name: "Agi: Basileia recalculada (RE ÷ RWA) = 19,3% divulgado", pass: Math.abs(AGI.capital.re[2] / AGI.capital.rwa[2] * 100 - AGI.kpis.basileia[2]) < 0.1, num: F.pcv(AGI.capital.re[2] / AGI.capital.rwa[2] * 100) },
+  ];
+
+  /* --- checks da derivação do 3T25 e dos novos documentos --- */
+  const g = NU.plGer, FY = NU.fy25.gerencial, c3 = NU.cont3T25;
+  const somaTri = k => g["1T25"][k] + g["2T25"][k] + g["3T25"][k] + g["4T25"][k];
+  const PL_2T25 = 9576.116; // patrimônio em 30/06/2025, workbook (US$ mm)
+  const roe3T25 = c3.lucro * 4 / ((PL_2T25 + c3.pl) / 2) * 100;
+  checks.push(
+    { name: "Nu: os quatro trimestres de 2025 somam a receita do exercício assegurado", pass: V.near(somaTri("receita"), FY.receita, 0.15), num: F.usd(somaTri("receita")) + " = " + F.usd(FY.receita) },
+    { name: "Nu: os quatro trimestres somam o lucro do exercício (validação da derivação do 3T25)", pass: V.near(somaTri("lucro"), FY.lucro, 0.15), num: F.usd(somaTri("lucro")) + " = " + F.usd(FY.lucro) },
+    { name: "Nu 3T25 derivado: crédito + float + tarifas = receita derivada", pass: V.near(g["3T25"].credito + g["3T25"].float + g["3T25"].tarifas, g["3T25"].receita, 0.15), num: F.usd(g["3T25"].receita) },
+    { name: "Nu 3T25 derivado: EBT − IR = lucro, e a cascata fecha no lucro bruto", pass: V.near(g["3T25"].ebt + g["3T25"].ir, g["3T25"].lucro, 0.15) && V.near(g["3T25"].receita + g["3T25"].custosDiretos, g["3T25"].lucroBruto, 0.15), num: F.usd(g["3T25"].lucro) },
+    { name: "Nu 3T25: lucro gerencial DERIVADO = lucro contábil IFRS do workbook (neutralidade do framework)", pass: V.near(g["3T25"].lucro, c3.lucro, 0.05), num: F.usd(g["3T25"].lucro) + " ≈ " + F.usd(c3.lucro) },
+    { name: "Nu 3T25: balanço do workbook fecha (A = P + PL)", pass: V.near(c3.passivos + c3.pl, c3.ativos, 0.01), num: F.usd0(c3.passivos) + " + " + F.usd0(c3.pl) + " = " + F.usd0(c3.ativos) },
+    { name: "Nu 3T25: ROE recalculado do workbook ≈ 31% divulgado (lucro anualizado ÷ PL médio)", pass: Math.abs(roe3T25 - 31) < 1.0, num: F.pcv(roe3T25) + " ≈ 31%" },
+    { name: "Nu 3T25: clientes por país somam o total (Brasil + México + Colômbia)", pass: V.near(c3.clientesBrasilMi + c3.clientesMexicoMi + c3.clientesColombiaMi, 127.0, 0.05), num: "110,1 + 13,1 + 3,8 = 127,0 mi" },
+    { name: "Nu 4T25: reconciliação contábil + ajustes = gerencial (KPMG)", pass: ["receita", "lucroBruto", "ebt", "ir", "lucro"].every(k => V.near(NU.reconc["4T25"].contabil[k] + NU.reconc["4T25"].ajustes[k], NU.reconc["4T25"].gerencial[k], 0.15)), num: "todas as linhas" },
+    { name: "Nu exercício 2025: reconciliação fecha e os ajustes são neutros no lucro", pass: V.near(NU.reconc["FY25"].contabil.ebt + NU.reconc["FY25"].ajustes.ebt, NU.reconc["FY25"].gerencial.ebt, 0.15) && Math.abs(NU.reconc["FY25"].ajustes.lucro) < 0.05, num: "ajuste no lucro: 0,0" },
+    { name: "Divergência do ARPAC explicada: workbook (base contábil) × releases (base gerencial)", pass: Math.abs(c3.arpacContabil * (g["3T25"].receita / c3.receita) - NU.op.arpac[2]) < 0.1, num: "13,4 × 1,0347 = " + F.x2(c3.arpacContabil * (g["3T25"].receita / c3.receita)) },
+    { name: "Mercado: múltiplos armazenados como faixa, com divergência entre agregadores nomeada", pass: R.mercado.ativos.every(a => a.plMax >= a.plMin && a.divergencia), num: R.mercado.ativos.length + " ativos · nível 3" },
+    { name: "Capital do Nu: rotulado como entidade individual (Nu Pagamentos), fora do comparativo consolidado", pass: !!NU.capitalNuPagamentos.ressalva, num: "declarado" }
+  );
+  V.renderChecks(document.getElementById("checks"), checks);
+
+  /* ---------- fontes ---------- */
+  V.renderFontes(document.getElementById("fontes"),
+    ["copom", "copom279", "itau2T26", "itauIFRS1S26", "bradesco1T26", "bradesco2T26",
+     "santander1T26", "santander2T26", "nu1T26", "nu2T26", "nuRec1T26", "nuRec2T26", "nuRec4T25",
+     "nuHist3T25", "nuDF1T26", "nuDF2T26", "nuCSV", "agiRel1T26", "agiDF1T26", "agi2T26",
+     "mercadoAgregadores", "ifdataBCB"],
+    "Valores em base divulgada por cada emissor; Nu em US$ mm, demais em R$. <b>Fontes de nível 1</b> são extração documental; <b>nível 3</b> são relatos do titular a partir de fonte pública, sem documento anexado — a distinção é mantida em todas as páginas.");
 })();
 </script>
 </body>

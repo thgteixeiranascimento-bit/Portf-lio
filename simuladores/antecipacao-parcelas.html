@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de antecipação de parcelas — desconto racional e erro evitado</title>
+<meta name="description" content="Quanto o cliente deve pagar ao antecipar parcelas: valor presente pelo desconto racional, comparado aos dois erros mais comuns (soma nominal e desconto comercial linear), com o erro quantificado em reais e percentual.">
+<meta name="keywords" content="antecipação de parcelas, quitação antecipada, desconto racional, valor presente, redução proporcional de juros, CDC artigo 52, amortização, cálculo de crédito">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-page="sim" data-root="../">
+<main class="wrap">
+
+  <section class="hero-pro">
+    <span class="kicker" data-en="Proprietary tool · Operational error reduction">Ferramenta própria · Redução de erro operacional</span>
+    <h1 style="max-width:24ch" data-en="Early settlement: the amount due is a present value, never a sum">Antecipação: o valor devido é um valor presente, nunca uma soma</h1>
+    <p class="sub" data-en="When a customer settles installments early, the amount due is the <b>present value</b> of the installments being removed — because the interest embedded in them has not accrued yet. Charging the nominal sum overcharges. Applying a linear commercial discount undercharges. Both produce a figure that does not match the contract, and both end the same way: rework, dispute and a repeat call.">
+      Quando um cliente antecipa parcelas, o valor devido é o <b>valor presente</b> das parcelas retiradas —
+      porque o juro embutido nelas ainda não foi incorrido. Cobrar a soma nominal cobra a mais. Aplicar desconto
+      comercial linear cobra a menos. Os dois produzem um número que não corresponde ao contrato, e os dois
+      terminam igual: retrabalho, contestação e rechamada.
+    </p>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:var(--sp-4)">
+      <span class="tag sim" data-en="Own tool — no company data">Ferramenta própria — sem dado de empresa</span>
+      <span class="tag prem" data-en="Parameters defined by the user">Parâmetros definidos pelo usuário</span>
+      <span class="tag nao" data-en="Not a quotation or contractual condition">Não é cotação nem condição contratual</span>
+    </div>
+  </section>
+
+  <div class="controls">
+    <div class="head"><span class="t" data-en="Contract in progress">Contrato em andamento</span></div>
+    <div class="row">
+      <div class="ctrl">
+        <label for="pmt"><span data-en="Installment amount (R$)">Valor da parcela (R$)</span><output id="oPmt"></output></label>
+        <input type="number" id="pmt" value="450" min="1" step="10">
+      </div>
+      <div class="ctrl">
+        <label for="rest"><span data-en="Installments remaining">Parcelas a vencer</span><output id="oRest"></output></label>
+        <input type="range" id="rest" value="24" min="1" max="72" step="1">
+      </div>
+      <div class="ctrl">
+        <label for="ant"><span data-en="Installments to settle early">Parcelas a antecipar</span><output id="oAnt"></output></label>
+        <input type="range" id="ant" value="12" min="1" max="72" step="1">
+      </div>
+      <div class="ctrl">
+        <label for="i"><span data-en="Contract rate (% p.m.)">Taxa do contrato (% a.m.)</span><output id="oI"></output></label>
+        <input type="number" id="i" value="2.2" min="0" max="20" step="0.01">
+      </div>
+    </div>
+    <p class="muted-note" style="margin-bottom:0" data-en="Early settlement is applied to the <b>last</b> installments of the schedule — the standard convention, since these are the ones carrying the most unaccrued interest.">
+      A antecipação é aplicada às <b>últimas</b> parcelas do cronograma — convenção padrão, por serem as que
+      carregam mais juro ainda não incorrido.
+    </p>
+  </div>
+
+  <section class="blk">
+    <h2 data-en="1 · How much the customer owes">1 · Quanto o cliente deve pagar</h2>
+    <div class="out-grid" id="outs"></div>
+    <div class="callout ok" id="veredito"></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="2 · The three methods side by side">2 · Os três métodos lado a lado</h2>
+    <figure class="chart" id="chMetodos"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="tblMetodos"></table></div>
+    <p data-en="The nominal sum ignores that money has a price over time and charges the customer for interest that will never accrue. The linear commercial discount subtracts <code>i × k</code> per installment instead of dividing by <code>(1+i)<sup>k</sup></code> — an approximation that is tolerable for one or two months and collapses on long terms, eventually producing a negative present value.">
+      A soma nominal ignora que o dinheiro tem preço no tempo e cobra do cliente um juro que nunca será
+      incorrido. O desconto comercial linear subtrai <code>i × k</code> por parcela em vez de dividir por
+      <code>(1+i)<sup>k</sup></code> — aproximação tolerável para um ou dois meses e que desmorona em prazo
+      longo, chegando a produzir valor presente negativo.
+    </p>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="3 · How the error grows with the term">3 · Como o erro cresce com o prazo</h2>
+    <figure class="chart" id="chErro"></figure>
+    <p class="muted-note" data-en="Each point is the error of the wrong method against the correct present value, for that number of anticipated installments, holding the current rate and installment amount.">
+      Cada ponto é o erro do método incorreto contra o valor presente correto, para aquele número de parcelas
+      antecipadas, mantidas a taxa e a parcela atuais.
+    </p>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="4 · Installment-by-installment breakdown">4 · Abertura parcela a parcela</h2>
+    <figure class="chart" id="chDecomp"></figure>
+    <div class="tbl-scroll"><table class="tbl" id="tblDetalhe"></table></div>
+  </section>
+
+  <section class="blk">
+    <h2 data-en="5 · Integrity checks">5 · Checks de integridade</h2>
+    <div id="checks"></div>
+  </section>
+
+  <section class="blk">
+    <details class="doc">
+      <summary data-en="Method, regulatory boundary and origin">Método, fronteira regulatória e origem</summary>
+      <div class="inner">
+        <h3 class="h4-vis" data-en="Formulas">Fórmulas</h3>
+        <pre><code>Desconto racional (correto)     VP = Σ PMT / (1 + i)^k ,  k = 1..q
+Forma fechada (anuidade)        VP = PMT · [1 − (1+i)^−q] / i
+Soma nominal (erro 1)           VN = PMT · q
+Desconto comercial linear (erro 2)  VC = Σ PMT · (1 − i·k)</code></pre>
+        <p data-en="<code>q</code> is the number of installments settled early and <code>k</code> the number of periods each one was still away from its due date.">
+          <code>q</code> é a quantidade de parcelas antecipadas e <code>k</code>, quantos períodos cada uma
+          ainda estava distante do vencimento.
+        </p>
+        <h3 class="h4-vis" data-en="Regulatory boundary — read this before using any number">Fronteira regulatória — leia antes de usar qualquer número</h3>
+        <p data-en="Brazilian consumer law establishes the customer's right to settle a debt early with a <b>proportional reduction of interest and other charges</b> (Consumer Protection Code, article 52, §2). Present value by rational discount is the financially correct expression of that principle, and it is what this tool computes. It is <b>not</b>, however, a statement of what a given contract owes: the applicable rate, the treatment of fees, insurance and taxes already incurred, and the exact convention for counting periods are defined by the contract and by the institution's rules. This tool models the method — it does not quote a contract.">
+          A legislação consumerista brasileira estabelece o direito do cliente de quitar antecipadamente com
+          <b>redução proporcional dos juros e demais acréscimos</b> (Código de Defesa do Consumidor, artigo 52,
+          §2º). O valor presente por desconto racional é a expressão financeiramente correta desse princípio, e
+          é o que esta ferramenta calcula. Ela <b>não</b> é, porém, uma declaração do que um contrato específico
+          deve: a taxa aplicável, o tratamento de tarifas, seguros e tributos já incorridos e a convenção exata
+          de contagem de períodos são definidos pelo contrato e pelas regras da instituição. Esta ferramenta
+          modela o método — não cotiza um contrato.
+        </p>
+        <h3 class="h4-vis" data-en="Why this matters operationally">Por que isso importa operacionalmente</h3>
+        <p data-en="A wrong settlement figure is not a rounding problem. It is charged to a customer, disputed, corrected and re-explained — consuming a second contact in the Contact Centre for a case that was already closed. The <a href='rechamadas.html'>repeat-call cost model</a> puts a currency figure on exactly that chain.">
+          Um valor de quitação errado não é problema de arredondamento. Ele é cobrado de um cliente, contestado,
+          corrigido e reexplicado — consumindo um segundo contato na Central de Atendimento para um caso que já
+          estava encerrado. O <a href="rechamadas.html">modelo de custo de rechamadas</a> coloca valor em reais
+          exatamente nessa cadeia.
+        </p>
+        <h3 class="h4-vis" data-en="Origin">Origem</h3>
+        <p data-en="Built for this portfolio as a public reconstruction of a class of calculation the author works with professionally. It contains no volume, cost, rate, customer or any operational data from any employer.">
+          Construída para este portfólio como reconstrução pública de uma classe de cálculo com que o autor
+          trabalha profissionalmente. Não contém volume, custo, taxa, cliente ou qualquer dado operacional de
+          empregador.
+        </p>
+      </div>
+    </details>
+  </section>
+
+</main>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/core.js"></script>
+<script>
+(function () {
+  "use strict";
+  var V = window.Viz, F = V.F, t = V.t;
+  var el = function (id) { return document.getElementById(id); };
+  var nf2 = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  var brl = function (v) { return "R$ " + nf2.format(v); };
+  var pc2 = function (v) { return nf2.format(v * 100) + "%"; };
+
+  /* ---------- métodos ---------- */
+  function vpRacional(pmt, q, i) {            /* correto */
+    var s = 0; for (var k = 1; k <= q; k++) s += pmt / Math.pow(1 + i, k); return s;
+  }
+  function vpAnuidade(pmt, q, i) {            /* forma fechada, para conferência independente */
+    return i === 0 ? pmt * q : pmt * (1 - Math.pow(1 + i, -q)) / i;
+  }
+  function somaNominal(pmt, q) { return pmt * q; }
+  function descontoComercial(pmt, q, i) {     /* erro comum: desconto linear */
+    var s = 0; for (var k = 1; k <= q; k++) s += pmt * (1 - i * k); return s;
+  }
+
+  function calcular() {
+    var pmt = Math.max(0, parseFloat(el("pmt").value) || 0);
+    var rest = parseInt(el("rest").value, 10) || 1;
+    var antIn = parseInt(el("ant").value, 10) || 1;
+    var i = Math.max(0, (parseFloat(el("i").value) || 0) / 100);
+
+    /* não se antecipa mais do que existe a vencer */
+    el("ant").max = rest;
+    var q = Math.min(antIn, rest);
+    if (antIn > rest) el("ant").value = q;
+
+    el("oPmt").textContent = brl(pmt);
+    el("oRest").textContent = rest + " " + t("parcelas", "installments");
+    el("oAnt").textContent = q + " " + t("parcelas", "installments");
+    el("oI").textContent = pc2(i) + " a.m. · " + pc2(Math.pow(1 + i, 12) - 1) + " a.a.";
+
+    var correto = vpRacional(pmt, q, i);
+    var fechada = vpAnuidade(pmt, q, i);
+    var nominal = somaNominal(pmt, q);
+    var comercial = descontoComercial(pmt, q, i);
+
+    var erroNominal = nominal - correto;
+    var erroComercial = comercial - correto;
+
+    /* ---------- painel ---------- */
+    el("outs").innerHTML =
+      card("hero-out", t("Valor correto a pagar", "Correct amount due"), brl(correto),
+           t("valor presente de ", "present value of ") + q + t(" parcelas · desconto racional", " installments · rational discount")) +
+      card("", t("Soma nominal das parcelas", "Nominal sum of installments"), brl(nominal),
+           q + " × " + brl(pmt)) +
+      card("bad-out", t("Cobrança a mais se usar a soma", "Overcharge if the sum is used"), brl(erroNominal),
+           "+" + pc2(erroNominal / correto) + t(" sobre o devido", " over the amount due")) +
+      card(erroComercial < 0 ? "bad-out" : "", t("Erro do desconto linear", "Error of the linear discount"),
+           (erroComercial >= 0 ? "+" : "−") + brl(Math.abs(erroComercial)),
+           erroComercial < 0 ? t("cobra a MENOS que o devido", "undercharges the amount due") : t("cobra a mais que o devido", "overcharges the amount due")) +
+      card("ok-out", t("Juro que o cliente deixa de pagar", "Interest the customer avoids"), brl(nominal - correto),
+           t("é isso que a antecipação economiza", "this is what settling early saves"));
+
+    var negativo = comercial < 0;
+    el("veredito").className = "callout " + (negativo ? "bad" : "ok");
+    el("veredito").innerHTML =
+      '<span class="ct">' + t("Leitura", "Reading") + "</span>" +
+      t("Antecipando <b>" + q + "</b> das <b>" + rest + "</b> parcelas a vencer, o cliente deve <b>" + brl(correto) +
+        "</b> — e não " + brl(nominal) + ". Cobrar a soma nominal significaria pedir <b>" + brl(erroNominal) +
+        "</b> a mais por um juro que não vai correr. " +
+        (negativo
+          ? "Neste prazo o desconto comercial linear já produz um valor <b>negativo</b> (" + brl(comercial) +
+            "), o que mostra que a aproximação linear deixou de ter sentido financeiro muito antes."
+          : "O desconto comercial linear erraria em " + brl(Math.abs(erroComercial)) + " — pouco visível em um mês, material neste prazo."),
+        "Settling <b>" + q + "</b> of the <b>" + rest + "</b> remaining installments, the customer owes <b>" + brl(correto) +
+        "</b> — not " + brl(nominal) + ". Charging the nominal sum would ask for <b>" + brl(erroNominal) +
+        "</b> more for interest that will never accrue. " +
+        (negativo
+          ? "At this term the linear commercial discount already yields a <b>negative</b> figure (" + brl(comercial) +
+            "), showing the linear approximation stopped making financial sense well before."
+          : "The linear commercial discount would be off by " + brl(Math.abs(erroComercial)) + " — barely visible over one month, material at this term."));
+
+    /* ---------- comparativo ---------- */
+    V.bars(el("chMetodos"), {
+      title: t("Valor cobrado por método", "Amount charged by method"),
+      sub: t("A barra azul é o valor devido. As outras duas são o que cada erro cobraria.", "The blue bar is the amount due. The other two are what each error would charge."),
+      labels: [q + t(" parcelas antecipadas", " installments settled early")],
+      fmt: brl, height: 230,
+      series: [
+        { name: t("Correto — desconto racional", "Correct — rational discount"), values: [correto], color: "s1" },
+        { name: t("Erro 1 — soma nominal", "Error 1 — nominal sum"), values: [nominal], color: "s4" },
+        { name: t("Erro 2 — desconto linear", "Error 2 — linear discount"), values: [comercial], color: "s2" }
+      ]
+    });
+
+    el("tblMetodos").innerHTML =
+      "<caption>" + t("Comparativo dos métodos — ", "Method comparison — ") + q + t(" parcelas de ", " installments of ") + brl(pmt) + t(" a ", " at ") + pc2(i) + " a.m.</caption>" +
+      "<thead><tr><th>" + t("Método", "Method") + "</th><th>" + t("Valor", "Amount") + "</th><th>" + t("Erro (R$)", "Error (R$)") +
+      "</th><th>" + t("Erro (%)", "Error (%)") + "</th><th>" + t("Efeito", "Effect") + "</th></tr></thead><tbody>" +
+      "<tr><td>" + t("Desconto racional (correto)", "Rational discount (correct)") + "</td><td>" + brl(correto) + "</td><td>—</td><td>—</td><td style='white-space:normal'>" +
+        t("Valor presente das parcelas retiradas", "Present value of the removed installments") + "</td></tr>" +
+      "<tr><td>" + t("Soma nominal", "Nominal sum") + '</td><td>' + brl(nominal) + '</td><td class="neg">+' + nf2.format(erroNominal) + '</td><td class="neg">+' + pc2(erroNominal / correto) + "</td><td style='white-space:normal'>" +
+        t("Cobra do cliente juro não incorrido", "Charges the customer unaccrued interest") + "</td></tr>" +
+      "<tr><td>" + t("Desconto comercial linear", "Linear commercial discount") + "</td><td>" + brl(comercial) + '</td><td class="' + (erroComercial < 0 ? "pos" : "neg") + '">' +
+        (erroComercial >= 0 ? "+" : "") + nf2.format(erroComercial) + '</td><td class="' + (erroComercial < 0 ? "pos" : "neg") + '">' +
+        (erroComercial >= 0 ? "+" : "") + pc2(erroComercial / correto) + "</td><td style='white-space:normal'>" +
+        t("Aproximação que degrada com o prazo", "Approximation that degrades with the term") + "</td></tr>" +
+      '<tr class="tot"><td>' + t("Verificação independente (anuidade)", "Independent check (annuity)") + "</td><td>" + brl(fechada) +
+        "</td><td>" + nf2.format(fechada - correto) + "</td><td>—</td><td style='white-space:normal'>" +
+        t("Forma fechada bate com a soma termo a termo", "Closed form matches the term-by-term sum") + "</td></tr></tbody>";
+
+    /* ---------- erro por prazo ---------- */
+    var labs = [], eNom = [], eCom = [], passo = Math.max(1, Math.ceil(rest / 12));
+    for (var kk = passo; kk <= rest; kk += passo) {
+      labs.push(kk + "p");
+      var c = vpRacional(pmt, kk, i);
+      eNom.push(somaNominal(pmt, kk) - c);
+      eCom.push(descontoComercial(pmt, kk, i) - c);
+    }
+    V.line(el("chErro"), {
+      title: t("Erro em reais por número de parcelas antecipadas", "Error in currency by number of installments settled early"),
+      sub: t("Zero = método correto. O erro da soma nominal cresce sem limite; o do desconto linear vira negativo.",
+             "Zero = correct method. The nominal-sum error grows without bound; the linear discount error turns negative."),
+      labels: labs, fmt: brl, height: 250, yZero: true,
+      series: [
+        { name: t("Erro — soma nominal", "Error — nominal sum"), values: eNom, color: "s4" },
+        { name: t("Erro — desconto linear", "Error — linear discount"), values: eCom, color: "s2" }
+      ]
+    });
+
+    /* ---------- decomposição parcela a parcela ---------- */
+    var lab2 = [], vps = [], juroRet = [];
+    for (var k = 1; k <= q; k++) {
+      lab2.push("k=" + k);
+      var vp = pmt / Math.pow(1 + i, k);
+      vps.push(vp);
+      juroRet.push(pmt - vp);
+    }
+    V.bars(el("chDecomp"), {
+      title: t("Cada parcela antecipada: valor presente × juro dispensado", "Each settled installment: present value × interest waived"),
+      sub: t("Quanto mais distante o vencimento, menos o cliente paga hoje por aquela parcela", "The further the due date, the less the customer pays today for that installment"),
+      labels: lab2, fmt: brl, height: 240,
+      series: [
+        { name: t("Valor presente (paga hoje)", "Present value (paid today)"), values: vps, color: "s1" },
+        { name: t("Juro dispensado", "Interest waived"), values: juroRet, color: "s3" }
+      ]
+    });
+
+    var linhasDet = "";
+    var mostra = Math.min(q, 12);
+    for (var d = 1; d <= mostra; d++) {
+      var vpd = pmt / Math.pow(1 + i, d);
+      linhasDet += "<tr><td>" + d + "</td><td>" + brl(pmt) + "</td><td>" + brl(vpd) + "</td><td>" + brl(pmt - vpd) +
+        "</td><td>" + pc2((pmt - vpd) / pmt) + "</td></tr>";
+    }
+    if (q > mostra) linhasDet += '<tr class="sub"><td>…</td><td colspan="4">' + t("parcelas 13 a ", "installments 13 to ") + q + "</td></tr>";
+    el("tblDetalhe").innerHTML =
+      "<caption>" + t("Abertura das parcelas antecipadas", "Breakdown of settled installments") + "</caption>" +
+      "<thead><tr><th>k</th><th>" + t("Valor nominal", "Nominal amount") + "</th><th>" + t("Valor presente", "Present value") +
+      "</th><th>" + t("Juro dispensado", "Interest waived") + "</th><th>" + t("% da parcela", "% of installment") + "</th></tr></thead><tbody>" +
+      linhasDet + '<tr class="tot"><td>' + t("Total", "Total") + "</td><td>" + brl(nominal) + "</td><td>" + brl(correto) +
+      "</td><td>" + brl(nominal - correto) + "</td><td>" + pc2((nominal - correto) / nominal) + "</td></tr></tbody>";
+
+    /* ---------- checks ---------- */
+    var tol = 0.01;
+    var checks = [
+      { name: "Soma termo a termo = fórmula fechada da anuidade",
+        nameEn: "Term-by-term sum = closed-form annuity formula",
+        pass: Math.abs(correto - fechada) < Math.max(tol, correto * 1e-9),
+        detail: brl(correto) + " = " + brl(fechada), num: t("dois caminhos independentes", "two independent routes") },
+      { name: "Valor presente ≤ soma nominal (com taxa positiva, sempre menor)",
+        nameEn: "Present value ≤ nominal sum (with a positive rate, always lower)",
+        pass: correto <= nominal + tol, detail: brl(correto) + " ≤ " + brl(nominal) },
+      { name: "Recompor o fluxo à taxa contratada devolve o valor nominal de cada parcela",
+        nameEn: "Compounding the flow back at the contract rate returns each installment's nominal amount",
+        pass: (function () {
+          for (var k = 1; k <= q; k++) { if (Math.abs((pmt / Math.pow(1 + i, k)) * Math.pow(1 + i, k) - pmt) > 1e-6) return false; }
+          return true;
+        })(), detail: t("verificado nas ", "verified across all ") + q + t(" parcelas", " installments") },
+      { name: "Juro dispensado = soma nominal − valor presente",
+        nameEn: "Interest waived = nominal sum − present value",
+        pass: Math.abs((nominal - correto) - juroRet.reduce(function (a, b) { return a + b; }, 0)) < tol,
+        detail: brl(nominal - correto) },
+      { name: "Antecipar mais parcelas nunca reduz o valor presente a pagar",
+        nameEn: "Settling more installments never reduces the present value due",
+        pass: (function () {
+          for (var k = 2; k <= q; k++) { if (vpRacional(pmt, k, i) < vpRacional(pmt, k - 1, i) - tol) return false; }
+          return true;
+        })(), detail: t("monotonicidade verificada", "monotonicity verified") },
+      { name: "Com taxa zero, os três métodos convergem para a soma nominal",
+        nameEn: "At a zero rate, all three methods converge to the nominal sum",
+        pass: Math.abs(vpRacional(pmt, q, 0) - somaNominal(pmt, q)) < tol &&
+              Math.abs(descontoComercial(pmt, q, 0) - somaNominal(pmt, q)) < tol,
+        detail: t("caso-limite conferido", "limit case verified"), num: "i = 0" },
+      { name: "Parcelas antecipadas não excedem as parcelas a vencer",
+        nameEn: "Settled installments do not exceed remaining installments",
+        pass: q <= rest, detail: q + " ≤ " + rest }
+    ];
+    V.renderChecks(el("checks"), checks);
+  }
+
+  function card(cls, k, v, h) {
+    return '<div class="out ' + cls + '"><div class="k">' + k + '</div><div class="v">' + v + '</div><div class="h">' + (h || "") + "</div></div>";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    ["pmt", "rest", "ant", "i"].forEach(function (id) {
+      el(id).addEventListener("input", calcular);
+      el(id).addEventListener("change", calcular);
+    });
+    calcular();
+  });
+  window.onLangChange = calcular;
+})();
+</script>
+</body>
+</html>

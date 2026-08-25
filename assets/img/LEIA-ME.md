@@ -23,11 +23,11 @@ acima dele. O trecho está marcado com um comentário `═══ RETRATO ══�
 
 ## O que a página faz com a imagem
 
-O tratamento é feito em CSS, não no arquivo — então a mesma foto serve aos dois temas
-e você pode trocar o arquivo a qualquer momento sem reeditar nada:
+O tratamento é feito em CSS, não no arquivo — então você pode trocar o arquivo a
+qualquer momento sem reeditar nada:
 
-- conversão para **preto e branco** com contraste elevado (`grayscale(1) contrast(1.14)`);
-- no tema escuro o brilho baixa levemente, para a foto não brigar com o fundo;
+- conversão para **preto e branco** com contraste elevado (`grayscale(1) contrast(1.06)`);
+- o brilho baixa levemente (`brightness(.92)`), para a foto não brigar com o fundo grafite;
 - ao passar o ponteiro, a cor volta parcialmente e a imagem faz um leve zoom;
 - recorte `object-fit: cover` na proporção 4:5.
 

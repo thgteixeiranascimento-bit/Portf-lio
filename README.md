@@ -114,7 +114,8 @@ os documentos baixados nunca saem de sincronia com o site.
 ├── analises/              análise setorial (5 instituições + Copom)
 ├── simuladores/           10 estudos + 3 ferramentas próprias
 ├── assets/
-│   ├── css/style.css      tema executivo claro/escuro + camada premium
+│   ├── css/style.css      tema editorial escuro (grafite + âmbar) e camadas
+│   ├── fonts/             Lora, Inter e JetBrains Mono servidas pelo site
 │   └── js/
 │       ├── core.js        gráficos SVG, formatação pt-BR, checks, i18n, exportação
 │       ├── data.js        dataset central de DADOS PÚBLICOS REAIS (fonte única)
@@ -201,6 +202,7 @@ declarada.
 ## Stack
 
 HTML/CSS/JavaScript puros — **sem nenhuma dependência externa em produção** (funciona offline e no GitHub
-Pages). Gráficos SVG próprios com tooltips e tabelas de dados acessíveis, tema claro/escuro. Python 3
+Pages; as três fontes são servidas do próprio repositório, em `assets/fonts/`). Gráficos SVG próprios com
+tooltips e tabelas de dados acessíveis, em tema escuro editorial — o claro existe só na impressão. Python 3
 (biblioteca padrão) para a automação de dados públicos da CVM; Node + playwright-core apenas no fluxo de
 desenvolvimento, para o controle de qualidade.

@@ -1,117 +1,121 @@
 ---
-version: 1.0
+version: 6.0
 name: Portfolio-financas-corporativas
-description: Executive financial portfolio — dual-theme (light/dark), data-visualization-first interface for FP&A analysis. Anchored on cream (#f9f9f7) for light mode and deep near-black (#0d0d0d) for dark mode, with professional sans-serif typography and a curated palette of four data series (blue for real/base, orange for budget/downside, green for forecast/upside, red for stress/unfavorable). Status indicators (green, yellow, orange, red) thread through charts, tables, and checks. No dependencies — vanilla CSS, SVG charts, native HTML components. Premium executive aesthetic, accessibility-first.
+description: Executive financial portfolio — a single dark editorial theme, data-visualization-first, for FP&A analysis. Anchored on graphite (#09090f) with one amber accent (#d4a843), a serif display face (Lora) against a humanist sans (Inter) and a monospace numeric voice (JetBrains Mono). Four data series (amber for real/base, red for budget/downside, teal for forecast/upside, violet for stress) and a teal sequential ramp for heat maps. Square corners, hairline borders, flat surfaces. No external dependencies — fonts self-hosted, vanilla CSS, SVG charts, native HTML components. Accessibility-first.
 ---
 
 ## Color System
 
 ### Primary Palette
 
-#### Light Theme (default)
-```
-page:           #f9f9f7  (background, cream with warmth)
-surface:        #fcfcfb  (cards, containers)
-surface-2:      #f3f2ee  (secondary surfaces, hover states)
-ink:            #0b0b0b  (primary text, near-black)
-ink-2:          #52514e  (secondary text, body copy)
-muted:          #898781  (tertiary, disabled text)
-grid:           #e1e0d9  (gridlines, subtle borders)
-baseline:       #c3c2b7  (baseline, horizontal rules)
-border:         rgba(11, 11, 11, 0.10)  (all borders)
-```
+One theme, committed. The interface is dark by design, not by system preference:
+the palette below is the whole identity, and `color-scheme: dark` declares it so
+native controls follow. The only light rendering is print (see *Print*).
 
-#### Dark Theme (prefers-color-scheme: dark)
 ```
-page:           #0d0d0d  (background, deep black)
-surface:        #1a1a19  (cards, containers)
-surface-2:      #232322  (secondary surfaces)
-ink:            #ffffff  (primary text, white)
-ink-2:          #c3c2b7  (secondary text, muted white)
-muted:          #898781  (tertiary text)
-grid:           #2c2c2a  (gridlines)
-baseline:       #383835  (baseline, rules)
-border:         rgba(255, 255, 255, 0.10)  (all borders)
-neutral-mid:    #383835  (mid neutral for dark)
-shadow:         none  (no drop shadows in dark mode)
+page:           #09090f  (background, graphite)
+surface:        #10121a  (cards, containers)
+surface-2:      #161b27  (secondary surfaces, table headers, hover)
+surface-3:      #13161f  (card hover)
+ink:            #e6e3db  (primary text, warm off-white)
+ink-2:          #a8a49c  (secondary text, body copy)
+muted:          #86837a  (tertiary text, labels, column heads)
+grid:           #1e2333  (gridlines, table rules)
+baseline:       #2a3050  (totals, strong rules, chart baseline)
+border:         #1e2333  (all borders — hairline, never a shadow)
+neutral-mid:    #161b27
+shadow:         0 14px 42px rgba(0,0,0,.18)
 ```
 
 ### Accent Colors
 
+One accent, used with decision. Amber reads as attention without meaning loss —
+red is reserved for `--bad`, and in a credit and FP&A portfolio that distinction
+has to hold.
+
 ```
-accent:         #2a78d6  (primary action, links — light mode)
-accent-ink:     #1c5cab  (link text, hover state — light mode)
-                #3987e5  (primary action — dark mode)
-                #86b6ef  (link text — dark mode)
+accent:         #d4a843  (primary action, active nav, focus outline, rules)
+accent-ink:     #e2bf68  (link text and hover — lighter, for prose contrast)
 ```
+
+**Ink on amber is `--page` (#09090f), never white.** White on #d4a843 is 2.2:1
+and fails at any size; the page ink is 9.0:1.
 
 ### Data Series (Four-Series Palette)
-Used across all charts, tables, and financial data visualizations. Colors validated for accessibility and distinct at all light levels.
+Used across all charts, tables, and financial data visualizations.
 
 ```
-s1 (Real/Base):
-  light:        #2a78d6  (blue)
-  dark:         #3987e5  (brighter blue)
-
-s2 (Budget/Downside):
-  light:        #eb6834  (orange)
-  dark:         #d95926  (darker orange-red)
-
-s3 (Forecast/Upside):
-  light:        #1baf7a  (teal-green)
-  dark:         #199e70  (forest green)
-
-s4 (Stress/Unfavorable):
-  light:        #e34948  (red)
-  dark:         #e66767  (lighter red)
+s1 (Real/Base):            #d4a843  (amber)
+s2 (Budget/Downside):      #e05c5c  (red)
+s3 (Forecast/Upside):      #2a8c7e  (teal)
+s4 (Stress/Unfavorable):   #7c6ae6  (violet)
 ```
 
-### Status Indicators (Fixed across all themes)
+### Status Indicators
 ```
-ok:             #0ca30c  (success, green — light bg)
-ok-text:        #006300  (success text)
-warn:           #fab219  (warning, yellow)
-serious:        #ec835a  (serious, orange alert)
-bad:            #d03b3b  (failure, red alert)
+ok:             #2a8c7e  (success — swatches, borders, left rules)
+ok-text:        #5db8aa  (success text — the readable variant)
+warn:           #d4a843  (warning; same amber as the accent)
+serious:        #d98c54  (serious, orange alert)
+bad:            #e05c5c  (failure, red alert)
 ```
 
 ### Sequential Palette (Heat maps, intensity scales)
+Runs **dark → light** as value rises, which is the inverse of the blue ramp it
+replaced. Anything that reads this ramp must derive direction and ink from the
+tokens rather than assume it (see *Heat map ink*).
+
 ```
-seq-100:        #cde2fb  (lightest blue)
-seq-200:        #9ec5f4
-seq-300:        #6da7ec
-seq-400:        #3987e5  (accent blue)
-seq-500:        #256abf
-seq-600:        #184f95
-seq-700:        #0d366b  (darkest blue)
+seq-100:        #162624  (lowest)
+seq-200:        #1d3935
+seq-300:        #245048
+seq-400:        #2a6a5e
+seq-500:        #2a8c7e  (the teal of s3)
+seq-600:        #4ba99a
+seq-700:        #72c2b5  (highest)
 ```
 
 ## Typography
 
 ### Font Stack
-**Primary:** `system-ui, -apple-system, "Segoe UI", sans-serif`
-**Monospace:** `ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`
+```
+--font-display:  'Lora', Georgia, 'Times New Roman', serif        headings, display numbers
+--font-sans:     'Inter', system-ui, -apple-system, sans-serif    prose, UI
+--font-num:      'JetBrains Mono', ui-monospace, …, monospace     labels, grid figures
+```
 
-All typefaces rendered at system defaults (no web fonts) — ensures zero latency, respects user system preferences, offline-friendly.
+Three voices, each with a job: a serif for anything that is a *title or a display
+figure*, a humanist sans for prose and interface, a monospace for labels, column
+heads, periods, tags and every figure inside a data grid.
+
+**Self-hosted, not fetched.** The files live in `assets/fonts/` (variable woff2,
+`unicode-range` preserved so a page downloads only the subset it uses — about
+117 KB for Latin). This is deliberate: the project publishes that it has no
+external dependency and that no page emits a console error, and
+`automation/node/verificar_paginas.js` fails the build on either. A Google Fonts
+`@import` would break both the moment the network is blocked.
 
 ### Typographic Scale
 
 | Role | Size | Weight | Line Height | Letter Spacing | Usage |
 |------|------|--------|-------------|----------------|-------|
-| h1 | 2.1rem (33.6px) | 400 | 1.15 | -0.02em | Page titles, hero headlines |
-| h2 | 1.4rem (22.4px) | 400 | 1.2 | -0.01em | Section headers |
-| h3 | 1.08rem (17.28px) | 400 | 1.3 | 0 | Subsection headers |
-| lead | 1.12rem (17.92px) | 400 | 1.55 | 0 | Introductory paragraphs, callouts |
-| body | 1rem (16px) | 400 | 1.55 | 0 | Body text, table cells |
-| caption | 0.88rem (14.08px) | 400 | 1.55 | 0 | Figure captions, metadata |
-| eyebrow | 0.74rem (11.84px) | 700 | 1.4 | 0.12em | Section labels, uppercase tags |
-| code | 0.88em | 400 | 1.5 | 0 | Inline code, monospace |
-| mono | 0.88em | 400 | 1.5 | 0 | Monospace text blocks |
+| h1 | clamp(2.2rem, 5.4vw, 4.65rem) | 600 serif | 1.02 | -0.045em | Page titles, hero headlines |
+| h2 | clamp(1.55rem, 2.5vw, 2.25rem) | 600 serif | 1.18 | -0.025em | Section headers |
+| h3 | 1.18rem | 600 serif | 1.25 | -0.015em | Subsection headers |
+| lead | clamp(1rem, 1.5vw, 1.17rem) | 400 sans | 1.72 | 0 | Introductory paragraphs |
+| body | 1rem (16px) | 400 sans | 1.62 | 0 | Body text |
+| caption | 0.76rem | 400 sans | 1.5 | 0 | Figure captions, metadata |
+| eyebrow | 0.66rem | 600 mono | 1.4 | 0.13em | Section labels, uppercase |
+| tag | 0.62rem | 600 mono | 1.4 | 0.08em | Tags, chips, evidence seals |
+| nav | 0.66rem | 600 mono | 1.2 | 0.05em | Navigation, header actions |
+| code | 0.86em | 400 mono | 1.5 | 0 | Inline code, monospace |
 
 ### Font Weights
-Only `400` (regular) and `700` (bold) are used.
-- Avoid adding weight mid-scale; instead shift size or color for hierarchy
-- `font-weight: 700` only for eyebrow, strong emphasis, active states
+- **Serif (Lora):** 600 for every heading and display figure. 700 is available but
+  unused — at display sizes with tight tracking it closes the counters.
+- **Sans (Inter):** 400 body, 500/600 emphasis, 700 only inside amber buttons.
+- **Mono (JetBrains Mono):** 500 for column heads and quiet labels, 600 for tags
+  and navigation.
 
 ## Component Library
 
@@ -187,20 +191,20 @@ A field is four parts in a fixed order — label, value readout, control, hint �
 
 ### Layout
 **Container (`.wrap`)**
-- Max-width: 1120px
+- Max-width: 1200px
 - Margin: 0 auto
-- Padding: 0 20px
-- Responsive: adjusts padding on mobile
+- Padding: 0 24px (18px below 760px)
 
 ### Shadow System
-**Light Mode:**
-```
-box-shadow: 0 1px 2px rgba(11,11,11,.04), 0 4px 16px rgba(11,11,11,.05);
-```
-Subtle depth: used sparingly on cards, panels, overlays.
+Depth comes from surface and hairline, not from shadow. Cards carry
+`box-shadow: none`; a hovered card shifts its border and background and lifts 2px.
 
-**Dark Mode:**
-No shadows — contrast between surfaces provides sufficient depth.
+The `--e-1…4` ramp survives for the few things that genuinely float — the chart
+tooltip, the document sheet, the sticky table header — as dark ambient shadow:
+```
+--e-1: 0 1px 2px rgba(0,0,0,.34);     --e-3: 0 10px 32px rgba(0,0,0,.42);
+--e-2: 0 4px 14px rgba(0,0,0,.34);    --e-4: 0 18px 52px rgba(0,0,0,.5);
+```
 
 ## Spacing & Rhythm
 
@@ -208,15 +212,36 @@ Vertical rhythm anchored to **16px base line height (1.55)**.
 - Headings: bottom margin varies by size (h1: 0.35em, h2: 0.5em, h3: 0.4em)
 - Paragraphs: bottom margin 1em
 - Gap patterns: 4px, 6px, 10px, 18px, 20px (multiples of spacing scale)
-- Border radius: 5px (code), 8px (buttons, nav), 10px (containers)
+- Border radius: the register is square. 2px (heat cells, swatches), 3px (tags,
+  chips, nav, buttons, inputs), 4px (banners, checks), 5px (cards, panels), 6px
+  (code blocks). `--r-full` is 3px, not a pill: **this system has no pills.** A
+  true circle (timeline marker, competence seal, legend dot) asks for `50%`
+  explicitly rather than reaching for that token.
 
 ## Accessibility
 
 ### Contrast Validation
-All text meets WCAG AA standards for contrast:
-- Light mode: `#0b0b0b` ink on `#fcfcfb` surface = 20:1 ratio
-- Dark mode: `#ffffff` ink on `#1a1a19` surface = 19:1 ratio
-- Secondary text meets 7:1 minimum
+All text meets WCAG AA. Measured against `--surface-2` (#161b27), the lightest
+background any text sits on:
+
+| token | on page | on surface | on surface-2 |
+|---|---|---|---|
+| `--ink` #e6e3db | 15.5 | 14.6 | 13.4 |
+| `--ink-2` #a8a49c | 8.0 | 7.5 | 6.9 |
+| `--muted` #86837a | 5.2 | 4.9 | 4.5 |
+| `--accent` #d4a843 | 9.0 | 8.4 | 7.8 |
+| `--accent-ink` #e2bf68 | 11.2 | 10.6 | 9.7 |
+| `--ok-text` #5db8aa | 8.4 | 7.9 | 7.3 |
+| `--bad` #e05c5c | 5.5 | 5.2 | 4.8 |
+
+`--muted` is the one token lifted off the reference design: at its original
+#6b6860 it measured 3.1:1 on `--surface-2`, and it dresses column heads, the
+footer, figure captions and the resting state of every nav item. #86837a is the
+smallest step that clears 4.5:1 everywhere while staying the quietest ink of the
+three.
+
+**Ink on amber:** amber fills (primary button, active seal, monogram) take
+`--page` as ink — 9.0:1. White would be 2.2:1.
 
 ### Motion & Animation
 - Respects `prefers-reduced-motion` media query
@@ -239,23 +264,39 @@ All text meets WCAG AA standards for contrast:
 Serious financial interfaces split the type stack in two: an editorial face for prose and a distinct tabular face for figures. Binance does it with BinancePlex, Coinbase with CoinbaseMono, Stripe with `tnum` on every money value. The split is functional, not decorative — a column of numbers that does not align digit-to-digit cannot be scanned.
 
 ```
---font-num:  ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono",
+--font-num:  'JetBrains Mono', ui-monospace, SFMono-Regular,
              "IBM Plex Mono", Menlo, Consolas, monospace
 --num-feat:  tabular-nums slashed-zero
 ```
 
-Applied via `.num`, and automatically inside `.tbl-pro td.n`, range outputs, and `input[type=number]`. Never applied to prose. No web font is loaded — the voice comes from the platform monospace stack, so it costs nothing and works offline.
+Applied via `.num`, and automatically inside `.tbl-pro td.n`, range outputs, and `input[type=number]`. Never applied to prose. The face is self-hosted with the other two, so it still works offline.
 
-**Rule:** every currency amount, rate, ratio, variance, and total renders in `--font-num`. Every sentence renders in the sans.
+**Rule:** every currency amount, rate, ratio, variance, and total inside a data
+grid renders in `--font-num`. Every sentence renders in the sans.
+
+**Exception — display figures.** A number set at display scale is a headline, and
+it takes the serif: `.hero-num`, `.tile .val`, `.proof .n`, `.capa-stats .st .v`.
+The split is by scale, not by content: a figure being *read in a column* wants
+monospace alignment; a figure being *read as a statement* wants the display face.
+Calculator readouts (`.out .v`, 1.4–1.7rem) stay monospace — they change as the
+reader types, and alignment matters more than voice.
 
 ## Data Visualization
 
 ### Chart Color Palette
 Uses the four-series palette (s1, s2, s3, s4) for all charts.
-- Real / Base data: s1 (blue)
-- Budget / Downside scenarios: s2 (orange)
-- Forecast / Upside projections: s3 (green)
-- Stress / Unfavorable outcomes: s4 (red)
+- Real / Base data: s1 (amber)
+- Budget / Downside scenarios: s2 (red)
+- Forecast / Upside projections: s3 (teal)
+- Stress / Unfavorable outcomes: s4 (violet)
+
+### Heat map ink
+The sequential ramp runs dark → light. Cell ink is therefore **computed**, not
+fixed by index: `core.js` measures the WCAG relative luminance of the resolved
+background and picks `#0b0b0b` above 0.179 and `#ffffff` below it. The caption
+derives its wording from the same measurement, so it can never claim a direction
+the palette does not have. The highlighted cell is outlined in `--accent`, which
+is legible against both ends of the ramp.
 
 SVG implementation (no dependencies):
 - Axes rendered with `var(--grid)` color
@@ -331,29 +372,29 @@ The direction of "good" is also per-metric. An efficiency ratio falling is an im
 ### Fluid Typography
 Typography scales don't use `clamp()` — instead lock to specific sizes and test responsive behavior. Users who zoom or resize text maintain full readability.
 
-## Dark Mode Implementation
+## Theme
 
-Uses CSS `@media (prefers-color-scheme: dark)` without requiring user toggles — defaults to system preference. Where custom toggles exist (language, theme picker), stored in browser localStorage and applied via `color-scheme` attribute on `:root`.
+There is one theme. `:root` declares `color-scheme: dark` and the full palette;
+there is no `prefers-color-scheme` branch and no theme toggle. A committed
+register is the point — the design reads as a decision rather than as two
+half-designs, and every token has exactly one value to reason about.
 
-```css
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    /* redefine --variable values */
-  }
-}
-```
-
-All component colors must work in both modes with no manual overrides per component.
+### Print
+Print is the single exception, and it is not a second theme: `@media print`
+re-declares the tokens light so a résumé, a cover letter or a study prints on
+white paper in black ink. Site chrome (header, footer, controls, toolbars) is
+hidden. The document sheet loses its border, radius and shadow and prints
+edge-to-edge on A4; section labels print in near-black and bullet marks in a
+darkened amber (#7a5f1c) that holds 4.5:1 on white.
 
 ## Usage Guidelines
 
 ### When to Use Each Color
-- **Accent (#2a78d6 / #3987e5):** Primary CTAs, active navigation, link text, focus outlines
-- **s1 (blue):** Real data, actuals, baseline scenarios in charts
-- **s2 (orange):** Budget data, conservative forecasts, downside scenarios
-- **s3 (green):** Best-case forecasts, upside scenarios, positive variance
-- **s4 (red):** Stress scenarios, negative outcomes, unfavorable variance
+- **Accent (#d4a843 amber):** Primary CTAs, active navigation, link text, focus outlines, the one accented word in a display headline
+- **s1 (amber):** Real data, actuals, baseline scenarios in charts
+- **s2 (red):** Budget data, conservative forecasts, downside scenarios
+- **s3 (teal):** Best-case forecasts, upside scenarios, positive variance
+- **s4 (violet):** Stress scenarios, negative outcomes, unfavorable variance
 - **Success green:** Validation checks that pass, positive status
 - **Warning yellow/orange:** Caution states, items awaiting confirmation
 - **Danger red:** Failures, blocked states, critical issues
@@ -368,10 +409,10 @@ All component colors must work in both modes with no manual overrides per compon
 As new components are added, maintain these principles:
 1. **Palette constraint:** Use only defined colors (no new hex values)
 2. **Token reuse:** Layer via `color-mix()` or opacity, never duplicate values
-3. **Dual-mode testing:** Test both light and dark themes before shipping
-4. **Accessibility first:** Validate all new text colors against background contrast
+3. **Screen and print:** Test the component on screen and under `@media print` before shipping
+4. **Accessibility first:** Validate all new text colors against background contrast (4.5:1 minimum against `--surface-2`)
 5. **No dependencies:** Components render in vanilla HTML/CSS/SVG only
-6. **System fonts:** Never add web font dependencies (respects offline requirement)
+6. **Self-hosted fonts:** Never fetch a font at runtime — the three faces in `assets/fonts/` are the whole type system, and a network request would break the offline and console-error guarantees
 
 ---
 
@@ -402,6 +443,6 @@ Reading-progress bar, staggered reveal (`.stagger`), count-up on cover figures, 
 
 ---
 
-**Last updated:** 19/08/2026 (v5.0 — editorial cover, section markers, portrait, motion)  
-**Status:** Documented & validated across all 24 pages and 182 automated checks  
+**Last updated:** 24/08/2026 (v6.0 — dark editorial theme: graphite and amber, Lora/Inter/JetBrains Mono self-hosted, square register, single theme)  
+**Status:** Documented & validated across all 25 pages and 194 automated checks  
 **Maintenance:** CSS changes cascade via `:root` custom properties; no per-component overrides

@@ -488,6 +488,23 @@
   }
 
   /* ---------- matriz de calor (sensibilidade) ---------- */
+  // luminância relativa (WCAG) de uma cor hex — decide a tinta legível sobre
+  // o fundo em vez de fixar por índice: a escala sequencial do tema vai do
+  // escuro ao claro, e um limiar fixo inverteria o contraste.
+  function lum(hex) {
+    const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec((hex || "").trim());
+    if (!m) return .5;
+    let h = m[1];
+    if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+    const c = [0, 2, 4].map(i => {
+      const v = parseInt(h.slice(i, i + 2), 16) / 255;
+      return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4);
+    });
+    return .2126 * c[0] + .7152 * c[1] + .0722 * c[2];
+  }
+  // ponto de cruzamento WCAG: acima disto o preto contrasta mais que o branco
+  const INK_FLIP = .179;
+
   function heatTable(el, opts) {
     // opts: rowLab, colLab, rows [labels], cols [labels], values [i][j], fmt, highlight {i,j}
     const fmt = opts.fmt || F.mm;
@@ -498,7 +515,7 @@
       const t = hi === lo ? 0 : (v - lo) / (hi - lo);
       const idx = Math.min(seq.length - 1, Math.floor(t * seq.length));
       const bg = tok(seq[idx]);
-      const ink = idx >= 3 ? "#ffffff" : "#0b0b0b";
+      const ink = lum(bg) > INK_FLIP ? "#0b0b0b" : "#ffffff";
       return `background:${bg};color:${ink}`;
     }
     el.innerHTML = "";
@@ -512,7 +529,7 @@
       opts.cols.forEach((c, j) => {
         const v = opts.values[i][j];
         const hl = opts.highlight && opts.highlight.i === i && opts.highlight.j === j;
-        html += `<td style="${cellStyle(v)}${hl ? ";outline:2px solid " + tok("--ink") + ";outline-offset:-2px;font-weight:700" : ""}">${fmt(v)}</td>`;
+        html += `<td style="${cellStyle(v)}${hl ? ";outline:2px solid " + tok("--accent") + ";outline-offset:-2px;font-weight:700" : ""}">${fmt(v)}</td>`;
       });
       html += "</tr>";
     });
@@ -521,7 +538,11 @@
     el.appendChild(scroll);
     const note = document.createElement("div");
     note.className = "c-sub"; note.style.marginTop = "6px";
-    note.textContent = t("Escala de cor: azul mais escuro = valor mais alto. Célula destacada = premissa central.", "Colour scale: darker blue = higher value. Highlighted cell = central assumption.");
+    // a direção da escala é lida do próprio tema, não afirmada de cor
+    const claroAlto = lum(tok(seq[seq.length - 1])) > lum(tok(seq[0]));
+    note.textContent = claroAlto
+      ? t("Escala de cor: tom mais claro = valor mais alto. Célula destacada = premissa central.", "Colour scale: lighter tone = higher value. Highlighted cell = central assumption.")
+      : t("Escala de cor: tom mais escuro = valor mais alto. Célula destacada = premissa central.", "Colour scale: darker tone = higher value. Highlighted cell = central assumption.");
     el.appendChild(note);
   }
 

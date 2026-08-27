@@ -64,7 +64,9 @@ Para rodar localmente: `python3 -m http.server` na raiz do repositório e abra
 │       └── data.js     dataset central da empresa fictícia (fonte única)
 ├── docs/               metodologia, fontes, validação e limitações (Markdown)
 └── automation/
-    └── python/cvm_dados_abertos.py   coleta real de dados abertos da CVM
+    └── python/
+        ├── cvm_dados_abertos.py   coleta real de dados abertos da CVM
+        └── kfinance_dados.py      coleta real via kFinance (Kensho/S&P Global) — DRE e preços
 ```
 
 Arquitetura dos modelos: **Inputs → Cálculos → Outputs → Checks**, com um único dataset

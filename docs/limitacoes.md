@@ -4,8 +4,10 @@ Declaração honesta do que este portfólio **não** é e do que os modelos **n�
 
 ## Limitações gerais
 
-- **Todos os dados financeiros são simulados.** A Aurora Industrial S.A. e a Vetra Componentes
-  S.A. são fictícias; nenhum resultado demonstra desempenho real de empresa ou do titular.
+- **Os dados financeiros dos simuladores são simulados.** A Aurora Industrial S.A. e a Vetra
+  Componentes S.A. são fictícias; nenhum resultado demonstra desempenho real de empresa ou do
+  titular. **Exceção:** o [simulador de Price · Volume · Mix](../pvm/index.html) é uma ferramenta —
+  calcula sobre a base que o usuário carregar, e seu dataset DEMO é sintético e rotulado.
 - **Nada aqui é recomendação de investimento**, proposta de negócio ou opinião sobre ativos reais.
 - **Parâmetros de mercado** (taxa livre de risco, prêmios, betas, múltiplos) são hipóteses de
   estudo, não dados atuais — num caso real seriam extraídos de fontes primárias datadas.
@@ -14,6 +16,15 @@ Declaração honesta do que este portfólio **não** é e do que os modelos **n�
 
 ## Limitações por módulo
 
+- **Price · Volume · Mix (ferramenta):** o resultado depende inteiramente da qualidade e da
+  comparabilidade da base enviada — o simulador diagnostica problemas, não os corrige. O preço
+  unitário é derivado de `Receita / Quantidade`, então descontos e devoluções aparecem como efeito
+  preço. Produtos novos e descontinuados não têm par de comparação e por isso não geram efeito de
+  preço nem de mix. A fronteira entre Volume e Mix depende da granularidade da base recebida. Com
+  unidades de medida heterogêneas a ponte fecha, mas a leitura de Volume e Mix deixa de ser válida.
+  A análise de margem cobre apenas a população com COGS informado. O simulador **não explica por
+  que** preço ou volume mudaram: isso não está nos dados. Lista completa em
+  [`pvm-metodologia.md`](pvm-metodologia.md) §11.
 - **Real vs. Orçado:** decomposição PVM assume efeitos independentes; margens de contribuição
   são premissas, não custeio apurado.
 - **Rolling forecast:** drivers lineares e independentes; sem elasticidade preço-volume nem

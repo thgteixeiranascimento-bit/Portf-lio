@@ -146,7 +146,8 @@
         <tr><td>Riscos / stress</td><td>4</td><td style="white-space:normal">Ponte de stress soma; covenant recalculado; escala do mapa</td></tr>
         <tr><td>Portfólio (educacional)</td><td>4</td><td style="white-space:normal">Pesos somam 100%; matriz simétrica; variâncias ≥ 0; dominância da mínima variância</td></tr>
         <tr><td>Análise setorial — bancos 2026</td><td>8</td><td style="white-space:normal">Somas e variações divulgadas reconciliadas dentro dos próprios documentos (lucro 1S = 1T+2T, carteiras, margens, PDD, trajetória da Selic)</td></tr>
-        <tr class="tot"><td>Total</td><td>52</td><td>checks automáticos publicados</td></tr>
+        <tr><td>Price · Volume · Mix (ferramenta)</td><td>10 + 100</td><td style="white-space:normal">10 controles de integridade recalculados na tela (pontes de receita, COGS e margem, linhas inválidas, chaves duplicadas, conflitos de UOM, resíduo) e <b>100 testes automatizados</b> executáveis em <code>npm test</code> ou em <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio/blob/main/tests/index.html">tests/index.html</a></td></tr>
+        <tr class="tot"><td>Total</td><td>62 + 100</td><td>checks automáticos publicados + testes executáveis</td></tr>
       </tbody>
     </table></div>
     <h3>Pendências conhecidas (não ocultadas)</h3>
@@ -175,13 +176,18 @@
         <tr><td>Portfólio — fronteira eficiente</td><td>checks 4/4</td><td>hipóteses didáticas</td><td><span class="tag resv">⚠️ Validado com ressalvas — uso educacional</span></td></tr>
         <tr><td>Dashboards e KPIs</td><td>derivados do dataset central</td><td>simulados</td><td><span class="tag resv">⚠️ Validado com ressalvas</span></td></tr>
         <tr><td>Análise setorial — bancos 2026</td><td>checks 8/8</td><td>públicos (fontes primárias, via OCR)</td><td><span class="tag resv">⚠️ Validado com ressalvas — OCR sem conferência contra o PDF original; períodos assimétricos</span></td></tr>
+        <tr><td><a href="pvm/index.html">Price · Volume · Mix (ferramenta)</a></td><td>100/100 testes + reconciliação em tempo real</td><td>base do próprio usuário; dataset DEMO sintético e rotulado</td><td><span class="tag okv">✅ Validado — metodologia derivada e confrontada com as fontes</span></td></tr>
         <tr><td>Perfil profissional (Sobre)</td><td>—</td><td>lacunas declaradas</td><td><span class="tag nao">❌ Não validado — aguarda dados verificáveis do titular</span></td></tr>
       </tbody>
     </table></div>
     <p style="font-size:.85rem">
-      A ressalva comum a todos os projetos: <b>os dados de entrada são simulações identificadas</b>. A validação
+      A ressalva comum aos projetos: <b>os dados de entrada são simulações identificadas</b>. A validação
       atesta a consistência matemática e metodológica dos modelos, não a veracidade de números que nunca
-      pretenderam ser reais.
+      pretenderam ser reais. A exceção é o <b>simulador de Price · Volume · Mix</b>: ele é uma ferramenta e
+      calcula sobre a base que o usuário carregar — ali a validação atesta o <b>motor</b> (fórmulas derivadas,
+      identidades verificadas, reconciliação exibida sempre), não os dados, que são de responsabilidade de
+      quem os carrega. Metodologia completa em
+      <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio/blob/main/docs/pvm-metodologia.md">docs/pvm-metodologia.md</a>.
     </p>
   </section>
 

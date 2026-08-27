@@ -455,6 +455,7 @@
   const NAV = [
     ["index.html", "Início", "home"],
     ["simuladores/index.html", "Simuladores", "sim"],
+    ["pvm/index.html", "PVM", "pvm"],
     ["analises/bancos-2026.html", "Análises", "ana"],
     ["dashboards.html", "Dashboards", "dash"],
     ["kpis.html", "KPIs", "kpis"],
@@ -474,9 +475,14 @@
     body.prepend(header);
     const footer = document.createElement("footer");
     footer.className = "site";
+    const escopo = page === "pvm"
+      ? `O <b>simulador de Price · Volume · Mix</b> roda sobre a base que você carregar, processada
+      apenas no seu navegador; o dataset DEMO é sintético e está rotulado como tal.
+      Os demais simuladores usam <b>empresa fictícia (simulações identificadas)</b>.`
+      : `Simuladores usam <b>empresa fictícia (simulações identificadas)</b>; análises com dados públicos citam fonte e data.`;
     footer.innerHTML = `<div class="wrap">
       <div>Portfólio técnico de Finanças Corporativas, FP&amp;A, Valuation e BI.<br>
-      Simuladores usam <b>empresa fictícia (simulações identificadas)</b>; análises com dados públicos citam fonte e data.
+      ${escopo}
       Nada aqui representa experiência profissional real nem recomendação de investimento.</div>
       <div>Código-fonte: <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio">GitHub</a><br>
       Metodologia e governança: <a href="${root}metodologia.html">ver protocolo</a></div>

@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Price · Volume · Mix Simulator — Portfólio Finanças Corporativas &amp; FP&amp;A</title>
+<meta name="description" content="Simulador de Price Volume Mix: carregue sua própria base (XLSX/CSV) e decomponha a variação de receita e de margem bruta em preço, volume, mix e efeitos de portfólio — com ponte reconciliada e exportação para Excel.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/pvm.css">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thgteixeiranascimento-bit.github.io/Portf-lio/pvm/index.html">
+<meta property="og:title" content="Price · Volume · Mix Simulator | Portfólio FP&amp;A">
+<meta property="og:description" content="Carregue sua base e decomponha receita e margem bruta em Price, Volume, Mix e efeitos de portfólio. Processamento local no navegador.">
+<meta property="og:image" content="https://thgteixeiranascimento-bit.github.io/Portf-lio/assets/og-image.png">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body data-page="pvm" data-root="../">
+<main class="wrap">
+
+  <!-- ======================================================= CABEÇALHO ==== -->
+  <section class="hero pvm-hero">
+    <div class="eyebrow">Ferramenta de FP&amp;A · executa no seu navegador</div>
+    <h1>PRICE · VOLUME · MIX<br><span class="pvm-h1-sub">Revenue &amp; Gross Margin Simulator</span></h1>
+    <p class="lead">Understand what actually moved performance.</p>
+    <p class="lead" style="font-size:1rem">
+      Upload your dataset and decompose changes in revenue and gross margin into Price, Volume, Mix
+      and portfolio effects. — <strong>Carregue sua própria base</strong> (XLSX, CSV ou TSV), mapeie as colunas,
+      escolha os dois períodos e o simulador decompõe a variação com uma <strong>ponte que reconcilia
+      exatamente</strong>, mostrando o resíduo em vez de escondê-lo.
+    </p>
+    <div class="tags">
+      <span class="tag sim">Sua base, seus números</span>
+      <span class="tag">4 convenções metodológicas</span>
+      <span class="tag">Receita + Margem bruta</span>
+      <span class="tag">Excel · CSV · JSON</span>
+      <span class="tag okv">Processamento local</span>
+    </div>
+  </section>
+
+  <div class="banner">
+    <span>🔒</span>
+    <div>
+      <b>Your file is processed locally in your browser. No dataset is uploaded to a server.</b><br>
+      Este site é estático (GitHub Pages) e <b>não possui backend</b>: leitura do arquivo, cálculo e exportação
+      acontecem inteiramente na sua máquina — verificável no código-fonte de
+      <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio/blob/main/assets/js/pvm-parser.js"><code>pvm-parser.js</code></a>.
+      Nada é transmitido, nada é registrado.
+    </div>
+  </div>
+
+  <!-- ====================================================== WORKFLOW ==== -->
+  <nav class="pvm-flow" aria-label="Etapas do simulador">
+    <ol id="flow">
+      <li data-step="1" class="on"><span class="n">01</span><span class="l">Upload</span></li>
+      <li data-step="2"><span class="n">02</span><span class="l">Map</span></li>
+      <li data-step="3"><span class="n">03</span><span class="l">Validate</span></li>
+      <li data-step="4"><span class="n">04</span><span class="l">Analyze</span></li>
+      <li data-step="5"><span class="n">05</span><span class="l">Export</span></li>
+    </ol>
+  </nav>
+
+  <!-- ==================================================== 01 · UPLOAD ==== -->
+  <section class="blk pvm-step" id="step-1">
+    <div class="eyebrow">01 · Upload</div>
+    <h2 style="margin-top:.2em">Carregar a base de dados</h2>
+
+    <div id="drop" class="pvm-drop" tabindex="0" role="button"
+         aria-label="Área para soltar o arquivo ou clicar para selecionar">
+      <div class="pvm-drop-icon" aria-hidden="true">⇪</div>
+      <div class="pvm-drop-main">Arraste o arquivo aqui ou <u>clique para selecionar</u></div>
+      <div class="pvm-drop-sub">.xlsx · .csv · .tsv — detecção automática de delimitador, separador decimal e formato (long/wide)</div>
+      <input type="file" id="file" accept=".xlsx,.xlsm,.csv,.tsv,.txt" hidden>
+    </div>
+
+    <div class="pvm-actions">
+      <button class="btn" id="btn-demo" type="button">Usar dataset DEMO</button>
+      <button class="btn" id="btn-template" type="button">Baixar template (.xlsx)</button>
+      <button class="btn" id="btn-load" type="button">Abrir análise salva</button>
+    </div>
+    <p class="pvm-note">
+      O <b>dataset DEMO</b> é um conjunto sintético de 15 produtos rotulado como demonstração —
+      <b>não representa nenhuma empresa real</b> e existe apenas para você ver a ferramenta funcionando
+      antes de subir a sua base.
+    </p>
+
+    <div id="upload-status" class="pvm-status" hidden></div>
+
+    <details class="doc">
+      <summary>O que a base precisa ter</summary>
+      <div class="inner">
+        <h4>Mínimo para o PVM de Receita</h4>
+        <p>Identificador do item (SKU ou Produto) · Período · Quantidade · Receita — <em>ou</em> Preço unitário
+        no lugar da receita (a receita é calculada como preço × quantidade).</p>
+        <h4>Para o PVM de Margem Bruta</h4>
+        <p>Adicione COGS (custo dos produtos vendidos) ou custo unitário.</p>
+        <h4>Formatos aceitos</h4>
+        <p><b>LONG</b> — uma linha por item e por período (<code>SKU · Period · Quantity · Revenue · COGS</code>).<br>
+           <b>WIDE</b> — uma linha por item, com colunas separadas
+           (<code>SKU · Revenue_Base · Revenue_Current · Quantity_Base · Quantity_Current</code>).<br>
+           O simulador detecta o formato e permite corrigir a detecção na etapa 02.</p>
+        <h4>Nomes de coluna</h4>
+        <p>Não há nomes obrigatórios. A etapa 02 mostra uma tela de mapeamento com as colunas encontradas.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ======================================================= 02 · MAP ==== -->
+  <section class="blk pvm-step" id="step-2" hidden>
+    <div class="eyebrow">02 · Map</div>
+    <h2 style="margin-top:.2em">Mapear colunas</h2>
+    <p>Confira o que foi detectado automaticamente e ajuste o que for necessário. Campos marcados
+       com <span class="pvm-req">obrigatório</span> são exigidos para calcular.</p>
+
+    <div class="controls">
+      <div class="row">
+        <div class="ctrl" id="sheet-wrap" hidden>
+          <label for="sheet">Aba da planilha</label>
+          <select id="sheet"></select>
+        </div>
+        <div class="ctrl">
+          <label for="layout">Formato da base</label>
+          <select id="layout">
+            <option value="long">LONG — uma linha por item × período</option>
+            <option value="wide">WIDE — colunas base/atual na mesma linha</option>
+          </select>
+        </div>
+        <div class="ctrl" id="gran-wrap">
+          <label for="granularity">Granularidade do período</label>
+          <select id="granularity">
+            <option value="auto">Automática (como está na base)</option>
+            <option value="day">Dia</option>
+            <option value="month">Mês</option>
+            <option value="quarter">Trimestre</option>
+            <option value="year">Ano</option>
+          </select>
+        </div>
+        <div class="ctrl">
+          <label for="decimal">Separador decimal <span title="Aplicado às colunas numéricas. 'Automático' usa o padrão inferido de cada coluna.">ⓘ</span></label>
+          <select id="decimal">
+            <option value="auto">Automático (inferido por coluna)</option>
+            <option value="comma">Vírgula — 1.234,56</option>
+            <option value="dot">Ponto — 1,234.56</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="tbl-scroll">
+      <table class="tbl" id="map-table">
+        <caption>Mapeamento de colunas</caption>
+        <thead><tr><th>Campo PVM</th><th>Coluna encontrada</th><th>Papel</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="dataset-stats" class="tiles"></div>
+
+    <details class="doc" id="preview-wrap">
+      <summary>Pré-visualizar as primeiras 50 linhas</summary>
+      <div class="inner"><div class="tbl-scroll" id="preview"></div></div>
+    </details>
+
+    <div class="pvm-actions">
+      <button class="btn primary" id="btn-to-3" type="button">Continuar para validação →</button>
+    </div>
+  </section>
+
+  <!-- ================================================== 03 · VALIDATE ==== -->
+  <section class="blk pvm-step" id="step-3" hidden>
+    <div class="eyebrow">03 · Validate</div>
+    <h2 style="margin-top:.2em">Períodos e qualidade dos dados</h2>
+
+    <div class="controls">
+      <div class="row">
+        <div class="ctrl">
+          <label for="base-period">Período base</label>
+          <select id="base-period"></select>
+        </div>
+        <div class="ctrl">
+          <label for="current-period">Período de comparação</label>
+          <select id="current-period"></select>
+        </div>
+        <div class="ctrl">
+          <label for="methodology">Metodologia PVM <span id="method-help" class="pvm-info" role="button" tabindex="0" title="Ver fórmulas">ⓘ</span></label>
+          <select id="methodology"></select>
+        </div>
+      </div>
+      <p class="pvm-note" id="method-note"></p>
+    </div>
+
+    <div class="pvm-grid-2">
+      <div>
+        <h3>Data Quality</h3>
+        <div id="dq-summary" class="pvm-dq"></div>
+        <div id="dq-issues" class="pvm-issues"></div>
+      </div>
+      <div>
+        <h3>Data Quality Score</h3>
+        <div id="dq-score"></div>
+      </div>
+    </div>
+
+    <div class="pvm-actions">
+      <button class="btn primary" id="btn-run" type="button">RUN PVM</button>
+      <button class="btn" id="btn-issues-csv" type="button">Exportar relatório de ocorrências</button>
+      <span id="run-blocked" class="pvm-blocked" hidden></span>
+    </div>
+  </section>
+
+  <!-- =================================================== 04 · ANALYZE ==== -->
+  <section class="blk pvm-step" id="step-4" hidden>
+    <div class="eyebrow">04 · Analyze</div>
+
+    <div class="pvm-toolbar">
+      <div class="seg" id="mode-seg" role="tablist" aria-label="Modo de análise">
+        <button type="button" data-mode="revenue" class="on" role="tab" aria-selected="true">Revenue PVM</button>
+        <button type="button" data-mode="gm" role="tab" aria-selected="false">Gross Margin PVM</button>
+      </div>
+      <div class="pvm-toolbar-right">
+        <label class="pvm-inline"><span>Moeda</span>
+          <select id="currency">
+            <option value="BRL">BRL — R$</option>
+            <option value="USD">USD — $</option>
+            <option value="EUR">EUR — €</option>
+            <option value="GBP">GBP — £</option>
+            <option value="none">Sem símbolo</option>
+          </select>
+        </label>
+        <label class="pvm-inline"><span>Escala</span>
+          <select id="scale">
+            <option value="1">Unidades</option>
+            <option value="1000">Milhares</option>
+            <option value="1000000">Milhões</option>
+            <option value="1000000000">Bilhões</option>
+          </select>
+        </label>
+        <button class="btn" id="btn-filters" type="button" aria-expanded="false">Filtros</button>
+      </div>
+    </div>
+
+    <div id="uom-alert" class="banner pvm-alert" hidden></div>
+
+    <div id="filters-panel" class="controls" hidden>
+      <div class="head"><span class="t">Filtros</span>
+        <button class="btn" id="btn-clear-filters" type="button">Limpar tudo</button>
+      </div>
+      <div class="row" id="filters-row"></div>
+      <p class="pvm-note">Cada filtro <b>recalcula o PVM do zero</b> sobre a população filtrada — inclusive
+      o fator de crescimento <code>g</code> e o preço médio do portfólio. Reaproveitar efeitos calculados
+      na base cheia produziria uma ponte que não fecha.</p>
+    </div>
+
+    <div id="kpis" class="tiles"></div>
+
+    <figure class="chart" id="chart-waterfall"></figure>
+
+    <div class="pvm-grid-2">
+      <div>
+        <div class="pvm-chart-head">
+          <h3>Contribuição por efeito</h3>
+          <div class="seg small" id="contrib-seg">
+            <button type="button" data-mode="abs" class="on">Absoluto</button>
+            <button type="button" data-mode="pct">% da variação</button>
+          </div>
+        </div>
+        <figure class="chart" id="chart-contrib"></figure>
+      </div>
+      <div>
+        <div class="pvm-chart-head">
+          <h3>Contribuição por dimensão</h3>
+          <select id="dim-select" class="pvm-select-sm" aria-label="Dimensão"></select>
+        </div>
+        <figure class="chart" id="chart-dim"></figure>
+      </div>
+    </div>
+
+    <h3>Matriz de mix</h3>
+    <p>Cada bolha é um item comparável. Itens à <b>direita</b> têm preço base acima da média do portfólio;
+       itens <b>acima da linha</b> ganharam participação em quantidade. Ganhar participação em item caro
+       (quadrante superior direito) produz mix favorável.</p>
+    <figure class="chart" id="chart-mix"></figure>
+
+    <div class="pvm-grid-2">
+      <div><h3>Top drivers positivos</h3><div id="top-pos"></div></div>
+      <div><h3>Top drivers negativos</h3><div id="top-neg"></div></div>
+    </div>
+
+    <h3>Tabela de drivers</h3>
+    <div class="pvm-toolbar">
+      <div class="pvm-toolbar-left">
+        <label class="pvm-inline"><span>Agrupar por</span><select id="drill-select"></select></label>
+        <label class="pvm-inline"><span>Top N</span>
+          <select id="topn"><option value="25">25</option><option value="50">50</option>
+          <option value="100">100</option><option value="0">Todos</option></select>
+        </label>
+      </div>
+      <div class="pvm-toolbar-right">
+        <input type="search" id="search" placeholder="Buscar item…" aria-label="Buscar item">
+        <button class="btn" id="btn-csv" type="button">Baixar CSV</button>
+      </div>
+    </div>
+    <div class="tbl-scroll" id="drivers"></div>
+    <p class="pvm-note" id="drill-note"></p>
+
+    <h3>Executive Insights</h3>
+    <p class="pvm-note">Cada frase abaixo é montada a partir de um número já calculado. Clique em
+      <b>Why?</b> para ver a fórmula, os valores de origem, o filtro e a metodologia.</p>
+    <div id="insights" class="pvm-insights"></div>
+    <div id="narrative-audit" class="pvm-audit"></div>
+
+    <h3>Model integrity</h3>
+    <div id="integrity" class="pvm-integrity"></div>
+
+    <details class="doc">
+      <summary>Methodology &amp; Controls</summary>
+      <div class="inner" id="methodology-panel"></div>
+    </details>
+
+    <details class="doc">
+      <summary>Comparação de metodologias (educacional)</summary>
+      <div class="inner">
+        <p>As quatro convenções decompõem a <b>mesma</b> variação de receita e todas reconciliam exatamente.
+          O que muda é <b>onde a interação preço × quantidade é alocada</b> e como o balde de quantidade é
+          repartido entre Volume e Mix. A metodologia selecionada acima permanece a oficial do dashboard
+          e da exportação.</p>
+        <div class="tbl-scroll" id="method-compare"></div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ==================================================== 05 · EXPORT ==== -->
+  <section class="blk pvm-step" id="step-5" hidden>
+    <div class="eyebrow">05 · Export</div>
+    <h2 style="margin-top:.2em">Exportar e salvar</h2>
+    <div class="grid c3">
+      <div class="card">
+        <h3>Excel (.xlsx)</h3>
+        <p>Seis abas: Executive Summary, Revenue PVM, Gross Margin PVM, Data Quality, Input Mapping
+           e Methodology — com formatação financeira e as fórmulas aplicadas.</p>
+        <button class="btn primary" id="btn-xlsx" type="button">Export to Excel</button>
+      </div>
+      <div class="card">
+        <h3>CSV / JSON</h3>
+        <p>CSV com o detalhe por item (separador <code>;</code>, decimal vírgula) e JSON com o
+           resultado completo, para reprocessamento externo.</p>
+        <div class="pvm-actions">
+          <button class="btn" id="btn-csv2" type="button">Export CSV</button>
+          <button class="btn" id="btn-json" type="button">Export JSON</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Salvar análise</h3>
+        <p>Guarda no seu navegador (IndexedDB) o mapeamento, os períodos, os filtros, a metodologia e
+           os resultados — com trilha de auditoria. <b>Não sai da sua máquina.</b></p>
+        <div class="pvm-actions">
+          <input type="text" id="analysis-name" placeholder="Nome da análise" aria-label="Nome da análise">
+          <button class="btn primary" id="btn-save" type="button">Save Analysis</button>
+        </div>
+        <div id="save-status" class="pvm-note"></div>
+      </div>
+    </div>
+
+    <h3>Análises salvas</h3>
+    <div class="tbl-scroll" id="saved-list"></div>
+  </section>
+
+  <!-- ==================================================== DOCUMENTAÇÃO ==== -->
+  <section class="blk">
+    <h2>Sobre este simulador</h2>
+    <div class="grid c3">
+      <div class="card">
+        <h3>Qual decisão ele suporta</h3>
+        <p>Separar o que veio de <b>preço</b>, de <b>volume</b>, de <b>composição do portfólio</b> e de
+        <b>entrada/saída de produtos</b> — para decidir onde agir: repactuar preço, atacar volume,
+        rebalancear mix ou revisar o portfólio.</p>
+      </div>
+      <div class="card">
+        <h3>Por que a ponte fecha</h3>
+        <p>Cada efeito tem definição algébrica própria e a soma é uma identidade, não um encaixe.
+        O <b>resíduo é exibido sempre</b>, mesmo quando é zero — se falhar, o painel mostra
+        <code>FAIL</code> em vez de esconder.</p>
+      </div>
+      <div class="card">
+        <h3>O que ele não faz</h3>
+        <p>Não explica <em>por que</em> preço ou volume mudaram: isso não está na base. A narrativa
+        descreve o que os números mostram e nunca atribui causa que os dados não provam.</p>
+      </div>
+    </div>
+
+    <details class="doc">
+      <summary>Referências utilizadas</summary>
+      <div class="inner">
+        <ul>
+          <li><b>FTI Consulting</b> — <i>A Quantifiable Approach to Price Volume Mix Analysis</i>.
+            <a href="https://www.fticonsulting.com/insights/white-papers/quantifiable-approach-price-volume-mix-analysis">fticonsulting.com</a>
+            — origem conceitual da metodologia padrão (efeito Mix como diferencial de preço do item contra a
+            média do portfólio aplicado ao desvio de participação).</li>
+          <li><b>Workbook do webinar de PVM</b> fornecido pelo proprietário do portfólio
+            (<code>PVM_DATA.xlsx</code>, <code>PVM_calculations.xlsx</code>, <code>PVM variance analysis webinar.pbix</code>)
+            — abas <i>Basic</i>, <i>Advanced</i> e <i>New method</i>. As convergências e as divergências
+            entre esse material e o motor estão documentadas em
+            <a href="../docs/pvm-metodologia.md">docs/pvm-metodologia.md</a>.</li>
+          <li><b>Relatório visual em Power BI</b> indicado na especificação do projeto — usado como
+            referência de layout e de vocabulário, não como fonte de fórmula.</li>
+        </ul>
+        <p class="pvm-note">Nenhuma fórmula deste simulador é atribuída a uma fonte que não a contenha.
+          A derivação algébrica completa de cada convenção está em
+          <a href="../docs/pvm-metodologia.md">docs/pvm-metodologia.md</a>.</p>
+      </div>
+    </details>
+
+    <div class="banner">
+      <span>⚖️</span>
+      <div>
+        <b>Disclaimer.</b> This tool is intended for financial planning and analytical purposes.
+        Results depend on the quality and comparability of the uploaded data. Users should validate
+        accounting definitions and business-specific classifications before relying on the analysis.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="pvm-overlay" class="pvm-overlay" hidden>
+  <div class="pvm-overlay-box" role="status" aria-live="polite">
+    <div class="pvm-spin" aria-hidden="true"></div>
+    <div class="pvm-overlay-text" id="overlay-text">Processando…</div>
+    <div class="pvm-bar"><i id="overlay-bar"></i></div>
+  </div>
+</div>
+
+<div id="pvm-modal" class="pvm-modal" hidden>
+  <div class="pvm-modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="pvm-modal-head">
+      <b id="modal-title">Detalhe</b>
+      <button class="btn" id="modal-close" type="button" aria-label="Fechar">Fechar</button>
+    </div>
+    <div class="pvm-modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/pvm-app.js"></script>
+<noscript>
+  <p style="max-width:900px;margin:24px auto;padding:0 20px">
+    Este simulador executa inteiramente no navegador e precisa de JavaScript habilitado.
+    A metodologia completa está documentada em <a href="../docs/pvm-metodologia.md">docs/pvm-metodologia.md</a>.
+  </p>
+</noscript>
+</body>
+</html>

@@ -1,0 +1,394 @@
+/* ============================================================================
+   pvm.css — estilos específicos do simulador Price · Volume · Mix
+   ----------------------------------------------------------------------------
+   Complementa assets/css/style.css. Não redefine nenhum token: todas as cores,
+   raios, sombras, tipografia e espaçamentos vêm das variáveis do portfólio
+   (--page, --surface, --ink, --s1..--s4, --shadow, --border...), de modo que
+   o simulador acompanha automaticamente o tema claro/escuro do site.
+   ========================================================================== */
+
+/* --------------------------------------------------------------- base --- */
+/* `hidden` precisa vencer os display:flex/grid declarados abaixo. Sem isto,
+   o overlay e o modal continuariam ocupando a tela inteira (invisíveis, mas
+   capturando cliques) depois de fechados. */
+[hidden] { display: none !important; }
+
+/* ------------------------------------------------------------- cabeçalho -- */
+.pvm-hero h1 {
+  font-size: 2.35rem;
+  letter-spacing: .04em;
+  line-height: 1.12;
+}
+.pvm-hero .pvm-h1-sub {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  color: var(--ink-2);
+  margin-top: 6px;
+}
+.pvm-hero .lead:first-of-type {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------- fluxo 01..05 -- */
+.pvm-flow { margin: 22px 0 10px; }
+.pvm-flow ol {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  list-style: none; margin: 0; padding: 0;
+}
+.pvm-flow li {
+  display: flex; align-items: center; gap: 8px;
+  flex: 1 1 130px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: .86rem;
+  color: var(--muted);
+  transition: border-color .15s, color .15s;
+}
+.pvm-flow li .n {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  font-size: .78rem;
+  letter-spacing: .06em;
+}
+.pvm-flow li.on {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.pvm-flow li.done { color: var(--ok-text); }
+.pvm-flow li.done .n::after { content: " ✓"; }
+
+/* ----------------------------------------------------------- área de upload */
+.pvm-drop {
+  border: 2px dashed color-mix(in srgb, var(--accent) 40%, var(--border));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--accent) 4%, var(--surface));
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.pvm-drop:hover,
+.pvm-drop:focus-visible { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, var(--surface)); }
+.pvm-drop.drag { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+.pvm-drop-icon { font-size: 2rem; color: var(--accent-ink); line-height: 1; }
+.pvm-drop-main { font-size: 1.02rem; font-weight: 600; margin: 10px 0 4px; color: var(--ink); }
+.pvm-drop-sub { font-size: .84rem; color: var(--muted); }
+
+.pvm-actions {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 14px 0;
+}
+.pvm-actions input[type=text],
+.pvm-actions input[type=search] {
+  padding: 7px 10px; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--page); color: var(--ink); font: inherit; font-size: .88rem; min-width: 190px;
+}
+button.btn.primary {
+  background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600;
+}
+button.btn.primary:hover { background: var(--accent-ink); border-color: var(--accent-ink); }
+button.btn[disabled] { opacity: .45; cursor: not-allowed; }
+button.btn.danger { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, var(--border)); }
+
+.pvm-note { font-size: .84rem; color: var(--muted); margin: 8px 0; max-width: 82ch; }
+.pvm-note code { font-size: .82em; }
+.pvm-req {
+  font-size: .68rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--bad); border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent);
+  background: color-mix(in srgb, var(--bad) 8%, var(--surface));
+  border-radius: 999px; padding: 1px 7px; white-space: nowrap;
+}
+.pvm-opt {
+  font-size: .68rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--muted); border: 1px solid var(--border); background: var(--surface-2);
+  border-radius: 999px; padding: 1px 7px; white-space: nowrap;
+}
+.pvm-info {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 50%;
+  font-size: .72rem; color: var(--accent-ink);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  cursor: help; user-select: none;
+}
+.pvm-info:hover, .pvm-info:focus-visible { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+
+.pvm-status {
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  background: var(--surface); border-radius: 10px; padding: 11px 15px;
+  font-size: .88rem; color: var(--ink-2); margin: 14px 0;
+}
+.pvm-status.err { border-left-color: var(--bad); color: var(--bad); }
+.pvm-status b { color: var(--ink); }
+
+/* Deslocamento para o cabecalho fixo do portfolio nao cobrir o topo da etapa */
+.pvm-step { scroll-margin-top: 74px; }
+
+/* ------------------------------------------------------------ layout duplo */
+.pvm-grid-2 {
+  display: grid; gap: 20px;
+  /* min() evita que a coluna mínima estoure a viewport em telas de 320 px */
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  margin: 16px 0;
+  align-items: start;
+}
+
+/* ------------------------------------------------------ barra de ferramentas */
+.pvm-toolbar {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  justify-content: space-between; margin: 14px 0;
+}
+.pvm-toolbar-left, .pvm-toolbar-right {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+}
+.pvm-inline { display: inline-flex; align-items: center; gap: 6px; font-size: .82rem; color: var(--ink-2); }
+.pvm-inline select, .pvm-select-sm {
+  padding: 5px 8px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--page); color: var(--ink); font: inherit; font-size: .85rem;
+}
+.pvm-toolbar-right input[type=search] {
+  padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--page); color: var(--ink); font: inherit; font-size: .85rem; min-width: 170px;
+}
+.seg.small button { padding: 5px 11px; font-size: .82rem; }
+.pvm-chart-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; flex-wrap: wrap; margin-top: 6px;
+}
+.pvm-chart-head h3 { margin: .6em 0 .2em; }
+
+/* -------------------------------------------------------------- KPI tiles */
+/* Valores monetarios com prefixo (R$ 8.208.400) precisam de mais largura que os
+   tiles padrao do portfolio, senao o simbolo cai para a linha de cima. */
+#kpis { grid-template-columns: repeat(auto-fit, minmax(min(198px, 100%), 1fr)); }
+#kpis .tile .val { font-size: 1.22rem; line-height: 1.28; }
+#kpis .tile .sub { line-height: 1.35; }
+.tile.kpi-eff .val { font-size: 1.22rem; }
+.tile.kpi-eff.pos .val { color: var(--ok-text); }
+.tile.kpi-eff.neg .val { color: var(--bad); }
+.tile .kpi-flag {
+  display: inline-block; font-size: .66rem; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; margin-top: 4px; padding: 1px 6px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--warn) 55%, transparent);
+  background: color-mix(in srgb, var(--warn) 16%, var(--surface));
+  color: var(--ink);
+}
+.tile.kpi-total { border-left: 3px solid var(--baseline); }
+.tile.kpi-head { border-left: 3px solid var(--accent); }
+
+/* --------------------------------------------------------- data quality */
+.pvm-dq { display: grid; gap: 7px; margin: 10px 0; }
+.pvm-dq-row {
+  display: flex; align-items: baseline; gap: 10px; font-size: .87rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 8px 12px;
+}
+.pvm-dq-row .st { font-weight: 800; flex: none; font-size: .8rem; }
+.pvm-dq-row.ok .st { color: var(--ok-text); }
+.pvm-dq-row.warn .st { color: var(--warn); }
+.pvm-dq-row.bad .st { color: var(--bad); }
+.pvm-dq-row .num { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--muted); font-size: .82rem; }
+
+.pvm-issues { display: grid; gap: 8px; margin: 12px 0; }
+.pvm-issue {
+  border: 1px solid var(--border); border-left: 3px solid var(--muted);
+  border-radius: 10px; background: var(--surface); padding: 10px 14px; font-size: .87rem;
+}
+.pvm-issue.error { border-left-color: var(--bad); }
+.pvm-issue.warning { border-left-color: var(--warn); }
+.pvm-issue.info { border-left-color: var(--accent); }
+.pvm-issue .t { font-weight: 700; color: var(--ink); display: flex; gap: 8px; align-items: baseline; }
+.pvm-issue .t .cnt {
+  margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 600;
+  font-size: .8rem; color: var(--muted);
+}
+.pvm-issue .d { color: var(--ink-2); margin: 3px 0; }
+.pvm-issue .s { color: var(--muted); font-size: .83rem; }
+.pvm-issue .rows {
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .76rem;
+  color: var(--muted); margin-top: 5px; word-break: break-word;
+}
+
+.pvm-score {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px 18px; margin: 10px 0;
+}
+.pvm-score .big { font-size: 2.5rem; font-weight: 650; letter-spacing: -.02em; line-height: 1; }
+.pvm-score .big.ok { color: var(--ok-text); }
+.pvm-score .big.warn { color: var(--warn); }
+.pvm-score .big.bad { color: var(--bad); }
+.pvm-score .lbl { font-size: .8rem; color: var(--muted); }
+.pvm-score-bars { display: grid; gap: 6px; margin: 10px 0 0; }
+.pvm-score-bar { display: grid; grid-template-columns: 130px 1fr 46px; align-items: center; gap: 10px; font-size: .8rem; }
+.pvm-score-bar .track { height: 7px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.pvm-score-bar .track i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.pvm-score-bar .track i.warn { background: var(--warn); }
+.pvm-score-bar .track i.bad { background: var(--bad); }
+.pvm-score-bar .v { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.pvm-score-bar .na { color: var(--muted); font-style: italic; }
+
+.pvm-blocked { font-size: .85rem; color: var(--bad); font-weight: 600; }
+.pvm-alert { border-left-color: var(--warn); }
+
+/* --------------------------------------------------------------- insights */
+.pvm-insights { display: grid; gap: 10px; margin: 12px 0; }
+.pvm-insight {
+  border: 1px solid var(--border); border-radius: 12px; background: var(--surface);
+  padding: 12px 15px; font-size: .92rem; color: var(--ink-2);
+}
+.pvm-insight.headline { border-left: 3px solid var(--accent); font-size: 1rem; color: var(--ink); }
+.pvm-insight.caveat { border-left: 3px solid var(--warn); }
+.pvm-insight.control { border-left: 3px solid var(--ok); font-size: .85rem; }
+.pvm-insight .why {
+  border: 0; background: none; padding: 0; margin-left: 8px;
+  font: inherit; font-size: .8rem; font-weight: 700; color: var(--accent-ink); cursor: pointer;
+}
+.pvm-insight .why:hover { text-decoration: underline; }
+.pvm-audit { font-size: .82rem; color: var(--muted); margin: 6px 0 4px; }
+.pvm-audit.ok::before { content: "✓ "; color: var(--ok-text); font-weight: 800; }
+.pvm-audit.bad { color: var(--bad); }
+.pvm-audit.bad::before { content: "✕ "; font-weight: 800; }
+
+/* ------------------------------------------------------- model integrity */
+.pvm-integrity {
+  display: grid; gap: 8px; margin: 12px 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(215px, 100%), 1fr));
+}
+.pvm-integrity .row {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 13px;
+}
+.pvm-integrity .row .l { font-size: .76rem; color: var(--muted); }
+.pvm-integrity .row .v {
+  font-size: 1.05rem; font-weight: 650; font-variant-numeric: tabular-nums;
+  margin-top: 2px; display: flex; align-items: baseline; gap: 7px;
+}
+.pvm-integrity .row.pass .v { color: var(--ok-text); }
+.pvm-integrity .row.fail { border-color: color-mix(in srgb, var(--bad) 45%, var(--border)); }
+.pvm-integrity .row.fail .v { color: var(--bad); }
+
+/* --------------------------------------------------------------- tabelas */
+table.tbl th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+table.tbl th.sortable:hover { color: var(--accent-ink); }
+table.tbl th.sortable::after { content: " ⇅"; opacity: .35; font-size: .8em; }
+table.tbl th.sortable.asc::after { content: " ↑"; opacity: 1; color: var(--accent-ink); }
+table.tbl th.sortable.desc::after { content: " ↓"; opacity: 1; color: var(--accent-ink); }
+table.tbl tr.drill { cursor: pointer; }
+table.tbl tr.drill:hover td { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+table.tbl td.st-new { color: var(--accent-ink) !important; }
+table.tbl td.st-discontinued { color: var(--bad) !important; }
+table.tbl td.st-non-comparable { color: var(--warn) !important; }
+.pvm-empty { padding: 22px; text-align: center; color: var(--muted); font-size: .88rem; }
+
+/* map table: selects ocupam a célula inteira */
+#map-table td select {
+  width: 100%; padding: 5px 8px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--page); color: var(--ink); font: inherit; font-size: .85rem;
+}
+#map-table td { vertical-align: middle; }
+#map-table td:nth-child(2) { min-width: 210px; }
+#map-table tr.mapped td:first-child { color: var(--ink); font-weight: 600; }
+
+/* ---------------------------------------------------------------- overlay */
+.pvm-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: color-mix(in srgb, var(--page) 78%, transparent);
+  backdrop-filter: blur(3px);
+  display: flex; align-items: center; justify-content: center;
+}
+.pvm-overlay-box {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.18);
+  padding: 26px 34px; text-align: center; min-width: 280px;
+}
+.pvm-overlay-text { font-size: .92rem; color: var(--ink); margin: 12px 0 10px; }
+.pvm-spin {
+  width: 30px; height: 30px; margin: 0 auto;
+  border: 3px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: pvmspin .8s linear infinite;
+}
+@keyframes pvmspin { to { transform: rotate(360deg); } }
+.pvm-bar { height: 5px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.pvm-bar i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .2s; }
+@media (prefers-reduced-motion: reduce) {
+  .pvm-spin { animation-duration: 2.4s; }
+  .pvm-bar i { transition: none; }
+}
+
+/* ------------------------------------------------------------------ modal */
+.pvm-modal {
+  position: fixed; inset: 0; z-index: 320;
+  background: rgba(0,0,0,.42);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.pvm-modal-box {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: 0 10px 50px rgba(0,0,0,.28);
+  max-width: 680px; width: 100%; max-height: 82vh; display: flex; flex-direction: column;
+}
+.pvm-modal-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+}
+.pvm-modal-head b { font-size: 1rem; }
+.pvm-modal-body { padding: 16px 18px; overflow: auto; font-size: .89rem; color: var(--ink-2); }
+.pvm-modal-body h4 {
+  margin: 14px 0 4px; font-size: .74rem; text-transform: uppercase; letter-spacing: .07em;
+  color: var(--muted);
+}
+.pvm-modal-body h4:first-child { margin-top: 0; }
+.pvm-modal-body pre { margin: 4px 0 0; white-space: pre-wrap; word-break: break-word; }
+.pvm-modal-body ul { margin: 4px 0; padding-left: 20px; }
+.pvm-modal-body li { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .8rem; }
+
+/* ------------------------------------------------------- filtros (chips) */
+.pvm-filter { display: grid; gap: 4px; }
+.pvm-filter > span { font-size: .78rem; color: var(--muted); }
+.pvm-filter select[multiple] {
+  min-height: 92px; width: 100%; padding: 5px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--page); color: var(--ink); font: inherit; font-size: .84rem;
+}
+.pvm-filter .cnt { font-size: .72rem; color: var(--accent-ink); }
+
+/* ---------------------------------------------------------- metodologia */
+#methodology-panel table.tbl td:first-child { white-space: normal; }
+#methodology-panel .f {
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .8rem;
+  background: var(--surface-2); border-radius: 8px; padding: 8px 10px; margin: 6px 0;
+  color: var(--ink); overflow-x: auto;
+}
+#method-compare table.tbl td { white-space: normal; font-size: .8rem; }
+#method-compare table.tbl td.mono {
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .76rem;
+}
+tr.method-on td { background: color-mix(in srgb, var(--accent) 8%, transparent); font-weight: 600; }
+
+/* --------------------------------------------------------------- mobile */
+@media (max-width: 720px) {
+  .pvm-hero h1 { font-size: 1.7rem; }
+  .pvm-hero .pvm-h1-sub { font-size: 1rem; }
+  .pvm-flow ol { gap: 4px; }
+  .pvm-flow li { flex: 1 1 92px; padding: 7px 9px; font-size: .78rem; }
+  .pvm-flow li .l { display: none; }
+  .pvm-flow li.on .l { display: inline; }
+  .pvm-drop { padding: 26px 14px; }
+  .pvm-toolbar { flex-direction: column; align-items: stretch; }
+  .pvm-toolbar-left, .pvm-toolbar-right { justify-content: space-between; }
+  .pvm-score-bar { grid-template-columns: 96px 1fr 40px; font-size: .75rem; }
+  #kpis { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); }
+  #kpis .tile .val, .tile.kpi-eff .val { font-size: 1.05rem; }
+  .pvm-integrity { grid-template-columns: 1fr 1fr; }
+  .pvm-modal-box { max-height: 90vh; }
+}
+
+@media print {
+  .pvm-flow, .pvm-drop, .pvm-actions, .pvm-toolbar, #filters-panel, .pvm-overlay, .pvm-modal { display: none !important; }
+  .pvm-step[hidden] { display: none !important; }
+}

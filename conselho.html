@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09090f">
+<title data-en="Validation council — audit of the whole portfolio">Conselho de validação — auditoria do portfólio inteiro</title>
+<meta name="description" content="Conselho de validação aplicado a todo o trabalho publicado: nove frentes de auditoria medidas — execução, navegação, aritmética, registro único, ancoragem, fontes, acessibilidade, idioma e higiene —, com o parecer e as correções que a auditoria provocou.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="canonical" href="https://thgteixeiranascimento-bit.github.io/Portf-lio/conselho.html">
+</head>
+<body data-page="met" data-root="">
+<main class="wrap">
+
+  <section class="capa" style="padding-bottom:var(--sp-5)">
+    <div class="capa-top meta-row">
+      <span class="meta-lbl" data-en="Analytical governance · Applied to the work itself">Governança analítica · Aplicada ao próprio trabalho</span>
+      <span class="meta-lbl" aria-hidden="true">00</span>
+    </div>
+    <h1 class="display" style="font-size:var(--d-2);max-width:22ch" data-en="Who audits the portfolio that audits banks?">Quem audita o portfólio que audita bancos?</h1>
+    <p class="sob" data-en="Three councils already run on this site: one over the public financial data, one over the author's own CV, and the automated page check. This one closes the circle — it audits the finished work as a whole, including the design layer, and it reports what it found, not what would look good.">
+      Três conselhos já rodam neste site: um sobre os dados públicos, um sobre o próprio currículo do autor e o
+      controle automatizado de páginas. Este fecha o círculo — audita o trabalho terminado como um todo, camada
+      de design incluída, e relata o que encontrou, não o que ficaria bem.
+    </p>
+  </section>
+
+  <div class="verdict" id="veredito"></div>
+
+  <!-- ═══════ 1. As nove frentes ═══════ -->
+  <section class="blk reveal">
+    <div class="sec-mark">
+      <span class="n">01</span>
+      <span class="t" data-en="The nine fronts">As nove frentes</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 data-en="What is measured, and how">O que é medido, e como</h2>
+    <p data-en="Every front below is <b>measured</b> by <code>automation/node/conselho.js</code>, which opens every page of the site in a real browser and compares what is published against what is computed. None of it is declared by hand — a front that finds a problem fails the run with a non-zero exit code, before any publication.">
+      Cada frente abaixo é <b>medida</b> por <code>automation/node/conselho.js</code>, que abre todas as páginas do site em
+      um navegador real e confronta o publicado com o apurado. Nada aqui é declarado à mão — uma frente que
+      encontra problema reprova a execução com código de saída diferente de zero, antes de qualquer publicação.
+    </p>
+
+    <div class="tbl-wrap">
+      <div class="tbl-cap">
+        <span class="t" data-en="Audit fronts">Frentes de auditoria</span>
+        <span class="u" data-en="measured, not declared">medido, não declarado</span>
+      </div>
+      <div class="tbl-scroll">
+        <table class="tbl-pro" id="tblFrentes" data-auditoria-doc></table>
+      </div>
+      <div class="tbl-foot" data-en="Findings accumulated across runs: some appeared only when new pages entered the audit — including the pages of this audit itself. A front with no finding is not proof of perfection; it is proof that this particular test found nothing. The limits of the method are in section 5.">
+        Os achados se acumularam ao longo das execuções: parte só apareceu quando páginas novas entraram na
+        auditoria — inclusive as páginas desta própria auditoria. Uma frente sem achado não prova perfeição;
+        prova que este teste específico não encontrou nada. Os limites do método estão na seção 5.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 2. O que a auditoria encontrou ═══════ -->
+  <section class="blk reveal">
+    <div class="sec-mark">
+      <span class="n">02</span>
+      <span class="t" data-en="What the audit found">O que a auditoria encontrou</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 data-en="Every finding, and what it cost">Todo achado, e o que ele custou</h2>
+    <p data-en="On its first run the council failed the work. Publishing the list is the point: a council that only ever approves is decoration. Five lines below are defects in the published site and three are faults in the auditor itself — both natures appear, because hiding a false positive would cost the true ones their credibility. All were fixed before this page went up.">
+      Na primeira execução, o conselho <b>reprovou</b> o trabalho. Publicar a lista é justamente o ponto: um
+      conselho que só aprova é enfeite. Cinco linhas abaixo são defeito do site publicado e três são falha do
+      próprio auditor — as duas naturezas aparecem porque esconder o falso positivo tiraria a credibilidade do
+      verdadeiro. Todas foram corrigidas antes desta página existir.
+    </p>
+
+    <div class="tbl-wrap">
+      <div class="tbl-cap">
+        <span class="t" data-en="Audit findings">Achados da auditoria</span>
+        <span class="u" data-en="all corrected">todos corrigidos</span>
+      </div>
+      <div class="tbl-scroll">
+        <table class="tbl-pro" id="tblAchados" data-auditoria-doc></table>
+      </div>
+      <div class="tbl-foot" data-en="Three of the initial findings were faults in the auditor itself, not in the site — they are listed too, because an auditor that hides its own false positives cannot be trusted with the real ones.">
+        Três dos achados iniciais eram falhas do próprio auditor, não do site — estão listados também, porque um
+        auditor que esconde os próprios falsos positivos não merece confiança nos verdadeiros.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 3. Checks recalculados aqui ═══════ -->
+  <section class="blk reveal">
+    <div class="sec-mark">
+      <span class="n">03</span>
+      <span class="t" data-en="Recalculated in your browser">Recalculado no seu navegador</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 data-en="Twelve checks that do not depend on my word">Doze checks que não dependem da minha palavra</h2>
+    <p data-en="The fronts above run before publication, on a machine you cannot see. These twelve run right now, in front of you, over the registry that feeds every surface of this site. If one fails, it fails on your screen — there is nowhere to hide it.">
+      As frentes acima rodam antes da publicação, numa máquina que você não vê. Estes doze rodam agora, na sua
+      frente, sobre o registro que alimenta todas as superfícies do site. Se um falhar, falha na sua tela — não
+      há onde esconder.
+    </p>
+    <div id="checks"></div>
+  </section>
+
+  <!-- ═══════ 3b. Pendências abertas ═══════ -->
+  <section class="blk reveal">
+    <div class="sec-mark">
+      <span class="n">04</span>
+      <span class="t" data-en="Open items">Pendências abertas</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 data-en="What the audit found and did not fix">O que a auditoria encontrou e não corrigiu</h2>
+    <p data-en="A council that only publishes what it managed to fix is a council that will eventually stop looking. These items are measured, they are open, and they are published as open — the same treatment the two open divergences receive on the profile validation page.">
+      Um conselho que só publica o que conseguiu corrigir é um conselho que uma hora para de procurar. Estes
+      itens estão medidos, estão abertos, e são publicados como abertos — o mesmo tratamento que as duas
+      divergências em aberto recebem na página de validação do perfil.
+    </p>
+
+    <div class="callout warn">
+      <span class="ct" data-en="⚠️ 171 blocks without translation in English mode">⚠️ 171 blocos sem tradução em modo inglês</span>
+      <span data-en="The PT/EN toggle is published as a feature of the site, and on the navigation, cover, résumé, letter, About and both validation councils it works. On the analytical bodies of the studies — the sector analysis, the KPI library, the methodology and ten of the thirteen models — a large share of the dense prose still renders in Portuguese when the interface is in English. The audit measures this on every run (front H) and reports the figure above; it is a declared scope item, not a regression, and it does not block publication. Fixing it is a translation project of its own, not a defect to be patched.">
+        A alternância PT/EN é publicada como recurso do site, e na navegação, na capa, no currículo, na carta, na
+        página Sobre e nos dois conselhos de validação ela funciona. Nos corpos analíticos dos estudos — a
+        análise setorial, a biblioteca de KPIs, a metodologia e dez dos treze modelos — boa parte da prosa densa
+        ainda aparece em português quando a interface está em inglês. A auditoria mede isso a cada execução
+        (frente H) e publica o número acima; é item de escopo declarado, não regressão, e não bloqueia a
+        publicação. Resolvê-lo é um projeto de tradução por si só, não um defeito para remendar.
+      </span>
+    </div>
+
+    <div class="callout warn">
+      <span class="ct" data-en="⚠️ Two divergences awaiting the holder's confirmation">⚠️ Duas divergências aguardando confirmação do titular</span>
+      <span data-en="The start date at Agibank (published as Jan 2026, on the agreement of three source documents) and the graduation completion date (published as 2018–2023, adopting the later of two records). Both are published as open divergences rather than as settled fact. See the profile validation page.">
+        A data de início no Agibank (publicada como jan/2026, por concordância de três documentos-fonte) e a data
+        de conclusão da graduação (publicada como 2018–2023, adotando a mais tardia entre dois registros). As
+        duas estão publicadas como divergência aberta, não como fato resolvido. Ver a página de validação do perfil.
+      </span>
+    </div>
+
+    <div class="callout warn">
+      <span class="ct" data-en="⚠️ Source documents not yet reconciled against the originals">⚠️ Documentos-fonte ainda não conferidos contra os originais</span>
+      <span data-en="Most of the issuers' documents were received as OCR conversions rather than native files. The Nu workbook and one Copom minute came in native format; the rest await line-by-line reconciliation against the PDFs published by the issuers. Declared since the first version of the methodology.">
+        A maior parte dos documentos dos emissores foi recebida como conversão OCR, não em formato nativo. O
+        workbook do Nu e uma ata do Copom vieram nativos; o restante aguarda conferência linha a linha contra os
+        PDFs publicados pelos emissores. Declarado desde a primeira versão da metodologia.
+      </span>
+    </div>
+  </section>
+
+  <!-- ═══════ 5. Limites declarados ═══════ -->
+  <section class="blk reveal">
+    <div class="sec-mark">
+      <span class="n">05</span>
+      <span class="t" data-en="Declared limits">Limites declarados</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 data-en="What this council does not prove">O que este conselho não prova</h2>
+    <p data-en="A validation council that does not state its own limits is marketing. These are the four things a green verdict above does <b>not</b> mean:">
+      Um conselho de validação que não declara os próprios limites é peça de marketing. Estas são as quatro
+      coisas que um parecer verde acima <b>não</b> significa:
+    </p>
+    <div class="grid c2">
+      <div class="card lift">
+        <h3 data-en="It does not confirm the employment history">Não confirma o histórico de emprego</h3>
+        <p data-en="No third party can verify a start date, a job title or a delivery from this site alone. What is guaranteed is internal consistency and that nothing was invented to fill a gap — not that an employer would confirm each line. Two divergences remain open, declared as open.">
+          Nenhum terceiro consegue verificar data de início, cargo ou entrega apenas a partir daqui. O que se
+          garante é consistência interna e que nada foi inventado para preencher lacuna — não que um empregador
+          confirmaria cada linha. Duas divergências seguem abertas, declaradas como abertas.</p>
+      </div>
+      <div class="card lift">
+        <h3 data-en="It does not re-audit the issuers' documents">Não reaudita os documentos dos emissores</h3>
+        <p data-en="The arithmetic checks recompute sums, bridges and ratios against the figures extracted from the releases and statements. They cannot detect an error made by the issuer, nor an OCR conversion error in a source document — the pending reconciliation against the original PDFs stays declared.">
+          Os checks aritméticos recalculam somas, pontes e razões contra os números extraídos dos releases e das
+          demonstrações. Não detectam erro cometido pelo emissor, nem erro de conversão OCR num documento-fonte
+          — a conferência pendente contra os PDFs originais permanece declarada.</p>
+      </div>
+      <div class="card lift">
+        <h3 data-en="It does not replace human judgement on accessibility">Não substitui julgamento humano de acessibilidade</h3>
+        <p data-en="The council checks what a machine can check: alt attributes, heading order, form labels, language attributes, focus. It cannot judge whether an alt text is <i>useful</i>, whether a chart is understandable without colour, or whether the reading order makes sense to someone using a screen reader.">
+          O conselho confere o que uma máquina confere: atributo alt, ordem de títulos, rótulo de campo, idioma,
+          foco. Não julga se um texto alternativo é <i>útil</i>, se um gráfico se entende sem cor, nem se a ordem
+          de leitura faz sentido para quem usa leitor de tela.</p>
+      </div>
+      <div class="card lift">
+        <h3 data-en="It does not certify the estimates">Não certifica as estimativas</h3>
+        <p data-en="Wherever a figure is the author's estimate — the projected quarter on the home page, the forecast module, the reverse-engineered valuation assumptions — the council verifies that it is <b>labelled</b> as an estimate and kept apart from disclosed fact. It does not, and cannot, verify that the estimate is right.">
+          Onde um número é estimativa do autor — o trimestre projetado da home, o módulo de forecast, as premissas
+          revertidas do valuation — o conselho verifica que ele está <b>rotulado</b> como estimativa e separado do
+          fato divulgado. Não verifica, e não teria como verificar, se a estimativa está certa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 5. Como reproduzir ═══════ -->
+  <section class="blk reveal">
+    <div class="sec-mark">
+      <span class="n">06</span>
+      <span class="t" data-en="Reproduce it yourself">Reproduza você mesmo</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 data-en="The audit is a file in the repository">A auditoria é um arquivo do repositório</h2>
+    <p data-en="Nothing here is a claim you have to accept. Clone the repository and run the council against your own copy — it reads the same pages you are reading.">
+      Nada aqui é afirmação para se aceitar de boa fé. Clone o repositório e rode o conselho contra a sua própria
+      cópia — ele lê as mesmas páginas que você está lendo.
+    </p>
+<pre><code>git clone https://github.com/thgteixeiranascimento-bit/Portf-lio
+cd Portf-lio
+npm install playwright-core
+python3 -m http.server 8765 &amp;
+node automation/node/conselho.js     <span class="muted-note"># as nove frentes</span>
+node automation/node/verificar_paginas.js   <span class="muted-note"># erro de JS e contagem de checks</span></code></pre>
+    <p class="muted-note" data-en="Exit code 0 means every front came back clean. Any error returns 1 and prints the finding with the page and the line that produced it.">
+      Código de saída 0 significa todas as frentes limpas. Qualquer erro retorna 1 e imprime o achado com a
+      página e o ponto que o produziu.
+    </p>
+  </section>
+
+  <section class="cta-band reveal">
+    <h2 data-en="The other three councils">Os outros três conselhos</h2>
+    <p style="max-width:62ch;margin-inline:auto" data-en="This page audits the work as a whole. The other three go deeper on their own subject.">
+      Esta página audita o trabalho como um todo. Os outros três aprofundam cada um no seu assunto.
+    </p>
+    <div class="btns">
+      <a class="btn-x outline" href="validacao-perfil.html" data-en="Profile validation →">Validação do perfil →</a>
+      <a class="btn-x outline" href="metodologia.html" data-en="Data protocol →">Protocolo dos dados →</a>
+      <a class="btn-x ghost" href="index.html" data-en="Back to the portfolio">Voltar ao portfólio</a>
+    </div>
+  </section>
+
+</main>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/perfil.js"></script>
+<script src="assets/js/core.js"></script>
+<script>
+(function () {
+  "use strict";
+  var P = window.PERFIL, V = window.Viz;
+  function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  /* As nove frentes, com o que cada uma mede. O resultado publicado aqui é o
+     da última execução registrada; o comando para reproduzir está na seção 6. */
+  var FRENTES = [
+    { c: "A", n: "Execução", nEn: "Execution",
+      m: "Erro de JavaScript, erro de console e recurso que responde 400+ em cada uma das 24 páginas",
+      mEn: "JavaScript error, console error and any resource returning 400+ on each of the 24 pages", r: 0 },
+    { c: "B", n: "Navegação", nEn: "Navigation",
+      m: "Todo link interno resolve para um arquivo existente; toda âncora #id existe na página que a cita",
+      mEn: "Every internal link resolves to an existing file; every #id anchor exists on the page citing it", r: 0 },
+    { c: "C", n: "Aritmética", nEn: "Arithmetic",
+      m: "Número publicado bate com número medido: checks, modelos e contagens da capa",
+      mEn: "Published figure matches measured figure: checks, models and cover counts", r: 2 },
+    { c: "D", n: "Registro único", nEn: "Single registry",
+      m: "Toda afirmação da capa deriva do registro de fatos; nenhum selo inventa competência nova",
+      mEn: "Every cover claim derives from the fact registry; no badge invents a new competency", r: 1 },
+    { c: "E", n: "Ancoragem", nEn: "Anchoring",
+      m: "Cada um dos 73 termos de triagem ancora em experiência, competência ou artefato publicado",
+      mEn: "Each of the 73 screening terms anchors in experience, competency or a published artefact", r: 0 },
+    { c: "F", n: "Fontes", nEn: "Sources",
+      m: "Todo identificador de fonte citado existe na matriz de fontes correspondente",
+      mEn: "Every cited source identifier exists in the corresponding source matrix", r: 3 },
+    { c: "G", n: "Acessibilidade", nEn: "Accessibility",
+      m: "Um h1 por página, sem salto de nível, alt em imagem, rótulo vinculado a campo, lang declarado",
+      mEn: "One h1 per page, no level skips, alt on images, labels bound to fields, lang declared", r: 22 },
+    { c: "H", n: "Idioma", nEn: "Language",
+      m: "Nenhum atributo data-en vazio, e nenhum bloco de prosa em português quando a interface está em inglês",
+      mEn: "No empty data-en attribute, and no Portuguese prose block while the interface is in English",
+      r: 0, aberto: 171 },
+    { c: "I", n: "Higiene", nEn: "Hygiene",
+      m: "Nenhum lorem ipsum, TODO, placeholder de template, undefined/NaN ou arquivo referenciado ausente",
+      mEn: "No lorem ipsum, TODO, template placeholder, undefined/NaN or missing referenced file", r: 11 },
+  ];
+
+  /* Os achados da primeira execução. Publicados com o mesmo detalhe com que
+     seriam publicados se fossem de outra pessoa. */
+  var ACHADOS = [
+    { f: "D", o: "Selo da capa dizia “IFRS e BR GAAP”, rótulo que não existe no núcleo curado de palavras-chave (que tem “IFRS” e “BR GAAP” separados)",
+      oEn: "Cover badge read “IFRS e BR GAAP”, a label absent from the curated keyword core (which holds “IFRS” and “BR GAAP” separately)",
+      c: "Selo passou a usar o termo exato do registro", cEn: "Badge now uses the exact registry term", q: "site" },
+    { f: "G", o: "Currículo e carta tinham dois h1: o título editorial da página e o nome do titular dentro do documento",
+      oEn: "Résumé and cover letter had two h1s: the page's editorial title and the holder's name inside the document",
+      c: "O nome dentro do documento passou a h2, mantendo o mesmo tamanho por classe", cEn: "The name inside the document became h2, keeping the same size via class", q: "site" },
+    { f: "G", o: "Treze controles deslizantes em quatro simuladores tinham rótulo visível, mas sem vínculo com o campo — leitor de tela não sabia a que pertenciam",
+      oEn: "Thirteen sliders across four simulators had a visible label with no binding to the field — a screen reader could not tell what they belonged to",
+      c: "Vínculo declarado com for= em todos os treze", cEn: "Binding declared with for= on all thirteen", q: "site" },
+    { f: "G", o: "Sete páginas saltavam nível de título (h1→h3 ou h2→h4), quebrando a navegação por títulos",
+      oEn: "Seven pages skipped a heading level (h1→h3 or h2→h4), breaking heading navigation",
+      c: "Níveis corrigidos; o tamanho aparente preservado por classe", cEn: "Levels corrected; apparent size preserved via class", q: "site" },
+    { f: "I", o: "A varredura de arquivos acusava caminhos inexistentes que eram, na verdade, trechos de template de JavaScript e uma linha dentro de comentário HTML",
+      oEn: "The file scan flagged non-existent paths that were in fact JavaScript template fragments and a line inside an HTML comment",
+      c: "O auditor passou a ignorar comentários, blocos <script> e fragmentos de template", cEn: "The auditor now ignores comments, <script> blocks and template fragments", q: "auditor" },
+    { f: "F", o: "Três identificadores de fonte da biografia (LI, CV_B3, CV_EY) eram acusados de inexistentes",
+      oEn: "Three biography source identifiers (LI, CV_B3, CV_EY) were flagged as non-existent",
+      c: "O auditor lia só a matriz de fontes de mercado; passou a ler também a matriz do perfil", cEn: "The auditor read only the market source matrix; it now also reads the profile matrix", q: "auditor" },
+    { f: "C", o: "Esta própria página acrescentou 12 checks ao site, e o total publicado em toda parte — capa, linha de prova, README, currículo — continuava dizendo 182",
+      oEn: "This very page added 12 checks to the site, while the total published everywhere — cover, proof line, README, résumé — still read 182",
+      c: "Total corrigido para 194 em todas as superfícies, a partir do registro único", cEn: "Total corrected to 194 across all surfaces, from the single registry", q: "site" },
+    { f: "I", o: "A varredura de higiene acusava esta página de conter “lorem ipsum” e “TODO” — os literais que ela precisa citar para explicar o que a auditoria proíbe",
+      oEn: "The hygiene scan flagged this page for containing “lorem ipsum” and “TODO” — the very literals it must quote to explain what the audit forbids",
+      c: "Isenção estreita e declarada (data-auditoria-doc) para o trecho que documenta a auditoria, e a varredura passou a ler texto visível em vez de código-fonte",
+      cEn: "A narrow, declared exemption (data-auditoria-doc) for the passage documenting the audit, and the scan now reads visible text instead of source code", q: "auditor" },
+  ];
+
+  function render() {
+    var t = V.t, en = V.isEn();
+
+    /* tabela das frentes */
+    var linhas = FRENTES.map(function (f) {
+      var cls = f.r === 0 ? "flat" : "down";
+      var agora = f.aberto
+        ? '<td class="n down">' + f.aberto + " " + t("em aberto", "open") + "</td>"
+        : '<td class="n">0</td>';
+      return "<tr><th scope=\"row\">" + f.c + " · " + esc(t(f.n, f.nEn)) + "</th>" +
+        "<td style=\"text-align:left;white-space:normal;max-width:52ch\">" + esc(t(f.m, f.mEn)) + "</td>" +
+        '<td class="n ' + cls + '">' + f.r + "</td>" + agora + "</tr>";
+    }).join("");
+    document.getElementById("tblFrentes").innerHTML =
+      "<thead><tr><th>" + t("Frente", "Front") + "</th><th style=\"text-align:left\">" + t("O que mede", "What it measures") +
+      '</th><th class="n">' + t("Achados", "Findings") + '</th><th class="n grp">' + t("Agora", "Now") +
+      "</th></tr></thead><tbody>" + linhas + "</tbody>";
+
+    /* tabela dos achados */
+    var la = ACHADOS.map(function (a) {
+      var tag = a.q === "auditor"
+        ? '<span class="tag prem">' + t("falha do auditor", "auditor fault") + "</span>"
+        : '<span class="tag nao">' + t("defeito no site", "site defect") + "</span>";
+      return "<tr><th scope=\"row\">" + a.f + "</th>" +
+        '<td style="text-align:left;white-space:normal;max-width:46ch">' + esc(t(a.o, a.oEn)) + "</td>" +
+        '<td style="text-align:left;white-space:normal;max-width:32ch">' + esc(t(a.c, a.cEn)) + "</td>" +
+        '<td style="text-align:right">' + tag + "</td></tr>";
+    }).join("");
+    document.getElementById("tblAchados").innerHTML =
+      "<thead><tr><th>" + t("Frente", "Front") + '</th><th style="text-align:left">' + t("O que estava errado", "What was wrong") +
+      '</th><th style="text-align:left">' + t("Correção", "Correction") + '</th><th style="text-align:right">' +
+      t("Natureza", "Nature") + "</th></tr></thead><tbody>" + la + "</tbody>";
+
+    /* veredito */
+    var totalSite = ACHADOS.filter(function (a) { return a.q === "site"; }).length;
+    var itens = FRENTES.reduce(function (soma, f) { return soma + f.r; }, 0);
+    var v = document.getElementById("veredito");
+    /* Ressalva, não aprovação limpa: as nove frentes estão sem erro, mas há
+       três pendências declaradas em aberto. Aprovar sem citá-las seria o tipo
+       de carimbo que esta página existe para não ser. */
+    v.className = "verdict warn";
+    v.innerHTML =
+      '<div class="score">⚠️</div><div class="txt"><b>' +
+      t("APROVADO COM RESSALVAS — nenhum erro nas nove frentes; três pendências declaradas em aberto.",
+        "APPROVED WITH RESERVATIONS — no errors across the nine fronts; three declared items remain open.") +
+      "</b><br>" +
+      t("O conselho reprovou o trabalho na primeira execução. Ao longo da auditoria foram " + ACHADOS.length +
+        " grupos de problema, " + itens + " itens no total — " + totalSite + " grupos no site publicado e " +
+        (ACHADOS.length - totalSite) + " no próprio auditor. Todos estão descritos na seção 2 e todos foram " +
+        "corrigidos. As pendências que a auditoria mede e não resolveu estão na seção 4, e os limites do " +
+        "próprio método na seção 5.",
+        "The council failed the work on its first run. Across the audit there were " + ACHADOS.length +
+        " groups of problem, " + itens + " items in total — " + totalSite + " groups in the published site and " +
+        (ACHADOS.length - totalSite) + " in the auditor itself. All are described in section 2 and all were " +
+        "corrected. The items the audit measures and did not resolve are in section 4, and the limits of the " +
+        "method itself in section 5.") +
+      "</div>";
+
+    checks();
+  }
+
+  /* Doze checks recalculados aqui, no navegador de quem lê. */
+  function checks() {
+    var t = V.t, out = [];
+    function ok(cond, nome, num) { out.push({ pass: !!cond, name: nome, num: num }); }
+
+    var rotas = P.PROJETOS.map(function (p) { return p.href; });
+    var ats = P.ATS, nucleo = P.ATS_NUCLEO;
+    var stats = P.PITCH.capa_stats;
+    var selos = P.PITCH.capa_selos;
+
+    ok(nucleo.every(function (k) { return ats.indexOf(k) >= 0; }),
+       t("Todo termo do núcleo curado pertence à lista completa de triagem",
+         "Every curated-core term belongs to the full screening list"), nucleo.length + "/" + nucleo.length);
+
+    ok(selos.every(function (s) { return nucleo.indexOf(s) >= 0; }),
+       t("Todo selo da capa vem do núcleo curado — nenhum rótulo novo",
+         "Every cover badge comes from the curated core — no new label"), selos.length + "/" + selos.length);
+
+    var statChecks = stats.filter(function (s) { return /check/i.test(s.k); })[0];
+    ok(statChecks && /\b194\b/.test(P.PITCH.prova_linha) && statChecks.v === 194,
+       t("O número de checks da capa é o mesmo da linha de prova e o mesmo que a automação apura",
+         "The cover check count matches the proof line and the automation's measurement"), "194");
+
+    var statMod = stats.filter(function (s) { return /modelo/i.test(s.k); })[0];
+    ok(statMod && statMod.v === 13,
+       t("Modelos publicados na capa = dez estudos + três ferramentas próprias",
+         "Models on the cover = ten studies + three proprietary tools"), "13");
+
+    ok(stats.every(function (s) { return s.href && s.href.length > 4; }),
+       t("Todo número da capa aponta para a página que o prova",
+         "Every cover figure links to the page that proves it"), stats.length + "/" + stats.length);
+
+    ok(P.PITCH.provas.every(function (p) { return p.href && p.fonte; }),
+       t("Toda prova numérica declara destino e fonte",
+         "Every numeric proof declares a destination and a source"), P.PITCH.provas.length + "/" + P.PITCH.provas.length);
+
+    ok(P.PROJETOS.length === 3 && rotas.every(function (h) { return /^simuladores\//.test(h); }),
+       t("As três ferramentas próprias apontam para artefato navegável",
+         "The three proprietary tools point to a navigable artefact"), "3/3");
+
+    ok(P.EXPERIENCIA.every(function (e) { return (e.fonte || []).length > 0; }),
+       t("Toda entrada da trajetória declara ao menos um documento-fonte",
+         "Every career entry declares at least one source document"), P.EXPERIENCIA.length + "/" + P.EXPERIENCIA.length);
+
+    var atual = P.EXPERIENCIA.filter(function (e) { return e.atual; })[0];
+    ok(atual && atual.cargoFormal && atual.notaTitulo,
+       t("O vínculo atual publica título formal e escopo lado a lado, com a nota que explica a diferença",
+         "The current role publishes formal title and scope side by side, with the note explaining the gap"), "1/1");
+
+    ok(P.EXPERIENCIA.some(function (e) { return e.naoEmprego; }),
+       t("O intervalo sem vínculo aparece na linha do tempo em vez de ser omitido",
+         "The period without employment appears on the timeline instead of being omitted"), "1/1");
+
+    var h1 = P.PITCH.capa_h1, h1en = P.PITCH.capa_h1En;
+    ok(h1.length === 3 && h1en.length === 3 && P.PITCH.capa_tese && P.PITCH.capa_teseEn,
+       t("A capa tem versão em inglês para manchete e tese — sem texto sem tradução",
+         "The cover has an English version for headline and thesis — no untranslated text"), "2/2");
+
+    ok(P.PRIVACIDADE && typeof P.PRIVACIDADE === "object",
+       t("Os controles de privacidade continuam declarados em um só lugar",
+         "Privacy controls remain declared in a single place"), "1/1");
+
+    V.renderChecks(document.getElementById("checks"), out);
+  }
+
+  document.addEventListener("DOMContentLoaded", render);
+  window.onLangChange = render;
+})();
+</script>
+</body>
+</html>

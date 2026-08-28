@@ -1,0 +1,9 @@
+# Dependência exclusiva do controle de qualidade local (playwright-core).
+# O site publicado não tem nenhuma dependência externa: ver README.
+node_modules/
+package.json
+package-lock.json
+
+# Artefatos de sistema
+.DS_Store
+Thumbs.db

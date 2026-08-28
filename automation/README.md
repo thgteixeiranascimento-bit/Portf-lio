@@ -18,12 +18,14 @@ python automation/python/cvm_dados_abertos.py --ano 2024 --empresa "WEG" --saida
   não burla qualquer controle de acesso. Em caso de erro de rede, ele reporta e encerra —
   nunca inventa dados.
 - **Unidade:** valores em milhares de reais (`VL_CONTA`), conforme convenção do arquivo da CVM.
-- **Escopo honesto:** este script **coleta** dado público; nenhuma análise sobre empresa real
-  é publicada no site do portfólio. Para trocar o documento extraído, ajuste a constante
-  `DOCUMENTO` (`BPA_con`, `BPP_con`, `DFC_MI_con`, `DRE_ind`, …).
+- **Escopo honesto:** este script **coleta** dado público e é uma via complementar de obtenção de
+  fontes primárias — as análises publicadas no site partem das divulgações oficiais dos emissores
+  (releases e demonstrações financeiras), listadas em [`docs/fontes.md`](../docs/fontes.md). Para
+  trocar o documento extraído, ajuste a constante `DOCUMENTO` (`BPA_con`, `BPP_con`, `DFC_MI_con`,
+  `DRE_ind`, …).
 
 ## Roadmap (declarado, ainda não entregue)
 
-- Conector do CSV da CVM para o modelo de três demonstrações;
-- Versões em Excel/VBA (Power Query) dos simuladores;
+- Conector do CSV da CVM para o estudo de três demonstrações;
+- Versões em Excel/VBA (Power Query) dos estudos interativos;
 - Dashboards em Power BI com modelo dimensional equivalente.

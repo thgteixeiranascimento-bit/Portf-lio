@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09090f">
+<title data-en="Résumé — Thiago Teixeira Nascimento | FP&amp;A, Financial Planning and Credit Risk">Currículo — Thiago Teixeira Nascimento | FP&amp;A, Planejamento Financeiro e Risco de Crédito</title>
+<meta name="description" content="Currículo de Thiago Teixeira Nascimento — Economista pela PUC-Campinas. FP&A, Planejamento Financeiro, Controladoria, orçamento e forecast, análise de variações, modelagem financeira, IFRS e BR GAAP, risco de crédito, Power BI (DAX), Excel avançado, SQL e Python. Download em PDF e Word.">
+<meta name="keywords" content="currículo, CV, FP&A, Planejamento Financeiro, Controladoria, Orçamento, Forecast, Análise de Variações, Modelagem Financeira, IFRS, BR GAAP, Risco de Crédito, Power BI, DAX, Excel Avançado, SQL, Python, Economista, Campinas">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="canonical" href="https://thgteixeiranascimento-bit.github.io/Portf-lio/curriculo.html">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Currículo — Thiago Teixeira Nascimento | FP&amp;A e Planejamento Financeiro">
+<meta property="og:description" content="Currículo com três versões por área-alvo, download em PDF e Word, e cada afirmação rastreada até um documento-fonte.">
+<meta property="og:image" content="https://thgteixeiranascimento-bit.github.io/Portf-lio/assets/og-image.png">
+</head>
+<body data-page="cv" data-root="">
+<main class="wrap">
+
+  <section class="hero-pro no-print" style="padding-bottom:var(--sp-4)">
+    <span class="kicker" data-en="Résumé">Currículo</span>
+    <h1 style="max-width:26ch" data-en="One résumé, three targeted versions — and every claim traced to a source.">Um currículo, três versões dirigidas — e toda afirmação rastreada até a fonte.</h1>
+    <p class="sub" data-en="Choose the target area below: the professional summary, the ordering of technical skills and the emphasis of each delivery adjust to the vocabulary that area's screening actually uses. The facts do not change — only what is brought to the front.">
+      Escolha a área-alvo abaixo: o resumo profissional, a ordem das competências técnicas e a ênfase de cada
+      entrega se ajustam ao vocabulário que a triagem daquela área efetivamente usa. Os fatos não mudam — muda
+      apenas o que vem à frente.
+    </p>
+  </section>
+
+  <div class="doc-toolbar no-print">
+    <div class="seg" id="segVaga" role="group" aria-label="Área-alvo do currículo"></div>
+    <div class="grow"></div>
+    <button type="button" class="btn-x primary sm" id="btnPdf">
+      <span class="ic" aria-hidden="true">⭳</span><span data-en="Save as PDF">Salvar em PDF</span>
+    </button>
+    <button type="button" class="btn-x outline sm" id="btnDoc">
+      <span class="ic" aria-hidden="true">W</span><span data-en="Download Word">Baixar Word</span>
+    </button>
+    <button type="button" class="btn-x ghost sm" id="btnHtml" data-en="Download HTML">Baixar HTML</button>
+    <a class="btn-x ghost sm" href="kit-linkedin.html" data-en="LinkedIn kit">Kit LinkedIn</a>
+  </div>
+
+  <div class="callout accent no-print" style="margin-top:0">
+    <span class="ct" data-en="How these files are produced">Como estes arquivos são produzidos</span>
+    <span data-en="There is no second copy of this content anywhere. The PDF, the Word file and the HTML are all assembled in your browser from the same fact registry that renders the page you are reading (<code>assets/js/perfil.js</code>) — so a downloaded résumé can never drift out of sync with the site. <b>Save as PDF</b> opens your browser's print dialogue: choose “Save as PDF”, A4, default margins.">
+      Não existe uma segunda cópia deste conteúdo em lugar nenhum. O PDF, o arquivo Word e o HTML são montados no
+      seu navegador a partir do mesmo registro de fatos que renderiza a página que você está lendo
+      (<code>assets/js/perfil.js</code>) — de modo que um currículo baixado nunca sai de sincronia com o site.
+      <b>Salvar em PDF</b> abre o diálogo de impressão do navegador: escolha “Salvar como PDF”, A4, margens padrão.
+    </span>
+  </div>
+
+  <!-- ═══════ documento ═══════ -->
+  <article class="paper" id="cv"></article>
+
+  <section class="blk no-print">
+    <h2 data-en="Traceability of this résumé">Rastreabilidade deste currículo</h2>
+    <p data-en="Every block above comes from a named source document with a declared reliability level. Nothing was written to fill space, and no result was quantified where no disclosable figure exists.">
+      Cada bloco acima vem de um documento-fonte nomeado, com nível de confiabilidade declarado. Nada foi escrito
+      para preencher espaço e nenhum resultado foi quantificado onde não existe número divulgável.
+    </p>
+    <div class="tbl-scroll"><table class="tbl" id="tblFontes"></table></div>
+    <p><a class="btn-x outline sm" href="validacao-perfil.html" data-en="See the profile validation council →">Ver o conselho de validação do perfil →</a></p>
+  </section>
+
+</main>
+<script src="assets/js/perfil.js"></script>
+<script src="assets/js/core.js"></script>
+<script>
+(function () {
+  "use strict";
+  var P = window.PERFIL, V = window.Viz;
+  var vagaAtual = "fpa";
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  function t(pt, en) { return V.t(pt, en); }
+
+  /* Resumo profissional por área-alvo. Os fatos são idênticos nas três
+     versões; muda a ordem em que aparecem e o vocabulário de entrada. */
+  var RESUMOS = {
+    fpa: {
+      pt: "Economista pela PUC-Campinas com atuação em <b>FP&amp;A e planejamento financeiro</b>: construção de modelos e cenários, análise de rentabilidade e leitura integrada de <b>DRE, balanço patrimonial e fluxo de caixa</b>. Na EY, revisou e validou demonstrações financeiras de instituições financeiras sob <b>IFRS e BR GAAP</b>, reportando achados em inglês a stakeholders globais — base que sustenta o entendimento da origem de cada linha do resultado, não apenas do número final. No Agibank, desenvolve <b>relatórios gerenciais e dashboards de Power BI (DAX)</b> usados pela liderança, padroniza fluxos auditáveis de reporte e automatiza rotinas recorrentes em <b>Python e SQL</b>, reduzindo esforço de consolidação e erro manual. Aplica <b>regressão linear e logística</b> a inadimplência, churn e cancelamento, convertendo a saída dos modelos em ação para as áreas de negócio. Constrói simuladores que quantificam o impacto financeiro de iniciativas <b>antes</b> da execução.",
+      en: "Economist (PUC-Campinas) working in <b>FP&amp;A and financial planning</b>: model and scenario building, profitability analysis and integrated reading of <b>income statement, balance sheet and cash flow</b>. At EY, reviewed and validated financial institutions' statements under <b>IFRS and BR GAAP</b>, reporting findings in English to global stakeholders — the foundation for understanding where each line of the result comes from, not just the bottom line. At Agibank, builds <b>management reports and Power BI (DAX) dashboards</b> used by leadership, standardises auditable reporting flows and automates recurring routines in <b>Python and SQL</b>, cutting consolidation effort and manual error. Applies <b>linear and logistic regression</b> to default, churn and cancellation, converting model output into action for business teams. Builds simulators that quantify the financial impact of initiatives <b>before</b> execution."
+    },
+    riscos: {
+      pt: "Economista pela PUC-Campinas com trajetória em <b>risco de crédito e conformidade regulatória</b>, iniciada em auditoria externa na EY: avaliação de exposições a risco em clientes do setor financeiro e verificação de aderência a <b>IFRS e BR GAAP</b>, sob prazos de fechamento e engajamentos simultâneos. No Agibank, aplica <b>modelagem econométrica</b> — regressão linear e logística em Python (pandas, NumPy, scikit-learn) — para antecipar <b>inadimplência, churn e cancelamento de produto</b>, convertendo a saída dos modelos em ações para as áreas de negócio, e constrói os indicadores e relatórios de controle usados pela liderança. Reestruturou a taxonomia de classificação que sustenta o reporte da área, elevando a confiabilidade dos indicadores pela eliminação de categorias ambíguas. Domina a leitura de <b>NPL, perda esperada (IFRS 9/ECL) por estágio, cobertura, índice de Basileia e teste de estresse</b>, demonstrada em modelos públicos neste portfólio.",
+      en: "Economist (PUC-Campinas) with a track record in <b>credit risk and regulatory compliance</b>, begun in external audit at EY: assessing risk exposures at financial-sector clients and verifying adherence to <b>IFRS and BR GAAP</b>, under closing deadlines and simultaneous engagements. At Agibank, applies <b>econometric modelling</b> — linear and logistic regression in Python (pandas, NumPy, scikit-learn) — to anticipate <b>default, churn and product cancellation</b>, converting model output into action for business teams, and builds the control indicators and reports used by leadership. Restructured the classification taxonomy underpinning the area's reporting, raising indicator reliability by eliminating ambiguous categories. Fluent in reading <b>NPL, IFRS 9 expected credit loss by stage, coverage, Basel ratio and stress testing</b>, demonstrated in public models in this portfolio."
+    },
+    mercado: {
+      pt: "Economista pela PUC-Campinas com atuação em <b>análises quantitativas, estudos de mercado e produtos financeiros</b>. Como consultor financeiro, avaliou carteiras de <b>renda fixa (Tesouro Direto)</b> acompanhando indicadores de mercado e métricas de retorno e risco, e subsidiou decisões de alocação ponderando explicitamente <b>risco versus retorno</b>. Na EY, interpretou bases financeiras extensas de instituições financeiras e conduziu interações técnicas em inglês com stakeholders internacionais. No Agibank, extrai e organiza dados de múltiplos sistemas em indicadores e <b>dashboards de Power BI</b> usados pela liderança, e constrói estudos técnicos que quantificam o impacto de iniciativas antes da execução. Publica neste portfólio modelos de <b>valuation por P/VPA justificado, VPL e TIR com sensibilidade, múltiplos de mercado e anatomia de IPO</b>, todos sobre divulgações públicas reais e com checks aritméticos abertos.",
+      en: "Economist (PUC-Campinas) working in <b>quantitative analysis, market studies and financial products</b>. As a financial consultant, assessed <b>fixed-income portfolios (Tesouro Direto)</b> tracking market indicators and return and risk metrics, supporting allocation decisions with explicit <b>risk versus return</b> weighting. At EY, interpreted extensive financial datasets from financial institutions and led technical interactions in English with international stakeholders. At Agibank, extracts and organises data from multiple systems into indicators and <b>Power BI dashboards</b> used by leadership, and builds technical studies quantifying the impact of initiatives before execution. Publishes in this portfolio models of <b>justified P/BV valuation, NPV and IRR with sensitivity, market multiples and IPO anatomy</b>, all over real public disclosure with open arithmetic checks."
+    }
+  };
+
+  /* Ordem de apresentação das competências por área-alvo. */
+  var ORDEM = {
+    fpa:     ["FP&A e Planejamento Financeiro", "Contabilidade e demonstrações financeiras", "Dados, BI e automação", "Valuation e mercado de capitais", "Risco de crédito e regulatório", "Governança analítica"],
+    riscos:  ["Risco de crédito e regulatório", "Contabilidade e demonstrações financeiras", "Dados, BI e automação", "Governança analítica", "FP&A e Planejamento Financeiro", "Valuation e mercado de capitais"],
+    mercado: ["Valuation e mercado de capitais", "Dados, BI e automação", "FP&A e Planejamento Financeiro", "Contabilidade e demonstrações financeiras", "Risco de crédito e regulatório", "Governança analítica"]
+  };
+
+  function vaga() { return P.VAGAS.filter(function (v) { return v.id === vagaAtual; })[0]; }
+
+  function contatoHTML() {
+    var I = P.IDENTIDADE, partes = [I.cidade];
+    if (P.PRIVACIDADE.telefone.publicar_curriculo) partes.push(I.telefone);
+    partes.push('<a href="mailto:' + I.email + '">' + I.email + "</a>");
+    partes.push('<a href="' + I.linkedin + '">' + I.linkedinLabel + "</a>");
+    partes.push('<a href="' + I.site + '">' + t("Portfólio técnico", "Technical portfolio") + ": " + I.site.replace(/^https:\/\//, "") + "</a>");
+    if (P.PRIVACIDADE.pcd.publicar_curriculo) partes.push(I.pcd);
+    return partes.map(function (p) { return "<span>" + p + "</span>"; }).join('<span aria-hidden="true">·</span>');
+  }
+
+  function render() {
+    var vg = vaga();
+
+    /* seletor de área-alvo */
+    document.getElementById("segVaga").innerHTML = P.VAGAS.map(function (v) {
+      return '<button type="button" data-v="' + v.id + '" class="' + (v.id === vagaAtual ? "on" : "") + '">' + esc(t(v.rotulo, v.rotuloEn)) + "</button>";
+    }).join("");
+    document.querySelectorAll("#segVaga button").forEach(function (b) {
+      b.addEventListener("click", function () { vagaAtual = b.dataset.v; render(); });
+    });
+
+    /* experiência */
+    var exp = P.EXPERIENCIA.filter(function (e) { return !e.secundaria; }).map(function (e) {
+      var itens = e.entregas.map(function (d) {
+        return "<li><b>" + esc(t(d.t, d.tEn)) + " — </b>" + esc(t(d.d, d.dEn)) + "</li>";
+      }).join("");
+      var formal = e.cargoFormal
+        ? " <span style='font-weight:500;color:var(--muted)'>(" + t("título formal: ", "formal title: ") +
+          esc(t(e.cargoFormal, e.cargoFormalEn)) + ")</span>"
+        : "";
+      return '<div class="doc-job"><div class="jh"><span class="jc">' + esc(t(e.empresa, e.empresaEn || e.empresa)) + "</span>" +
+        '<span class="jd">' + esc(e.inicio) + " – " + esc(t(e.fim, e.fimEn)) + " · " + esc(e.local) + "</span></div>" +
+        '<div class="jr">' + esc(t(e.cargo, e.cargoEn)) + formal + "</div>" +
+        "<ul>" + itens + "</ul></div>";
+    }).join("");
+
+    /* competências na ordem da área-alvo */
+    var grupos = ORDEM[vagaAtual].map(function (nome) {
+      var g = P.COMPETENCIAS.filter(function (c) { return c.grupo === nome; })[0];
+      if (!g) return "";
+      return "<div><b>" + esc(t(g.grupo, g.grupoEn)) + ":</b> " +
+        esc(g.itens.map(function (i) { return i.k; }).join(" · ")) + "</div>";
+    }).join("");
+
+    /* formação */
+    var form = P.FORMACAO.map(function (f) {
+      return '<div class="doc-job"><div class="jh"><span class="jc">' + esc(f.instituicao) + "</span>" +
+        '<span class="jd">' + esc(f.periodo) + "</span></div>" +
+        '<div class="jr">' + esc(t(f.curso, f.cursoEn)) + "</div>" +
+        "<ul><li>" + esc(t(f.destaque, f.destaqueEn)) + "</li></ul></div>";
+    }).join("");
+
+    var certs = P.CERTIFICACOES.map(function (c) { return esc(c.nome); }).join(" · ");
+    var idiomas = P.IDIOMAS.map(function (i) { return esc(i.lingua) + " (" + esc(t(i.nivel, i.nivelEn)) + ")"; }).join(" · ");
+
+    /* projetos publicados */
+    var projs = P.PROJETOS.map(function (pr) {
+      return "<li><b>" + esc(t(pr.nome, pr.nomeEn)) + " — </b>" + esc(t(pr.entrega, pr.entregaEn)) + "</li>";
+    }).join("") +
+      "<li><b>" + t("Portfólio analítico sobre divulgações públicas reais", "Analytical portfolio over real public disclosure") + " — </b>" +
+      t("dez estudos interativos (análise de variações, rolling forecast, três demonstrações integradas, valuation por P/VPA justificado, EVTE, risco de crédito e capital) sobre releases, demonstrações IFRS e atas do Copom de cinco instituições financeiras, com 147 checks aritméticos recalculados no navegador e matriz de rastreabilidade de fontes por nível de confiabilidade.",
+        "ten interactive studies (variance analysis, rolling forecast, three integrated statements, justified P/BV valuation, project appraisal, credit risk and capital) over releases, IFRS statements and Copom minutes of five financial institutions, with 147 arithmetic checks recalculated in the browser and a source traceability matrix by reliability level.") + "</li>" +
+      "<li><b>" + t("Governança analítica e protocolo antialucinação", "Analytical governance and anti-hallucination protocol") + " — </b>" +
+      t("hierarquia de fontes por nível, separação explícita entre fato divulgado, premissa e estimativa, declaração de lacunas e registro público das divergências encontradas entre documentos do mesmo emissor.",
+        "source hierarchy by reliability level, explicit separation of disclosed fact, assumption and estimate, declaration of gaps and public registration of divergences found between documents from the same issuer.") + "</li>" +
+      "<li><b>" + t("Automação de coleta de dados públicos", "Public data collection automation") + " — </b>" +
+      t("script em Python (biblioteca padrão) para extração de dados abertos da CVM, documentado e executável no repositório.",
+        "Python script (standard library) extracting CVM open data, documented and executable in the repository.") + "</li>";
+
+    document.getElementById("cv").innerHTML =
+      '<h2 class="doc-h1">' + esc(P.IDENTIDADE.nome) + "</h2>" +
+      '<div class="doc-role">' + esc(t(vg.titulo, vg.tituloEn)) + "</div>" +
+      '<div class="doc-contact">' + contatoHTML() + "</div>" +
+
+      '<h2 class="doc-sec">' + t("Resumo profissional", "Professional summary") + "</h2>" +
+      "<p>" + t(RESUMOS[vagaAtual].pt, RESUMOS[vagaAtual].en) + "</p>" +
+
+      '<h2 class="doc-sec">' + t("Experiência profissional", "Professional experience") + "</h2>" + exp +
+
+      '<h2 class="doc-sec">' + t("Projetos e artefatos publicados", "Published projects and artefacts") + "</h2>" +
+      '<div class="doc-job"><ul>' + projs + "</ul></div>" +
+
+      '<h2 class="doc-sec">' + t("Formação acadêmica", "Education") + "</h2>" + form +
+
+      '<h2 class="doc-sec">' + t("Competências técnicas", "Technical skills") + "</h2>" +
+      '<div class="doc-skill">' + grupos +
+      "<div><b>" + t("Certificações", "Certifications") + ":</b> " + certs + "</div>" +
+      "<div><b>" + t("Idiomas", "Languages") + ":</b> " + idiomas + "</div></div>";
+
+    /* tabela de fontes */
+    var usadas = {};
+    P.EXPERIENCIA.concat(P.FORMACAO).forEach(function (x) { (x.fonte || []).forEach(function (f) { usadas[f] = true; }); });
+    P.PROJETOS.forEach(function (x) { (x.fonte || []).forEach(function (f) { usadas[f] = true; }); });
+    document.getElementById("tblFontes").innerHTML =
+      "<thead><tr><th>" + t("Documento-fonte", "Source document") + "</th><th>" + t("Origem", "Origin") +
+      "</th><th>" + t("Data", "Date") + "</th><th>" + t("Classe", "Class") + "</th><th>" + t("Observação", "Note") + "</th></tr></thead><tbody>" +
+      Object.keys(usadas).map(function (id) {
+        var f = P.FONTES[id];
+        return "<tr><td style='white-space:normal'>" + esc(f.doc) + "</td><td style='white-space:normal'>" + esc(f.origem) +
+          "</td><td>" + esc(f.data) + "</td><td style='text-align:center'>" + f.classe +
+          "</td><td style='white-space:normal'>" + esc(V.t(f.nota, f.notaEn)) + "</td></tr>";
+      }).join("") + "</tbody>";
+  }
+
+  /* ---------- downloads montados a partir do próprio documento ---------- */
+  function docHTML(paraWord) {
+    var css = paraWord
+      ? "body{font-family:Calibri,Arial,sans-serif;font-size:10.5pt;color:#222;line-height:1.35}" +
+        "h1{font-size:19pt;color:#000;margin:0 0 2pt}" +
+        ".doc-role{font-size:11.5pt;color:#1c5cab;font-weight:bold;margin:0 0 6pt}" +
+        ".doc-contact{font-size:8.5pt;color:#444;border-bottom:1.5pt solid #000;padding-bottom:6pt;margin-bottom:10pt}" +
+        ".doc-contact span{margin-right:8pt}" +
+        "h2{font-size:9.5pt;color:#1c5cab;text-transform:uppercase;letter-spacing:1pt;border-bottom:.75pt solid #bbb;padding-bottom:2pt;margin:14pt 0 6pt}" +
+        ".jc{font-size:11pt;font-weight:bold;color:#000}.jd{font-size:8.5pt;color:#666}" +
+        ".jr{font-size:10pt;font-weight:bold;color:#1c5cab;margin:1pt 0 4pt}" +
+        "ul{margin:0 0 10pt 14pt;padding:0}li{margin-bottom:3pt}" +
+        ".doc-skill div{margin-bottom:4pt}a{color:#1c5cab;text-decoration:none}"
+      : "body{font-family:system-ui,Segoe UI,sans-serif;max-width:820px;margin:40px auto;padding:0 24px;line-height:1.5;color:#1a1a1a}" +
+        "h1{font-size:2rem;margin:0}.doc-role{color:#1c5cab;font-weight:600;margin:4px 0 12px}" +
+        ".doc-contact{font-size:.85rem;color:#555;border-bottom:2px solid #000;padding-bottom:12px}" +
+        ".doc-contact span{margin-right:12px}" +
+        "h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:#1c5cab;border-bottom:1px solid #ddd;padding-bottom:4px;margin:30px 0 12px}" +
+        ".jh{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}.jc{font-weight:700}.jd{font-size:.8rem;color:#777}" +
+        ".jr{color:#1c5cab;font-weight:600;font-size:.9rem;margin:2px 0 6px}" +
+        "ul{margin:0 0 18px;padding-left:18px}li{margin-bottom:6px;font-size:.9rem}" +
+        ".doc-skill div{margin-bottom:6px;font-size:.88rem}a{color:#1c5cab}";
+
+    var corpo = document.getElementById("cv").innerHTML.replace(/class="doc-h1"/g, "");
+    return "<!doctype html><html lang=\"" + (V.isEn() ? "en" : "pt-BR") + "\"><head><meta charset=\"utf-8\">" +
+      "<title>" + esc(P.IDENTIDADE.nome) + " — " + esc(t(vaga().titulo, vaga().tituloEn)) + "</title>" +
+      "<style>" + css + "</style></head><body>" + corpo + "</body></html>";
+  }
+
+  function nomeArquivo(ext) {
+    return "Curriculo_Thiago_Nascimento_" + vagaAtual.toUpperCase() + "_" +
+      new Date().toISOString().slice(0, 10) + "." + ext;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    document.getElementById("btnPdf").addEventListener("click", function () { window.print(); });
+    document.getElementById("btnDoc").addEventListener("click", function () {
+      V.baixarArquivo(nomeArquivo("doc"), docHTML(true), "application/msword");
+    });
+    document.getElementById("btnHtml").addEventListener("click", function () {
+      V.baixarArquivo(nomeArquivo("html"), docHTML(false), "text/html");
+    });
+  });
+  window.onLangChange = render;
+})();
+</script>
+</body>
+</html>

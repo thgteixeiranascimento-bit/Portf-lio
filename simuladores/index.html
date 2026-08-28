@@ -3,59 +3,166 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simuladores — Portfólio Finanças Corporativas &amp; FP&amp;A</title>
-<meta name="description" content="Simuladores financeiros interativos: orçamento, forecast, fluxo de caixa, capital de giro, três demonstrações, DCF, CAPEX, M&A, riscos e portfólio.">
+<meta name="theme-color" content="#09090f">
+<title data-en="Studies and tools — thirteen interactive models">Estudos e ferramentas — treze modelos interativos</title>
+<meta name="description" content="Treze modelos interativos: dez estudos financeiros sobre dados públicos reais de Nu Holdings, Agi/Agibank, Itaú, Bradesco e Santander Brasil, e três ferramentas de cálculo próprias — juros e amortização, antecipação de parcelas e custo de rechamadas.">
+<meta name="keywords" content="modelagem financeira, FP&A, análise de variações, rolling forecast, valuation, risco de crédito, calculadora de juros, antecipação de parcelas, rechamadas, central de atendimento">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body data-page="sim" data-root="../">
 <main class="wrap">
 
-  <section class="hero">
-    <div class="eyebrow">Simuladores</div>
-    <h1>Modelos interativos, com premissas abertas</h1>
-    <p class="lead">
-      Cada simulador segue a mesma arquitetura — <strong>inputs → cálculos → outputs → checks</strong> —
-      e declara qual decisão de negócio suporta. Ajuste as premissas e observe o efeito em tempo real;
-      os checks de integridade são recalculados a cada alteração.
+  <section class="hero-pro">
+    <span class="kicker" data-en="Interactive studies &amp; tools">Estudos &amp; ferramentas interativas</span>
+    <h1 style="max-width:24ch" data-en="Thirteen models you can open, change and check">Treze modelos que você abre, altera e confere</h1>
+    <p class="sub">
+      <strong data-en="Ten studies over real public disclosure">Dez estudos sobre divulgação pública real</strong>
+      — números divulgados pelas próprias companhias, com fonte e data citadas — e
+      <strong data-en="three proprietary calculation tools">três ferramentas de cálculo próprias</strong>,
+      construídas do zero. Todos seguem a mesma arquitetura: <strong>fatos → premissas explícitas → cálculos →
+      checks de integridade</strong>. Onde há projeção ou stress, os controles ajustam <strong>premissas do
+      autor</strong> — rotuladas, nunca confundidas com guidance das companhias.
     </p>
-    <div class="tags">
-      <span class="tag sim">Simulações identificadas</span>
-      <span class="tag">Empresa fictícia: Aurora Industrial S.A.</span>
-      <span class="tag okv">PVM: roda sobre a sua própria base</span>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:var(--sp-4)">
+      <span class="tag okv">Dado público — fonte primária datada</span>
+      <span class="tag prem">Premissas ajustáveis rotuladas</span>
+      <span class="tag nao">Não é recomendação de investimento</span>
     </div>
+  </section>
+
+  <section class="blk">
+    <div class="eyebrow" data-en="Proprietary tools — built from scratch">Ferramentas próprias — construídas do zero</div>
+    <h2 style="margin-top:.2em" data-en="Calculation that removes operational error">Cálculo que remove erro operacional</h2>
+    <p data-en="These three do not read public disclosure: they model a class of problem that costs money in a real operation, with parameters the visitor controls. No volume, cost, rate or operational data from any employer appears in them.">
+      Estas três não leem divulgação pública: modelam uma classe de problema que custa dinheiro numa operação
+      real, com parâmetros que o visitante controla. Nenhum volume, custo, taxa ou dado operacional de
+      empregador aparece nelas.
+    </p>
+    <div class="grid c3">
+      <a class="card spot" href="calculadora-juros.html">
+        <span class="tag sim" data-en="Own tool">Ferramenta própria</span>
+        <h3 data-en="Interest and amortisation calculator">Calculadora de juros e amortização</h3>
+        <p data-en="Simple and compound interest, rate conversion by equivalence and the full Price, SAC and bullet schedule — with the size of the two most common errors quantified: multiplying a monthly rate by twelve, and treating Price and SAC as equivalent.">
+          Juros simples e compostos, conversão de taxas por equivalência e o cronograma completo em Price, SAC e
+          bullet — com o tamanho dos dois erros mais comuns quantificado: multiplicar a taxa mensal por doze e
+          tratar Price e SAC como equivalentes.</p>
+        <span class="go" data-en="Open tool">Abrir ferramenta</span>
+      </a>
+      <a class="card spot" href="antecipacao-parcelas.html">
+        <span class="tag sim" data-en="Own tool">Ferramenta própria</span>
+        <h3 data-en="Early installment settlement calculator">Calculadora de antecipação de parcelas</h3>
+        <p data-en="How much a customer owes when settling installments early: present value by rational discount, contrasted with the nominal sum and the linear commercial discount, with the avoided error quantified in currency and percentage.">
+          Quanto o cliente deve ao antecipar parcelas: valor presente por desconto racional, contrastado com a
+          soma nominal e o desconto comercial linear, com o erro evitado quantificado em reais e percentual.</p>
+        <span class="go" data-en="Open tool">Abrir ferramenta</span>
+      </a>
+      <a class="card spot" href="rechamadas.html">
+        <span class="tag sim" data-en="Own tool">Ferramenta própria</span>
+        <h3 data-en="Contact Centre repeat-call cost model">Custo de rechamadas na Central de Atendimento</h3>
+        <p data-en="Volume, repeat-call rate, AHT and cost per minute converted into annual cost, broken down by root cause and ranked by return per unit of effort — the prioritisation logic behind a reduction plan.">
+          Volume, taxa de rechamada, TMO e custo por minuto convertidos em custo anual, decompostos por
+          causa-raiz e ordenados por retorno sobre esforço — a lógica de priorização por trás de um plano de
+          redução.</p>
+        <span class="go" data-en="Open tool">Abrir ferramenta</span>
+      </a>
+    </div>
+  </section>
+
+  <hr class="hr-soft">
+
+  <section class="blk">
+    <div class="eyebrow" data-en="Studies over real public disclosure">Estudos sobre divulgação pública real</div>
+    <h2 style="margin-top:.2em" data-en="Ten models over five financial institutions">Dez modelos sobre cinco instituições financeiras</h2>
   </section>
 
   <section class="blk">
     <div class="eyebrow">FP&amp;A e caixa</div>
     <div class="grid c2">
-      <a class="card" href="orcamento.html"><h3>1 · Real vs. Orçado vs. Forecast</h3><p><b>Decisão:</b> onde agir para reverter desvios — preço, volume, mix ou custo.</p><span class="go">Abrir →</span></a>
-      <a class="card" href="../pvm/index.html"><h3>1b · Price · Volume · Mix <span class="tag okv">sua base</span></h3><p><b>Decisão:</b> o que de fato moveu receita e margem — preço, volume, mix ou renovação do portfólio. Ferramenta: aceita XLSX/CSV do usuário.</p><span class="go">Abrir →</span></a>
-      <a class="card" href="rolling-forecast.html"><h3>2 · Rolling Forecast 12m</h3><p><b>Decisão:</b> revisar guidance interno e metas diante de novos cenários.</p><span class="go">Abrir →</span></a>
-      <a class="card" href="fluxo-de-caixa.html"><h3>3 · Fluxo de caixa &amp; liquidez</h3><p><b>Decisão:</b> antecipar necessidade de capital e proteger o caixa mínimo.</p><span class="go">Abrir →</span></a>
-      <a class="card" href="capital-de-giro.html"><h3>4 · Capital de giro</h3><p><b>Decisão:</b> renegociar prazos e políticas de estoque com impacto quantificado.</p><span class="go">Abrir →</span></a>
+      <a class="card" href="orcamento.html">
+        <h3>Análise de variações — Nu Holdings</h3>
+        <p><span class="tag">Nu · US$</span> Ponte do lucro bruto e do resultado entre trimestres,
+        decompondo o P&amp;L gerencial divulgado linha a linha. A ponte fecha exata contra o divulgado.</p>
+        <span class="go">Abrir →</span>
+      </a>
+      <a class="card" href="rolling-forecast.html">
+        <h3>Projeção 12 meses com drivers</h3>
+        <p><span class="tag">Nu · US$</span> <span class="tag prem">Estimativa</span> Forecast de 4 trimestres
+        ancorado no 2T26 real, com drivers de crescimento, custo do crédito, eficiência e alíquota.</p>
+        <span class="go">Abrir →</span>
+      </a>
+      <a class="card" href="fluxo-de-caixa.html">
+        <h3>Fluxo de caixa real (IFRS) — Agi</h3>
+        <p><span class="tag">Agi · R$</span> DFC do 1T26: operacional, investimento e financiamento (com o IPO
+        aberto item a item) — reconciliação exata do caixa.</p>
+        <span class="go">Abrir →</span>
+      </a>
+      <a class="card" href="capital-de-giro.html">
+        <h3>Captação, funding e liquidez</h3>
+        <p><span class="tag">Agi + Nu</span> Mix de depósitos por instrumento, varejo × institucional, LDR e
+        custo de captação — o "capital de giro" de um banco.</p>
+        <span class="go">Abrir →</span>
+      </a>
     </div>
   </section>
 
   <section class="blk">
-    <div class="eyebrow">Modelagem e corporate finance</div>
+    <div class="eyebrow">Modelagem &amp; corporate finance</div>
     <div class="grid c2">
-      <a class="card" href="tres-demonstracoes.html"><h3>5 · Três demonstrações integradas</h3><p><b>Decisão:</b> base para orçamento plurianual, covenant e planejamento de estrutura de capital.</p><span class="go">Abrir →</span></a>
-      <a class="card" href="valuation.html"><h3>6 · Valuation — DCF e múltiplos</h3><p><b>Decisão:</b> faixa de valor para negociação, captação ou alocação de capital.</p><span class="go">Abrir →</span></a>
-      <a class="card" href="capex-evte.html"><h3>7 · CAPEX / EVTE</h3><p><b>Decisão:</b> aprovar, adiar ou redesenhar um projeto de investimento.</p><span class="go">Abrir →</span></a>
-      <a class="card" href="ma.html"><h3>8 · M&amp;A — accretion/dilution</h3><p><b>Decisão:</b> preço máximo defensável e estrutura de financiamento de uma aquisição.</p><span class="go">Abrir →</span></a>
+      <a class="card" href="tres-demonstracoes.html">
+        <h3>Três demonstrações integradas — Agi (IFRS)</h3>
+        <p><span class="tag">Agi · R$</span> DRE, balanço, fluxo e mutação do PL do 1T26 com painel de
+        integridade: tudo fecha exato, e o mesmo lucro atravessa as três demonstrações.</p>
+        <span class="go">Abrir →</span>
+      </a>
+      <a class="card" href="valuation.html">
+        <h3>Valuation de bancos — P/VPA justificado</h3>
+        <p><span class="tag">5 instituições</span> <span class="tag prem">Estimativa</span> Modelo de Gordon
+        sobre os ROEs divulgados, com sensibilidade Ke × g. Educacional — sem preços de mercado.</p>
+        <span class="go">Abrir →</span>
+      </a>
+      <a class="card" href="capex-evte.html">
+        <h3>Unit economics de expansão — México (Nu)</h3>
+        <p><span class="tag">Nu · US$</span> <span class="tag prem">Estimativa</span> EVTE educacional ancorado
+        nos fatos divulgados da operação mexicana: VPL, payback e tornado de sensibilidade.</p>
+        <span class="go">Abrir →</span>
+      </a>
+      <a class="card" href="ma.html">
+        <h3>Corporate finance na prática — IPO da Agi</h3>
+        <p><span class="tag">Agi · R$/US$</span> O IPO real na NYSE: recursos, custos da oferta, ponte exata do
+        PL e efeito no capital regulatório e no ROAE.</p>
+        <span class="go">Abrir →</span>
+      </a>
     </div>
   </section>
 
   <section class="blk">
-    <div class="eyebrow">Riscos e quantitativo</div>
+    <div class="eyebrow">Riscos e carteiras</div>
     <div class="grid c2">
-      <a class="card" href="riscos.html"><h3>9 · Gestão de riscos &amp; stress</h3><p><b>Decisão:</b> priorizar mitigação e dimensionar colchão de liquidez.</p><span class="go">Abrir →</span></a>
-      <a class="card" href="portfolio.html"><h3>10 · Portfólio — fronteira eficiente</h3><p><b>Modelo educacional</b> de média-variância; não é recomendação de investimento.</p><span class="go">Abrir →</span></a>
+      <a class="card" href="riscos.html">
+        <h3>Risco de crédito e capital</h3>
+        <p><span class="tag">Nu + Agi + incumbentes</span> NPL, estágios de ECL, cobertura, capital versus
+        mínimos e stress de custo do crédito sob premissas declaradas.</p>
+        <span class="go">Abrir →</span>
+      </a>
+      <a class="card" href="portfolio.html">
+        <h3>Composição de carteiras de crédito</h3>
+        <p><span class="tag">Nu + Agi + Santander</span> Mix por produto, concentração (HHI) e o que cada
+        carteira revela sobre o modelo de negócio.</p>
+        <span class="go">Abrir →</span>
+      </a>
     </div>
   </section>
+
+  <div class="banner"><span>⚖️</span><div>
+    <b>Regra de leitura.</b> Números com selo <span class="tag okv">dado público</span> vêm dos documentos
+    citados na página. Controles deslizantes alteram <span class="tag prem">premissas</span> do autor; os
+    resultados derivados são <b>estimativas do modelo</b> — não previsões das companhias. Lacunas (períodos
+    ausentes) aparecem como lacunas. Nada aqui é recomendação de investimento.
+  </div></div>
 
 </main>
+<script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
 </body>
 </html>

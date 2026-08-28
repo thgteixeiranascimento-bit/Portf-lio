@@ -1,37 +1,39 @@
-# Metodologia
+# Metodologia (resumo)
 
-Este documento resume o protocolo que governa todo o material publicado no portfólio.
-A versão completa e navegável está em [`metodologia.html`](../metodologia.html).
+Versão 2.2 — 16/08/2026. A versão completa e navegável está em [`metodologia.html`](../metodologia.html).
+
+## Arquitetura de cada estudo
+
+```
+FATOS (dado público, fonte citada)
+  → PREMISSAS (explícitas, ajustáveis, rotuladas)
+    → CÁLCULOS (reproduzíveis no código da página)
+      → OUTPUTS (rotulados: fato · estimativa · interpretação)
+        → CHECKS (aritmética recalculada no navegador contra o divulgado)
+```
 
 ## Princípios
 
-1. **Veracidade acima de estética.** Nenhum dado, empresa, resultado, cargo, certificação,
-   cliente, fonte ou métrica é inventado. Lacunas são declaradas como **DADO NÃO INFORMADO**.
-2. **Separação entre fato e simulação.** Todo número carrega etiqueta: DADO REAL, DADO PÚBLICO,
-   DADO INFORMADO PELO USUÁRIO, DADO ESTIMADO, **DADO SIMULADO**, PREMISSA, HIPÓTESE ou INTERPRETAÇÃO.
-3. **Simulações identificadas.** A Aurora Industrial S.A. e a Vetra Componentes S.A. são empresas
-   fictícias. Rótulo padrão: *"SIMULAÇÃO / ESTUDO DE CASO FICTÍCIO — NÃO REPRESENTA EXPERIÊNCIA
-   PROFISSIONAL REAL"*.
-4. **Resultados condicionados.** Nenhum valuation ou projeção é apresentado como "correto" — sempre
-   *"valor estimado pelo modelo sob as premissas adotadas"*.
-5. **Erros visíveis.** Cada simulador publica checks aritméticos recalculados a cada mudança de
-   premissa; falhas aparecem em vermelho na própria página.
+1. **Rótulos obrigatórios** — DADO PÚBLICO/FATO, PREMISSA, ESTIMATIVA, INTERPRETAÇÃO, DADO NÃO INFORMADO;
+2. **Fonte em toda página** — bloco "Fontes deste estudo" com documento, emissor, data e nível;
+3. **Moedas e definições não se misturam** — Nu em US$, demais em R$; métricas próprias de cada emissor
+   comparadas somente com ressalva;
+4. **Lacuna é lacuna** — períodos/documentos ausentes aparecem como ausentes; quando chegam, são
+   preenchidos com a fonte identificada (o 3T25 do Nu e a 279ª ata do Copom foram encerrados na v2.1);
+4b. **Relato ≠ extração** — informação pública sem documento anexado é nível 3, marcada em cada página e
+   fora dos checks;
+5. **Divergências documentadas** — diferenças entre documentos do mesmo emissor são tabeladas
+   (perímetro Agi 4T25; FXN × nominal no Nu; competência × caixa nos custos do IPO; arredondamentos);
+6. **Sem recomendação de investimento** — nenhuma página opina sobre valor ou preço de ativos;
+7. **Conflito de interesse declarado** — o autor é colaborador do Agibank desde 2025 e a Agi/Agibank é uma
+   das instituições analisadas; o vínculo é declarado no rodapé, na página Sobre, na metodologia e no
+   relatório exportado;
+8. **Derivações declaradas** — números calculados pelo autor (P&L gerencial do Nu no 3T25, ARPAC em base
+   gerencial, premissas implícitas do valuation, HHI, câmbio implícito) são listados à parte com método e
+   validação;
+9. **QC público** — 147 checks de integridade autorais recalculados no navegador; falha aparece em vermelho.
 
-## Arquitetura dos modelos
+## Estudo de caso fictício (descontinuado)
 
-Todos os modelos seguem a separação **Inputs → Cálculos → Outputs → Checks**, implementada em
-JavaScript aberto no navegador (sem cálculo oculto). O dataset central único
-(`assets/js/data.js`) alimenta simuladores e dashboards — sem cópias manuais de números.
-
-## Padrão de cada estudo de caso
-
-Contexto → Problema → Dados → Fontes → Premissas → Metodologia → Modelo → Cenários →
-Resultado → Insights → Impacto potencial → Limitações → Validação (ficha de 13 seções em
-cada simulador).
-
-## Ordem de construção (fases)
-
-1. Modelo de três demonstrações; 2. Budget + Real vs. Orçado + Forecast; 3. Rolling forecast;
-4. Fluxo de caixa + capital de giro; 5. Dashboards FP&A/CFO; 6. CAPEX/EVTE; 7. DCF + valuation;
-8. M&A; 9. Riscos; 10. Portfólio educacional; 11. Automação (Python/CVM). Excel/VBA e Power BI:
-roadmap declarado, ainda não entregue.
+A versão 1.0 usava a "Aurora Industrial S.A." (empresa fictícia) para demonstrar técnica. A versão 2.0
+substituiu integralmente o dataset fictício por dados públicos reais; o histórico permanece no Git.

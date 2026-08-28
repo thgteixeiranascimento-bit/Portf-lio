@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09090f">
+<title data-en="Cover letter — Thiago Teixeira Nascimento">Carta de apresentação — Thiago Teixeira Nascimento</title>
+<meta name="description" content="Carta de apresentação de Thiago Teixeira Nascimento — Economista pela PUC-Campinas. Versões para FP&A e Planejamento Financeiro, Riscos Financeiros e Mercado de Capitais, com download em PDF e Word.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✉️</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="canonical" href="https://thgteixeiranascimento-bit.github.io/Portf-lio/carta-apresentacao.html">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Carta de apresentação — Thiago Teixeira Nascimento">
+<meta property="og:description" content="Três versões por área-alvo, personalizáveis para a empresa e a vaga, com download em PDF e Word.">
+<meta property="og:image" content="https://thgteixeiranascimento-bit.github.io/Portf-lio/assets/og-image.png">
+</head>
+<body data-page="cv" data-root="">
+<main class="wrap">
+
+  <section class="hero-pro no-print" style="padding-bottom:var(--sp-4)">
+    <span class="kicker" data-en="Cover letter">Carta de apresentação</span>
+    <h1 style="max-width:24ch" data-en="A letter that names the problem before it names the candidate.">Uma carta que nomeia o problema antes de nomear o candidato.</h1>
+    <p class="sub" data-en="Choose the target area and fill in the company, role and reference. The letter is rebuilt in the browser and can be downloaded ready to attach — no placeholder left behind.">
+      Escolha a área-alvo e preencha empresa, vaga e referência. A carta é remontada no navegador e pode ser
+      baixada pronta para anexar — sem nenhum campo de exemplo esquecido no texto.
+    </p>
+  </section>
+
+  <div class="controls no-print">
+    <div class="head"><span class="t" data-en="Address this letter">Endereçar esta carta</span></div>
+    <div class="row">
+      <div class="ctrl">
+        <label for="fEmpresa" data-en="Company">Empresa</label>
+        <input type="text" id="fEmpresa" placeholder="Ex.: Itaú Unibanco" autocomplete="organization">
+      </div>
+      <div class="ctrl">
+        <label for="fCargo" data-en="Role in the posting">Vaga (como está no anúncio)</label>
+        <input type="text" id="fCargo" placeholder="Ex.: Analista de FP&A Pleno">
+      </div>
+      <div class="ctrl">
+        <label for="fRef" data-en="Reference / requisition (optional)">Referência / requisição (opcional)</label>
+        <input type="text" id="fRef" placeholder="Ex.: req. 1732863 — São Paulo">
+      </div>
+      <div class="ctrl">
+        <label for="fCidade" data-en="City of the position (optional)">Cidade da posição (opcional)</label>
+        <input type="text" id="fCidade" placeholder="Ex.: São Paulo, SP">
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-toolbar no-print">
+    <div class="seg" id="segVaga" role="group" aria-label="Área-alvo da carta"></div>
+    <div class="grow"></div>
+    <button type="button" class="btn-x primary sm" id="btnPdf">
+      <span class="ic" aria-hidden="true">⭳</span><span data-en="Save as PDF">Salvar em PDF</span>
+    </button>
+    <button type="button" class="btn-x outline sm" id="btnDoc">
+      <span class="ic" aria-hidden="true">W</span><span data-en="Download Word">Baixar Word</span>
+    </button>
+    <button type="button" class="btn-x ghost sm" id="btnCopy" data-en="Copy text">Copiar texto</button>
+  </div>
+
+  <article class="paper" id="carta"></article>
+
+  <section class="blk no-print">
+    <div class="callout accent">
+      <span class="ct" data-en="What this letter deliberately does not do">O que esta carta deliberadamente não faz</span>
+      <span data-en="It claims no percentage, no saving and no result that is not disclosable — because none of the quantified outcomes of internal work at an employer may be published here. What it does instead is name the method and point to <a href='simuladores/index.html'>artefacts anyone can open and test</a>. A recruiter can verify the claim in one click; an invented number could not be verified at all.">
+        Ela não reivindica nenhum percentual, nenhuma economia e nenhum resultado que não seja divulgável — porque
+        nenhum resultado quantificado de trabalho interno em empregador pode ser publicado aqui. O que ela faz, em
+        vez disso, é nomear o método e apontar para <a href="simuladores/index.html">artefatos que qualquer pessoa
+        abre e testa</a>. Um recrutador confere a afirmação em um clique; um número inventado não seria conferível
+        de forma alguma.
+      </span>
+    </div>
+  </section>
+
+</main>
+<script src="assets/js/perfil.js"></script>
+<script src="assets/js/core.js"></script>
+<script>
+(function () {
+  "use strict";
+  var P = window.PERFIL, V = window.Viz;
+  var vagaAtual = "fpa";
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  function t(pt, en) { return V.t(pt, en); }
+  function val(id) { return (document.getElementById(id).value || "").trim(); }
+
+  var MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+  function dataHoje() {
+    var d = new Date();
+    return V.isEn()
+      ? "Campinas, Brazil — " + d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+      : "Campinas, SP — " + d.getDate() + " de " + MESES[d.getMonth()] + " de " + d.getFullYear();
+  }
+
+  /* Corpo da carta por área-alvo. Cada parágrafo se apoia em fato já
+     registrado em perfil.js — nenhuma afirmação nova é introduzida aqui. */
+  var CORPO = {
+    fpa: {
+      pt: [
+        "Escrevo para me candidatar à vaga de {CARGO}{EMPRESA}.",
+        "Minha base de finanças foi construída de baixo para cima. Na <b>EY</b>, como Trainee de Auditoria Externa, revisei e validei demonstrações de resultado, balanços patrimoniais e demonstrações de fluxo de caixa de clientes do setor financeiro quanto à aderência a <b>IFRS e BR GAAP</b>, sob prazos de fechamento e engajamentos simultâneos, reportando achados em inglês a stakeholders globais. Isso me deixou uma leitura de demonstração que começa na origem de cada linha, não no número final — o que, em FP&amp;A, é a diferença entre explicar uma variação e apenas apontá-la.",
+        "No <b>Agibank</b>, essa base virou prática de planejamento e reporte. Construo os relatórios de performance e os <b>dashboards de Power BI (DAX)</b> usados pela liderança, padronizei fluxos auditáveis de consolidação a partir de Salesforce e Birdie, e automatizo rotinas recorrentes em <b>Python e SQL</b> — reduzindo esforço de fechamento e erro manual. Aplico <b>regressão linear e logística</b> a inadimplência, churn e cancelamento de produto, e converto a saída dos modelos em ação recomendada às áreas donas do processo. Também construí simuladores que estimaram, em minutos por atendimento e no custo financeiro correspondente, o impacto operacional de um novo produto <b>antes</b> do lançamento — que é exatamente o tipo de pergunta que o time de planejamento precisa responder antes de a decisão ser tomada.",
+        "Para que nada disso dependa da minha palavra, publiquei um portfólio técnico onde o trabalho pode ser aberto e conferido: <b>dez estudos interativos</b> sobre releases, demonstrações IFRS e atas do Copom de cinco instituições financeiras — incluindo ponte de resultado, rolling forecast por drivers e três demonstrações integradas que reconciliam exatamente —, além de <b>três ferramentas de cálculo</b> que construí do zero, entre elas uma calculadora de antecipação de parcelas que aplica desconto racional e quantifica o erro evitado em relação aos dois métodos incorretos mais comuns. Cada número tem fonte datada, cada projeção é rotulada como estimativa sob premissa explícita e <b>147 checks aritméticos</b> são recalculados no navegador."
+      ],
+      en: [
+        "I am writing to apply for the position of {CARGO}{EMPRESA}.",
+        "My finance foundation was built from the ground up. At <b>EY</b>, as an External Audit Trainee, I reviewed and validated income statements, balance sheets and cash flow statements of financial-sector clients for adherence to <b>IFRS and BR GAAP</b>, under closing deadlines and simultaneous engagements, reporting findings in English to global stakeholders. That left me reading statements from the origin of each line rather than from the bottom line — which, in FP&amp;A, is the difference between explaining a variance and merely pointing at it.",
+        "At <b>Agibank</b>, that foundation became planning and reporting practice. I build the performance reports and <b>Power BI (DAX) dashboards</b> used by leadership, standardised auditable consolidation flows from Salesforce and Birdie, and automate recurring routines in <b>Python and SQL</b> — cutting closing effort and manual error. I apply <b>linear and logistic regression</b> to default, churn and product cancellation, and convert model output into recommended action for the process-owning teams. I also built simulators that estimated, in minutes per contact and in the corresponding financial cost, the operational impact of a new product <b>before</b> launch — precisely the kind of question a planning team must answer before the decision is made.",
+        "So that none of this rests on my word alone, I published a technical portfolio where the work can be opened and checked: <b>ten interactive studies</b> over releases, IFRS statements and Copom minutes of five financial institutions — including a profit bridge, a driver-based rolling forecast and three integrated statements that reconcile exactly — plus <b>three calculation tools</b> I built from scratch, among them an early-settlement calculator applying rational discount and quantifying the error avoided against the two most common incorrect methods. Every figure has a dated source, every projection is labelled as an estimate under an explicit assumption, and <b>147 arithmetic checks</b> are recalculated in the browser."
+      ]
+    },
+    riscos: {
+      pt: [
+        "Escrevo para me candidatar à vaga de {CARGO}{EMPRESA}.",
+        "Comecei em risco pelo lado da evidência. Na <b>EY</b>, em Auditoria Externa, avaliei exposições a risco em clientes do setor financeiro e verifiquei a aderência de demonstrações de resultado, balanços e fluxos de caixa a <b>IFRS e BR GAAP</b>, conciliando e cruzando bases financeiras extensas para sinalizar inconsistências — sob prazos de fechamento e múltiplos engajamentos simultâneos. Aprendi ali que um achado só vale quando é rastreável até o documento que o sustenta, e que comunicá-lo com clareza a um stakeholder, inclusive em inglês, faz parte do trabalho técnico.",
+        "No <b>Agibank</b>, passei do teste ao modelo. Aplico <b>regressão linear e logística</b> (Python: pandas, NumPy, scikit-learn) para antecipar inadimplência, churn e cancelamento de produto, convertendo a saída dos modelos em ações recomendadas às áreas donas do processo. Construo e mantenho os indicadores e relatórios de controle usados pela liderança, e reestruturei a taxonomia de classificação que sustenta o reporte da área — eliminando categorias ambíguas e sobrepostas, o que elevou a confiabilidade de todos os indicadores da operação. Também mapeio riscos operacionais até a causa-raiz e priorizo correções por impacto, em vez de por ordem de chegada.",
+        "O portfólio técnico que publiquei mostra esse raciocínio aplicado a dados públicos e conferíveis: <b>NPL por safra e perda esperada (IFRS 9/ECL) por estágio</b> recalculadas a partir das demonstrações divulgadas, cobertura, <b>índices de capital contra os mínimos regulatórios</b> e teste de estresse com premissas e aproximações declaradas. A mesma disciplina governa o material: extração documental e informação relatada nunca se misturam, lacunas são declaradas em vez de preenchidas e as quinze divergências que encontrei entre documentos estão tabeladas — inclusive três que corrigiram um erro meu."
+      ],
+      en: [
+        "I am writing to apply for the position of {CARGO}{EMPRESA}.",
+        "I came into risk from the evidence side. At <b>EY</b>, in External Audit, I assessed risk exposures at financial-sector clients and verified the adherence of income statements, balance sheets and cash flow statements to <b>IFRS and BR GAAP</b>, reconciling and cross-checking extensive financial datasets to flag inconsistencies — under closing deadlines and multiple simultaneous engagements. I learned there that a finding only counts when it is traceable to the document supporting it, and that communicating it clearly to a stakeholder, in English included, is part of the technical work.",
+        "At <b>Agibank</b>, I moved from testing to modelling. I apply <b>linear and logistic regression</b> (Python: pandas, NumPy, scikit-learn) to anticipate default, churn and product cancellation, converting model output into recommended actions for the process-owning teams. I build and maintain the control indicators and reports used by leadership, and restructured the classification taxonomy underpinning the area's reporting — eliminating ambiguous and overlapping categories, which raised the reliability of every indicator in the operation. I also map operational risks to root cause and prioritise fixes by impact rather than by arrival order.",
+        "The technical portfolio I published shows that reasoning applied to public, checkable data: <b>NPL by vintage and IFRS 9 expected credit loss by stage</b> recalculated from disclosed statements, coverage ratios, <b>capital indices against regulatory minimums</b> and stress testing with assumptions and approximations declared. The same discipline governs the material: documentary extraction and reported information never mix, gaps are declared rather than filled, and the fifteen divergences I found between documents are tabulated — including three that corrected an error of my own."
+      ]
+    },
+    mercado: {
+      pt: [
+        "Escrevo para me candidatar à vaga de {CARGO}{EMPRESA}.",
+        "Minha atuação combina análise quantitativa com a tradução dela para quem decide. Como <b>consultor financeiro</b>, avaliei carteiras de renda fixa (Tesouro Direto) acompanhando indicadores de mercado e métricas de retorno e risco, e subsidiei decisões de alocação com modelos que ponderavam explicitamente risco contra retorno — sempre entregues como business plan ou apresentação executiva a um público não técnico. Na <b>EY</b>, interpretei bases financeiras extensas de instituições financeiras e conduzi interações técnicas em inglês com stakeholders internacionais.",
+        "No <b>Agibank</b>, extraio e organizo dados de múltiplos sistemas em indicadores de desempenho e <b>dashboards de Power BI</b> usados pela liderança, investigo problemas de negócio até a causa-raiz junto às áreas parceiras e construo estudos técnicos que quantificam o impacto de novas iniciativas antes da execução — como o simulador que projetou o efeito operacional e financeiro do lançamento de um produto a partir do início das vendas.",
+        "Para tornar isso verificável, publiquei um portfólio técnico construído inteiramente sobre <b>divulgações públicas datadas</b>: múltiplos de mercado e <b>P/VPA justificado pela técnica de Gordon</b> comparado ao observado, com engenharia reversa das premissas que o preço embute; <b>VPL e TIR com análise de sensibilidade</b>; a anatomia de um IPO real na NYSE, da destinação dos recursos ao efeito no capital regulatório; e composição e concentração (HHI) de carteiras de crédito. Nada ali é recomendação de investimento — a fronteira é explícita —, e cada número é conferido por checks aritméticos abertos no navegador."
+      ],
+      en: [
+        "I am writing to apply for the position of {CARGO}{EMPRESA}.",
+        "My work combines quantitative analysis with translating it for whoever decides. As a <b>financial consultant</b>, I assessed fixed-income portfolios (Tesouro Direto) tracking market indicators and return and risk metrics, and supported allocation decisions with models explicitly weighing risk against return — always delivered as a business plan or executive presentation to a non-technical audience. At <b>EY</b>, I interpreted extensive financial datasets from financial institutions and led technical interactions in English with international stakeholders.",
+        "At <b>Agibank</b>, I extract and organise data from multiple systems into performance indicators and <b>Power BI dashboards</b> used by leadership, investigate business problems to root cause alongside partner teams, and build technical studies quantifying the impact of new initiatives before execution — such as the simulator that projected the operational and financial effect of a product launch from the start of sales.",
+        "To make this verifiable, I published a technical portfolio built entirely on <b>dated public disclosure</b>: market multiples and <b>justified P/BV via the Gordon technique</b> compared with the observed multiple, reverse-engineering the assumptions the price embeds; <b>NPV and IRR with sensitivity analysis</b>; the anatomy of a real NYSE IPO, from use of proceeds to the effect on regulatory capital; and credit portfolio composition and concentration (HHI). None of it is investment advice — the boundary is explicit — and every figure is verified by arithmetic checks open in the browser."
+      ]
+    }
+  };
+
+  var FECHO = {
+    pt: "Fico à disposição para conversarmos sobre como essa combinação — base contábil de auditoria, prática de modelagem e dados, e disciplina de rastreabilidade — pode servir ao time. Agradeço desde já a atenção.",
+    en: "I would be glad to talk about how this combination — an audit-built accounting foundation, modelling and data practice, and traceability discipline — can serve the team. Thank you for your consideration."
+  };
+
+  function vaga() { return P.VAGAS.filter(function (v) { return v.id === vagaAtual; })[0]; }
+
+  function render() {
+    document.getElementById("segVaga").innerHTML = P.VAGAS.map(function (v) {
+      return '<button type="button" data-v="' + v.id + '" class="' + (v.id === vagaAtual ? "on" : "") + '">' + esc(t(v.rotulo, v.rotuloEn)) + "</button>";
+    }).join("");
+    document.querySelectorAll("#segVaga button").forEach(function (b) {
+      b.addEventListener("click", function () { vagaAtual = b.dataset.v; render(); });
+    });
+
+    var vg = vaga();
+    var empresa = val("fEmpresa");
+    var cargo = val("fCargo") || t(vg.titulo, vg.tituloEn);
+    var ref = val("fRef");
+    var cidade = val("fCidade");
+
+    var destinatario = empresa
+      ? t("Prezados(as) Recrutadores(as) da ", "Dear Recruiting Team at ") + esc(empresa) + ","
+      : t("Prezados(as) Recrutadores(as),", "Dear Recruiting Team,");
+
+    var linhaRef = "";
+    if (ref || cidade || empresa) {
+      var partes = [esc(cargo)];
+      if (cidade) partes.push(esc(cidade));
+      if (ref) partes.push(esc(ref));
+      linhaRef = "<p style='font-weight:600;margin-bottom:1.6em'>" + t("Ref.: ", "Re: ") + partes.join(" — ") + "</p>";
+    }
+
+    var sufEmpresa = empresa ? t(", na ", ", at ") + esc(empresa) : "";
+    var paras = CORPO[vagaAtual][V.isEn() ? "en" : "pt"].map(function (p) {
+      return "<p>" + p.replace("{CARGO}", "<b>" + esc(cargo) + "</b>").replace("{EMPRESA}", sufEmpresa) + "</p>";
+    }).join("");
+
+    var I = P.IDENTIDADE;
+    var contato = [];
+    if (P.PRIVACIDADE.telefone.publicar_curriculo) contato.push(esc(I.telefone));
+    contato.push('<a href="mailto:' + I.email + '">' + I.email + "</a>");
+    contato.push('<a href="' + I.site + '">' + I.site.replace(/^https:\/\//, "") + "</a>");
+
+    document.getElementById("carta").innerHTML =
+      '<h2 class="doc-h1">' + esc(I.nome) + "</h2>" +
+      '<div class="doc-contact" style="margin-bottom:2em">' +
+        contato.map(function (c) { return "<span>" + c + "</span>"; }).join('<span aria-hidden="true">·</span>') +
+      "</div>" +
+      '<div class="letter">' +
+        "<p style='color:var(--muted);font-size:.85rem'>" + esc(dataHoje()) + "</p>" +
+        linhaRef +
+        "<p>" + destinatario + "</p>" +
+        paras +
+        "<p>" + t(FECHO.pt, FECHO.en) + "</p>" +
+        '<div class="sign">' + t("Atenciosamente,", "Yours sincerely,") +
+          "<b>" + esc(I.nome) + "</b>" +
+          esc(t("Economista — PUC-Campinas", "Economist — PUC-Campinas")) +
+        "</div>" +
+      "</div>";
+  }
+
+  function cartaHTML(paraWord) {
+    var css = paraWord
+      ? "body{font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#222;line-height:1.45}" +
+        "h1{font-size:18pt;color:#000;margin:0 0 3pt}" +
+        ".doc-contact{font-size:9pt;color:#444;border-bottom:1.5pt solid #000;padding-bottom:6pt;margin-bottom:18pt}" +
+        ".doc-contact span{margin-right:8pt}p{margin:0 0 11pt}" +
+        ".sign{margin-top:22pt}.sign b{display:block;font-size:11.5pt;color:#000}a{color:#1c5cab;text-decoration:none}"
+      : "body{font-family:system-ui,Segoe UI,sans-serif;max-width:760px;margin:48px auto;padding:0 24px;line-height:1.65;color:#1a1a1a}" +
+        "h1{font-size:1.9rem;margin:0}.doc-contact{font-size:.85rem;color:#555;border-bottom:2px solid #000;padding-bottom:12px;margin-bottom:32px}" +
+        ".doc-contact span{margin-right:12px}p{margin:0 0 1.1em}.sign{margin-top:2em}.sign b{display:block}a{color:#1c5cab}";
+    return "<!doctype html><html lang=\"" + (V.isEn() ? "en" : "pt-BR") + "\"><head><meta charset=\"utf-8\">" +
+      "<title>" + t("Carta de apresentação", "Cover letter") + " — " + esc(P.IDENTIDADE.nome) + "</title>" +
+      "<style>" + css + "</style></head><body>" + document.getElementById("carta").innerHTML + "</body></html>";
+  }
+
+  function nomeArquivo(ext) {
+    var emp = val("fEmpresa").replace(/[^A-Za-zÀ-ÿ0-9]+/g, "_").replace(/^_|_$/g, "");
+    return "Carta_Thiago_Nascimento" + (emp ? "_" + emp : "_" + vagaAtual.toUpperCase()) + "_" +
+      new Date().toISOString().slice(0, 10) + "." + ext;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    render();
+    ["fEmpresa", "fCargo", "fRef", "fCidade"].forEach(function (id) {
+      document.getElementById(id).addEventListener("input", render);
+    });
+    document.getElementById("btnPdf").addEventListener("click", function () { window.print(); });
+    document.getElementById("btnDoc").addEventListener("click", function () {
+      V.baixarArquivo(nomeArquivo("doc"), cartaHTML(true), "application/msword");
+    });
+    document.getElementById("btnCopy").addEventListener("click", function () {
+      var txt = document.getElementById("carta").innerText;
+      var btn = document.getElementById("btnCopy");
+      navigator.clipboard.writeText(txt).then(function () {
+        btn.textContent = t("Copiado ✓", "Copied ✓");
+        setTimeout(function () { btn.textContent = t("Copiar texto", "Copy text"); }, 2000);
+      }).catch(function () {
+        btn.textContent = t("Não foi possível copiar", "Copy failed");
+      });
+    });
+  });
+  window.onLangChange = render;
+})();
+</script>
+</body>
+</html>

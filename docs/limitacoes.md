@@ -1,45 +1,50 @@
-# Limitações
+# Limitações declaradas
 
-Declaração honesta do que este portfólio **não** é e do que os modelos **não** respondem.
+Versão 2.2 — 16/08/2026.
 
-## Limitações gerais
+## Dos dados
 
-- **Os dados financeiros dos simuladores são simulados.** A Aurora Industrial S.A. e a Vetra
-  Componentes S.A. são fictícias; nenhum resultado demonstra desempenho real de empresa ou do
-  titular. **Exceção:** o [simulador de Price · Volume · Mix](../pvm/index.html) é uma ferramenta —
-  calcula sobre a base que o usuário carregar, e seu dataset DEMO é sintético e rotulado.
-- **Nada aqui é recomendação de investimento**, proposta de negócio ou opinião sobre ativos reais.
-- **Parâmetros de mercado** (taxa livre de risco, prêmios, betas, múltiplos) são hipóteses de
-  estudo, não dados atuais — num caso real seriam extraídos de fontes primárias datadas.
-- O perfil profissional permanece com lacunas declaradas ("DADO NÃO INFORMADO") até o titular
-  fornecer informações verificáveis.
+1. **Conversões OCR/planilhas** — os documentos foram recebidos como conversões fornecidas pelo titular;
+   números críticos foram cruzados por checks aritméticos internos, mas a conferência contra os PDFs
+   originais publicados pelos emissores está pendente;
+2. **Classes de fonte** — as cinco instituições estão agora no 2T26 com extração documental (nível 1).
+   Permanecem como nível 3 apenas os múltiplos de mercado e a Basileia da Nu Pagamentos;
+3. **CSVs do Nu sem dados** — os quatro arquivos "Dados Históricos" em CSV contêm apenas a aba de índice;
+   o **XLSX do 3T25 veio completo** e substituiu a fonte;
+4. **Dados de mercado são fotografia, não série** — cotações e múltiplos de agosto/2026 envelhecem a cada
+   pregão; vêm de agregadores que **divergem entre si**, e por isso são publicados em faixa;
+5. **Capital do Nu** — só há o índice da Nu Pagamentos S.A. (entidade individual, set/2025), não o
+   consolidado do grupo; mantido fora do comparativo entre instituições.
 
-## Limitações por módulo
+## Das comparações
 
-- **Price · Volume · Mix (ferramenta):** o resultado depende inteiramente da qualidade e da
-  comparabilidade da base enviada — o simulador diagnostica problemas, não os corrige. O preço
-  unitário é derivado de `Receita / Quantidade`, então descontos e devoluções aparecem como efeito
-  preço. Produtos novos e descontinuados não têm par de comparação e por isso não geram efeito de
-  preço nem de mix. A fronteira entre Volume e Mix depende da granularidade da base recebida. Com
-  unidades de medida heterogêneas a ponte fecha, mas a leitura de Volume e Mix deixa de ser válida.
-  A análise de margem cobre apenas a população com COGS informado. O simulador **não explica por
-  que** preço ou volume mudaram: isso não está nos dados. Em bases muito grandes, alguns elementos
-  visuais têm teto de exibição (500 bolhas na matriz de mix, 1.000 linhas na tabela) para não
-  congelar o navegador — o cálculo continua sobre a população inteira, e o teto é declarado na
-  tela. Lista completa em [`pvm-metodologia.md`](pvm-metodologia.md) §11 e §13.
-- **Real vs. Orçado:** decomposição PVM assume efeitos independentes; margens de contribuição
-  são premissas, não custeio apurado.
-- **Rolling forecast:** drivers lineares e independentes; sem elasticidade preço-volume nem
-  restrição de capacidade.
-- **Fluxo de caixa:** defasagens fixas por bucket; sem linhas compromissadas nem aplicações.
-- **Capital de giro:** conversão linear dias→saldo; ignora sazonalidade intra-mês e mix.
-- **Três demonstrações:** um segmento; sem inflação explícita; IR linear; sem diferidos.
-- **Valuation:** projeção explícita curta (valor dominado pelo terminal); sem painel real de
-  comparáveis; sem ajustes de itens fora do balanço.
-- **CAPEX/EVTE:** sem opções reais (adiar/expandir/abandonar); sem canibalização.
-- **M&A:** sem alocação de preço de compra (PPA), earn-outs ou sinergias de receita.
-- **Riscos:** choques lineares sem correlação modelada; classificação qualitativa; não é VaR.
-- **Portfólio:** média-variância com parâmetros didáticos; fronteira aproximada por amostragem;
-  estritamente educacional.
-- **Automação:** o script CVM coleta dados públicos e não publica análise; qualidade dos dados
-  depende do arquivo original da CVM.
+6. **Moedas distintas** — Nu reporta em US$; os demais em R$. Valores absolutos nunca são comparados entre
+   moedas e nenhuma taxa de câmbio é inventada (a única conversão citada — R$ 5,47/US$ no IPO da Agi — é
+   estimativa derivada de dois números divulgados e está rotulada);
+7. **Bases gerenciais próprias** — ROE/ROAE/ROAE LTM, índices de eficiência, definições de carteira
+   (própria, ampliada, expandida) e de NPL diferem entre emissores; comparações são de ordem de grandeza;
+8. **Crescimento FXN × nominal** — o Nu divulga variações em base neutra de câmbio; variações nominais
+   recalculadas neste portfólio diferem das divulgadas e são identificadas como recálculo.
+
+## Dos modelos
+
+9. **Projeções são estimativas do autor** — o forecast 12m, o stress de crédito, o P/VPA justificado e o
+   EVTE do México usam premissas explícitas e ajustáveis; nenhum emissor divulgou projeções nos documentos
+   usados e nada representa guidance;
+10. **Simplificações declaradas** — forecast agregado por percentuais de receita; stress com RWA constante;
+   EVTE usando atividade e custo de servir consolidados como aproximação do México; HHI dependente da
+   granularidade divulgada;
+11. **Derivações do autor** — o P&L gerencial do Nu no 3T25, o ARPAC em base gerencial, o crescimento e o
+    ROE implícitos do estudo de valuation, o HHI e o câmbio implícito do IPO **não constam de nenhum
+    documento**: são cálculos, listados com método e validação em `metodologia.html`, seção 5b;
+12. **O modelo de Gordon de estágio único falha para alto crescimento** — no caso do Nu, o múltiplo
+    observado exigiria crescimento perpétuo próximo do custo de capital; a leitura correta é a inadequação
+    do modelo, não um julgamento sobre o preço;
+13. **Conflito de interesse** — o autor é colaborador do Agibank desde 2025, e a Agi/Agibank é uma das
+    instituições analisadas; todo o conteúdo sobre a Agi vem de documentos públicos, sem uso de informação
+    interna. Declarado no rodapé, na página Sobre, na metodologia e no relatório exportado;
+14. **Tradução para o inglês** — a alternância PT/EN cobre a interface, a navegação, o rodapé, os títulos de
+    página e as seções principais; textos analíticos longos e rótulos de gráficos permanecem em português
+    nesta versão e serão traduzidos progressivamente;
+15. **Sem opinião de investimento** — não há recomendação, preço-alvo ou opinião sobre valor de ativos em
+    nenhuma página, inclusive nas que exibem múltiplos de mercado.

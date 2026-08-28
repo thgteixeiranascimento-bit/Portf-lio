@@ -93,6 +93,13 @@ const F = {
   pct(v) { return (v == null || !Number.isFinite(v)) ? "—" : nf(1, 1).format(v * 100) + "%"; },
   signedPct(v) { return (v == null || !Number.isFinite(v)) ? "—" : (v >= 0 ? "+" : "") + nf(1, 1).format(v * 100) + "%"; },
   pp(v) { return (v == null || !Number.isFinite(v)) ? "—" : (v >= 0 ? "+" : "") + nf(1, 1).format(v * 100) + " p.p."; },
+  /** p.p. com precisão explícita — o eixo da matriz de mix escolhe as casas
+      conforme o passo, senão participações de 0,002% viram "+0,0 p.p." */
+  ppN(v, d) {
+    if (v == null || !Number.isFinite(v)) return "—";
+    const k = Math.max(1, Math.min(6, d == null ? 1 : d));
+    return (v >= 0 ? "+" : "") + nf(k, k).format(v * 100) + " p.p.";
+  },
   int(v) { return (v == null || !Number.isFinite(v)) ? "—" : nf(0, 0).format(Math.round(v)); },
   qty(v) { return (v == null || !Number.isFinite(v)) ? "—" : nf(0, Math.abs(v) < 100 ? 2 : 0).format(v); },
   score(v) { return v == null ? "—" : nf(0, 0).format(Math.round(v)); }
@@ -792,7 +799,7 @@ function renderMixMatrix() {
     title: "Matriz de mix — diferencial de preco x variacao de participacao",
     sub: "Preco medio base do portfolio: " + F.unitMoney(state.result.revenue.stats.avgPriceBase) + " por unidade",
     points: pts,
-    fmt: F.money, fmtSigned: F.unitMoney, fmtPP: F.pp, fmtPct: F.pct,
+    fmt: F.money, fmtSigned: F.unitMoney, fmtPP: F.pp, fmtPPN: F.ppN, fmtPct: F.pct,
     note: "Bolhas azuis: efeito Mix positivo. Bolhas vermelhas: efeito Mix negativo. Tamanho proporcional a receita atual."
   });
 }

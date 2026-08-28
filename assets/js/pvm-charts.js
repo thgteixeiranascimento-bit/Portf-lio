@@ -522,7 +522,7 @@ export function mixScatter(host, opts) {
     const widestX = pts.length ? Math.max(...pts.map(q => opts.fmtSigned(q.priceDifferential).length)) : 6;
     const ml = Math.min(w * 0.26, Math.max(58, widestY * 6.3 + 20));
     const mr = Math.min(w * 0.18, Math.max(18, widestX * 3.4));
-    const mt = 22, mb = 52;
+    const mt = 34, mb = 52;
     const svg = el("svg", { viewBox: "0 0 " + w + " " + h, preserveAspectRatio: "xMidYMid meet" });
     if (!pts.length) {
       const t = el("text", { x: w / 2, y: h / 2, "text-anchor": "middle", "font-size": 12, fill: token("--muted") });
@@ -531,10 +531,21 @@ export function mixScatter(host, opts) {
       return svg;
     }
     const xs = pts.map(p => p.priceDifferential), ys = pts.map(p => p.shareChange);
-    const xTicks = niceTicks(Math.min(0, ...xs), Math.max(0, ...xs), 5);
-    const yTicks = niceTicks(Math.min(0, ...ys), Math.max(0, ...ys), 4);
+    // Folga no dominio: a bolha tem raio, entao um item no valor maximo
+    // encostaria (e passaria) da borda superior do grafico.
+    const xPad = (Math.max(...xs) - Math.min(...xs)) * 0.08 || 1;
+    const yPad = (Math.max(...ys) - Math.min(...ys)) * 0.14 || 0.001;
+    const xTicks = niceTicks(Math.min(0, ...xs) - xPad, Math.max(0, ...xs) + xPad, 5);
+    const yTicks = niceTicks(Math.min(0, ...ys) - yPad, Math.max(0, ...ys) + yPad, 4);
     const xlo = xTicks[0], xhi = xTicks[xTicks.length - 1];
     const ylo = yTicks[0], yhi = yTicks[yTicks.length - 1];
+
+    /* Casas decimais do eixo de participacao vindas do PASSO do eixo. Numa base
+       com 50 mil SKUs cada participacao e da ordem de 0,002%, e uma casa
+       decimal fixa transformaria todos os rotulos em "+0,0 p.p.". */
+    const yStep = yTicks.length > 1 ? Math.abs(yTicks[1] - yTicks[0]) : 0.01;
+    const ppDec = yStep >= 0.01 ? 1 : yStep >= 0.001 ? 2 : yStep >= 0.0001 ? 3 : yStep >= 0.00001 ? 4 : 5;
+    const ppFmt = opts.fmtPPN ? (v) => opts.fmtPPN(v, ppDec) : opts.fmtPP;
     const x0 = ml, x1 = w - mr, y0 = h - mb, y1 = mt;
     const xOf = v => x0 + (v - xlo) / (xhi - xlo || 1) * (x1 - x0);
     const yOf = v => y0 - (v - ylo) / (yhi - ylo || 1) * (y0 - y1);
@@ -543,7 +554,7 @@ export function mixScatter(host, opts) {
       const y = yOf(t);
       svg.appendChild(el("line", { x1: x0, x2: x1, y1: y, y2: y, stroke: token("--grid"), "stroke-width": 1 }));
       const lab = el("text", { x: x0 - 8, y: y + 4, "text-anchor": "end", "font-size": 11, fill: token("--muted") });
-      lab.textContent = opts.fmtPP(t);
+      lab.textContent = ppFmt(t);
       svg.appendChild(lab);
     }
     xTicks.forEach((t, i) => {
@@ -557,16 +568,23 @@ export function mixScatter(host, opts) {
     svg.appendChild(el("line", { x1: x0, x2: x1, y1: yOf(0), y2: yOf(0), stroke: token("--baseline"), "stroke-width": 1.2 }));
 
     const quad = (tx, ty, txt, anchor) => {
-      const t = el("text", { x: tx, y: ty, "text-anchor": anchor, "font-size": 10, fill: token("--muted"), "font-weight": 600 });
+      // contorno na cor do fundo: mantem o rotulo legivel por cima das bolhas
+      const t = el("text", {
+        x: tx, y: ty, "text-anchor": anchor, "font-size": 10, fill: token("--muted"),
+        "font-weight": 600, stroke: token("--surface"), "stroke-width": 3,
+        "paint-order": "stroke", "stroke-linejoin": "round"
+      });
       t.textContent = txt;
       svg.appendChild(t);
     };
+    // Acima da area de dados (y1 - 8), para nunca cobrir uma bolha
+    const qy = y1 - 8;
     if (w >= 560) {
-      quad(x1 - 4, y1 + 12, "Mix favoravel: ganha share em item mais caro", "end");
-      quad(x0 + 4, y1 + 12, "Mix desfavoravel: ganha share em item mais barato", "start");
+      quad(x1 - 2, qy, "Mix favoravel: ganha share em item mais caro →", "end");
+      quad(x0 + 2, qy, "← Mix desfavoravel: ganha share em item mais barato", "start");
     } else {
-      quad(x1 - 4, y1 + 12, "Mix favoravel →", "end");
-      quad(x0 + 4, y1 + 12, "← Mix desfavoravel", "start");
+      quad(x1 - 2, qy, "Mix favoravel →", "end");
+      quad(x0 + 2, qy, "← Mix desfavoravel", "start");
     }
 
     const maxRev = Math.max(1, ...pts.map(p => Math.abs(p.revenueCurrent)));
@@ -582,11 +600,11 @@ export function mixScatter(host, opts) {
       });
       const html = '<div class="t">' + escapeHtml(p.label) + "</div>" +
         tipRow("Preco base vs. media", opts.fmtSigned(p.priceDifferential)) +
-        tipRow("Var. participacao", opts.fmtPP(p.shareChange)) +
+        tipRow("Var. participacao", ppFmt(p.shareChange)) +
         tipRow("Receita atual", opts.fmt(p.revenueCurrent)) +
         tipRow("Efeito Mix", opts.fmtSigned(p.mixEffect), p.mixEffect >= 0 ? pos : neg);
       c.setAttribute("aria-label", p.label + ": diferencial de preco " + opts.fmtSigned(p.priceDifferential) +
-        ", variacao de participacao " + opts.fmtPP(p.shareChange) + ", efeito mix " + opts.fmtSigned(p.mixEffect));
+        ", variacao de participacao " + ppFmt(p.shareChange) + ", efeito mix " + opts.fmtSigned(p.mixEffect));
       c.addEventListener("mousemove", ev => showTip(html, ev.clientX, ev.clientY));
       c.addEventListener("mouseleave", hideTip);
       c.addEventListener("focus", () => { const b = c.getBoundingClientRect(); showTip(html, b.left + b.width / 2, b.top); });

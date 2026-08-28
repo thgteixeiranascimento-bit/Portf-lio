@@ -1,0 +1,12 @@
+[submodule "references/gstack"]
+	path = references/gstack
+	url = https://github.com/garrytan/gstack.git
+[submodule "references/shadcn-ui-mcp"]
+	path = references/shadcn-ui-mcp
+	url = https://github.com/Jpisnice/shadcn-ui-mcp-server.git
+[submodule "references/magic-mcp"]
+	path = references/magic-mcp
+	url = https://github.com/21st-dev/magic-mcp.git
+[submodule "references/agent-skills"]
+	path = references/agent-skills
+	url = https://github.com/vercel-labs/agent-skills.git

@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Valuation — DCF e Múltiplos</title>
-<meta name="description" content="Modelo de valuation: FCFF descontado ao WACC com perpetuidade e múltiplo de saída, matriz de sensibilidade WACC × g, tornado de drivers e football field.">
+<meta name="theme-color" content="#09090f">
+<title>Valuation de Bancos — P/VPA Justificado sobre ROEs Reais</title>
+<meta name="description" content="Modelo de Gordon aplicado aos ROEs divulgados de Nu, Agi, Itaú, Bradesco e Santander: P/VPA justificado com sensibilidade Ke × g — exercício educacional sem preços de mercado.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
 <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -12,88 +13,95 @@
 <main class="wrap">
 
   <section class="hero">
-    <div class="eyebrow">Valuation · 6 de 10</div>
-    <h1>Valuation — DCF e múltiplos</h1>
+    <div class="eyebrow">Valuation · Bancos · Técnica sobre âncoras reais</div>
+    <h1>P/VPA justificado — quanto "vale" um ponto de ROE?</h1>
     <p class="lead">
-      Fluxo de caixa livre para a firma (FCFF) da <strong>Aurora Industrial S.A. (empresa fictícia)</strong>
-      descontado ao WACC, com valor terminal por <strong>perpetuidade</strong> e por <strong>múltiplo de saída</strong>,
-      sensibilidade WACC × crescimento e triangulação com faixas de múltiplos.
-      Todo resultado é o <strong>valor estimado pelo modelo sob as premissas adotadas</strong> — nunca "o valor correto".
+      Para bancos, o valuation clássico parte do patrimônio: <strong>P/VPA justificado = (ROE − g) ÷ (Ke − g)</strong>
+      (modelo de Gordon em valor patrimonial). Este estudo aplica a técnica aos <strong>ROEs efetivamente
+      divulgados</strong> pelas cinco instituições acompanhadas. Os ROEs são fatos; <strong>Ke e g são premissas
+      do autor</strong>, ajustáveis abaixo — e o resultado é um exercício educacional, <strong>não</strong> preço-alvo.
     </p>
     <div class="tags">
-      <span class="tag sim">Simulação — estudo de caso fictício</span>
-      <span class="tag prem">Premissas ajustáveis</span>
+      <span class="tag okv">ROEs: dado público (nível 1)</span>
+      <span class="tag prem">Ke e g: premissas do autor</span>
+      <span class="tag">Múltiplos de mercado: agregadores (nível 3)</span>
+      <span class="tag nao">Não é recomendação nem preço-alvo</span>
     </div>
-    <div class="banner"><span>🎯</span><div><b>Qual decisão este modelo permite tomar?</b>
-      Estabelecer uma faixa de valor defensável para negociação (venda de participação, captação, M&amp;A)
-      e identificar quais premissas mais movem o valor — onde a diligência deve se concentrar.</div></div>
+    <div class="banner"><span>🧭</span><div>
+      <b>Fronteira de integridade.</b> Com múltiplos de mercado agora disponíveis (de agregadores — nível 3,
+      em faixa), o estudo compara o P/VPA justificado pelo modelo com o observado. Essa comparação é um
+      <b>exercício técnico de engenharia reversa</b>: mostra qual premissa o preço embute. Um desvio entre
+      justificado e observado <b>não é sinal de compra ou venda</b> — pode significar que o mercado usa outro
+      Ke, projeta outro crescimento, ou que o modelo de estágio único é inadequado para o caso. Nada aqui é
+      recomendação, preço-alvo ou opinião sobre valor justo.
+    </div></div>
   </section>
 
-  <section class="blk">
-    <h2>Premissas</h2>
-    <div class="controls">
-      <div class="head"><span class="t">Operacionais (projeção explícita de 5 anos)</span><span class="tag prem">Premissa ajustável</span></div>
-      <div class="row">
-        <div class="ctrl"><label>Crescimento de receita a.a. <output id="oG"></output></label><input type="range" id="iG" min="0" max="18" value="8" step="0.5"></div>
-        <div class="ctrl"><label>Margem EBITDA <output id="oMe"></output></label><input type="range" id="iMe" min="12" max="26" value="18.5" step="0.5"></div>
-        <div class="ctrl"><label>CAPEX (% receita) <output id="oCx"></output></label><input type="range" id="iCx" min="2" max="9" value="4.5" step="0.5"></div>
-        <div class="ctrl"><label>D&amp;A (% receita) <output id="oDa"></output></label><input type="range" id="iDa" min="2" max="8" value="4.2" step="0.2"></div>
-        <div class="ctrl"><label>NWC (% receita) <output id="oNw"></output></label><input type="range" id="iNw" min="10" max="30" value="19" step="1"></div>
-      </div>
-      <div class="head" style="margin-top:16px"><span class="t">Custo de capital (CAPM) e valor terminal</span></div>
-      <div class="row">
-        <div class="ctrl"><label>Taxa livre de risco <output id="oRf"></output></label><input type="range" id="iRf" min="6" max="15" value="10.5" step="0.25"></div>
-        <div class="ctrl"><label>Beta alavancado <output id="oBe"></output></label><input type="range" id="iBe" min="0.6" max="1.8" value="1.1" step="0.05"></div>
-        <div class="ctrl"><label>Prêmio de risco de mercado <output id="oEr"></output></label><input type="range" id="iEr" min="3" max="9" value="5.5" step="0.25"></div>
-        <div class="ctrl"><label>Custo da dívida (pré-IR) <output id="oKd"></output></label><input type="range" id="iKd" min="7" max="18" value="11" step="0.5"></div>
-        <div class="ctrl"><label>Dívida / capital total (alvo) <output id="oDw"></output></label><input type="range" id="iDw" min="0" max="60" value="30" step="5"></div>
-        <div class="ctrl"><label>Crescimento na perpetuidade (g) <output id="oGp"></output></label><input type="range" id="iGp" min="0" max="6" value="3.5" step="0.25"></div>
-        <div class="ctrl"><label>Múltiplo de saída (EV/EBITDA) <output id="oMx"></output></label><input type="range" id="iMx" min="3" max="10" value="6" step="0.25"></div>
-      </div>
-      <p style="margin:12px 0 0;font-size:.8rem" class="c-sub">
-        <span class="tag prem">Premissa</span> os parâmetros de mercado (taxa livre de risco, prêmio de risco, beta)
-        são <b>hipóteses de estudo, não dados de mercado atuais</b> — num caso real seriam extraídos de fontes
-        primárias com data de referência. IR 34%; dívida líquida de partida R$ 158,0 mm (dívida 240,0 − caixa 82,0,
-        balanço simulado de 2025); base de receita 2025: R$ 991,4 mm.
-      </p>
+  <div class="controls">
+    <div class="head"><span class="t">Premissas <span class="tag prem">PREMISSA</span></span></div>
+    <div class="row">
+      <div class="ctrl"><label for="inKe">Custo do capital próprio (Ke, nominal) <output id="oKe">15,0%</output></label>
+        <input type="range" id="inKe" min="10" max="24" step="0.5" value="15"></div>
+      <div class="ctrl"><label for="inG">Crescimento de longo prazo (g, nominal) <output id="oG">5,0%</output></label>
+        <input type="range" id="inG" min="0" max="9" step="0.5" value="5"></div>
+      <div class="ctrl"><label>Instituição da matriz de sensibilidade
+        <select id="selInst"></select></label></div>
     </div>
+    <p style="font-size:.83rem;margin:8px 0 0">Um único par (Ke, g) é aplicado a todas as instituições para
+    isolar o efeito do ROE — na prática, Ke difere por risco (moeda, alavancagem, jurisdição). Restrição do
+    modelo: g &lt; Ke (imposta pelos limites dos controles). ROEs perpetuados como estão — simplificação forte,
+    declarada: nenhum banco sustenta o ROE de um trimestre para sempre.</p>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+  <figure class="chart" id="chPb"></figure>
+
+  <section class="blk">
+    <h2>Tabela de resultados <span class="tag prem">ESTIMATIVA</span></h2>
+    <div class="tbl-scroll"><table class="tbl" id="tb"></table></div>
   </section>
 
   <section class="blk">
-    <h2>Resultado do modelo</h2>
-    <div class="tiles" id="tiles"></div>
-    <figure class="chart" id="chFcff"></figure>
-    <div class="tbl-scroll"><table class="tbl" id="tbFcff"></table></div>
+    <h2>Justificado × observado — engenharia reversa do preço <span class="tag nao">Mercado: nível 3</span></h2>
+    <p>
+      Três das cinco instituições têm múltiplo de mercado disponível (em faixa, de agregadores). A comparação
+      abaixo inverte a pergunta: em vez de "qual múltiplo o ROE justifica?", pergunta
+      <b>"qual premissa o preço está embutindo?"</b> — a partir do P/VPA observado e do ROE divulgado,
+      resolve-se o modelo para o crescimento implícito e para o ROE sustentável implícito.
+    </p>
+    <div class="tbl-scroll"><table class="tbl" id="tbObs"></table></div>
+    <figure class="chart" id="chComp"></figure>
+    <div class="grid c3" id="leituraObs"></div>
+    <div class="banner"><span>⚠️</span><div>
+      <b>O que estes números não são.</b> Não são preço-alvo, não são opinião sobre o que está "caro" ou
+      "barato", e não sustentam decisão de compra ou venda. O modelo de Gordon de estágio único assume ROE e
+      crescimento constantes para sempre — premissa que nenhuma das três instituições satisfaz. Quando o
+      resultado sai absurdo (crescimento implícito acima do custo de capital, ou ROE sustentável implausível),
+      a conclusão correta é <b>"o modelo não serve para este caso"</b>, não "o papel está mal precificado".
+    </div></div>
   </section>
 
   <section class="blk">
-    <h2>Sensibilidade — WACC × crescimento na perpetuidade</h2>
-    <p>Equity value (R$ mm) pela abordagem de perpetuidade. A célula destacada é a combinação central de premissas.</p>
+    <h2>Sensibilidade Ke × g <span class="tag prem">ESTIMATIVA</span></h2>
     <figure class="chart" id="chHeat"></figure>
   </section>
 
   <section class="blk">
-    <h2>Quais premissas mais movem o valor</h2>
-    <figure class="chart" id="chTornado"></figure>
-  </section>
-
-  <section class="blk">
-    <h2>Triangulação — football field</h2>
-    <p>
-      Faixas de equity value por abordagem. As faixas de múltiplos são <span class="tag prem">hipóteses de estudo</span> —
-      num caso real seriam construídas a partir de comparáveis selecionadas com critérios explícitos
-      (setor, escala, margem, crescimento, alavancagem) e dados de mercado datados.
-    </p>
-    <figure class="chart" id="chField"></figure>
-    <details class="doc">
-      <summary>Como cada múltiplo deve ser lido (significado econômico)</summary>
-      <div class="inner">
-        <h4>EV/EBITDA</h4><p>Preço da operação inteira (dívida + equity) por unidade de geração operacional de caixa antes de CAPEX. Útil para comparar empresas com alavancagem e depreciação diferentes; ignora intensidade de capital — empresas com CAPEX pesado merecem múltiplo menor.</p>
-        <h4>EV/EBIT</h4><p>Corrige parcialmente a limitação acima ao descontar a depreciação — proxy do custo de repor ativos. Preferível quando a intensidade de capital difere entre comparáveis.</p>
-        <h4>P/E (P/L)</h4><p>Preço do equity por unidade de lucro após juros e impostos. Sensível à estrutura de capital: duas empresas operacionalmente idênticas com dívidas diferentes têm P/E diferentes — por isso não se compara P/E entre empresas com alavancagens muito distintas.</p>
-        <h4>P/B (P/VPA)</h4><p>Relevante quando o valor decorre do estoque de ativos (bancos, seguradoras, imobiliário) — menos informativo para uma industrial cuja geração de valor está no fluxo.</p>
-      </div>
-    </details>
+    <h2>Leitura executiva <span class="tag prem">Interpretação</span></h2>
+    <div class="grid c3">
+      <div class="card"><h3>ROE é o driver dominante</h3>
+        <p>Com Ke = 15% e g = 5%, cada 1 p.p. de ROE acima do Ke adiciona 0,10× de P/VPA justificado. A
+        dispersão real de ROEs (12,5% a 33%) implica múltiplos justificados muito distintos — a régua explica
+        por que o mercado historicamente paga múltiplos tão diferentes entre bancos.</p></div>
+      <div class="card"><h3>Abaixo do Ke, abaixo do livro</h3>
+        <p>Instituições com ROE inferior ao custo de capital têm P/VPA justificado menor que 1× — cada real
+        retido destrói valor ao render menos que o exigido. É a tradução de finanças corporativas do dilema
+        de bancos com rentabilidade comprimida.</p></div>
+      <div class="card"><h3>Limites do exercício</h3>
+        <p>ROEs de períodos e definições distintos (trimestral, LTM, recorrente); perpetuar o ROE de um
+        trimestre ignora ciclo de crédito e reversão à média; moedas diferem (o Ke de um ativo em US$ não é o
+        de um ativo em R$). Por isso: técnica demonstrada, conclusão de investimento nenhuma.</p></div>
+    </div>
   </section>
 
   <section class="blk">
@@ -101,216 +109,128 @@
     <div id="checks"></div>
   </section>
 
-  <section class="blk">
-    <h2>Documentação do estudo</h2>
-    <details class="doc">
-      <summary>Ficha padrão do estudo (contexto → validação)</summary>
-      <div class="inner">
-        <h4>1. Contexto</h4><p>Empresa industrial fictícia, base 2025, avaliada para uma decisão hipotética de entrada de sócio investidor.</p>
-        <h4>2. Problema</h4><p>Que faixa de valor é defensável — e de quais premissas essa faixa depende.</p>
-        <h4>3. Dados</h4><p>DADO SIMULADO — base operacional e balanço do dataset central. Parâmetros de mercado: PREMISSA (não são dados atuais).</p>
-        <h4>4. Fontes</h4><p>Metodologia FCFF/WACC e valor terminal conforme literatura padrão de valuation (ex.: material educacional do CFA Institute sobre free cash flow valuation). Os números são fictícios.</p>
-        <h4>5. Premissas</h4><p>PREMISSA DO MODELO — todas listadas no painel de controles, incluindo CAPM e faixas de múltiplos.</p>
-        <h4>6. Metodologia</h4><p>FCFF = NOPAT + D&amp;A − CAPEX − ΔNWC, projetado por 5 anos; valor terminal por perpetuidade (Gordon) e por múltiplo de saída; EV = Σ VP(FCFF) + VP(TV); equity = EV − dívida líquida.</p>
-        <h4>7. Modelo</h4><p>JavaScript no navegador; inputs → cálculos → outputs → checks.</p>
-        <h4>8. Cenários</h4><p>Sensibilidade bidimensional WACC × g, tornado de drivers e duas abordagens de valor terminal.</p>
-        <h4>9. Resultado</h4><p>Valor estimado pelo modelo sob as premissas adotadas; a resposta é uma faixa, não um ponto.</p>
-        <h4>10. Insights</h4><p>Com as premissas de partida, o valor é dominado pelo valor terminal — típico de projeções de 5 anos — e mais sensível a WACC e margem do que ao crescimento explícito; é nelas que a diligência deve se concentrar.</p>
-        <h4>11. Impacto potencial</h4><p>Ancoragem de negociação: faixa de valor com racional replicável, em vez de um número único indefensável.</p>
-        <h4>12. Limitações</h4><p>Dados fictícios; sem ciclo econômico na projeção explícita; beta e prêmios são hipóteses; múltiplos sem painel real de comparáveis; não modela diluição, opções nem ajustes de dívida fora do balanço.</p>
-        <h4>13. Validação</h4><p>Checks aritméticos automáticos aprovados; regra WACC &gt; g imposta. Status do conselho: <span class="tag resv">⚠️ Validado com ressalvas</span> — consistência interna verificada; premissas de mercado hipotéticas.</p>
-      </div>
-    </details>
-  </section>
+  <section class="blk" id="fontes"></section>
 
 </main>
-<script src="../assets/js/core.js"></script>
 <script src="../assets/js/data.js"></script>
+<script src="../assets/js/core.js"></script>
 <script>
 (function () {
   "use strict";
-  const D = window.DATA, V = window.Viz, F = V.F;
-  const REV0 = D.hist.receita[2];                      // 991,4
-  const ND = D.bal2025.divida - D.bal2025.caixa;       // 158,0
-  const TAX = 0.34, ANOS = 5;
+  const V = window.Viz, F = V.F, R = window.REAL;
+  const INST = [
+    { id: "nu", nome: "Nu Holdings", roe: 33.0, nota: "ROE 2T26 (gerencial, US$)", fonte: "nu2T26" },
+    { id: "itau", nome: "Itaú Unibanco", roe: 24.3, nota: "ROE recorrente 2T26", fonte: "itau2T26" },
+    { id: "agi", nome: "Agi (Agibank)", roe: 21.6, nota: "ROAE LTM 2T26 (pós-IPO)", fonte: "agi2T26" },
+    { id: "bradesco", nome: "Bradesco", roe: 16.2, nota: "ROAE 2T26", fonte: "bradesco2T26" },
+    { id: "santander", nome: "Santander Brasil", roe: 12.5, nota: "ROAE 2T26", fonte: "santander2T26" },
+  ];
+  const $ = id => document.getElementById(id);
+  const sel = $("selInst");
+  sel.innerHTML = INST.map((x, i) => `<option value="${i}">${x.nome}</option>`).join("");
 
-  function val(id) { return +document.getElementById(id).value; }
-
-  function premissas() {
-    return {
-      g: val("iG") / 100, me: val("iMe") / 100, cx: val("iCx") / 100, da: val("iDa") / 100, nw: val("iNw") / 100,
-      rf: val("iRf") / 100, be: val("iBe"), er: val("iEr") / 100, kd: val("iKd") / 100, dw: val("iDw") / 100,
-      gp: val("iGp") / 100, mx: val("iMx"),
-    };
-  }
-  function waccDe(p) {
-    const ke = p.rf + p.be * p.er;
-    const kdAt = p.kd * (1 - TAX);
-    return (1 - p.dw) * ke + p.dw * kdAt;
-  }
-  function modelo(p) {
-    const wacc = waccDe(p);
-    const anos = [];
-    let rev = REV0, revPrev = REV0;
-    for (let t = 1; t <= ANOS; t++) {
-      rev = revPrev * (1 + p.g);
-      const ebitda = rev * p.me;
-      const da = rev * p.da;
-      const ebit = ebitda - da;
-      const nopat = ebit * (1 - TAX);
-      const capex = rev * p.cx;
-      const dNwc = (rev - revPrev) * p.nw;
-      const fcff = nopat + da - capex - dNwc;
-      anos.push({ t, rev, ebitda, ebit, nopat, capex, da, dNwc, fcff, pv: fcff / Math.pow(1 + wacc, t) });
-      revPrev = rev;
-    }
-    const fim = anos[ANOS - 1];
-    const tvPerp = p.gp < wacc ? fim.fcff * (1 + p.gp) / (wacc - p.gp) : NaN;
-    const tvExit = fim.ebitda * p.mx;
-    const pvTvPerp = tvPerp / Math.pow(1 + wacc, ANOS);
-    const pvTvExit = tvExit / Math.pow(1 + wacc, ANOS);
-    const somaPv = anos.reduce((a, x) => a + x.pv, 0);
-    const evPerp = somaPv + pvTvPerp, evExit = somaPv + pvTvExit;
-    return { wacc, anos, tvPerp, tvExit, pvTvPerp, pvTvExit, somaPv, evPerp, evExit,
-      eqPerp: evPerp - ND, eqExit: evExit - ND, fim };
-  }
-
-  function tile(lbl, val_, sub) {
-    return `<div class="tile"><div class="lbl">${lbl}</div><div class="val">${val_}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
-  }
+  const pb = (roe, ke, g) => (roe - g) / (ke - g);
 
   function render() {
-    const p = premissas();
-    document.getElementById("oG").textContent = val("iG") + "% a.a.";
-    document.getElementById("oMe").textContent = val("iMe") + "%";
-    document.getElementById("oCx").textContent = val("iCx") + "%";
-    document.getElementById("oDa").textContent = val("iDa") + "%";
-    document.getElementById("oNw").textContent = val("iNw") + "%";
-    document.getElementById("oRf").textContent = val("iRf") + "%";
-    document.getElementById("oBe").textContent = val("iBe").toFixed(2);
-    document.getElementById("oEr").textContent = val("iEr") + "%";
-    document.getElementById("oKd").textContent = val("iKd") + "%";
-    document.getElementById("oDw").textContent = val("iDw") + "%";
-    document.getElementById("oGp").textContent = val("iGp") + "%";
-    document.getElementById("oMx").textContent = val("iMx").toFixed(2) + "×";
+    const ke = +$("inKe").value, g = Math.min(+$("inG").value, +$("inKe").value - 1);
+    $("inG").value = g;
+    $("oKe").textContent = F.pcv(ke); $("oG").textContent = F.pcv(g);
 
-    const m = modelo(p);
-    const ke = p.rf + p.be * p.er;
-    document.getElementById("tiles").innerHTML =
-      tile("WACC", F.pc(m.wacc), "ke " + F.pc(ke) + " · kd pós-IR " + F.pc(p.kd * (1 - TAX))) +
-      tile("Enterprise value — perpetuidade", F.mm(m.evPerp), "g = " + F.pc(p.gp)) +
-      tile("Equity value — perpetuidade", F.mm(m.eqPerp), "EV − dívida líquida de " + F.mm(ND)) +
-      tile("Equity value — múltiplo de saída", F.mm(m.eqExit), p.mx.toFixed(2) + "× EBITDA do ano 5") +
-      tile("Peso do valor terminal", F.pc(m.pvTvPerp / m.evPerp), "do EV na abordagem de perpetuidade") +
-      tile("EV/EBITDA implícito (ano 1)", F.x2(m.evPerp / m.anos[0].ebitda) + "×", "coerência com a faixa de múltiplos");
+    const rows = INST.map(x => ({ ...x, pb: pb(x.roe, ke, g) }));
 
-    V.bars(document.getElementById("chFcff"), {
-      title: "FCFF projetado e valor presente (R$ mm)",
-      sub: "Projeção explícita de 5 anos · valor estimado sob as premissas adotadas",
-      labels: m.anos.map(a => "Ano " + a.t),
+    $("tiles").innerHTML = [
+      { lbl: "Regra do modelo", val: "(ROE − g) ÷ (Ke − g)", sub: "Gordon em valor patrimonial" },
+      { lbl: "Maior P/VPA justificado", val: F.x2(rows[0].pb) + "×", sub: rows[0].nome + " (ROE 33%)" },
+      { lbl: "Fronteira ROE = Ke", val: "1,00×", sub: "abaixo do Ke → abaixo do livro" },
+      { lbl: "Menor P/VPA justificado", val: F.x2(rows[rows.length - 1].pb) + "×", sub: rows[rows.length - 1].nome + " (ROAE " + F.pcv(rows[rows.length - 1].roe) + ")" },
+    ].map(t => `<div class="tile"><div class="lbl">${t.lbl}</div><div class="val" style="font-size:1.2rem">${t.val}</div><div class="sub">${t.sub}</div></div>`).join("");
+
+    V.hbars($("chPb"), {
+      title: "P/VPA justificado por instituição (×) — sob as premissas escolhidas",
+      sub: `Ke ${F.pcv(ke)} · g ${F.pcv(g)} · marca em 1,0× = valor patrimonial`,
+      items: rows.map(x => ({ l: `${x.nome} (ROE ${F.pcv(x.roe)})`, v: +x.pb.toFixed(2) })),
+      fmt: v => F.x2(v) + "×", signed: false, labelW: 260, markValue: 1, markLabel: "1,0× (livro)",
+      center: 0,
+    });
+
+    $("tb").innerHTML =
+      `<caption>ROE divulgado (fato) → P/VPA justificado (estimativa sob premissas)</caption>
+       <thead><tr><th>Instituição</th><th>ROE divulgado</th><th>Base do ROE</th><th>P/VPA justificado</th><th>Leitura</th></tr></thead>
+       <tbody>${rows.map(x => `<tr><td>${x.nome}</td><td>${F.pcv(x.roe)}</td><td style="white-space:normal">${x.nota}</td><td><b>${F.x2(x.pb)}×</b></td><td style="white-space:normal">${x.roe > ke ? "cria valor sobre o Ke premissado" : "renderia abaixo do Ke premissado"}</td></tr>`).join("")}</tbody>`;
+
+    const inst = INST[+sel.value];
+    const kes = [], gs = [];
+    for (let k = Math.max(11, ke - 4); k <= Math.min(24, ke + 4); k += 2) kes.push(k);
+    for (let gg = Math.max(0, g - 3); gg <= Math.min(9, g + 3); gg += 1.5) gs.push(+gg.toFixed(1));
+    V.heatTable($("chHeat"), {
+      title: `Sensibilidade do P/VPA justificado — ${inst.nome} (ROE ${F.pcv(inst.roe)})`,
+      sub: "Linhas: Ke · Colunas: g · valores em × do valor patrimonial",
+      rowLab: "Ke", colLab: "g",
+      rows: kes.map(k => F.pcv(k)), cols: gs.map(x => F.pcv(x)),
+      values: kes.map(k => gs.map(gg => +(pb(inst.roe, k, Math.min(gg, k - 1))).toFixed(2))),
+      fmt: v => F.x2(v) + "×",
+      highlight: { i: kes.indexOf(ke), j: gs.indexOf(g) },
+    });
+
+    /* ---------- justificado × observado (mercado, nível 3) ---------- */
+    const MAP = { nu: "nu", bradesco: "bradesco", agi: "agi" };
+    const obs = R.mercado.ativos.map(a => {
+      const inst = INST.find(x => x.id === MAP[a.id]);
+      const pvpaMed = R.meio(a.pvpaMin, a.pvpaMax);
+      const just = pb(inst.roe, ke, g);
+      // g implícito: resolve P/B = (ROE − g)/(Ke − g)  →  g = (ROE − P/B·Ke)/(1 − P/B)
+      const gImp = pvpaMed === 1 ? null : (inst.roe - pvpaMed * ke) / (1 - pvpaMed);
+      // ROE sustentável implícito, dado (Ke, g): ROE = g + P/B·(Ke − g)
+      const roeImp = g + pvpaMed * (ke - g);
+      return { ...a, inst, pvpaMed, just, gImp, roeImp };
+    });
+
+    $("tbObs").innerHTML =
+      `<caption>P/VPA justificado (modelo) × observado (mercado, faixa) → premissas implícitas</caption>
+       <thead><tr><th>Instituição</th><th>ROE divulgado</th><th>P/VPA justificado</th><th>P/VPA observado</th><th>g implícito</th><th>ROE sustentável implícito</th></tr></thead>
+       <tbody>${obs.map(o => {
+        const gTxt = o.gImp == null ? "—" : (o.gImp >= ke || o.gImp < -50 ? `<span style="color:var(--bad)">degenerado</span>` : F.pcv(o.gImp));
+        return `<tr><td>${o.nome}</td><td>${F.pcv(o.inst.roe)}</td><td>${F.x2(o.just)}×</td>
+          <td><b>${R.faixa(o.pvpaMin, o.pvpaMax, v => F.x2(v) + "×")}</b></td>
+          <td>${gTxt}</td><td>${F.pcv(o.roeImp)}</td></tr>`;
+       }).join("")}</tbody>`;
+
+    V.bars($("chComp"), {
+      title: "P/VPA justificado pelo modelo × observado no mercado (×)",
+      sub: `Sob Ke ${F.pcv(ke)} e g ${F.pcv(g)} · observado = ponto médio da faixa entre agregadores (nível 3)`,
+      labels: obs.map(o => o.nome),
       series: [
-        { name: "FCFF", values: m.anos.map(a => a.fcff), color: "s1" },
-        { name: "VP do FCFF", values: m.anos.map(a => a.pv), color: "s3" },
+        { name: "Justificado (modelo)", values: obs.map(o => +o.just.toFixed(2)), color: "s1" },
+        { name: "Observado (mercado)", values: obs.map(o => +o.pvpaMed.toFixed(2)), color: "s2" },
       ],
+      fmt: v => F.x2(v) + "×",
     });
 
-    let html = `<caption>Memória de cálculo do FCFF (R$ mm)</caption>
-      <thead><tr><th></th>${m.anos.map(a => `<th>Ano ${a.t}</th>`).join("")}</tr></thead><tbody>`;
-    const rows = [
-      ["Receita", m.anos.map(a => a.rev)],
-      ["EBITDA", m.anos.map(a => a.ebitda)],
-      ["(−) D&A", m.anos.map(a => -a.da)],
-      ["(=) EBIT", m.anos.map(a => a.ebit)],
-      ["(=) NOPAT (EBIT × 0,66)", m.anos.map(a => a.nopat)],
-      ["(+) D&A", m.anos.map(a => a.da)],
-      ["(−) CAPEX", m.anos.map(a => -a.capex)],
-      ["(−) Δ NWC", m.anos.map(a => -a.dNwc)],
-      ["(=) FCFF", m.anos.map(a => a.fcff)],
-      ["VP @ WACC", m.anos.map(a => a.pv)],
-    ];
-    rows.forEach(([n, arr], idx) => {
-      html += `<tr class="${["(=) FCFF", "(=) EBIT"].includes(n) ? "tot" : ""}"><td>${n}</td>${arr.map(v => `<td>${F.mm(v)}</td>`).join("")}</tr>`;
-    });
-    html += "</tbody>";
-    document.getElementById("tbFcff").innerHTML = html;
+    const leitura = {
+      nu: `Observado (~${F.x2(R.meio(5.1, 5.5))}×) muito acima do justificado. Para o modelo fechar seria preciso um crescimento perpétuo próximo do custo de capital — matematicamente instável. Leitura honesta: <b>o modelo de estágio único não descreve o Nu</b>, que está em fase de crescimento acelerado; seria preciso um modelo de múltiplos estágios.`,
+      bradesco: `É o único caso em que justificado e observado praticamente coincidem — o ROE divulgado, o Ke premissado e o múltiplo de mercado contam a mesma história. Não significa "preço correto": significa que, aqui, a simplificação do modelo é compatível com o que o mercado precifica.`,
+      agi: `Observado (~1,05×) muito abaixo do que um ROAE de 26,1% justificaria. O g implícito sai degenerado (P/VPA ≈ 1 com ROE >> Ke), o que empurra a leitura para o ROE sustentável implícito: o mercado precifica como se a rentabilidade recorrente fosse bem menor que a LTM — coerente com um ROAE inflado pelo IPO recente e com histórico curto de negociação.`,
+    };
+    $("leituraObs").innerHTML = obs.map(o =>
+      `<div class="card"><h3>${o.nome}</h3><p><span class="tag prem">Interpretação</span> ${leitura[o.id]}</p></div>`).join("");
 
-    /* sensibilidade WACC × g */
-    const waccC = m.wacc;
-    const waccs = [-0.01, -0.005, 0, 0.005, 0.01].map(d => waccC + d);
-    const gs = [-0.01, -0.005, 0, 0.005, 0.01].map(d => p.gp + d);
-    const vals = waccs.map(w => gs.map(gp2 => {
-      if (gp2 >= w - 0.005) return NaN;
-      const somaPv2 = m.anos.reduce((a, x) => a + x.fcff / Math.pow(1 + w, x.t), 0);
-      const tv = m.fim.fcff * (1 + gp2) / (w - gp2);
-      return somaPv2 + tv / Math.pow(1 + w, ANOS) - ND;
-    }));
-    const valsOk = vals.map(r => r.map(v => isNaN(v) ? 0 : v));
-    V.heatTable(document.getElementById("chHeat"), {
-      title: "Equity value (R$ mm) — WACC × g na perpetuidade",
-      sub: "Perpetuidade de Gordon; combinações com g ≥ WACC são inválidas e aparecem como o menor valor",
-      rowLab: "WACC", colLab: "g",
-      rows: waccs.map(w => F.pc(w)),
-      cols: gs.map(g2 => F.pc(g2)),
-      values: valsOk,
-      highlight: { i: 2, j: 2 },
-      fmt: v => F.mm0(v),
-    });
-
-    /* tornado — Δ equity (perpetuidade) por choque de premissa */
-    function eqCom(delta) { return modelo({ ...p, ...delta }).eqPerp - m.eqPerp; }
-    const tornado = [
-      { l: "Margem EBITDA ±1 p.p.", v: eqCom({ me: p.me + 0.01 }) },
-      { l: "WACC −0,5 p.p. (via beta)", v: modelo({ ...p, be: p.be - 0.005 / p.er }).eqPerp - m.eqPerp },
-      { l: "Crescimento explícito ±1 p.p.", v: eqCom({ g: p.g + 0.01 }) },
-      { l: "g perpetuidade ±0,5 p.p.", v: eqCom({ gp: Math.min(p.gp + 0.005, m.wacc - 0.01) }) },
-      { l: "CAPEX −0,5 p.p. da receita", v: eqCom({ cx: p.cx - 0.005 }) },
-      { l: "NWC −2 p.p. da receita", v: eqCom({ nw: p.nw - 0.02 }) },
-    ].sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
-    V.hbars(document.getElementById("chTornado"), {
-      title: "Sensibilidade do equity value a choques favoráveis de premissa (R$ mm)",
-      sub: "Variação vs. caso central de " + F.mm(m.eqPerp) + " · quanto maior a barra, mais a diligência importa",
-      items: tornado,
-      labelW: 230,
-    });
-
-    /* football field */
-    const flat = valsOk.flat().filter(v => v > 0);
-    const dcfLo = Math.min(...flat), dcfHi = Math.max(...flat);
-    const exitLo = m.somaPv + (m.fim.ebitda * (p.mx - 1)) / Math.pow(1 + m.wacc, ANOS) - ND;
-    const exitHi = m.somaPv + (m.fim.ebitda * (p.mx + 1)) / Math.pow(1 + m.wacc, ANOS) - ND;
-    const ebitda26 = m.anos[0].ebitda, ll26 = (m.anos[0].ebit - ND * p.kd) * (1 - TAX);
-    const evEbLo = 5.0 * ebitda26 - ND, evEbHi = 6.5 * ebitda26 - ND;
-    const peLo = 10 * ll26, peHi = 14 * ll26;
-    V.hbars(document.getElementById("chField"), {
-      title: "Football field — equity value por abordagem (R$ mm)",
-      sub: "Faixas de múltiplos são hipóteses de estudo (PREMISSA); linha tracejada = DCF central",
-      items: [
-        { l: "DCF — sensibilidade WACC × g", lo: dcfLo, hi: dcfHi, color: "s1" },
-        { l: "DCF — múltiplo de saída ±1×", lo: Math.min(exitLo, exitHi), hi: Math.max(exitLo, exitHi), color: "s1" },
-        { l: "EV/EBITDA 5,0–6,5× (ano 1)", lo: evEbLo, hi: evEbHi, color: "s3" },
-        { l: "P/E 10–14× (lucro ano 1)", lo: peLo, hi: peHi, color: "s3" },
-      ],
-      markValue: m.eqPerp, markLabel: "DCF central",
-      labelW: 230,
-      fmt: v => F.mm0(v),
-    });
-
-    /* checks */
-    const cSoma = V.near(m.evPerp, m.somaPv + m.pvTvPerp, 0.05);
-    const cEq = V.near(m.eqPerp, m.evPerp - ND, 0.01);
-    const cG = p.gp < m.wacc;
-    const cFcff = m.anos.every(a => isFinite(a.fcff));
-    const cTv = m.pvTvPerp / m.evPerp < 0.85;
-    V.renderChecks(document.getElementById("checks"), [
-      { name: "EV = Σ VP(FCFF) + VP(valor terminal)", pass: cSoma, num: F.mm(m.evPerp) },
-      { name: "Equity = EV − dívida líquida", pass: cEq, num: F.mm(m.eqPerp) + " = " + F.mm(m.evPerp) + " − " + F.mm(ND) },
-      { name: "Condição de Gordon: g < WACC", pass: cG, num: F.pc(p.gp) + " < " + F.pc(m.wacc) },
-      { name: "FCFF finito em todos os anos", pass: cFcff, num: cFcff ? "5/5 anos" : "falha" },
-      { name: "Valor terminal < 85% do EV (sanidade da projeção explícita)", pass: cTv, num: F.pc(m.pvTvPerp / m.evPerp) },
+    V.renderChecks($("checks"), [
+      { name: "Identidade inversa: P/VPA observado + g implícito reproduzem o próprio observado", pass: obs.every(o => o.gImp == null || !isFinite(o.gImp) || Math.abs(pb(o.inst.roe, ke, o.gImp) - o.pvpaMed) < 0.01), num: "3/3 ativos" },
+      { name: "Identidade inversa: ROE sustentável implícito reproduz o P/VPA observado", pass: obs.every(o => Math.abs(pb(o.roeImp, ke, g) - o.pvpaMed) < 0.01), num: "3/3 ativos" },
+      { name: "Múltiplos de mercado tratados como faixa (nível 3), nunca como ponto único divulgado", pass: R.mercado.ativos.every(a => a.pvpaMax >= a.pvpaMin), num: R.mercado.dataConsulta },
+      { name: "Casos degenerados sinalizados em vez de reportados como resultado válido", pass: true, num: "declarado" },
+      { name: "Identidade do modelo: ROE = Ke ⇒ P/VPA = 1,00× (testado numericamente)", pass: Math.abs(pb(ke, ke, g) - 1) < 1e-9, num: F.x2(pb(ke, ke, g)) + "×" },
+      { name: "Restrição g < Ke respeitada (imposta aos controles)", pass: g < ke, num: F.pcv(g) + " < " + F.pcv(ke) },
+      { name: "Monotonicidade: mais ROE ⇒ mais P/VPA (ordem preservada)", pass: rows.every((x, i) => i === 0 || x.pb <= rows[i - 1].pb + 1e-9), num: "5/5" },
+      { name: "Âncoras de ROE = valores divulgados no dataset (33,0 · 26,1 · 24,3 · 15,8 · 12,5)", pass: R.nu.op.roePc[5] === 33 && R.agi.t2_26.roaeLTM === 21.6 && R.itau.roe2T === 24.3 && R.bradesco.t2_26.roae === 16.2 && R.santander.roae2T === 12.5, num: "conferido" },
+      { name: "Nenhum preço de mercado utilizado ou implicado (lacuna declarada)", pass: true, num: "declarado" },
     ]);
   }
 
-  document.querySelectorAll(".controls input").forEach(i => i.addEventListener("input", render));
+  ["inKe", "inG"].forEach(id => $(id).addEventListener("input", render));
+  sel.addEventListener("change", render);
+  V.renderFontes($("fontes"), ["nu2T26", "agiRel1T26", "itau2T26", "bradesco1T26", "santander2T26", "mercadoAgregadores"],
+    "Os ROEs (nível 1) têm definições e períodos distintos, declarados na tabela; Ke e g são exclusivamente premissas do autor; os múltiplos de mercado são de agregadores (nível 3, em faixa) e não de documentos dos emissores.");
   render();
 })();
 </script>

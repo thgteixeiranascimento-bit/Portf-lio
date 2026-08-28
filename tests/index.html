@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testes — Simulador PVM</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+  .t-row { display:flex; gap:10px; align-items:baseline; font-size:.86rem; padding:5px 12px;
+           border-bottom:1px solid var(--grid); }
+  .t-row .st { font-weight:800; font-size:.78rem; flex:none; width:44px; }
+  .t-row.ok .st { color:var(--ok-text); } .t-row.bad .st { color:var(--bad); }
+  .t-row .err { color:var(--bad); font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.78rem; }
+  .t-suite { font-weight:700; margin:18px 0 4px; font-size:.95rem; }
+  #tot { font-size:1.6rem; font-weight:650; }
+  #tot.ok { color:var(--ok-text); } #tot.bad { color:var(--bad); }
+</style>
+</head>
+<body data-page="testes" data-root="../">
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Qualidade</div>
+    <h1>Suite de testes do simulador PVM</h1>
+    <p class="lead">Os mesmos testes que rodam em Node (<code>node tests/run.mjs</code>) executados aqui
+      no navegador, contra os mesmos módulos que a página do simulador carrega.</p>
+    <div class="card" style="margin:16px 0">
+      <div class="lbl" style="font-size:.78rem;color:var(--muted)">Resultado</div>
+      <div id="tot">executando…</div>
+      <div id="meta" class="sub" style="font-size:.82rem;color:var(--ink-2)"></div>
+    </div>
+  </section>
+  <section class="blk"><div id="out"></div></section>
+</main>
+<script type="module">
+  import { runAll } from "./harness.js";
+  await import("./pvm-engine.test.js");
+  await import("./pvm-validator.test.js");
+  const out = document.getElementById("out");
+  let last = null;
+  const t0 = performance.now();
+  const res = await runAll(ev => {
+    if (ev.suite !== last) {
+      last = ev.suite;
+      const h = document.createElement("div"); h.className = "t-suite"; h.textContent = ev.suite;
+      out.appendChild(h);
+    }
+    const d = document.createElement("div");
+    d.className = "t-row " + (ev.ok ? "ok" : "bad");
+    d.innerHTML = '<span class="st">' + (ev.ok ? "PASS" : "FAIL") + "</span><span>" + ev.title +
+      (ev.ok ? "" : '<br><span class="err">' + ev.error + "</span>") + "</span>";
+    out.appendChild(d);
+  });
+  const ms = Math.round(performance.now() - t0);
+  const tot = document.getElementById("tot");
+  tot.className = res.failed ? "bad" : "ok";
+  tot.textContent = res.failed ? (res.failed + " FALHARAM de " + res.total) : (res.passed + "/" + res.total + " PASSARAM");
+  document.getElementById("meta").textContent = res.suites + " suites · " + ms + " ms · navegador: " + navigator.userAgent;
+  window.__PVM_TEST_RESULT__ = { passed: res.passed, failed: res.failed, total: res.total,
+    failures: res.failures.map(f => f.suite + " › " + f.title + " — " + f.error) };
+</script>
+<script src="../assets/js/core.js"></script>
+</body>
+</html>

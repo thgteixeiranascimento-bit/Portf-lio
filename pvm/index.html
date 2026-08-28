@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09090f">
+<title data-en="Price · Volume · Mix — decompose revenue and gross margin from your own dataset">Price · Volume · Mix — decomponha receita e margem bruta a partir da sua própria base</title>
+<meta name="description" content="Ferramenta de FP&A que decompõe a variação de receita e de margem bruta em preço, volume, mix, produtos novos e descontinuados. Carregue sua base (XLSX, CSV ou TSV), mapeie as colunas e obtenha uma ponte que reconcilia exatamente, com exportação para Excel. Processamento local no navegador.">
+<meta name="keywords" content="price volume mix, PVM, análise de variações, ponte de receita, bridge de margem, FP&A, decomposição de receita, mix de produtos, efeito preço, efeito volume, variance analysis, gross margin bridge">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⧉</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/pvm.css">
+<link rel="canonical" href="https://thgteixeiranascimento-bit.github.io/Portf-lio/pvm/index.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thgteixeiranascimento-bit.github.io/Portf-lio/pvm/index.html">
+<meta property="og:title" content="Price · Volume · Mix — ferramenta própria de FP&amp;A">
+<meta property="og:description" content="Carregue sua base e decomponha receita e margem bruta em preço, volume, mix e efeitos de portfólio. Ponte reconciliada e exportação para Excel, tudo no navegador.">
+<meta property="og:image" content="https://thgteixeiranascimento-bit.github.io/Portf-lio/assets/og-image.png">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body data-page="sim" data-root="../">
+<div class="progresso" aria-hidden="true"><span id="progressoBarra"></span></div>
+<main class="wrap">
+
+  <!-- ═══════════════════════════════════════════════ Capa da ferramenta ═══ -->
+  <section class="hero-pro pvm-hero">
+    <span class="kicker" data-en="Proprietary tool · FP&amp;A · runs in your browser">Ferramenta própria · FP&amp;A · executa no seu navegador</span>
+    <h1 data-en="Price · Volume · Mix — what actually moved revenue">Price · Volume · Mix — o que de fato moveu a receita</h1>
+    <p class="pvm-claim" data-en="Revenue moved. Price, volume or the product you sold?">
+      A receita mudou. Foi preço, foi volume, ou foi o produto que você vendeu?
+    </p>
+    <p class="sub" data-en="Between two periods three things move at once: unit prices, quantity sold, and the composition of what was sold — selling more of the expensive item changes revenue even with price and total volume unchanged. This tool separates the three, adds the effect of new and discontinued products, and closes a bridge that reconciles exactly. Load your own dataset: nothing here runs on invented data.">
+      Entre dois períodos, três coisas se movem ao mesmo tempo: o preço unitário, a quantidade vendida e a
+      composição do que foi vendido — vender mais do item caro altera a receita mesmo com preço e volume total
+      constantes. Esta ferramenta separa os três, acrescenta o efeito de produtos novos e descontinuados e fecha
+      uma ponte que reconcilia exatamente. Carregue a sua própria base: aqui não se calcula sobre dado inventado.
+    </p>
+    <div class="tags" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:var(--sp-4)">
+      <span class="tag sim" data-en="Own tool — your data, your numbers">Ferramenta própria — sua base, seus números</span>
+      <span class="tag prem" data-en="4 methodological conventions">4 convenções metodológicas</span>
+      <span class="tag okv" data-en="Processed locally">Processamento local</span>
+      <span class="tag nao" data-en="Not investment advice">Não é recomendação de investimento</span>
+    </div>
+  </section>
+
+  <div class="banner">
+    <span aria-hidden="true">🔒</span>
+    <div data-en="&lt;b&gt;Your file is processed locally in your browser. No dataset is uploaded to a server.&lt;/b&gt;&lt;br&gt;This site is static (GitHub Pages) and has &lt;b&gt;no backend&lt;/b&gt;: reading the file, calculating and exporting all happen on your machine — verifiable in the source of &lt;a href=&quot;https://github.com/thgteixeiranascimento-bit/Portf-lio/blob/main/assets/js/pvm-parser.js&quot;&gt;&lt;code&gt;pvm-parser.js&lt;/code&gt;&lt;/a&gt;. Nothing is transmitted, nothing is logged.">
+      <b>Seu arquivo é processado localmente, no seu navegador. Nenhuma base é enviada a um servidor.</b><br>
+      Este site é estático (GitHub Pages) e <b>não possui backend</b>: leitura do arquivo, cálculo e exportação
+      acontecem inteiramente na sua máquina — verificável no código-fonte de
+      <a href="https://github.com/thgteixeiranascimento-bit/Portf-lio/blob/main/assets/js/pvm-parser.js"><code>pvm-parser.js</code></a>.
+      Nada é transmitido, nada é registrado.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ Workflow ═══ -->
+  <nav class="pvm-flow" aria-label="Etapas do simulador">
+    <ol id="flow">
+      <li data-step="1" class="on"><span class="n">01</span><span class="l" data-en="Upload">Carregar</span></li>
+      <li data-step="2"><span class="n">02</span><span class="l" data-en="Map">Mapear</span></li>
+      <li data-step="3"><span class="n">03</span><span class="l" data-en="Validate">Validar</span></li>
+      <li data-step="4"><span class="n">04</span><span class="l" data-en="Analyse">Analisar</span></li>
+      <li data-step="5"><span class="n">05</span><span class="l" data-en="Export">Exportar</span></li>
+    </ol>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════ 01 · CARREGAR ═══ -->
+  <section class="blk pvm-step" id="step-1">
+    <div class="sec-mark">
+      <span class="n">01</span>
+      <span class="t" data-en="Upload">Carregar</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 style="margin-top:.2em" data-en="Load the dataset">Carregar a base de dados</h2>
+
+    <div id="drop" class="pvm-drop" tabindex="0" role="button"
+         aria-label="Área para soltar o arquivo ou clicar para selecionar">
+      <div class="pvm-drop-icon" aria-hidden="true">⇪</div>
+      <div class="pvm-drop-main" data-en="Drop the file here, or &lt;u&gt;click to select&lt;/u&gt;">Arraste o arquivo aqui ou <u>clique para selecionar</u></div>
+      <div class="pvm-drop-sub" data-en=".xlsx · .csv · .tsv — delimiter, decimal separator and layout (long/wide) detected automatically">
+        .xlsx · .csv · .tsv — detecção automática de delimitador, separador decimal e formato (long/wide)
+      </div>
+      <input type="file" id="file" accept=".xlsx,.xlsm,.csv,.tsv,.txt"
+             aria-label="Selecionar arquivo de dados" hidden>
+    </div>
+
+    <div class="pvm-actions">
+      <button class="btn primary" id="btn-demo" type="button" data-en="Use the DEMO dataset">Usar o dataset DEMO</button>
+      <button class="btn" id="btn-template" type="button" data-en="Download template (.xlsx)">Baixar template (.xlsx)</button>
+      <button class="btn" id="btn-load" type="button" data-en="Open a saved analysis">Abrir análise salva</button>
+    </div>
+    <p class="pvm-note" data-en="The &lt;b&gt;DEMO dataset&lt;/b&gt; is a synthetic set of 15 products labelled as a demonstration — it &lt;b&gt;represents no real company&lt;/b&gt; and exists only so you can see the tool working before uploading your own data.">
+      O <b>dataset DEMO</b> é um conjunto sintético de 15 produtos rotulado como demonstração —
+      <b>não representa nenhuma empresa real</b> e existe apenas para você ver a ferramenta funcionando
+      antes de subir a sua base.
+    </p>
+
+    <div id="upload-status" class="pvm-status" hidden></div>
+
+    <details class="doc">
+      <summary data-en="What the dataset needs">O que a base precisa ter</summary>
+      <div class="inner">
+        <h3 data-en="Minimum for the Revenue PVM">Mínimo para o PVM de Receita</h3>
+        <p data-en="Item identifier (SKU or Product) · Period · Quantity · Revenue — &lt;em&gt;or&lt;/em&gt; Unit price instead of revenue (revenue is then computed as price × quantity).">
+          Identificador do item (SKU ou Produto) · Período · Quantidade · Receita — <em>ou</em> Preço unitário
+          no lugar da receita (a receita é calculada como preço × quantidade).</p>
+        <h3 data-en="For the Gross Margin PVM">Para o PVM de Margem Bruta</h3>
+        <p data-en="Add COGS (cost of goods sold) or unit cost.">Adicione COGS (custo dos produtos vendidos) ou custo unitário.</p>
+        <h3 data-en="Accepted layouts">Formatos aceitos</h3>
+        <p data-en="&lt;b&gt;LONG&lt;/b&gt; — one row per item and per period (&lt;code&gt;SKU · Period · Quantity · Revenue · COGS&lt;/code&gt;).&lt;br&gt;&lt;b&gt;WIDE&lt;/b&gt; — one row per item, with separate base/current columns (&lt;code&gt;SKU · Revenue_Base · Revenue_Current · Quantity_Base · Quantity_Current&lt;/code&gt;).&lt;br&gt;The layout is detected, and the detection can be corrected in step 02.">
+          <b>LONG</b> — uma linha por item e por período (<code>SKU · Period · Quantity · Revenue · COGS</code>).<br>
+          <b>WIDE</b> — uma linha por item, com colunas separadas para base e atual
+          (<code>SKU · Revenue_Base · Revenue_Current · Quantity_Base · Quantity_Current</code>).<br>
+          O formato é detectado, e a detecção pode ser corrigida na etapa 02.</p>
+        <h3 data-en="Column names">Nomes de coluna</h3>
+        <p data-en="No fixed names are required. Step 02 shows a mapping screen with the columns found in your file.">
+          Não há nomes obrigatórios. A etapa 02 mostra uma tela de mapeamento com as colunas encontradas.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════ 02 · MAPEAR ═══ -->
+  <section class="blk pvm-step" id="step-2" hidden>
+    <div class="sec-mark">
+      <span class="n">02</span>
+      <span class="t" data-en="Map">Mapear</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 style="margin-top:.2em" data-en="Map the columns">Mapear as colunas</h2>
+    <p data-en="Check what was detected automatically and adjust whatever is needed. Fields marked &lt;span class=&quot;pvm-req&quot;&gt;required&lt;/span&gt; must be mapped before the calculation runs.">
+      Confira o que foi detectado automaticamente e ajuste o que for necessário. Campos marcados
+      com <span class="pvm-req">obrigatório</span> precisam estar mapeados para o cálculo rodar.
+    </p>
+
+    <div class="controls">
+      <div class="row">
+        <div class="ctrl" id="sheet-wrap" hidden>
+          <label for="sheet" data-en="Worksheet tab">Aba da planilha</label>
+          <select id="sheet"></select>
+        </div>
+        <div class="ctrl">
+          <label for="layout" data-en="Dataset layout">Formato da base</label>
+          <select id="layout">
+            <option value="long" data-en="LONG — one row per item × period">LONG — uma linha por item × período</option>
+            <option value="wide" data-en="WIDE — base/current columns on the same row">WIDE — colunas base/atual na mesma linha</option>
+          </select>
+        </div>
+        <div class="ctrl" id="gran-wrap">
+          <label for="granularity" data-en="Period granularity">Granularidade do período</label>
+          <select id="granularity">
+            <option value="auto" data-en="Automatic (as it is in the file)">Automática (como está na base)</option>
+            <option value="day" data-en="Day">Dia</option>
+            <option value="month" data-en="Month">Mês</option>
+            <option value="quarter" data-en="Quarter">Trimestre</option>
+            <option value="year" data-en="Year">Ano</option>
+          </select>
+        </div>
+        <div class="ctrl">
+          <label for="decimal"><span data-en="Decimal separator">Separador decimal</span>
+            <span class="pvm-info" title="Aplicado às colunas numéricas. 'Automático' usa o padrão inferido de cada coluna." aria-hidden="true">i</span></label>
+          <select id="decimal">
+            <option value="auto" data-en="Automatic (inferred per column)">Automático (inferido por coluna)</option>
+            <option value="comma" data-en="Comma — 1.234,56">Vírgula — 1.234,56</option>
+            <option value="dot" data-en="Dot — 1,234.56">Ponto — 1,234.56</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="tbl-scroll">
+      <table class="tbl" id="map-table">
+        <caption data-en="Column mapping">Mapeamento de colunas</caption>
+        <thead><tr>
+          <th data-en="PVM field">Campo PVM</th>
+          <th data-en="Column found">Coluna encontrada</th>
+          <th data-en="Role">Papel</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="dataset-stats" class="tiles"></div>
+
+    <details class="doc" id="preview-wrap">
+      <summary data-en="Preview the first 50 rows">Pré-visualizar as primeiras 50 linhas</summary>
+      <div class="inner"><div class="tbl-scroll" id="preview"></div></div>
+    </details>
+
+    <div class="pvm-actions">
+      <button class="btn primary" id="btn-to-3" type="button" data-en="Continue to validation →">Continuar para a validação →</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ 03 · VALIDAR ═══ -->
+  <section class="blk pvm-step" id="step-3" hidden>
+    <div class="sec-mark">
+      <span class="n">03</span>
+      <span class="t" data-en="Validate">Validar</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 style="margin-top:.2em" data-en="Periods and data quality">Períodos e qualidade dos dados</h2>
+
+    <div class="controls">
+      <div class="row">
+        <div class="ctrl">
+          <label for="base-period" data-en="Base period">Período base</label>
+          <select id="base-period"></select>
+        </div>
+        <div class="ctrl">
+          <label for="current-period" data-en="Comparison period">Período de comparação</label>
+          <select id="current-period"></select>
+        </div>
+        <div class="ctrl">
+          <label for="methodology"><span data-en="PVM methodology">Metodologia PVM</span>
+            <span id="method-help" class="pvm-info" role="button" tabindex="0" title="Ver as fórmulas">i</span></label>
+          <select id="methodology"></select>
+        </div>
+      </div>
+      <p class="pvm-note" id="method-note"></p>
+    </div>
+
+    <div class="pvm-grid-2">
+      <div>
+        <h3 data-en="Data quality">Qualidade dos dados</h3>
+        <div id="dq-summary" class="checks"></div>
+        <div id="dq-issues" class="pvm-issues"></div>
+      </div>
+      <div>
+        <h3 data-en="Data Quality Score">Data Quality Score</h3>
+        <div id="dq-score"></div>
+      </div>
+    </div>
+
+    <div class="pvm-actions">
+      <button class="btn primary" id="btn-run" type="button">RUN PVM</button>
+      <button class="btn" id="btn-issues-csv" type="button" data-en="Export the issue report">Exportar relatório de ocorrências</button>
+      <span id="run-blocked" class="pvm-blocked" hidden></span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════ 04 · ANALISAR ═══ -->
+  <section class="blk pvm-step" id="step-4" hidden>
+    <div class="sec-mark">
+      <span class="n">04</span>
+      <span class="t" data-en="Analyse">Analisar</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+
+    <div class="pvm-toolbar">
+      <div class="seg" id="mode-seg" role="group" aria-label="Modo de análise">
+        <button type="button" data-mode="revenue" class="on">Revenue PVM</button>
+        <button type="button" data-mode="gm">Gross Margin PVM</button>
+      </div>
+      <div class="pvm-toolbar-right">
+        <label class="pvm-inline"><span data-en="Currency">Moeda</span>
+          <select id="currency">
+            <option value="BRL">BRL — R$</option>
+            <option value="USD">USD — $</option>
+            <option value="EUR">EUR — €</option>
+            <option value="GBP">GBP — £</option>
+            <option value="none" data-en="No symbol">Sem símbolo</option>
+          </select>
+        </label>
+        <label class="pvm-inline"><span data-en="Scale">Escala</span>
+          <select id="scale">
+            <option value="1" data-en="Units">Unidades</option>
+            <option value="1000" data-en="Thousands">Milhares</option>
+            <option value="1000000" data-en="Millions">Milhões</option>
+            <option value="1000000000" data-en="Billions">Bilhões</option>
+          </select>
+        </label>
+        <button class="btn" id="btn-filters" type="button" aria-expanded="false" data-en="Filters">Filtros</button>
+      </div>
+    </div>
+
+    <div id="uom-alert" class="banner pvm-alert" hidden></div>
+
+    <div id="filters-panel" class="controls" hidden>
+      <div class="head">
+        <span class="t" data-en="Filters">Filtros</span>
+        <button class="btn" id="btn-clear-filters" type="button" data-en="Clear all">Limpar tudo</button>
+      </div>
+      <div class="row" id="filters-row"></div>
+      <p class="pvm-note" data-en="Every filter &lt;b&gt;recalculates the PVM from scratch&lt;/b&gt; over the filtered population — including the growth factor &lt;code&gt;g&lt;/code&gt; and the portfolio average price. Reusing effects computed on the full dataset would produce a bridge that does not close.">
+        Cada filtro <b>recalcula o PVM do zero</b> sobre a população filtrada — inclusive o fator de crescimento
+        <code>g</code> e o preço médio do portfólio. Reaproveitar efeitos calculados na base cheia produziria
+        uma ponte que não fecha.
+      </p>
+    </div>
+
+    <div id="kpis" class="tiles"></div>
+
+    <figure class="chart" id="chart-waterfall"></figure>
+
+    <div class="pvm-grid-2">
+      <div>
+        <div class="pvm-chart-head">
+          <h3 data-en="Contribution by effect">Contribuição por efeito</h3>
+          <div class="seg small" id="contrib-seg">
+            <button type="button" data-mode="abs" class="on" data-en="Absolute">Absoluto</button>
+            <button type="button" data-mode="pct" data-en="% of variance">% da variação</button>
+          </div>
+        </div>
+        <figure class="chart" id="chart-contrib"></figure>
+      </div>
+      <div>
+        <div class="pvm-chart-head">
+          <h3 data-en="Contribution by dimension">Contribuição por dimensão</h3>
+          <select id="dim-select" class="pvm-select-sm" aria-label="Dimensão"></select>
+        </div>
+        <figure class="chart" id="chart-dim"></figure>
+      </div>
+    </div>
+
+    <h3 data-en="Mix matrix">Matriz de mix</h3>
+    <p data-en="Each bubble is a comparable item. Items to the &lt;b&gt;right&lt;/b&gt; have a base price above the portfolio average; items &lt;b&gt;above the line&lt;/b&gt; gained share in quantity. Gaining share in an expensive item (upper-right quadrant) produces a favourable mix.">
+      Cada bolha é um item comparável. Itens à <b>direita</b> têm preço base acima da média do portfólio;
+      itens <b>acima da linha</b> ganharam participação em quantidade. Ganhar participação em item caro
+      (quadrante superior direito) produz mix favorável.
+    </p>
+    <figure class="chart" id="chart-mix"></figure>
+
+    <div class="pvm-grid-2">
+      <div><h3 data-en="Top positive drivers">Maiores contribuições positivas</h3><div id="top-pos"></div></div>
+      <div><h3 data-en="Top negative drivers">Maiores contribuições negativas</h3><div id="top-neg"></div></div>
+    </div>
+
+    <h3 data-en="Driver table">Tabela de drivers</h3>
+    <div class="pvm-toolbar">
+      <div class="pvm-toolbar-left">
+        <label class="pvm-inline"><span data-en="Group by">Agrupar por</span><select id="drill-select"></select></label>
+        <label class="pvm-inline"><span>Top N</span>
+          <select id="topn"><option value="25">25</option><option value="50">50</option>
+          <option value="100">100</option><option value="0" data-en="All">Todos</option></select>
+        </label>
+      </div>
+      <div class="pvm-toolbar-right">
+        <input type="search" id="search" placeholder="Buscar item…" aria-label="Buscar item">
+        <button class="btn" id="btn-csv" type="button" data-en="Download CSV">Baixar CSV</button>
+      </div>
+    </div>
+    <div class="tbl-scroll" id="drivers"></div>
+    <p class="pvm-note" id="drill-note"></p>
+
+    <h3 data-en="Executive insights">Leitura executiva</h3>
+    <p class="pvm-note" data-en="Every sentence below is assembled from a number that has already been calculated. Click &lt;b&gt;Why?&lt;/b&gt; to see the formula, the source values, the active filter and the methodology.">
+      Cada frase abaixo é montada a partir de um número já calculado. Clique em
+      <b>Why?</b> para ver a fórmula, os valores de origem, o filtro e a metodologia.
+    </p>
+    <div id="insights" class="pvm-insights"></div>
+    <div id="narrative-audit" class="pvm-audit"></div>
+
+    <h3 data-en="Model integrity">Integridade do modelo</h3>
+    <div id="integrity" class="pvm-integrity"></div>
+
+    <details class="doc">
+      <summary data-en="Methodology &amp; controls">Metodologia e controles</summary>
+      <div class="inner" id="methodology-panel"></div>
+    </details>
+
+    <details class="doc" id="method-compare-details">
+      <summary data-en="Methodology comparison (educational)">Comparação de metodologias (educacional)</summary>
+      <div class="inner">
+        <p data-en="The four conventions decompose the &lt;b&gt;same&lt;/b&gt; revenue variance and all of them reconcile exactly. What changes is &lt;b&gt;where the price × quantity interaction is allocated&lt;/b&gt; and how the quantity bucket is split between Volume and Mix. The convention selected above remains the official one for the dashboard and the export.">
+          As quatro convenções decompõem a <b>mesma</b> variação de receita e todas reconciliam exatamente.
+          O que muda é <b>onde a interação preço × quantidade é alocada</b> e como o balde de quantidade é
+          repartido entre Volume e Mix. A metodologia selecionada acima permanece a oficial do dashboard
+          e da exportação.
+        </p>
+        <div class="tbl-scroll" id="method-compare"></div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════ 05 · EXPORTAR ═══ -->
+  <section class="blk pvm-step" id="step-5" hidden>
+    <div class="sec-mark">
+      <span class="n">05</span>
+      <span class="t" data-en="Export">Exportar</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 style="margin-top:.2em" data-en="Export and save">Exportar e salvar</h2>
+    <div class="grid c3">
+      <div class="card">
+        <h3>Excel (.xlsx)</h3>
+        <p data-en="Six sheets: Executive Summary, Revenue PVM, Gross Margin PVM, Data Quality, Input Mapping and Methodology — with financial formatting and the formulas applied.">
+          Seis abas: Executive Summary, Revenue PVM, Gross Margin PVM, Data Quality, Input Mapping
+          e Methodology — com formatação financeira e as fórmulas aplicadas.</p>
+        <button class="btn primary" id="btn-xlsx" type="button" data-en="Export to Excel">Exportar para Excel</button>
+      </div>
+      <div class="card">
+        <h3>CSV / JSON</h3>
+        <p data-en="CSV with the item-level detail (&lt;code&gt;;&lt;/code&gt; separator, comma decimal) and JSON with the complete result, for external reprocessing.">
+          CSV com o detalhe por item (separador <code>;</code>, decimal vírgula) e JSON com o
+          resultado completo, para reprocessamento externo.</p>
+        <div class="pvm-actions">
+          <button class="btn" id="btn-csv2" type="button">Export CSV</button>
+          <button class="btn" id="btn-json" type="button">Export JSON</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3 data-en="Save the analysis">Salvar a análise</h3>
+        <p data-en="Stores the mapping, periods, filters, methodology and results in your browser (IndexedDB), with an audit trail. &lt;b&gt;It never leaves your machine.&lt;/b&gt;">
+          Guarda no seu navegador (IndexedDB) o mapeamento, os períodos, os filtros, a metodologia e
+          os resultados — com trilha de auditoria. <b>Não sai da sua máquina.</b></p>
+        <div class="pvm-actions">
+          <input type="text" id="analysis-name" placeholder="Nome da análise" aria-label="Nome da análise">
+          <button class="btn primary" id="btn-save" type="button" data-en="Save analysis">Salvar análise</button>
+        </div>
+        <div id="save-status" class="pvm-note"></div>
+      </div>
+    </div>
+
+    <h3 data-en="Saved analyses">Análises salvas</h3>
+    <div class="tbl-scroll" id="saved-list"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ Documentação ═══ -->
+  <section class="blk">
+    <div class="sec-mark">
+      <span class="n">06</span>
+      <span class="t" data-en="How to read this tool">Como ler esta ferramenta</span>
+      <span class="rule" aria-hidden="true"></span>
+    </div>
+    <h2 style="margin-top:.2em" data-en="What it decides, and what it refuses to claim">O que ela decide — e o que ela se recusa a afirmar</h2>
+    <div class="grid c3">
+      <div class="card">
+        <h3 data-en="The decision it supports">Qual decisão ela suporta</h3>
+        <p data-en="Separating what came from &lt;b&gt;price&lt;/b&gt;, from &lt;b&gt;volume&lt;/b&gt;, from &lt;b&gt;portfolio composition&lt;/b&gt; and from &lt;b&gt;product entry and exit&lt;/b&gt; — so you can decide where to act: renegotiate price, attack volume, rebalance mix or review the portfolio.">
+          Separar o que veio de <b>preço</b>, de <b>volume</b>, de <b>composição do portfólio</b> e de
+          <b>entrada e saída de produtos</b> — para decidir onde agir: repactuar preço, atacar volume,
+          rebalancear mix ou revisar o portfólio.</p>
+      </div>
+      <div class="card">
+        <h3 data-en="Why the bridge closes">Por que a ponte fecha</h3>
+        <p data-en="Each effect has its own algebraic definition and the sum is an identity, not a fit. The &lt;b&gt;residual is always displayed&lt;/b&gt;, even when it is zero — if it fails, the panel shows &lt;code&gt;FAIL&lt;/code&gt; instead of hiding it.">
+          Cada efeito tem definição algébrica própria e a soma é uma identidade, não um encaixe.
+          O <b>resíduo é exibido sempre</b>, mesmo quando é zero — se falhar, o painel mostra
+          <code>FAIL</code> em vez de esconder.</p>
+      </div>
+      <div class="card">
+        <h3 data-en="What it does not do">O que ela não faz</h3>
+        <p data-en="It does not explain &lt;em&gt;why&lt;/em&gt; price or volume changed: that is not in the dataset. The narrative describes what the numbers show and never attributes a cause the data does not prove.">
+          Não explica <em>por que</em> preço ou volume mudaram: isso não está na base. A narrativa
+          descreve o que os números mostram e nunca atribui causa que os dados não provam.</p>
+      </div>
+    </div>
+
+    <details class="doc">
+      <summary data-en="Sources used">Referências utilizadas</summary>
+      <div class="inner">
+        <ul>
+          <li data-en="&lt;b&gt;FTI Consulting&lt;/b&gt; — &lt;i&gt;A Quantifiable Approach to Price Volume Mix Analysis&lt;/i&gt;. &lt;a href=&quot;https://www.fticonsulting.com/insights/white-papers/quantifiable-approach-price-volume-mix-analysis&quot;&gt;fticonsulting.com&lt;/a&gt; — conceptual origin of the default methodology (the Mix effect as the item's price differential against the portfolio average, applied to the change in share).">
+            <b>FTI Consulting</b> — <i>A Quantifiable Approach to Price Volume Mix Analysis</i>.
+            <a href="https://www.fticonsulting.com/insights/white-papers/quantifiable-approach-price-volume-mix-analysis">fticonsulting.com</a>
+            — origem conceitual da metodologia padrão (o efeito Mix como diferencial de preço do item contra a
+            média do portfólio, aplicado à variação de participação).</li>
+          <li data-en="&lt;b&gt;PVM webinar workbook&lt;/b&gt; supplied by the portfolio owner (&lt;code&gt;PVM_DATA.xlsx&lt;/code&gt;, &lt;code&gt;PVM_calculations.xlsx&lt;/code&gt;) — tabs &lt;i&gt;Basic&lt;/i&gt;, &lt;i&gt;Advanced&lt;/i&gt; and &lt;i&gt;New method&lt;/i&gt;. Agreements and disagreements between that material and this engine are documented in &lt;a href=&quot;../docs/pvm-metodologia.md&quot;&gt;docs/pvm-metodologia.md&lt;/a&gt;.">
+            <b>Workbook do webinar de PVM</b> fornecido pelo titular do portfólio
+            (<code>PVM_DATA.xlsx</code>, <code>PVM_calculations.xlsx</code>) — abas <i>Basic</i>,
+            <i>Advanced</i> e <i>New method</i>. As convergências e as divergências entre esse material e o
+            motor estão documentadas em <a href="../docs/pvm-metodologia.md">docs/pvm-metodologia.md</a>.</li>
+          <li data-en="&lt;b&gt;Power BI report&lt;/b&gt; indicated in the project brief — used as a reference for layout and vocabulary, not as a source of formulas.">
+            <b>Relatório em Power BI</b> indicado na especificação do projeto — usado como referência de
+            layout e de vocabulário, não como fonte de fórmula.</li>
+        </ul>
+        <p class="pvm-note" data-en="No formula in this tool is attributed to a source that does not contain it. The full algebraic derivation of each convention is in &lt;a href=&quot;../docs/pvm-metodologia.md&quot;&gt;docs/pvm-metodologia.md&lt;/a&gt;.">
+          Nenhuma fórmula desta ferramenta é atribuída a uma fonte que não a contenha.
+          A derivação algébrica completa de cada convenção está em
+          <a href="../docs/pvm-metodologia.md">docs/pvm-metodologia.md</a>.</p>
+      </div>
+    </details>
+
+    <div class="banner">
+      <span aria-hidden="true">⚖️</span>
+      <div data-en="&lt;b&gt;Disclaimer.&lt;/b&gt; This tool is intended for financial planning and analytical purposes. Results depend on the quality and comparability of the uploaded data. Users should validate accounting definitions and business-specific classifications before relying on the analysis.">
+        <b>Disclaimer.</b> This tool is intended for financial planning and analytical purposes.
+        Results depend on the quality and comparability of the uploaded data. Users should validate
+        accounting definitions and business-specific classifications before relying on the analysis.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="pvm-overlay" class="pvm-overlay" hidden>
+  <div class="pvm-overlay-box" role="status" aria-live="polite">
+    <div class="pvm-spin" aria-hidden="true"></div>
+    <div class="pvm-overlay-text" id="overlay-text">Processando…</div>
+    <div class="pvm-bar"><i id="overlay-bar"></i></div>
+  </div>
+</div>
+
+<div id="pvm-modal" class="pvm-modal" hidden>
+  <div class="pvm-modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="pvm-modal-head">
+      <b id="modal-title">Detalhe</b>
+      <button class="btn" id="modal-close" type="button" aria-label="Fechar" data-en="Close">Fechar</button>
+    </div>
+    <div class="pvm-modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/pvm-app.js"></script>
+<noscript>
+  <p style="max-width:900px;margin:24px auto;padding:0 24px">
+    Este simulador executa inteiramente no navegador e precisa de JavaScript habilitado.
+    A metodologia completa está documentada em <a href="../docs/pvm-metodologia.md">docs/pvm-metodologia.md</a>.
+  </p>
+</noscript>
+</body>
+</html>

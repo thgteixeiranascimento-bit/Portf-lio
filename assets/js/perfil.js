@@ -137,20 +137,20 @@
       "Base contábil construída em auditoria externa de instituições financeiras na EY (IFRS e BR GAAP) e " +
       "prática atual em modelagem estatística, indicadores e reporting gerencial no Agibank. " +
       "Este portfólio é a prova executável: dez estudos sobre demonstrações públicas reais de cinco instituições, " +
-      "três ferramentas de cálculo próprias e uma camada de governança com checks recalculados no navegador.",
+      "quatro ferramentas de cálculo próprias e uma camada de governança com checks recalculados no navegador.",
     resumoEn:
       "Economist (PUC-Campinas) working at the intersection of finance, data and planning. " +
       "Accounting foundation built in external audit of financial institutions at EY (IFRS and BR GAAP), " +
       "with current practice in statistical modelling, KPIs and management reporting at Agibank. " +
       "This portfolio is the executable proof: ten studies on real public financial statements from five institutions, " +
-      "three proprietary calculation tools and a governance layer with checks recalculated in the browser.",
+      "four proprietary calculation tools and a governance layer with checks recalculated in the browser.",
     /* Linha de credibilidade condensada: a prova de rigor precisa aparecer
        antes das seções densas, para quem escaneia por 15 segundos e não vai
        rolar até a metodologia. */
     prova_linha:
-      "194 checks recalculados no navegador · 15 divergências documentadas — três delas corrigindo erro meu",
+      "199 checks recalculados no navegador · 15 divergências documentadas — três delas corrigindo erro meu",
     prova_linhaEn:
-      "194 checks recalculated in the browser · 15 divergences documented — three of them correcting an error of my own",
+      "199 checks recalculated in the browser · 15 divergences documented — three of them correcting an error of my own",
 
     /* Capa: a manchete curta e o número que a sustenta. Separada da headline
        longa porque a capa tem outra função — parar o olho, não explicar. */
@@ -166,8 +166,8 @@
     /* Quatro números da capa. Todos conferíveis dentro do próprio site, e
        todos com a página que os prova a um clique. Nenhum é estimativa. */
     capa_stats: [
-      { v: 194, suf: "", k: "checks recalculados no navegador", kEn: "checks recalculated in the browser", href: "metodologia.html" },
-      { v: 13,  suf: "", k: "modelos publicados e abertos", kEn: "published, open models", href: "simuladores/index.html" },
+      { v: 199, suf: "", k: "checks recalculados no navegador", kEn: "checks recalculated in the browser", href: "metodologia.html" },
+      { v: 14,  suf: "", k: "modelos publicados e abertos", kEn: "published, open models", href: "simuladores/index.html" },
       { v: 15,  suf: "", k: "divergências documentadas", kEn: "documented divergences", href: "metodologia.html" },
       { v: 5,   suf: "", k: "instituições financeiras analisadas", kEn: "financial institutions analysed", href: "analises/bancos-2026.html" },
     ],
@@ -188,8 +188,8 @@
       {
         r: "O que já provei",
         rEn: "What I have proven",
-        d: "Treze modelos publicados e abertos: dez estudos sobre demonstrações reais de cinco instituições financeiras e três ferramentas de cálculo próprias — todos com os checks aritméticos visíveis e as divergências declaradas.",
-        dEn: "Thirteen published, open models: ten studies over real financial statements from five institutions and three proprietary calculation tools — all with arithmetic checks visible and divergences declared.",
+        d: "Catorze modelos publicados e abertos: dez estudos sobre demonstrações reais de cinco instituições financeiras e quatro ferramentas próprias — todos com os checks aritméticos visíveis e as divergências declaradas.",
+        dEn: "Fourteen published, open models: ten studies over real financial statements from five institutions and four proprietary tools — all with arithmetic checks visible and divergences declared.",
       },
       {
         r: "O que busco",
@@ -213,22 +213,22 @@
         fonte: "REPO",
       },
       {
-        n: "194",
+        n: "199",
         lbl: "checks recalculados no navegador",
         lblEn: "checks recalculated in the browser",
-        sub: "147 nos estudos sobre dados públicos, 23 nas ferramentas próprias e 12 na validação do meu próprio currículo — com as divergências documentadas, não escondidas.",
-        subEn: "147 across the public-data studies, 23 in the proprietary tools and 12 validating my own résumé — with divergences documented, not hidden.",
+        sub: "147 nos estudos sobre dados públicos, 28 nas ferramentas próprias, 12 na validação do meu próprio currículo e 12 na auditoria do próprio trabalho — com as divergências documentadas, não escondidas.",
+        subEn: "147 across the public-data studies, 28 in the proprietary tools, 12 validating my own résumé and 12 auditing the work itself — with divergences documented, not hidden.",
         href: "metodologia.html",
         cta: "Ver protocolo",
         ctaEn: "See protocol",
         fonte: "REPO",
       },
       {
-        n: "13",
+        n: "14",
         lbl: "modelos interativos publicados",
         lblEn: "interactive models published",
-        sub: "Dez estudos sobre dados públicos e três ferramentas de cálculo construídas do zero, todas em JavaScript sem dependências.",
-        subEn: "Ten studies on public data and three calculation tools built from scratch, all in dependency-free JavaScript.",
+        sub: "Dez estudos sobre dados públicos e quatro ferramentas de cálculo construídas do zero, todas em JavaScript sem dependências.",
+        subEn: "Ten studies on public data and four calculation tools built from scratch, all in dependency-free JavaScript.",
         href: "simuladores/index.html",
         cta: "Abrir estudos",
         ctaEn: "Open studies",
@@ -659,6 +659,25 @@
       publico: true,
     },
     {
+      id: "pvm",
+      nome: "Simulador de Price · Volume · Mix",
+      nomeEn: "Price · Volume · Mix simulator",
+      href: "pvm/index.html",
+      tipo: "Ferramenta própria",
+      tipoEn: "Proprietary tool",
+      problema:
+        "Quando a receita muda entre dois períodos, preço, quantidade e composição do que foi vendido se movem ao mesmo tempo — e a maioria das análises junta os três num único número, ou fecha a conta jogando a diferença no \"mix\". Sem separar os efeitos, não há como saber se o caminho é repactuar preço, atacar volume ou rebalancear o portfólio.",
+      problemaEn:
+        "When revenue moves between two periods, price, quantity and the composition of what was sold all move at once — and most analyses collapse the three into a single number, or balance the equation by dumping the difference into \"mix\". Without separating the effects there is no way to tell whether the answer is renegotiating price, chasing volume or rebalancing the portfolio.",
+      entrega:
+        "Ferramenta que lê a base do próprio usuário (XLSX, CSV ou TSV), mapeia as colunas, e decompõe receita e margem bruta em preço, volume, mix, produtos novos e descontinuados — em quatro convenções metodológicas, todas exatamente aditivas, com o resíduo da ponte sempre visível e exportação para Excel em seis abas.",
+      entregaEn:
+        "A tool that reads the user's own dataset (XLSX, CSV or TSV), maps the columns, and decomposes revenue and gross margin into price, volume, mix, new and discontinued products — under four methodological conventions, all exactly additive, with the bridge residual always on screen and a six-sheet Excel export.",
+      competencias: ["Análise de variações", "FP&A", "Decomposição PVM", "Margem bruta", "JavaScript"],
+      fonte: ["BRIEF", "REPO"],
+      publico: true,
+    },
+    {
       id: "rechamadas",
       nome: "Modelo de custo de rechamadas na Central de Atendimento",
       nomeEn: "Contact Centre repeat-call cost model",
@@ -914,29 +933,44 @@
       + "Python e SQL.\n\n"
       + "Para que nada disso dependa da minha palavra, publiquei um portfólio técnico onde o trabalho pode ser "
       + "aberto e conferido: dez estudos sobre demonstrações públicas reais de cinco instituições financeiras, "
-      + "três ferramentas de cálculo que construí do zero e 194 checks aritméticos recalculados no navegador, com "
+      + "quatro ferramentas que construí do zero e 199 checks aritméticos recalculados no navegador, com "
       + "as divergências encontradas documentadas em vez de escondidas.\n\n"
       + "Busco posição estruturada em FP&A, Planejamento Financeiro, Controladoria ou Riscos no setor financeiro.\n\n"
       + "Portfólio: https://thgteixeiranascimento-bit.github.io/Portf-lio/",
     destaques: [
       {
+        titulo: "Simulador de Price · Volume · Mix — decomposição de variação de receita",
+        desc: "Carregue a sua própria base (XLSX, CSV ou TSV) e separe a variação de receita e de margem bruta em preço, volume, mix e efeitos de produtos novos e descontinuados, em quatro convenções metodológicas exatamente aditivas, com o resíduo da ponte sempre visível.",
+        tituloEn: "Price · Volume · Mix simulator — revenue variance decomposition",
+        descEn: "Load your own dataset (XLSX, CSV or TSV) and split the change in revenue and gross margin into price, volume, mix and the effect of new and discontinued products, under four exactly additive methodological conventions, with the bridge residual always on screen.",
+        url: "pvm/index.html",
+      },
+      {
         titulo: "Análise setorial — cinco bancos brasileiros em 2026",
         desc: "Itaú, Bradesco e Santander lado a lado com Nu Holdings e Agi: rentabilidade, eficiência, inadimplência, capital e múltiplos, sobre releases e demonstrações IFRS, com 41 checks aritméticos e o ciclo completo da Selic nas atas do Copom.",
+        tituloEn: "Sector analysis — five Brazilian banks in 2026",
+        descEn: "Itaú, Bradesco and Santander alongside Nu Holdings and Agi: profitability, efficiency, delinquency, capital and multiples, over earnings releases and IFRS statements, with 41 arithmetic checks and the full Selic cycle from the Copom minutes.",
         url: "analises/bancos-2026.html",
       },
       {
         titulo: "Calculadora de antecipação de parcelas — desconto racional",
         desc: "Quanto o cliente realmente deve ao antecipar parcelas: valor presente por desconto racional, contrastado com os dois erros mais comuns, com o erro evitado quantificado em reais e em percentual.",
+        tituloEn: "Early-settlement calculator — rational discount",
+        descEn: "What the customer actually owes when settling instalments early: present value by rational discount, contrasted with the two most common errors, with the error avoided quantified in currency and in percentage terms.",
         url: "simuladores/antecipacao-parcelas.html",
       },
       {
         titulo: "Custo de rechamadas na Central de Atendimento",
         desc: "Volume, taxa de rechamada, TMO e custo por minuto convertidos em custo anual, decompostos por causa-raiz e ordenados por retorno sobre esforço — a lógica de priorização por trás de um plano de redução.",
+        tituloEn: "Cost of repeat calls in the contact centre",
+        descEn: "Call volume, repeat-call rate, average handling time and cost per minute converted into annual cost, broken down by root cause and ranked by return on effort — the prioritisation logic behind a reduction plan.",
         url: "simuladores/rechamadas.html",
       },
       {
         titulo: "Calculadora de juros e amortização — Price, SAC e equivalência de taxas",
         desc: "Cronograma completo de amortização e conversão de taxas por equivalência, com o tamanho dos dois erros mais comuns de matemática financeira quantificado.",
+        tituloEn: "Interest and amortisation calculator — Price, SAC and rate equivalence",
+        descEn: "Full amortisation schedule and rate conversion by equivalence, with the size of the two most common financial-mathematics errors quantified.",
         url: "simuladores/calculadora-juros.html",
       },
     ],

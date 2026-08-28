@@ -120,10 +120,10 @@
 
     <div class="callout warn">
       <span class="ct" data-en="⚠️ 171 blocks without translation in English mode">⚠️ 171 blocos sem tradução em modo inglês</span>
-      <span data-en="The PT/EN toggle is published as a feature of the site, and on the navigation, cover, résumé, letter, About and both validation councils it works. On the analytical bodies of the studies — the sector analysis, the KPI library, the methodology and ten of the thirteen models — a large share of the dense prose still renders in Portuguese when the interface is in English. The audit measures this on every run (front H) and reports the figure above; it is a declared scope item, not a regression, and it does not block publication. Fixing it is a translation project of its own, not a defect to be patched.">
+      <span data-en="The PT/EN toggle is published as a feature of the site, and on the navigation, cover, résumé, letter, About and both validation councils it works. On the analytical bodies of the studies — the sector analysis, the KPI library, the methodology and ten of the fourteen models — a large share of the dense prose still renders in Portuguese when the interface is in English. The audit measures this on every run (front H) and reports the figure above; it is a declared scope item, not a regression, and it does not block publication. Fixing it is a translation project of its own, not a defect to be patched.">
         A alternância PT/EN é publicada como recurso do site, e na navegação, na capa, no currículo, na carta, na
         página Sobre e nos dois conselhos de validação ela funciona. Nos corpos analíticos dos estudos — a
-        análise setorial, a biblioteca de KPIs, a metodologia e dez dos treze modelos — boa parte da prosa densa
+        análise setorial, a biblioteca de KPIs, a metodologia e dez dos catorze modelos — boa parte da prosa densa
         ainda aparece em português quando a interface está em inglês. A auditoria mede isso a cada execução
         (frente H) e publica o número acima; é item de escopo declarado, não regressão, e não bloqueia a
         publicação. Resolvê-lo é um projeto de tradução por si só, não um defeito para remendar.
@@ -295,7 +295,7 @@ node automation/node/verificar_paginas.js   <span class="muted-note"># erro de J
       c: "O auditor lia só a matriz de fontes de mercado; passou a ler também a matriz do perfil", cEn: "The auditor read only the market source matrix; it now also reads the profile matrix", q: "auditor" },
     { f: "C", o: "Esta própria página acrescentou 12 checks ao site, e o total publicado em toda parte — capa, linha de prova, README, currículo — continuava dizendo 182",
       oEn: "This very page added 12 checks to the site, while the total published everywhere — cover, proof line, README, résumé — still read 182",
-      c: "Total corrigido para 194 em todas as superfícies, a partir do registro único", cEn: "Total corrected to 194 across all surfaces, from the single registry", q: "site" },
+      c: "Total unificado a partir do registro único — 194 à época; 199 desde a quarta ferramenta própria", cEn: "Total unified from the single registry — 194 at the time; 199 since the fourth proprietary tool", q: "site" },
     { f: "I", o: "A varredura de higiene acusava esta página de conter “lorem ipsum” e “TODO” — os literais que ela precisa citar para explicar o que a auditoria proíbe",
       oEn: "The hygiene scan flagged this page for containing “lorem ipsum” and “TODO” — the very literals it must quote to explain what the audit forbids",
       c: "Isenção estreita e declarada (data-auditoria-doc) para o trecho que documenta a auditoria, e a varredura passou a ler texto visível em vez de código-fonte",
@@ -382,14 +382,14 @@ node automation/node/verificar_paginas.js   <span class="muted-note"># erro de J
          "Every cover badge comes from the curated core — no new label"), selos.length + "/" + selos.length);
 
     var statChecks = stats.filter(function (s) { return /check/i.test(s.k); })[0];
-    ok(statChecks && /\b194\b/.test(P.PITCH.prova_linha) && statChecks.v === 194,
+    ok(statChecks && /\b199\b/.test(P.PITCH.prova_linha) && statChecks.v === 199,
        t("O número de checks da capa é o mesmo da linha de prova e o mesmo que a automação apura",
-         "The cover check count matches the proof line and the automation's measurement"), "194");
+         "The cover check count matches the proof line and the automation's measurement"), "199");
 
     var statMod = stats.filter(function (s) { return /modelo/i.test(s.k); })[0];
-    ok(statMod && statMod.v === 13,
-       t("Modelos publicados na capa = dez estudos + três ferramentas próprias",
-         "Models on the cover = ten studies + three proprietary tools"), "13");
+    ok(statMod && statMod.v === 14,
+       t("Modelos publicados na capa = dez estudos + quatro ferramentas próprias",
+         "Models on the cover = ten studies + four proprietary tools"), "14");
 
     ok(stats.every(function (s) { return s.href && s.href.length > 4; }),
        t("Todo número da capa aponta para a página que o prova",
@@ -399,9 +399,9 @@ node automation/node/verificar_paginas.js   <span class="muted-note"># erro de J
        t("Toda prova numérica declara destino e fonte",
          "Every numeric proof declares a destination and a source"), P.PITCH.provas.length + "/" + P.PITCH.provas.length);
 
-    ok(P.PROJETOS.length === 3 && rotas.every(function (h) { return /^simuladores\//.test(h); }),
-       t("As três ferramentas próprias apontam para artefato navegável",
-         "The three proprietary tools point to a navigable artefact"), "3/3");
+    ok(P.PROJETOS.length === 4 && rotas.every(function (h) { return /^(simuladores|pvm)\//.test(h); }),
+       t("As quatro ferramentas próprias apontam para artefato navegável",
+         "The four proprietary tools point to a navigable artefact"), "4/4");
 
     ok(P.EXPERIENCIA.every(function (e) { return (e.fonte || []).length > 0; }),
        t("Toda entrada da trajetória declara ao menos um documento-fonte",

@@ -450,7 +450,42 @@ Nenhum modelo de linguagem participa do cálculo. O motor é determinístico.
 
 ---
 
-## 13. Privacidade
+## 13. Desempenho e limites de exibição
+
+O cálculo é sempre feito sobre a **população inteira**. Os limites abaixo afetam
+apenas o que vai para a tela — nenhum deles altera um número, um total ou uma
+ponte, e todos são declarados na própria interface.
+
+| Limite | Valor | Por quê | O que continua completo |
+|---|---|---|---|
+| Bolhas na matriz de mix | 500 itens | uma bolha por SKU são 50 mil nós de SVG e um gráfico ilegível por sobreposição | os plotados são os de **maior \|efeito Mix\|**, e o rodapé declara que % do módulo do Mix total eles cobrem; a lista completa está na tabela de drivers e na exportação |
+| Linhas na tabela de drivers | 1.000 | montar 50 mil linhas de HTML congela a aba | a legenda declara o teto; a busca filtra sobre a lista inteira, e o CSV/Excel traz tudo |
+| Dimensão como filtro | até 300 valores distintos | uma lista de seleção com 50 mil opções é inutilizável | a dimensão continua disponível em *Agrupar por*, e a tela explica o motivo |
+| Comparação de metodologias | calculada ao abrir o painel | são quatro decomposições completas; recalcular a cada filtro custava mais de 10 s | idêntica quando aberta |
+
+Medições em Chromium, base de **99.900 linhas / 50.000 SKUs** com COGS e quatro
+dimensões (arquivo CSV de 8,8 MB, separador `;`, decimal vírgula):
+
+| Etapa | Tempo | Maior bloqueio da thread principal |
+|---|---|---|
+| Leitura do arquivo + tipagem das colunas | 0,85 s | 61 ms |
+| Normalização + agregação + validação | 1,9 s | 161 ms |
+| RUN PVM + renderização completa | 1,8 s | 959 ms |
+| Alternar Receita ↔ Margem bruta | 1,3 s | 337 ms |
+| Aplicar filtro (recálculo do zero) | 1,7 s | 227 ms |
+
+Leitura, tipagem e agregação rodam em **Web Worker**; a thread principal só
+recebe os itens já agregados. Quando o Worker não está disponível (por exemplo,
+página aberta via `file://`), o simulador cai para a thread principal — o
+resultado é idêntico, e o aviso aparece na tela.
+
+Resultado do cálculo nessa base: ponte de receita **PASS** e ponte de margem
+bruta **PASS**, ambas com resíduo `0`, sobre 49.900 itens ativos, 50 novos e
+50 descontinuados.
+
+---
+
+## 14. Privacidade
 
 O site é estático e **não possui backend**. Leitura do arquivo, cálculo,
 visualização e exportação acontecem inteiramente no navegador do usuário; o

@@ -17,7 +17,7 @@ import { aggregateItems, runAnalysis } from "../assets/js/pvm-engine.js";
 import {
   toNumber, normalizePeriod, inferDecimalConvention, detectDelimiter,
   parseDelimitedText, matrixToTable, suggestMapping, detectLayout,
-  normalizeRows, listPeriods
+  normalizeRows, listPeriods, DIMENSION_FIELDS
 } from "../assets/js/pvm-parser.js";
 import { generateInsights, auditNarrative, FORBIDDEN_TERMS } from "../assets/js/pvm-insights.js";
 
@@ -363,6 +363,23 @@ describe("Parser — CSV e mapeamento", ({ it }) => {
     const n = normalizeRows(t, m, {});
     expect(n.issues.derivedRevenue).toBe(2);
     expect(n.rows[0].revenue).toBeCloseTo(125, 1e-9);
+  });
+
+  it("O nome do produto NAO e uma dimensao de agrupamento", () => {
+    // Ele e o rotulo do item. Como dimensao, geraria um filtro com uma opcao
+    // por SKU — 50 mil elementos <option> numa base grande.
+    expect(DIMENSION_FIELDS).toContain("category");
+    expect(DIMENSION_FIELDS).toContain("region");
+    expect(DIMENSION_FIELDS.includes("product")).toBeFalse();
+    const t = matrixToTable([
+      ["SKU", "Produto", "Categoria", "Periodo", "Quantidade", "Receita"],
+      ["A", "Alfa", "C1", "2024", "10", "100"],
+      ["A", "Alfa", "C1", "2025", "12", "132"]
+    ]);
+    const m = suggestMapping(t.columns, t.records);
+    const n = normalizeRows(t, m, {});
+    expect(Object.keys(n.rows[0].dims)).toEqual(["Categoria"]);
+    expect(n.rows[0].label).toBe("Alfa", "o produto continua sendo o rotulo do item");
   });
 
   it("listPeriods conta as linhas de cada periodo", () => {

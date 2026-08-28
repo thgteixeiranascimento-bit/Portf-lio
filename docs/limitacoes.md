@@ -23,8 +23,10 @@ Declaração honesta do que este portfólio **não** é e do que os modelos **n�
   preço nem de mix. A fronteira entre Volume e Mix depende da granularidade da base recebida. Com
   unidades de medida heterogêneas a ponte fecha, mas a leitura de Volume e Mix deixa de ser válida.
   A análise de margem cobre apenas a população com COGS informado. O simulador **não explica por
-  que** preço ou volume mudaram: isso não está nos dados. Lista completa em
-  [`pvm-metodologia.md`](pvm-metodologia.md) §11.
+  que** preço ou volume mudaram: isso não está nos dados. Em bases muito grandes, alguns elementos
+  visuais têm teto de exibição (500 bolhas na matriz de mix, 1.000 linhas na tabela) para não
+  congelar o navegador — o cálculo continua sobre a população inteira, e o teto é declarado na
+  tela. Lista completa em [`pvm-metodologia.md`](pvm-metodologia.md) §11 e §13.
 - **Real vs. Orçado:** decomposição PVM assume efeitos independentes; margens de contribuição
   são premissas, não custeio apurado.
 - **Rolling forecast:** drivers lineares e independentes; sem elasticidade preço-volume nem

@@ -45,7 +45,7 @@ const state = {
   mode: "revenue", contribMode: "abs",
   dimension: null, drill: null, topN: 25, search: "", sort: { key: "delta", dir: "desc" },
   expanded: new Set(),
-  result: null, validation: null, insights: [],
+  result: null, validation: null, insights: [], methodCompareStale: true,
   filteredItems: [], analysisId: null, analysisName: ""
 };
 
@@ -604,24 +604,44 @@ function currentResult() {
   return state.mode === "gm" && r.grossMargin ? r.grossMargin : r.revenue;
 }
 
+/**
+ * renderAll — redesenho completo, usado quando o RESULTADO muda (novo cálculo,
+ * filtro, metodologia, moeda ou escala).
+ */
 function renderAll() {
   if (!state.result) return;
   renderModeAvailability();
   renderUomAlert();
+  renderFiltersPanel();
+  renderDimensionSelects();
+  renderMixMatrix();          // depende só do PVM de receita, não do modo
+  renderMethodologyPanel();
+  // A comparação roda as QUATRO convenções sobre a população inteira. Numa base
+  // de 50 mil itens são quatro decomposições completas a cada filtro — por isso
+  // ela só é calculada quando o painel está de fato aberto.
+  state.methodCompareStale = true;
+  if ($("#method-compare-details").open) renderMethodComparison();
+  renderSavedList();
+  renderModeViews();
+}
+
+/**
+ * renderModeViews — só o que muda entre Revenue PVM e Gross Margin PVM.
+ *
+ * A matriz de mix, o painel de metodologia e a comparação de convenções não
+ * dependem do modo; redesenhá-los a cada clique custava mais de 10 s numa base
+ * de 50 mil itens, sem mudar um pixel.
+ */
+function renderModeViews() {
+  if (!state.result) return;
   renderKpis();
   renderWaterfall();
   renderContribution();
   renderDimensionChart();
-  renderMixMatrix();
   renderTopDrivers();
-  renderFiltersPanel();
-  renderDimensionSelects();
   renderDriversTable();
   renderInsights();
   renderIntegrity();
-  renderMethodologyPanel();
-  renderMethodComparison();
-  renderSavedList();
 }
 
 function renderModeAvailability() {
@@ -772,7 +792,7 @@ function renderMixMatrix() {
     title: "Matriz de mix — diferencial de preco x variacao de participacao",
     sub: "Preco medio base do portfolio: " + F.unitMoney(state.result.revenue.stats.avgPriceBase) + " por unidade",
     points: pts,
-    fmt: F.money, fmtSigned: F.unitMoney, fmtPP: F.pp,
+    fmt: F.money, fmtSigned: F.unitMoney, fmtPP: F.pp, fmtPct: F.pct,
     note: "Bolhas azuis: efeito Mix positivo. Bolhas vermelhas: efeito Mix negativo. Tamanho proporcional a receita atual."
   });
 }
@@ -797,12 +817,23 @@ function renderTopDrivers() {
 
 /* ---------------------------------------------------------------- filtros */
 
+/* Acima deste número de valores distintos, uma dimensão deixa de virar lista de
+   seleção: 50 mil <option> travam a interface e ninguém escolhe numa lista
+   assim. O motivo é dito na tela, e a busca da tabela de drivers cobre o caso. */
+const FILTER_CARDINALITY_CAP = 300;
+
 function renderFiltersPanel() {
   const dims = ["__status__"].concat(state.dimensionColumns);
   if (state.items.some(it => it.uom)) dims.push("__uom__");
   $("#filters-row").innerHTML = dims.map(d => {
     const values = distinctValues(state.items, d);
     const sel = state.filters[d] || [];
+    if (values.length > FILTER_CARDINALITY_CAP) {
+      return '<div class="pvm-filter"><span>' + esc(dimLabel(d)) + "</span>" +
+        '<div class="pvm-note" style="margin:0">' + F.int(values.length) +
+        " valores distintos — alto demais para uma lista de seleção. Use a busca na " +
+        "<b>tabela de drivers</b> ou agrupe por esta dimensão em <b>Agrupar por</b>.</div></div>";
+    }
     return '<div class="pvm-filter"><span>' + esc(dimLabel(d)) +
       (sel.length ? ' <span class="cnt">' + sel.length + " selecionado(s)</span>" : "") + "</span>" +
       '<select multiple data-filter="' + esc(d) + '" size="' + Math.min(6, Math.max(3, values.length)) + '">' +
@@ -879,12 +910,21 @@ function renderDriversTable() {
     return dir * (va - vb);
   });
 
-  const limited = state.topN > 0 ? rows.slice(0, state.topN) : rows;
+  /* Teto de linhas no DOM. "Todos" com 50 mil itens travaria a interface por
+     dezenas de segundos; o teto e declarado na legenda e a lista completa
+     continua disponivel no CSV e no Excel. */
+  const DOM_CAP = 1000;
+  const wanted = state.topN > 0 ? state.topN : rows.length;
+  const shown = Math.min(wanted, DOM_CAP, rows.length);
+  const limited = rows.slice(0, shown);
+  const domCapped = wanted > DOM_CAP && rows.length > DOM_CAP;
   const th = (k, label) => '<th class="sortable ' + (state.sort.key === k ? state.sort.dir : "") + '" data-sort="' + k + '">' + esc(label) + "</th>";
 
   let html = '<table class="tbl"><caption>' +
     (grouping ? "Drivers por " + esc(dimLabel(state.drill)) : "Drivers por item") +
-    " — " + F.int(rows.length) + " linha(s)" + (state.topN > 0 && rows.length > state.topN ? ", exibindo " + state.topN : "") +
+    " — " + F.int(rows.length) + " linha(s)" +
+    (shown < rows.length ? ", exibindo " + F.int(shown) : "") +
+    (domCapped ? " (teto de " + F.int(DOM_CAP) + " linhas na tela — use a busca, ou baixe o CSV para a lista completa)" : "") +
     "</caption><thead><tr>" + th("label", grouping ? dimLabel(state.drill) : "Item") +
     (grouping ? "<th>Itens</th>" : "<th>Status</th>") +
     "<th>" + (state.mode === "gm" ? "GM base" : "Receita base") + "</th>" +
@@ -1036,6 +1076,8 @@ function renderMethodologyPanel() {
 }
 
 function renderMethodComparison() {
+  if (!state.result) return;
+  state.methodCompareStale = false;
   const rows = compareMethodologies(state.filteredItems);
   $("#method-compare").innerHTML = '<table class="tbl"><thead><tr>' +
     "<th>Convencao</th><th>Price</th><th>Volume</th><th>Mix</th><th>Cross</th><th>Ponte</th></tr></thead><tbody>" +
@@ -1313,7 +1355,7 @@ function setMode(mode) {
     b.setAttribute("aria-selected", on ? "true" : "false");
   });
   state.sort = { key: "delta", dir: "desc" };
-  if (state.result) renderAll();
+  if (state.result) renderModeViews();
 }
 
 function wire() {
@@ -1421,6 +1463,13 @@ function wire() {
   $("#btn-csv2").addEventListener("click", () => { if (state.result) exportToCsv(exportContext()); });
   $("#btn-json").addEventListener("click", () => { if (state.result) exportToJson(exportContext()); });
   $("#btn-save").addEventListener("click", doSave);
+
+  $("#method-compare-details").addEventListener("toggle", (e) => {
+    if (e.target.open && state.methodCompareStale && state.result) {
+      $("#method-compare").innerHTML = '<div class="pvm-empty">Calculando as quatro convenções…</div>';
+      setTimeout(renderMethodComparison, 20);
+    }
+  });
 
   /* --- modal --- */
   $("#modal-close").addEventListener("click", closeModal);

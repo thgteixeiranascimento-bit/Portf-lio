@@ -441,7 +441,13 @@ export function listPeriods(records, mapping, granularity) {
     .sort((a, b) => String(a.period).localeCompare(String(b.period), "pt-BR", { numeric: true }));
 }
 
-export const DIMENSION_FIELDS = ["category", "product", "customer", "channel", "region", "salesRep", "businessUnit"];
+/**
+ * Dimensões de AGRUPAMENTO. `product` foi deliberadamente deixado de fora: ele
+ * é o rótulo do item (já disponível em `label`), não uma dimensão — incluí-lo
+ * criava um filtro com uma opção por SKU, o que em uma base de 50 mil itens
+ * significava 50 mil elementos `<option>` no DOM.
+ */
+export const DIMENSION_FIELDS = ["category", "customer", "channel", "region", "salesRep", "businessUnit"];
 
 /**
  * normalizeRows — aplica o mapeamento e devolve as linhas que o motor consome:

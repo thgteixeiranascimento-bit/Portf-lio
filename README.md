@@ -169,6 +169,18 @@ negativa, receita zero ou negativa, cobertura de COGS e conflito de unidade de m
 Durante o cálculo: reconciliação da ponte de receita, de COGS e de margem, com tolerância
 `max(0,01 ; |valor| × 1e-9)` e status `PASS`/`FAIL` sempre visível.
 
+### Desempenho
+
+Medido em Chromium com uma base real de **99.900 linhas / 50.000 SKUs** (CSV de 8,8 MB, com COGS
+e quatro dimensões): leitura + tipagem em **0,85 s**, agregação + validação em **1,9 s**, RUN PVM
+com renderização completa em **1,8 s**, e recálculo ao aplicar filtro em **1,7 s** — com bloqueio
+máximo da thread principal de **959 ms** no pico. Pontes de receita e de margem: **PASS**, resíduo `0`.
+
+Leitura, tipagem e agregação rodam em Web Worker. Alguns limites de **exibição** (500 bolhas na
+matriz de mix, 1.000 linhas na tabela, dimensões com até 300 valores como filtro) impedem que a
+aba congele — nenhum deles altera um número, e todos são declarados na tela. Detalhes e medições
+em [`docs/pvm-metodologia.md`](docs/pvm-metodologia.md) §13.
+
 ### Stack
 
 HTML/CSS/JavaScript puros, ES Modules, gráficos SVG próprios e um **codec XLSX próprio**

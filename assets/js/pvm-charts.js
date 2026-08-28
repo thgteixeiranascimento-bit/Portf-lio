@@ -477,7 +477,28 @@ export function contributionBars(host, opts) {
  *   esquerda+cima ganho de share em item mais barato -> mix desfavoravel
  */
 export function mixScatter(host, opts) {
-  const pts = opts.points.filter(p => Number.isFinite(p.priceDifferential) && Number.isFinite(p.shareChange));
+  const all = opts.points.filter(p => Number.isFinite(p.priceDifferential) && Number.isFinite(p.shareChange));
+
+  /* --------------------------------------------------------------------
+     Limite de pontos plotados.
+
+     Uma bolha por item vira uma bolha por SKU: com 50 mil SKUs isso são
+     50 mil nós de SVG, mais de 10 s de thread principal bloqueada e um
+     gráfico ilegível (tudo sobreposto). O corte é por MATERIALIDADE — os
+     itens de maior |efeito Mix|, que é justamente o que o gráfico existe
+     para explicar — e a cobertura resultante é declarada no rodapé, nunca
+     escondida. A lista completa continua na tabela de drivers e no CSV.
+     -------------------------------------------------------------------- */
+  const cap = opts.maxPoints || 500;
+  let pts = all, truncatedPoints = false, coverage = 1;
+  if (all.length > cap) {
+    truncatedPoints = true;
+    const totalAbs = all.reduce((a, p) => a + Math.abs(p.mixEffect || 0), 0);
+    pts = all.slice().sort((a, b) => Math.abs(b.mixEffect || 0) - Math.abs(a.mixEffect || 0)).slice(0, cap);
+    const shownAbs = pts.reduce((a, p) => a + Math.abs(p.mixEffect || 0), 0);
+    coverage = totalAbs > 0 ? shownAbs / totalAbs : 1;
+  }
+
   opts.twin = {
     head: ["Item", "Preco base vs. media", "Var. de participacao", "Receita atual", "Efeito Mix"],
     rows: pts.slice(0, 200).map(p => [
@@ -485,7 +506,15 @@ export function mixScatter(host, opts) {
       opts.fmt(p.revenueCurrent), opts.fmtSigned(p.mixEffect)
     ])
   };
-  opts.ariaLabel = "Matriz de mix com " + pts.length + " itens. Eixo horizontal: diferenca entre o preco base do item e o preco medio do portfolio. Eixo vertical: variacao da participacao em quantidade. Tamanho da bolha: receita do periodo atual.";
+  if (truncatedPoints) {
+    const base = opts.note ? opts.note + " " : "";
+    opts.note = base + "Exibindo os " + pts.length + " itens de maior efeito Mix, de " + all.length +
+      " comparaveis — eles respondem por " + opts.fmtPct(coverage) +
+      " do modulo do efeito Mix total. A lista completa esta na tabela de drivers e na exportacao.";
+  }
+  opts.ariaLabel = "Matriz de mix com " + pts.length + " itens" +
+    (truncatedPoints ? " (os de maior efeito Mix, de " + all.length + " comparaveis)" : "") +
+    ". Eixo horizontal: diferenca entre o preco base do item e o preco medio do portfolio. Eixo vertical: variacao da participacao em quantidade. Tamanho da bolha: receita do periodo atual.";
 
   scaffold(host, opts, (w) => {
     const h = opts.height || 340;

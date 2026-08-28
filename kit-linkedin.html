@@ -55,9 +55,9 @@
 
   <section class="blk">
     <h2 data-en="3 · Featured section">3 · Seção “Destaque”</h2>
-    <p data-en="The strongest argument of the application, in four links. The sector analysis proves depth in financial statements; the three tools prove that the analytical work produces something that runs, not just something that was described.">
-      O argumento mais forte da candidatura, em quatro links. A análise setorial comprova profundidade em
-      demonstrações financeiras; as três ferramentas comprovam que o trabalho analítico produz algo que roda, e
+    <p data-en="The strongest argument of the application, in five links. The sector analysis proves depth in financial statements; the four tools prove that the analytical work produces something that runs, not just something that was described.">
+      O argumento mais forte da candidatura, em cinco links. A análise setorial comprova profundidade em
+      demonstrações financeiras; as quatro ferramentas comprovam que o trabalho analítico produz algo que roda, e
       não apenas algo que foi descrito.
     </p>
     <div id="destaques"></div>
@@ -147,8 +147,8 @@
     el("destaques").innerHTML = L.destaques.map(function (d, i) {
       var url = BASE + d.url;
       return '<div class="card" style="margin-bottom:var(--sp-3)">' +
-        '<h3>' + (i + 1) + ". " + esc(d.titulo) + "</h3>" +
-        "<p>" + esc(d.desc) + "</p>" +
+        '<h3>' + (i + 1) + ". " + esc(t(d.titulo, d.tituloEn || d.titulo)) + "</h3>" +
+        "<p>" + esc(t(d.desc, d.descEn || d.desc)) + "</p>" +
         '<div class="copiavel" style="margin:0"><pre style="padding:12px 15px;font-size:.84rem" id="lnk' + i + '">' + esc(url) + "</pre>" +
         '<button type="button" class="btn-x outline sm btn-copiar" data-alvo="lnk' + i + '" style="top:8px;right:8px">' + t("Copiar", "Copy") + "</button></div>" +
         "</div>";

@@ -42,10 +42,12 @@ function mk(id, kind, text, provenance) {
   return { id, kind, text, provenance };
 }
 
-const BUCKET_PT = {
-  price: "Preco", volume: "Volume", mix: "Mix",
-  cross: "Interacao preco x volume", new: "Produtos novos",
-  discontinued: "Produtos descontinuados", other: "Itens nao comparaveis"
+const BUCKET_LABEL = {
+  price: ["Preço", "Price"], volume: ["Volume", "Volume"], mix: ["Mix", "Mix"],
+  cross: ["Interação preço × volume", "Price × volume interaction"],
+  new: ["Produtos novos", "New products"],
+  discontinued: ["Produtos descontinuados", "Discontinued products"],
+  other: ["Itens não comparáveis", "Non-comparable items"]
 };
 
 /**
@@ -63,8 +65,11 @@ const BUCKET_PT = {
 export function generateInsights(ctx) {
   const { result, items } = ctx;
   const F = Object.assign({}, DEFAULT_FMT, ctx.fmt || {});
+  /* O portfólio é bilíngue. A narrativa recebe o tradutor do app; sem ele,
+     o módulo continua funcionando em português (é o caso dos testes em Node). */
+  const t = typeof ctx.t === "function" ? ctx.t : ((pt) => pt);
   const method = getMethodology(result.methodology);
-  const filterLabel = ctx.filterLabel || "nenhum filtro aplicado (base completa)";
+  const filterLabel = ctx.filterLabel || t("nenhum filtro aplicado (base completa)", "no filter applied (full dataset)");
   const periods = (ctx.basePeriod || "base") + " -> " + (ctx.currentPeriod || "atual");
   const out = [];
   const rev = result.revenue;
@@ -80,11 +85,12 @@ export function generateInsights(ctx) {
   });
 
   /* -------------------------------------------------------- 1. variacao total */
-  const dir = rev.delta > 0 ? "aumentou" : (rev.delta < 0 ? "caiu" : "ficou estavel");
+  const dir = t(rev.delta > 0 ? "aumentou" : (rev.delta < 0 ? "caiu" : "ficou estável"),
+                rev.delta > 0 ? "rose by" : (rev.delta < 0 ? "fell by" : "was flat at"));
   out.push(mk("revenue.delta", "headline",
-    "A receita " + dir + " " + F.money(Math.abs(rev.delta)) +
+    t("A receita ", "Revenue ") + dir + " " + F.money(Math.abs(rev.delta)) +
     (rev.deltaPct == null ? "" : " (" + F.signedPct(rev.deltaPct) + ")") +
-    ", de " + F.money(rev.base) + " para " + F.money(rev.current) + ".",
+    t(", de ", ", from ") + F.money(rev.base) + t(" para ", " to ") + F.money(rev.current) + ".",
     prov("dReceita = Receita_atual - Receita_base",
       ["Receita_base = " + rev.base, "Receita_atual = " + rev.current, "dReceita = " + rev.delta])));
 
@@ -95,43 +101,52 @@ export function generateInsights(ctx) {
   if (drivers.length) {
     const k = drivers[0];
     const share = safeDiv(Math.abs(b[k]), Math.abs(rev.delta));
+    const kLabel = t(BUCKET_LABEL[k][0], BUCKET_LABEL[k][1]);
     out.push(mk("revenue.topDriver", "driver",
-      "O maior componente isolado foi " + BUCKET_PT[k] + ": " + F.signedMoney(b[k]) +
-      (share == null ? "" : ", equivalente a " + F.pct(share) + " do modulo da variacao total") + ".",
+      t("O maior componente isolado foi ", "The single largest component was ") + kLabel + ": " + F.signedMoney(b[k]) +
+      (share == null ? "" : t(", equivalente a ", ", equal to ") + F.pct(share) +
+        t(" do módulo da variação total", " of the absolute total variance")) + ".",
       prov(formulaFor(k, method),
-        ["Efeito " + BUCKET_PT[k] + " = " + b[k], "dReceita = " + rev.delta])));
+        [kLabel + " effect = " + b[k], "dRevenue = " + rev.delta])));
   }
 
   /* --------------------------------------------------------- 3. preco e volume */
   if (b.price !== 0) {
-    const priceDir = b.price > 0 ? "adicionou" : "subtraiu";
+    const priceDir = t(b.price > 0 ? "adicionou" : "subtraiu", b.price > 0 ? "added" : "removed");
     const relBase = safeDiv(b.price, rev.base);
     out.push(mk("revenue.price", "price",
-      "O efeito Preco " + priceDir + " " + F.money(Math.abs(b.price)) +
-      (relBase == null ? "" : " (" + F.signedPct(relBase) + " sobre a receita base") + ")" +
-      ". O preco medio ponderado do portfolio passou de " + F.money(rev.avgPriceBase) +
-      " para " + F.money(rev.avgPriceCurrent) + " por unidade.",
+      t("O efeito Preço ", "The Price effect ") + priceDir + " " + F.money(Math.abs(b.price)) +
+      (relBase == null ? "" : " (" + F.signedPct(relBase) + t(" sobre a receita base", " of base revenue") + ")") +
+      t(". O preço médio ponderado do portfólio passou de ",
+        ". The portfolio weighted average price moved from ") + F.money(rev.avgPriceBase) +
+      t(" para ", " to ") + F.money(rev.avgPriceCurrent) + t(" por unidade.", " per unit."),
       prov(method.priceFormula,
-        ["Efeito Preco = " + b.price, "Preco medio base = " + rev.avgPriceBase,
-         "Preco medio atual = " + rev.avgPriceCurrent])));
+        ["Price effect = " + b.price, "Average base price = " + rev.avgPriceBase,
+         "Average current price = " + rev.avgPriceCurrent])));
   }
   if (b.volume !== 0) {
     const g = rev.stats.growthFactor;
     out.push(mk("revenue.volume", "volume",
-      "O efeito Volume foi de " + F.signedMoney(b.volume) + ". A quantidade da populacao comparavel variou " +
-      F.signedPct(g - 1) + " (de " + F.int(rev.stats.quantityBase) + " para " + F.int(rev.stats.quantityCurrent) + " unidades).",
-      prov(method.volumeFormula + "; g = soma(Q1) / soma(Q0) na populacao comparavel",
-        ["Efeito Volume = " + b.volume, "g = " + g,
-         "Q0 comparavel = " + rev.stats.quantityBase, "Q1 comparavel = " + rev.stats.quantityCurrent])));
+      t("O efeito Volume foi de ", "The Volume effect was ") + F.signedMoney(b.volume) +
+      t(". A quantidade da população comparável variou ", ". Quantity in the comparable population moved ") +
+      F.signedPct(g - 1) + t(" (de ", " (from ") + F.int(rev.stats.quantityBase) + t(" para ", " to ") +
+      F.int(rev.stats.quantityCurrent) + t(" unidades).", " units)."),
+      prov(method.volumeFormula + "; g = sum(Q1) / sum(Q0) over the comparable population",
+        ["Volume effect = " + b.volume, "g = " + g,
+         "Comparable Q0 = " + rev.stats.quantityBase, "Comparable Q1 = " + rev.stats.quantityCurrent])));
   }
 
   /* ------------------------------------------------ 4. mix e sua concentracao */
   if (b.mix !== 0) {
-    const sign = b.mix > 0 ? "favoravel" : "desfavoravel";
-    let text = "O mix de produtos foi " + sign + " em " + F.money(Math.abs(b.mix)) +
-      ": a composicao das quantidades deslocou-se para itens de preco base " +
-      (b.mix > 0 ? "acima" : "abaixo") + " da media do portfolio (" + F.money(rev.stats.avgPriceBase) + " por unidade).";
-    const sources = ["Efeito Mix = " + b.mix, "Preco medio base do portfolio = " + rev.stats.avgPriceBase];
+    const sign = t(b.mix > 0 ? "favorável" : "desfavorável", b.mix > 0 ? "favourable" : "unfavourable");
+    let text = t("O mix de produtos foi ", "The product mix was ") + sign +
+      t(" em ", " by ") + F.money(Math.abs(b.mix)) +
+      t(": a composição das quantidades deslocou-se para itens de preço base ",
+        ": the quantity composition shifted towards items whose base price is ") +
+      t(b.mix > 0 ? "acima" : "abaixo", b.mix > 0 ? "above" : "below") +
+      t(" da média do portfólio (", " the portfolio average (") + F.money(rev.stats.avgPriceBase) +
+      t(" por unidade).", " per unit).");
+    const sources = ["Mix effect = " + b.mix, "Portfolio average base price = " + rev.stats.avgPriceBase];
 
     if (ctx.dimension && items && items.length) {
       const groups = aggregateEffectsBy(items, rev, ctx.dimension);
@@ -140,9 +155,10 @@ export function generateInsights(ctx) {
       if (positive.length && totalPos > 0) {
         const top = positive[0];
         const sh = safeDiv(top.mix, totalPos);
-        text += " " + top.group + " respondeu por " + F.pct(sh) + " da contribuicao positiva de Mix.";
+        text += " " + top.group + t(" respondeu por ", " accounted for ") + F.pct(sh) +
+          t(" da contribuição positiva de Mix.", " of the positive Mix contribution.");
         sources.push(ctx.dimension + " = " + top.group + " -> Mix = " + top.mix,
-          "Soma dos Mix positivos = " + totalPos);
+          "Sum of positive Mix = " + totalPos);
       }
     }
     out.push(mk("revenue.mix", "mix", text, prov(method.mixFormula, sources)));
@@ -152,83 +168,97 @@ export function generateInsights(ctx) {
   if (b.new !== 0 || b.discontinued !== 0) {
     const net = b.new + b.discontinued;
     out.push(mk("revenue.portfolio", "portfolio",
-      "A renovacao do portfolio contribuiu " + F.signedMoney(net) + ": " +
-      result.counts.new + " itens novos adicionaram " + F.money(b.new) + " e " +
-      result.counts.discontinued + " itens descontinuados retiraram " + F.money(Math.abs(b.discontinued)) + ".",
-      prov("New = soma(Receita_atual) dos itens sem periodo base; Discontinued = -soma(Receita_base) dos itens sem periodo atual",
+      t("A renovação do portfólio contribuiu ", "Portfolio turnover contributed ") + F.signedMoney(net) + ": " +
+      result.counts.new + t(" itens novos adicionaram ", " new items added ") + F.money(b.new) +
+      t(" e ", " and ") + result.counts.discontinued +
+      t(" itens descontinuados retiraram ", " discontinued items removed ") + F.money(Math.abs(b.discontinued)) + ".",
+      prov("New = sum(Revenue_current) of items absent from the base period; Discontinued = -sum(Revenue_base) of items absent from the current period",
         ["New = " + b.new, "Discontinued = " + b.discontinued,
-         "Itens novos = " + result.counts.new, "Itens descontinuados = " + result.counts.discontinued])));
+         "New items = " + result.counts.new, "Discontinued items = " + result.counts.discontinued])));
   }
 
   /* -------------------------------------------------- 6. itens nao comparaveis */
   if (b.other !== 0) {
     out.push(mk("revenue.other", "caveat",
-      "Atencao: " + result.counts["non-comparable"] + " itens ficaram fora de Price/Volume/Mix por nao terem preco unitario definido nos dois periodos. " +
-      "A variacao desses itens (" + F.signedMoney(b.other) + ") aparece na ponte como 'Other', sem ser atribuida a nenhum efeito.",
-      prov("Other = soma(Receita_atual - Receita_base) dos itens com quantidade nula ou negativa em algum periodo",
-        ["Other = " + b.other, "Itens nao comparaveis = " + result.counts["non-comparable"]])));
+      t("Atenção: ", "Note: ") + result.counts["non-comparable"] +
+      t(" itens ficaram fora de Price/Volume/Mix por não terem preço unitário definido nos dois períodos. A variação desses itens (",
+        " items fell outside Price/Volume/Mix because their unit price is undefined in one of the periods. Their variance (") +
+      F.signedMoney(b.other) +
+      t(") aparece na ponte como 'Other', sem ser atribuída a nenhum efeito.",
+        ") appears in the bridge as 'Other', attributed to no effect."),
+      prov("Other = sum(Revenue_current - Revenue_base) of items with zero or negative quantity in either period",
+        ["Other = " + b.other, "Non-comparable items = " + result.counts["non-comparable"]])));
   }
 
   /* ---------------------------------------------------------- 7. margem bruta */
   const gm = result.grossMargin;
   if (gm) {
-    const gmDir = gm.delta > 0 ? "aumentou" : (gm.delta < 0 ? "caiu" : "ficou estavel");
+    const gmDir = t(gm.delta > 0 ? "aumentou" : (gm.delta < 0 ? "caiu" : "ficou estável"),
+                    gm.delta > 0 ? "rose by" : (gm.delta < 0 ? "fell by" : "was flat at"));
     out.push(mk("gm.delta", "margin",
-      "A margem bruta " + gmDir + " " + F.money(Math.abs(gm.delta)) + ", de " + F.money(gm.base) +
-      " para " + F.money(gm.current) + ". Em percentual, de " + F.pct(gm.gmPctBase) + " para " +
-      F.pct(gm.gmPctCurrent) + " (" + F.pp(gm.gmPctDeltaPP) + ").",
-      prov("GM = Receita - COGS ; GM% = GM / Receita ; d p.p. = GM%_atual - GM%_base",
-        ["GM base = " + gm.base, "GM atual = " + gm.current,
-         "GM% base = " + gm.gmPctBase, "GM% atual = " + gm.gmPctCurrent])));
+      t("A margem bruta ", "Gross margin ") + gmDir + " " + F.money(Math.abs(gm.delta)) +
+      t(", de ", ", from ") + F.money(gm.base) + t(" para ", " to ") + F.money(gm.current) +
+      t(". Em percentual, de ", ". In percentage terms, from ") + F.pct(gm.gmPctBase) +
+      t(" para ", " to ") + F.pct(gm.gmPctCurrent) + " (" + F.pp(gm.gmPctDeltaPP) + ").",
+      prov("GM = Revenue - COGS ; GM% = GM / Revenue ; d p.p. = GM%_current - GM%_base",
+        ["Base GM = " + gm.base, "Current GM = " + gm.current,
+         "Base GM% = " + gm.gmPctBase, "Current GM% = " + gm.gmPctCurrent])));
 
     const spread = gm.buckets.sellingPrice + gm.buckets.unitCost;
     out.push(mk("gm.spread", "margin",
-      "Preco de venda contribuiu " + F.signedMoney(gm.buckets.sellingPrice) + " e o custo unitario " +
-      F.signedMoney(gm.buckets.unitCost) + ", resultando em um efeito liquido de preco-custo de " +
+      t("Preço de venda contribuiu ", "Selling price contributed ") + F.signedMoney(gm.buckets.sellingPrice) +
+      t(" e o custo unitário ", " and unit cost ") + F.signedMoney(gm.buckets.unitCost) +
+      t(", resultando em um efeito líquido de preço-custo de ", ", for a net price-cost effect of ") +
       F.signedMoney(spread) + ".",
-      prov("Selling price = soma((P1-P0) x Q1) ; Unit cost = -soma((C1-C0) x Q1)",
+      prov("Selling price = sum((P1-P0) x Q1) ; Unit cost = -sum((C1-C0) x Q1)",
         ["Selling price = " + gm.buckets.sellingPrice, "Unit cost = " + gm.buckets.unitCost,
-         "Liquido = " + spread])));
+         "Net = " + spread])));
 
     if (!gm.coverage.complete) {
       out.push(mk("gm.coverage", "caveat",
-        "A analise de margem cobre " + gm.coverage.items + " de " + gm.coverage.totalItems +
-        " itens (" + F.pct(gm.coverage.revenueShare) + " da receita base). Itens sem COGS ficaram de fora — nenhum custo foi arbitrado para completar a ponte.",
-        prov("Escopo de GM = itens com COGS informado nos periodos em que existem",
-          ["Itens com COGS = " + gm.coverage.items, "Total de itens = " + gm.coverage.totalItems,
-           "Participacao na receita base = " + gm.coverage.revenueShare])));
+        t("A análise de margem cobre ", "The margin analysis covers ") + gm.coverage.items +
+        t(" de ", " of ") + gm.coverage.totalItems + t(" itens (", " items (") +
+        F.pct(gm.coverage.revenueShare) +
+        t(" da receita base). Itens sem COGS ficaram de fora — nenhum custo foi arbitrado para completar a ponte.",
+          " of base revenue). Items without COGS were left out — no cost was assumed to close the bridge."),
+        prov("GM scope = items with COGS reported in the periods where they exist",
+          ["Items with COGS = " + gm.coverage.items, "Total items = " + gm.coverage.totalItems,
+           "Share of base revenue = " + gm.coverage.revenueShare])));
     }
   }
 
   /* ----------------------------------------------------- 8. drivers extremos */
   if (items && items.length) {
-    const t = topDrivers(items, rev, "mix", 1);
-    if (t.positive.length && t.negative.length) {
+    const d = topDrivers(items, rev, "mix", 1);
+    if (d.positive.length && d.negative.length) {
       out.push(mk("revenue.mixDrivers", "driver",
-        "Maior contribuicao positiva de Mix: " + t.positive[0].label + " (" + F.signedMoney(t.positive[0].value) +
-        "). Maior contribuicao negativa: " + t.negative[0].label + " (" + F.signedMoney(t.negative[0].value) + ").",
+        t("Maior contribuição positiva de Mix: ", "Largest positive Mix contribution: ") + d.positive[0].label +
+        " (" + F.signedMoney(d.positive[0].value) + ")." +
+        t(" Maior contribuição negativa: ", " Largest negative contribution: ") + d.negative[0].label +
+        " (" + F.signedMoney(d.negative[0].value) + ").",
         prov(method.mixFormula,
-          [t.positive[0].label + " -> Mix = " + t.positive[0].value,
-           t.negative[0].label + " -> Mix = " + t.negative[0].value])));
+          [d.positive[0].label + " -> Mix = " + d.positive[0].value,
+           d.negative[0].label + " -> Mix = " + d.negative[0].value])));
     }
   }
 
   /* ------------------------------------------------------------- 9. UOM */
   if (result.uom && result.uom.heterogeneous) {
     out.push(mk("data.uom", "caveat",
-      result.uom.message + " Unidades encontradas: " + result.uom.units.join(", ") + ".",
-      prov("Verificacao de UOM sobre a populacao analisada",
-        ["Unidades distintas = " + result.uom.units.length])));
+      result.uom.message + t(" Unidades encontradas: ", " Units found: ") + result.uom.units.join(", ") + ".",
+      prov("UOM check over the analysed population",
+        ["Distinct units = " + result.uom.units.length])));
   }
 
   /* -------------------------------------------------------- 10. reconciliacao */
   out.push(mk("control.reconciliation", "control",
-    "Controle de reconciliacao: a ponte de receita fechou com residuo de " + rev.bridge.residual.toExponential(2) +
-    " (tolerancia " + rev.bridge.tolerance.toExponential(2) + ") — " + rev.bridge.status + "." +
-    (gm ? " Ponte de margem bruta: " + gm.bridge.status + "." : ""),
-    prov("Residuo = Receita_atual - (Receita_base + soma dos efeitos); tolerancia = max(0,01; |Receita_atual| x 1e-9)",
-      ["Residuo receita = " + rev.bridge.residual, "Tolerancia = " + rev.bridge.tolerance]
-        .concat(gm ? ["Residuo margem = " + gm.bridge.residual] : []))));
+    t("Controle de reconciliação: a ponte de receita fechou com resíduo de ",
+      "Reconciliation control: the revenue bridge closed with a residual of ") + rev.bridge.residual.toExponential(2) +
+    t(" (tolerância ", " (tolerance ") + rev.bridge.tolerance.toExponential(2) + ") — " + rev.bridge.status + "." +
+    (gm ? t(" Ponte de margem bruta: ", " Gross margin bridge: ") + gm.bridge.status + "." : ""),
+    prov("Residual = Revenue_current - (Revenue_base + sum of effects); tolerance = max(0.01; |Revenue_current| x 1e-9)",
+      ["Revenue residual = " + rev.bridge.residual, "Tolerance = " + rev.bridge.tolerance]
+        .concat(gm ? ["Margin residual = " + gm.bridge.residual] : []))));
 
   return out;
 }
@@ -239,9 +269,9 @@ function formulaFor(bucket, method) {
     case "volume": return method.volumeFormula;
     case "mix": return method.mixFormula;
     case "cross": return method.crossFormula;
-    case "new": return "New = soma(Receita_atual) dos itens sem periodo base";
-    case "discontinued": return "Discontinued = -soma(Receita_base) dos itens sem periodo atual";
-    default: return "Other = soma(dReceita) dos itens sem preco unitario definido";
+    case "new": return "New = sum(Revenue_current) of items absent from the base period";
+    case "discontinued": return "Discontinued = -sum(Revenue_base) of items absent from the current period";
+    default: return "Other = sum(dRevenue) of items with no defined unit price";
   }
 }
 

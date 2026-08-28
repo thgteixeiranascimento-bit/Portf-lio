@@ -46,6 +46,7 @@ const ESPERADO = {
   "simuladores/calculadora-juros.html": 8,
   "simuladores/antecipacao-parcelas.html": 7,
   "simuladores/rechamadas.html": 8,
+  "pvm/index.html": 5,               /* aparecem depois de carregar o dataset DEMO — ver PREPARAR */
   "validacao-perfil.html": 12,
   "conselho.html": 12,
 };
@@ -61,7 +62,7 @@ const GRUPOS = {
   ],
   "Ferramentas próprias": [
     "simuladores/calculadora-juros.html", "simuladores/antecipacao-parcelas.html",
-    "simuladores/rechamadas.html",
+    "simuladores/rechamadas.html", "pvm/index.html",
   ],
   "Validação do perfil": ["validacao-perfil.html"],
   "Validação do trabalho": ["conselho.html"],
@@ -73,6 +74,21 @@ const SEM_CHECKS = [
 ];
 
 const PAGINAS = SEM_CHECKS.concat(Object.keys(ESPERADO));
+
+/* Páginas cujos checks só existem depois de uma interação. O simulador de PVM
+   calcula sobre a base que o usuário carrega — sem dado, não há o que verificar.
+   Aqui o auditor carrega o dataset DEMO, que é sintético e rotulado, e só então
+   conta os checks. Sem isso a ferramenta ficaria fora do portão de qualidade. */
+const PREPARAR = {
+  "pvm/index.html": async (pagina) => {
+    await pagina.click("#btn-demo");
+    await pagina.waitForFunction(
+      () => document.querySelectorAll("#dq-summary .check").length > 0,
+      null, { timeout: 30000 }
+    );
+    await pagina.waitForTimeout(500);
+  },
+};
 
 (async () => {
   let chromium;
@@ -97,6 +113,7 @@ const PAGINAS = SEM_CHECKS.concat(Object.keys(ESPERADO));
 
     await pagina.goto(BASE + "/" + rota, { waitUntil: "networkidle" });
     await pagina.waitForTimeout(300);
+    if (PREPARAR[rota]) await PREPARAR[rota](pagina);
 
     const r = await pagina.evaluate(() => {
       const todos = [...document.querySelectorAll(".check")];

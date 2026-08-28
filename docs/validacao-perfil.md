@@ -121,8 +121,8 @@ Nenhum percentual de economia, redução de erro ou ganho de produtividade obtid
 publicado, aqui ou no currículo. Não é modéstia: resultado operacional interno não é divulgável, e um número
 sem fonte conferível é exatamente o tipo de afirmação que o protocolo do portfólio existe para impedir.
 
-O que se publica no lugar é o **método** — e as três ferramentas próprias, que demonstram a classe de cálculo
-com parâmetros que o visitante controla, sem nenhum dado de empregador. Um recrutador confere a afirmação em
+O que se publica no lugar é o **método** — e as quatro ferramentas próprias, que demonstram a classe de cálculo
+com parâmetros (ou, no simulador de PVM, com uma base) que o visitante controla, sem nenhum dado de empregador. Um recrutador confere a afirmação em
 um clique; um número inventado não seria conferível de forma alguma.
 
 ---

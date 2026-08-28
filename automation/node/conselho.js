@@ -40,11 +40,18 @@ const achados = [];   // { frente, gravidade, msg }
 function erro(frente, msg) { achados.push({ frente, gravidade: "erro", msg }); }
 function alerta(frente, msg) { achados.push({ frente, gravidade: "alerta", msg }); }
 
+/* `tests/` sai da varredura pela mesma razão que `automation/`: é
+   instrumento de desenvolvimento, não página publicada — nenhuma página do
+   site aponta para lá. E o harness precisa escrever na tela os nomes dos
+   próprios casos ("safeDiv nunca devolve Infinity nem NaN"), que a frente de
+   higiene leria como valor não renderizado. A isenção é do diretório inteiro
+   e está declarada aqui; o que ele testa continua sob o portão, porque
+   `npm test` roda a mesma suíte em Node e reprova com código 1. */
 function paginas() {
   const out = [];
   (function anda(dir) {
     for (const nome of fs.readdirSync(dir)) {
-      if (["node_modules", ".git", "references", "docs", "automation", "assets"].includes(nome)) continue;
+      if (["node_modules", ".git", "references", "docs", "automation", "assets", "tests"].includes(nome)) continue;
       const p = path.join(dir, nome);
       const st = fs.statSync(p);
       if (st.isDirectory()) anda(p);
@@ -53,6 +60,22 @@ function paginas() {
   })(RAIZ);
   return out.sort();
 }
+
+/* O simulador de PVM calcula sobre a base que o usuário carrega: em página
+   fria não há número, e portanto não há check a auditar. Sem esta preparação
+   o conselho contaria zero e acusaria a capa de exagerar. Carrega-se o
+   dataset DEMO — sintético e rotulado como tal — e só então se mede. É o
+   mesmo gancho de `verificar_paginas.js`, pelo mesmo motivo. */
+const PREPARAR = {
+  "pvm/index.html": async (pagina) => {
+    await pagina.click("#btn-demo");
+    await pagina.waitForFunction(
+      () => document.querySelectorAll("#dq-summary .check").length > 0,
+      null, { timeout: 30000 }
+    );
+    await pagina.waitForTimeout(500);
+  },
+};
 
 (async () => {
   let chromium;
@@ -85,6 +108,7 @@ function paginas() {
 
     await pagina.goto(`${BASE}/${rota}`, { waitUntil: "networkidle" });
     await pagina.waitForTimeout(250);
+    if (PREPARAR[rota]) await PREPARAR[rota](pagina);
 
     const r = await pagina.evaluate(() => {
       const q = (s) => [...document.querySelectorAll(s)];
@@ -253,13 +277,22 @@ function paginas() {
     erro("C. Aritmética", `capa declara ${statChecks.v} checks; medido ${medido.checks}`);
   }
 
-  /* modelos publicados: estudos + ferramentas próprias, contados no disco */
-  const modelos = fs.readdirSync(path.join(RAIZ, "simuladores"))
+  /* Modelos publicados: estudos + ferramentas próprias, contados no disco.
+     Quase todos vivem em `simuladores/` como um arquivo cada; o simulador de
+     PVM é grande demais para caber em um arquivo e mora no próprio diretório.
+     Contar apenas `simuladores/` deixaria de fora um artefato que a capa
+     declara — então a contagem soma os dois lugares e diz de onde veio. */
+  const ARTEFATOS_FORA = ["pvm/index.html"];
+  const emSimuladores = fs.readdirSync(path.join(RAIZ, "simuladores"))
     .filter((f) => f.endsWith(".html") && f !== "index.html").length;
+  const fora = ARTEFATOS_FORA.filter((f) => fs.existsSync(path.join(RAIZ, f)));
+  const modelos = emSimuladores + fora.length;
   medido.modelos = modelos;
   const statModelos = reg.stats.find((s) => /modelo/i.test(s.k));
   if (statModelos && statModelos.v !== modelos) {
-    erro("C. Aritmética", `capa declara ${statModelos.v} modelos; contados ${modelos} em simuladores/`);
+    erro("C. Aritmética",
+      `capa declara ${statModelos.v} modelos; contados ${modelos} ` +
+      `(${emSimuladores} em simuladores/ + ${fora.length} em ${ARTEFATOS_FORA.join(", ")})`);
   }
 
   /* D. registro único — o selo da capa não pode inventar competência */
@@ -307,7 +340,7 @@ function paginas() {
   console.log("\n" + "─".repeat(64));
   console.log("MEDIDO");
   console.log(`  checks recalculados ......... ${medido.checks}`);
-  console.log(`  modelos em simuladores/ ..... ${medido.modelos}`);
+  console.log(`  modelos publicados .......... ${medido.modelos}`);
   console.log(`  páginas auditadas ........... ${ROTAS.length}`);
   console.log(`  termos de triagem (ATS) ..... ${medido.ats} (núcleo curado: ${medido.atsNucleo})`);
   console.log(`  experiências no registro .... ${reg.experiencias}`);

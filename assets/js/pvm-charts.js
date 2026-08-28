@@ -114,7 +114,7 @@ function scaffold(host, opts, render) {
     if (opts.twin) {
       const d = document.createElement("details");
       d.className = "tbl-twin";
-      d.innerHTML = "<summary>Ver dados em tabela</summary>" +
+      d.innerHTML = "<summary>" + (opts.twinLabel || "Ver dados em tabela") + "</summary>" +
         '<div class="tbl-scroll" style="margin:8px 0"><table class="tbl"><thead><tr>' +
         opts.twin.head.map(h => "<th>" + escapeHtml(h) + "</th>").join("") +
         "</tr></thead><tbody>" +
@@ -130,6 +130,10 @@ function scaffold(host, opts, render) {
   }
   draw();
   host._pvmDraw = draw;
+  // core.js redesenha todo `figure.chart` que exponha _vizDraw ao trocar o
+  // idioma; expor o mesmo desenhador mantém os gráficos em sincronia com o
+  // alternador PT/EN do portfólio.
+  host._vizDraw = draw;
   if (!host._pvmObserved) {
     host._pvmObserved = true;
     let lastW = host.clientWidth;
@@ -237,6 +241,10 @@ export function waterfall(host, opts) {
     const ml = Math.min(w * 0.28, Math.max(56, probe * 6.4 + 14));
     const mr = 14, mt = 26, mb = 52;
     const svg = el("svg", { viewBox: "0 0 " + w + " " + h, preserveAspectRatio: "xMidYMid meet" });
+    /* s1 (âmbar) = favorável, s4 (violeta) = desfavorável, baseline = total.
+       É a mesma atribuição do waterfall de core.js: neste sistema o vermelho
+       fica reservado a FALHA (--bad), não a "número negativo" — por isso um
+       efeito desfavorável é violeta, e não vermelho. */
     const pos = token("--s1"), neg = token("--s4"), tot = token("--baseline");
     ensureHatch(svg, "pvmHatchNeg", neg);
 
@@ -418,7 +426,7 @@ export function contributionBars(host, opts) {
     const mr = Math.min(w * 0.42, Math.max(58, widest * 7.3 + 14));
     const h = mt + mb + rows.length * rowH;
     const svg = el("svg", { viewBox: "0 0 " + w + " " + h, preserveAspectRatio: "xMidYMid meet" });
-    const pos = token("--s1"), neg = token("--s4");
+    const pos = token("--s1"), neg = token("--s4");   /* mesma convenção do waterfall */
     ensureHatch(svg, "pvmHatchNeg2", neg);
 
     const values = rows.map(val);
@@ -588,7 +596,7 @@ export function mixScatter(host, opts) {
     }
 
     const maxRev = Math.max(1, ...pts.map(p => Math.abs(p.revenueCurrent)));
-    const pos = token("--s1"), neg = token("--s4");
+    const pos = token("--s1"), neg = token("--s4");   /* mesma convenção do waterfall */
     for (const p of pts) {
       const r = 4 + 14 * Math.sqrt(Math.abs(p.revenueCurrent) / maxRev);
       const c = el("circle", {

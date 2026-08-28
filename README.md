@@ -21,10 +21,11 @@ Um portfólio técnico em formato de site estático que serve a dois leitores ao
 | **Quem quer ver código** | [`core.js`](assets/js/core.js) · [`perfil.js`](assets/js/perfil.js) · [`automation/`](automation/) | — |
 
 **Conteúdo:** análise setorial de cinco instituições financeiras, **dez estudos interativos** sobre divulgações
-oficiais, **três ferramentas de cálculo próprias**, dashboards executivos, biblioteca de KPIs bancários e uma
-camada completa de governança analítica.
+oficiais, **quatro ferramentas próprias** — entre elas o simulador de [Price · Volume · Mix](pvm/index.html),
+que roda sobre a base que o próprio visitante carrega —, dashboards executivos, biblioteca de KPIs bancários
+e uma camada completa de governança analítica.
 
-**194 checks recalculados no navegador** — 147 nos estudos sobre dados públicos, 23 nas ferramentas próprias,
+**199 checks recalculados no navegador** — 147 nos estudos sobre dados públicos, 28 nas ferramentas próprias,
 12 na validação do próprio currículo e 12 na validação do trabalho como um todo. A contagem é medida por
 [`automation/node/verificar_paginas.js`](automation/node/verificar_paginas.js), não escrita à mão, e o
 [`conselho.js`](automation/node/conselho.js) reprova a publicação se o número publicado divergir do apurado.
@@ -137,6 +138,9 @@ os documentos baixados nunca saem de sincronia com o site.
 # servir o site
 python3 -m http.server 8765
 # abrir http://localhost:8765
+
+# suíte de testes do motor de PVM (sem dependência alguma)
+node tests/run.mjs                          # 101 testes; a mesma suíte roda em tests/index.html
 
 # controle de qualidade automatizado (dependência só de desenvolvimento)
 npm install playwright-core

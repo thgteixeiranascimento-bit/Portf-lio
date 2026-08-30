@@ -444,6 +444,5 @@ Reading-progress bar, staggered reveal (`.stagger`), count-up on cover figures, 
 ---
 
 **Last updated:** 24/08/2026 (v6.0 — dark editorial theme: graphite and amber, Lora/Inter/JetBrains Mono self-hosted, square register, single theme)  
-**Status:** Documented & validated across all 25 pages and 194 automated checks  
 **Status:** Documented & validated across all 26 pages and 199 automated checks  
 **Maintenance:** CSS changes cascade via `:root` custom properties; no per-component overrides

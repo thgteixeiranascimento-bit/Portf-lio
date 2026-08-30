@@ -43,7 +43,7 @@
   </section>
 
   <div class="controls">
-    <div class="head"><span class="t">Premissas do modelo (horizonte de 5 anos) <span class="tag prem">PREMISSA</span></span></div>
+    <div class="head"><span class="t">Premissas do modelo (horizonte de 5 anos) <span class="tag prem">PREMISSA</span></span><button type="button" class="btn" id="btnReset" style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true">↺</span> <span data-en="Reset">Reiniciar</span></button></div>
     <div class="row">
       <div class="ctrl"><label for="inGc">Crescimento de clientes (a.a.) <output id="oGc">15%</output></label>
         <input type="range" id="inGc" min="0" max="30" step="1" value="15"></div>
@@ -73,6 +73,7 @@
 
   <section class="blk">
     <h2>Checks de integridade</h2>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -81,6 +82,7 @@
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -166,6 +168,9 @@
   V.renderFontes($("fontes"), ["nu1T26", "nu2T26"],
     "Âncoras do México conforme releases; taxa de atividade e custo de servir são médias consolidadas usadas como aproximação (declarado). Todo o restante é premissa/estimativa do autor.");
   render();
+  var DEFAULTS = V.snapshotDefaults(document);
+  document.getElementById("btnReset").addEventListener("click", function () { V.restoreDefaults(DEFAULTS); });
+  document.getElementById("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
 })();
 </script>
 </body>

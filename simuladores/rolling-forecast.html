@@ -31,10 +31,13 @@
   <div class="controls">
     <div class="head">
       <span class="t">Premissas do cenário <span class="tag prem">PREMISSA</span></span>
-      <div class="seg" id="segCen">
-        <button data-c="base" class="on">Base</button>
-        <button data-c="cauteloso">Cauteloso</button>
-        <button data-c="adverso">Adverso</button>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="seg" id="segCen">
+          <button data-c="base" class="on">Base</button>
+          <button data-c="cauteloso">Cauteloso</button>
+          <button data-c="adverso">Adverso</button>
+        </div>
+        <button type="button" class="btn" id="btnReset" style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true">↺</span> <span data-en="Reset">Reiniciar</span></button>
       </div>
     </div>
     <div class="row">
@@ -70,6 +73,7 @@
 
   <section class="blk">
     <h2>Checks de integridade</h2>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -78,6 +82,7 @@
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -185,6 +190,9 @@
   V.renderFontes(document.getElementById("fontes"), ["nu1T26", "nu2T26", "nuRec2T26"],
     "A âncora e as referências de calibração vêm do 2T26 divulgado; todo o resto é premissa/estimativa do autor.");
   render();
+  var DEFAULTS = V.snapshotDefaults(document);
+  document.getElementById("btnReset").addEventListener("click", function () { V.restoreDefaults(DEFAULTS); });
+  document.getElementById("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
 })();
 </script>
 </body>

@@ -38,7 +38,7 @@
   </section>
 
   <div class="controls">
-    <div class="head"><span class="t">Premissas <span class="tag prem">PREMISSA</span></span></div>
+    <div class="head"><span class="t">Premissas <span class="tag prem">PREMISSA</span></span><button type="button" class="btn" id="btnReset" style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true">↺</span> <span data-en="Reset">Reiniciar</span></button></div>
     <div class="row">
       <div class="ctrl"><label for="inKe">Custo do capital próprio (Ke, nominal) <output id="oKe">15,0%</output></label>
         <input type="range" id="inKe" min="10" max="24" step="0.5" value="15"></div>
@@ -106,6 +106,7 @@
 
   <section class="blk">
     <h2>Checks de integridade</h2>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -114,6 +115,7 @@
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -232,6 +234,9 @@
   V.renderFontes($("fontes"), ["nu2T26", "agiRel1T26", "itau2T26", "bradesco1T26", "santander2T26", "mercadoAgregadores"],
     "Os ROEs (nível 1) têm definições e períodos distintos, declarados na tabela; Ke e g são exclusivamente premissas do autor; os múltiplos de mercado são de agregadores (nível 3, em faixa) e não de documentos dos emissores.");
   render();
+  var DEFAULTS = V.snapshotDefaults(document);
+  document.getElementById("btnReset").addEventListener("click", function () { V.restoreDefaults(DEFAULTS); });
+  document.getElementById("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
 })();
 </script>
 </body>

@@ -65,7 +65,7 @@
   <section class="blk">
     <h2>4 · Stress de custo do crédito <span class="tag prem">PREMISSA + ESTIMATIVA</span></h2>
     <div class="controls">
-      <div class="head"><span class="t">Choque sobre o custo do crédito do trimestre</span></div>
+      <div class="head"><span class="t">Choque sobre o custo do crédito do trimestre</span><button type="button" class="btn" id="btnReset" style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true">↺</span> <span data-en="Reset">Reiniciar</span></button></div>
       <div class="row">
         <div class="ctrl"><label for="inNu">Choque no custo de crédito do Nu (2T26) <output id="oNu">+20%</output></label>
           <input type="range" id="inNu" min="0" max="60" step="5" value="20"></div>
@@ -82,6 +82,7 @@
 
   <section class="blk">
     <h2>Checks de integridade</h2>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -90,6 +91,7 @@
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -216,6 +218,9 @@
 
   V.renderFontes($("fontes"), ["nu1T26", "nu2T26", "santander2T26", "bradesco1T26", "agiRel1T26", "agiDF1T26"],
     "Estágios de ECL e movimento de provisão conforme nota 6.3 das DFs da Agi; decomposição sazonal do NPL conforme release 2T26 do Nu.");
+  var DEFAULTS = V.snapshotDefaults(document);
+  document.getElementById("btnReset").addEventListener("click", function () { V.restoreDefaults(DEFAULTS); });
+  document.getElementById("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
 })();
 </script>
 </body>

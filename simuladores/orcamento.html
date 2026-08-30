@@ -29,9 +29,12 @@
 
   <div class="controls">
     <div class="head"><span class="t">Comparação</span>
-      <div class="seg" id="segComp">
-        <button data-v="qoq" class="on">Trimestre contra trimestre (1T26 → 2T26)</button>
-        <button data-v="yoy">Ano contra ano (2T25 → 2T26)</button>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="seg" id="segComp">
+          <button data-v="qoq" class="on">Trimestre contra trimestre (1T26 → 2T26)</button>
+          <button data-v="yoy">Ano contra ano (2T25 → 2T26)</button>
+        </div>
+        <button type="button" class="btn" id="btnReset" style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true">↺</span> <span data-en="Reset">Reiniciar</span></button>
       </div>
     </div>
     <p style="font-size:.83rem;margin:0">
@@ -88,6 +91,7 @@
 
   <section class="blk">
     <h2>Checks de integridade</h2>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -96,6 +100,7 @@
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -218,6 +223,9 @@
     b.classList.add("on"); modo = b.dataset.v; render();
   }));
   render();
+  var DEFAULTS = V.snapshotDefaults(document);
+  document.getElementById("btnReset").addEventListener("click", function () { V.restoreDefaults(DEFAULTS); });
+  document.getElementById("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
 })();
 </script>
 </body>

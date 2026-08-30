@@ -68,6 +68,7 @@
   <section class="blk">
     <h2>Painel de integridade</h2>
     <p>Checks <b>exatos</b> (tolerância R$ 0,001 mm) recalculados no navegador contra os valores divulgados:</p>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -89,6 +90,7 @@
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -177,6 +179,7 @@
 
   V.renderFontes(document.getElementById("fontes"), ["agiDF1T26", "agiRel1T26"],
     "Demonstrações não auditadas, com revisão limitada da EY conforme ISRE 2410 (transcrito do relatório de revisão).");
+  document.getElementById("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
 })();
 </script>
 </body>

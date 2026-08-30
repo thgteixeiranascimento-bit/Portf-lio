@@ -115,12 +115,17 @@ os documentos baixados nunca saem de sincronia com o site.
 ├── kpis.html              biblioteca de KPIs bancários
 ├── metodologia.html       governança e protocolo de integridade
 ├── analises/              análise setorial (5 instituições + Copom)
-├── simuladores/           10 estudos + 3 ferramentas próprias
+├── simuladores/           10 estudos + 3 ferramentas próprias — cada um com botão
+│                          de reiniciar premissas e de salvar o resultado em planilha
+├── pvm/                   simulador de Price · Volume · Mix — a 4ª ferramenta própria
 ├── assets/
 │   ├── css/style.css      tema editorial escuro (grafite + âmbar) e camadas
 │   ├── fonts/             Lora, Inter e JetBrains Mono servidas pelo site
 │   └── js/
-│       ├── core.js        gráficos SVG, formatação pt-BR, checks, i18n, exportação
+│       ├── core.js        gráficos SVG, formatação pt-BR, checks, i18n, exportação,
+│       │                  reset de premissas e exportação de resultado (.xlsx/.csv)
+│       ├── xlsx-bridge.js ponte de módulo: expõe o escritor de XLSX do PVM para os
+│       │                  simuladores, que usam script clássico
 │       ├── data.js        dataset central de DADOS PÚBLICOS REAIS (fonte única)
 │       └── perfil.js      REGISTRO DE FATOS DO TITULAR (fonte única da biografia)
 ├── docs/                  metodologia, fontes, validação e limitações (Markdown)

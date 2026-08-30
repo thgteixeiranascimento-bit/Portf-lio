@@ -30,7 +30,7 @@
   </section>
 
   <div class="controls">
-    <div class="head"><span class="t" data-en="Contract in progress">Contrato em andamento</span></div>
+    <div class="head"><span class="t" data-en="Contract in progress">Contrato em andamento</span><button type="button" class="btn" id="btnReset" style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true">↺</span> <span data-en="Reset">Reiniciar</span></button></div>
     <div class="row">
       <div class="ctrl">
         <label for="pmt"><span data-en="Installment amount (R$)">Valor da parcela (R$)</span><output id="oPmt"></output></label>
@@ -90,6 +90,7 @@
 
   <section class="blk">
     <h2 data-en="5 · Integrity checks">5 · Checks de integridade</h2>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -136,6 +137,7 @@ Desconto comercial linear (erro 2)  VC = Σ PMT · (1 − i·k)</code></pre>
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -337,11 +339,15 @@ Desconto comercial linear (erro 2)  VC = Σ PMT · (1 − i·k)</code></pre>
     return '<div class="out ' + cls + '"><div class="k">' + k + '</div><div class="v">' + v + '</div><div class="h">' + (h || "") + "</div></div>";
   }
 
+  var DEFAULTS;
   document.addEventListener("DOMContentLoaded", function () {
     ["pmt", "rest", "ant", "i"].forEach(function (id) {
       el(id).addEventListener("input", calcular);
       el(id).addEventListener("change", calcular);
     });
+    DEFAULTS = V.snapshotDefaults(document);
+    el("btnReset").addEventListener("click", function () { V.restoreDefaults(DEFAULTS); });
+    el("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
     calcular();
   });
   window.onLangChange = calcular;

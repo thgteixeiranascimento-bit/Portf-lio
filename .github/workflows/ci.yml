@@ -1,0 +1,58 @@
+name: Portão de qualidade
+
+# Roda a mesma auditoria que já existia como script local
+# (automation/node/verificar_paginas.js e conselho.js, mais a suíte de
+# testes do motor de PVM), agora automaticamente em toda PR contra a main
+# e em todo push direto — para que o resultado apareça como check do
+# GitHub, visível em qualquer PR, sem exigir que alguém rode nada à mão.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  qa:
+    name: Testes, páginas e conselho de validação
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Instalar playwright-core
+        run: npm install playwright-core
+
+      - name: Baixar o Chromium do Playwright
+        run: npx playwright-core install --with-deps chromium
+
+      - name: Resolver o caminho do Chromium instalado
+        run: |
+          echo "CHROME_PATH=$(node -e "console.log(require('playwright-core').chromium.executablePath())")" >> "$GITHUB_ENV"
+
+      - name: Suíte do motor de PVM (101 testes, sem navegador)
+        run: node tests/run.mjs
+
+      - name: Servir o site localmente
+        run: nohup python3 -m http.server 8765 > server.log 2>&1 &
+
+      - name: Aguardar o servidor responder
+        run: |
+          for i in $(seq 1 40); do
+            curl -sf http://localhost:8765/index.html > /dev/null && exit 0
+            sleep 0.5
+          done
+          echo "servidor local não respondeu a tempo" >&2
+          cat server.log >&2
+          exit 1
+
+      - name: Portão de páginas — erro de JS e contagem de checks
+        run: node automation/node/verificar_paginas.js
+
+      - name: Conselho de validação — nove frentes de auditoria
+        run: node automation/node/conselho.js

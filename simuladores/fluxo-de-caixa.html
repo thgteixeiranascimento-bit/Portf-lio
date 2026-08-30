@@ -64,6 +64,7 @@
   <section class="blk">
     <h2>Checks de integridade</h2>
     <p>Verificações aritméticas <b>exatas</b> (tolerância de R$ 0,001 mm) contra as DFs divulgadas:</p>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -84,6 +85,7 @@
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -152,6 +154,7 @@
 
   V.renderFontes(document.getElementById("fontes"), ["agiDF1T26", "agiRel1T26"],
     "Classificação por atividade conforme IAS 7; custos de transação do IPO no fluxo (R$ 89,7 mm pagos no trimestre) diferem do total reconhecido no PL (R$ 127,4 mm) por regime de competência × caixa — diferença documentada.");
+  document.getElementById("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
 })();
 </script>
 </body>

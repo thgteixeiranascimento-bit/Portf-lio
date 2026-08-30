@@ -82,6 +82,7 @@
 
   <section class="blk">
     <h2>Checks de integridade</h2>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -90,6 +91,7 @@
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -182,6 +184,7 @@
 
   V.renderFontes(document.getElementById("fontes"), ["nu2T26", "nuHist3T25", "agiDF1T26", "santander2T26", "nuCSV"],
     "HHI é métrica calculada pelo autor sobre as aberturas divulgadas — não é indicador divulgado pelos emissores.");
+  document.getElementById("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
 })();
 </script>
 </body>

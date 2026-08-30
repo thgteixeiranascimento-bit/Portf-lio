@@ -40,7 +40,7 @@
   </div>
 
   <div class="controls">
-    <div class="head"><span class="t" data-en="Operation parameters">Parâmetros da operação</span></div>
+    <div class="head"><span class="t" data-en="Operation parameters">Parâmetros da operação</span><button type="button" class="btn" id="btnReset" style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true">↺</span> <span data-en="Reset">Reiniciar</span></button></div>
     <div class="row">
       <div class="ctrl">
         <label for="vol"><span data-en="Contacts per month">Contatos por mês</span><output id="oVol"></output></label>
@@ -118,6 +118,7 @@
 
   <section class="blk">
     <h2 data-en="6 · Integrity checks">6 · Checks de integridade</h2>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -166,6 +167,7 @@ Retorno por esforço   índice = valor_recuperável / esforço_relativo</code></
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -369,12 +371,16 @@ Retorno por esforço   índice = valor_recuperável / esforço_relativo</code></
     V.renderChecks(el("checks"), checks);
   }
 
+  var DEFAULTS;
   document.addEventListener("DOMContentLoaded", function () {
     montarPesos();
     ["vol", "taxa", "tmo", "custo", "evit", "meta"].forEach(function (id) {
       el(id).addEventListener("input", calcular);
       el(id).addEventListener("change", calcular);
     });
+    DEFAULTS = V.snapshotDefaults(document);
+    el("btnReset").addEventListener("click", function () { V.restoreDefaults(DEFAULTS); });
+    el("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
     calcular();
   });
   window.onLangChange = function () { montarPesos(); calcular(); };

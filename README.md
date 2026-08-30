@@ -8,6 +8,8 @@ SQL e Python.
 📄 **Currículo (PDF, Word e HTML):** [`curriculo.html`](curriculo.html) · ✉️ **Carta:** [`carta-apresentacao.html`](carta-apresentacao.html)
 💼 **LinkedIn:** [thiago-teixeira-nascimento-03a3961a3](https://www.linkedin.com/in/thiago-teixeira-nascimento-03a3961a3)
 
+[![Portão de qualidade](https://github.com/thgteixeiranascimento-bit/Portf-lio/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/thgteixeiranascimento-bit/Portf-lio/actions/workflows/ci.yml)
+
 ---
 
 ## O que este repositório é
@@ -113,12 +115,17 @@ os documentos baixados nunca saem de sincronia com o site.
 ├── kpis.html              biblioteca de KPIs bancários
 ├── metodologia.html       governança e protocolo de integridade
 ├── analises/              análise setorial (5 instituições + Copom)
-├── simuladores/           10 estudos + 3 ferramentas próprias
+├── simuladores/           10 estudos + 3 ferramentas próprias — cada um com botão
+│                          de reiniciar premissas e de salvar o resultado em planilha
+├── pvm/                   simulador de Price · Volume · Mix — a 4ª ferramenta própria
 ├── assets/
 │   ├── css/style.css      tema editorial escuro (grafite + âmbar) e camadas
 │   ├── fonts/             Lora, Inter e JetBrains Mono servidas pelo site
 │   └── js/
-│       ├── core.js        gráficos SVG, formatação pt-BR, checks, i18n, exportação
+│       ├── core.js        gráficos SVG, formatação pt-BR, checks, i18n, exportação,
+│       │                  reset de premissas e exportação de resultado (.xlsx/.csv)
+│       ├── xlsx-bridge.js ponte de módulo: expõe o escritor de XLSX do PVM para os
+│       │                  simuladores, que usam script clássico
 │       ├── data.js        dataset central de DADOS PÚBLICOS REAIS (fonte única)
 │       └── perfil.js      REGISTRO DE FATOS DO TITULAR (fonte única da biografia)
 ├── docs/                  metodologia, fontes, validação e limitações (Markdown)
@@ -152,6 +159,10 @@ O verificador abre cada página em um navegador real e reprova se encontrar erro
 integridade em estado "falhou" ou divergência entre a contagem apurada e a publicada. O conselho vai além:
 confere link quebrado, número publicado contra número medido, ancoragem das palavras-chave, hierarquia de
 títulos, rótulo de formulário, resíduo de português em modo inglês e arquivo referenciado que não existe.
+
+Os três comandos acima também rodam sozinhos em [`.github/workflows/ci.yml`](.github/workflows/ci.yml), em
+toda PR contra a `main` e em todo push direto — o resultado aparece como check do GitHub na própria PR,
+antes de qualquer mesclagem.
 
 ---
 

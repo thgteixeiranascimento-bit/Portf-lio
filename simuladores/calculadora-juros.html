@@ -31,10 +31,13 @@
   <div class="controls">
     <div class="head">
       <span class="t" data-en="Assumptions">Premissas</span>
-      <div class="seg" id="segSis" role="group" aria-label="Sistema de amortização">
-        <button type="button" data-s="price" class="on">Price</button>
-        <button type="button" data-s="sac">SAC</button>
-        <button type="button" data-s="bullet" data-en="Bullet">Bullet</button>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="seg" id="segSis" role="group" aria-label="Sistema de amortização">
+          <button type="button" data-s="price" class="on">Price</button>
+          <button type="button" data-s="sac">SAC</button>
+          <button type="button" data-s="bullet" data-en="Bullet">Bullet</button>
+        </div>
+        <button type="button" class="btn" id="btnReset" style="display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true">↺</span> <span data-en="Reset">Reiniciar</span></button>
       </div>
     </div>
     <div class="row">
@@ -106,6 +109,7 @@
       Cada check abaixo é recalculado a partir do cronograma completo a cada alteração de premissa. São
       identidades independentes: se o cronograma estivesse errado, ao menos uma falharia.
     </p>
+    <button type="button" class="btn" id="btnExport" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px"><span aria-hidden="true">⭳</span> <span data-en="Save result to spreadsheet">Salvar resultado em planilha</span></button>
     <div id="checks"></div>
   </section>
 
@@ -139,6 +143,7 @@ Valor presente do fluxo  PV = Σ PMT_k / (1+i)^k</code></pre>
 </main>
 <script src="../assets/js/data.js"></script>
 <script src="../assets/js/core.js"></script>
+<script type="module" src="../assets/js/xlsx-bridge.js"></script>
 <script>
 (function () {
   "use strict";
@@ -337,7 +342,14 @@ Valor presente do fluxo  PV = Σ PMT_k / (1+i)^k</code></pre>
     });
   }
 
-  document.addEventListener("DOMContentLoaded", function () { ligar(); calcular(); });
+  var DEFAULTS;
+  document.addEventListener("DOMContentLoaded", function () {
+    ligar();
+    DEFAULTS = V.snapshotDefaults(document);
+    el("btnReset").addEventListener("click", function () { V.restoreDefaults(DEFAULTS); });
+    el("btnExport").addEventListener("click", function () { V.exportarPlanilha(document.title); });
+    calcular();
+  });
   window.onLangChange = calcular;
 })();
 </script>

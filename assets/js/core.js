@@ -765,6 +765,158 @@ ${fontesHTML}
     setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1500);
   }
 
+  /* ============================================================
+     Reiniciar premissas / salvar resultado em planilha
+     ------------------------------------------------------------
+     Genéricos: não conhecem o modelo de dados de nenhum simulador.
+     O reset lê/restaura input/select por id e simula clique no botão
+     de .seg que estava marcado no carregamento (para que a própria
+     lógica de cada página, já ligada a esse clique, rode de novo — em
+     vez de duplicar aqui o que cada página faz com sua seleção).
+     A exportação lê o que a própria página já renderizou (.tiles,
+     table.tbl, #checks) — o mesmo número mostrado na tela é o número
+     que sai no arquivo, sem recalcular nada por fora.
+     ============================================================ */
+  function snapshotDefaults(root) {
+    const escopo = root || document;
+    const campos = [].slice.call(escopo.querySelectorAll("input[id], select[id]")).map(el => ({
+      id: el.id, tipo: el.type, value: el.value, checked: el.checked,
+    }));
+    const segs = [].slice.call(escopo.querySelectorAll(".seg[id]")).map(seg => {
+      const botoes = [].slice.call(seg.querySelectorAll("button"));
+      const i = botoes.findIndex(b => b.classList.contains("on"));
+      return { id: seg.id, indice: i < 0 ? 0 : i };
+    });
+    return { campos, segs };
+  }
+
+  function restoreDefaults(snap) {
+    if (!snap) return;
+    (snap.campos || []).forEach(c => {
+      const el = document.getElementById(c.id);
+      if (!el) return;
+      if (c.tipo === "checkbox" || c.tipo === "radio") el.checked = c.checked;
+      else el.value = c.value;
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    (snap.segs || []).forEach(s => {
+      const seg = document.getElementById(s.id);
+      if (!seg) return;
+      const botoes = [].slice.call(seg.querySelectorAll("button"));
+      if (botoes[s.indice]) botoes[s.indice].click();
+    });
+  }
+
+  function slugificar(s) {
+    return (String(s || "planilha")
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 60)) || "planilha";
+  }
+
+  function csvCel(v) {
+    const s = v == null ? "" : String(v);
+    return /[;"\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+
+  /* tabelas e blocos de indicador (.tiles) já renderizados na página */
+  function coletarBlocos(root) {
+    const escopo = root || document;
+    const blocos = [];
+    [].slice.call(escopo.querySelectorAll(".tiles")).forEach(caixa => {
+      const linhas = [].slice.call(caixa.querySelectorAll(".tile")).map(ti => {
+        const g = cls => { const e = ti.querySelector("." + cls); return e ? e.textContent.trim() : ""; };
+        return [g("lbl"), g("val"), g("sub")];
+      });
+      if (linhas.length) blocos.push({ titulo: "", head: [t("Indicador", "Indicator"), t("Valor", "Value"), t("Detalhe", "Detail")], rows: linhas });
+    });
+    [].slice.call(escopo.querySelectorAll("table.tbl")).forEach(tab => {
+      let head = [], rows = [];
+      [].slice.call(tab.querySelectorAll("tr")).forEach(tr => {
+        const cels = [].slice.call(tr.children).map(c => c.textContent.trim());
+        if (!cels.length) return;
+        if (tr.querySelector("th")) head = cels; else rows.push(cels);
+      });
+      const cap = tab.querySelector("caption");
+      if (rows.length) blocos.push({ titulo: cap ? cap.textContent.trim() : "", head, rows });
+    });
+    return blocos;
+  }
+
+  function coletarChecks(root) {
+    const escopo = root || document;
+    const el = escopo.querySelector("#checks") || escopo.querySelector(".checks");
+    if (!el) return [];
+    return [].slice.call(el.querySelectorAll(".check")).map(c => {
+      const st = c.querySelector(".st"), d = c.querySelector(".d"), n = c.querySelector(".num");
+      return [st ? st.textContent.trim() : "", d ? d.textContent.trim() : "", n ? n.textContent.trim() : ""];
+    });
+  }
+
+  /* .xlsx quando o navegador suporta (via assets/js/xlsx-bridge.js, que
+     expõe window.writeXlsx a partir do escritor zero-dependência já usado
+     pelo simulador de PVM); .csv (mesma convenção pt-BR do resto do site:
+     delimitador ; e BOM UTF-8) quando não — nunca falha silenciosamente
+     sem baixar nada. */
+  async function exportarPlanilha(titulo) {
+    const blocos = coletarBlocos(document);
+    const checks = coletarChecks(document);
+    const base = slugificar(titulo) + "-" + new Date().toISOString().slice(0, 10);
+    let feito = false;
+    if (typeof window.writeXlsx === "function") {
+      try {
+        const usados = {};
+        const nomeUnico = base0 => {
+          let n = base0, i = 2;
+          while (usados[n.toLowerCase()]) { n = (base0 + " (" + i + ")").slice(0, 31); i++; }
+          usados[n.toLowerCase()] = true;
+          return n;
+        };
+        const sheets = [{
+          name: nomeUnico(t("Resumo", "Summary")),
+          rows: [
+            [titulo || document.title],
+            [t("Gerado em", "Generated on") + ": " + new Date().toLocaleString(isEn() ? "en-US" : "pt-BR")],
+            [t("Origem", "Source") + ": " + location.href],
+            [t("Arquivo gerado no navegador a partir dos números exibidos na página; não é um documento oficial.",
+                "File generated in the browser from the figures shown on the page; not an official document.")],
+          ],
+        }];
+        blocos.forEach((b, i) => {
+          const nomeBruto = (b.titulo || (t("Tabela ", "Table ") + (i + 1))).replace(/[\\/?*[\]:]/g, " ").trim().slice(0, 31);
+          sheets.push({ name: nomeUnico(nomeBruto), rows: (b.head && b.head.length ? [b.head] : []).concat(b.rows) });
+        });
+        if (checks.length) {
+          sheets.push({
+            name: nomeUnico("Checks"),
+            rows: [[t("Status", "Status"), t("Descrição", "Description"), t("Valor", "Value")]].concat(checks),
+          });
+        }
+        const bytes = await window.writeXlsx(sheets, {});
+        baixarArquivo(base + ".xlsx", bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        feito = true;
+      } catch (e) { /* sem suporte a XLSX neste navegador — cai para CSV abaixo */ }
+    }
+    if (!feito) {
+      const linhas = [titulo || document.title, ""];
+      blocos.forEach(b => {
+        if (b.titulo) linhas.push(b.titulo);
+        if (b.head && b.head.length) linhas.push(b.head.map(csvCel).join(";"));
+        b.rows.forEach(r => linhas.push(r.map(csvCel).join(";")));
+        linhas.push("");
+      });
+      if (checks.length) {
+        linhas.push(t("Checks", "Checks"));
+        linhas.push([t("Status", "Status"), t("Descrição", "Description"), t("Valor", "Value")].map(csvCel).join(";"));
+        checks.forEach(r => linhas.push(r.map(csvCel).join(";")));
+      }
+      baixarArquivo(base + ".csv", "\uFEFF" + linhas.join("\r\n"), "text/csv");
+    }
+  }
+
   /* ---------- utilidades numéricas ---------- */
   function irr(cashflows, guess) {
     // TIR por bissecção em [-0.99, 10]; retorna null se não houver mudança de sinal
@@ -784,5 +936,5 @@ ${fontesHTML}
   }
   const near = (a, b, tol) => Math.abs(a - b) <= (tol == null ? 0.05 : tol);
 
-  window.Viz = { line, bars, waterfall, hbars, scatter, heatTable, renderChecks, renderFontes, F, col, tok, irr, npv, near, niceTicks, t, isEn, setLang, exportarRelatorio, baixarArquivo };
+  window.Viz = { line, bars, waterfall, hbars, scatter, heatTable, renderChecks, renderFontes, F, col, tok, irr, npv, near, niceTicks, t, isEn, setLang, exportarRelatorio, baixarArquivo, snapshotDefaults, restoreDefaults, exportarPlanilha };
 })();

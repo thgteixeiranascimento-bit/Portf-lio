@@ -8,6 +8,8 @@ SQL e Python.
 📄 **Currículo (PDF, Word e HTML):** [`curriculo.html`](curriculo.html) · ✉️ **Carta:** [`carta-apresentacao.html`](carta-apresentacao.html)
 💼 **LinkedIn:** [thiago-teixeira-nascimento-03a3961a3](https://www.linkedin.com/in/thiago-teixeira-nascimento-03a3961a3)
 
+[![Portão de qualidade](https://github.com/thgteixeiranascimento-bit/Portf-lio/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/thgteixeiranascimento-bit/Portf-lio/actions/workflows/ci.yml)
+
 ---
 
 ## O que este repositório é
@@ -152,6 +154,10 @@ O verificador abre cada página em um navegador real e reprova se encontrar erro
 integridade em estado "falhou" ou divergência entre a contagem apurada e a publicada. O conselho vai além:
 confere link quebrado, número publicado contra número medido, ancoragem das palavras-chave, hierarquia de
 títulos, rótulo de formulário, resíduo de português em modo inglês e arquivo referenciado que não existe.
+
+Os três comandos acima também rodam sozinhos em [`.github/workflows/ci.yml`](.github/workflows/ci.yml), em
+toda PR contra a `main` e em todo push direto — o resultado aparece como check do GitHub na própria PR,
+antes de qualquer mesclagem.
 
 ---
 

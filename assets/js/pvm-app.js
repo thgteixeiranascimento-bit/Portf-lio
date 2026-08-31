@@ -859,8 +859,8 @@ function renderMixMatrix() {
     twinLabel: t("Ver dados em tabela", "See the data as a table"),
     points: pts,
     fmt: F.money, fmtSigned: F.unitMoney, fmtPP: F.pp, fmtPPN: F.ppN, fmtPct: F.pct,
-    note: t("Bolha âmbar: efeito Mix positivo. Bolha vermelha: efeito Mix negativo. Tamanho proporcional à receita atual.",
-            "Amber bubble: positive Mix effect. Red bubble: negative Mix effect. Size proportional to current revenue.")
+    note: t("Bolha âmbar: efeito Mix positivo. Bolha violeta: efeito Mix negativo — vermelho, neste sistema, fica reservado a falha. Tamanho proporcional à receita atual.",
+            "Amber bubble: positive Mix effect. Violet bubble: negative Mix effect — red, in this system, is reserved for failure. Size proportional to current revenue.")
   });
 }
 

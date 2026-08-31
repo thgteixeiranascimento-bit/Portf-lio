@@ -52,7 +52,7 @@
         <div class="f">Eficiência = despesas operacionais ÷ receitas da operação</div>
         <dl>
           <dt>O que mede</dt><dd>Quanto custa produzir cada real de receita — menor é melhor.</dd>
-          <dt>Exemplo real</dt><dd>Agi 1T26: R$ 543,2 mm ÷ R$ 1.258,2 mm = <b>43,2%</b> (recalculado = divulgado). Nu: 19,5%; Itaú: 37,3%; Bradesco (IEO): 46,9%.</dd>
+          <dt>Exemplo real</dt><dd>Agi 1T26: R$ 543,2 mm ÷ R$ 1.258,2 mm = <b>43,2%</b> (recalculado = divulgado). Nu 2T26: 19,5%; Itaú 1S26: 37,3%; Bradesco 2T26 (IEO): 46,5%.</dd>
           <dt>Armadilhas</dt><dd>Cada banco define numerador e denominador de um jeito — comparar níveis exige cautela; a tendência de cada um é mais confiável.</dd>
         </dl>
       </div>
@@ -100,7 +100,7 @@
         <div class="f">NPL 90+ = carteira em atraso &gt; 90d ÷ carteira total</div>
         <dl>
           <dt>O que mede</dt><dd>Inadimplência consolidada (estoque de atraso maduro).</dd>
-          <dt>Exemplo real</dt><dd>Nu 6,9% · Bradesco 4,2% · Agi 3,6% · Santander 3,3% (últimos períodos divulgados).</dd>
+          <dt>Exemplo real</dt><dd>Nu 6,9% · Bradesco 4,3% · Agi 3,3% · Santander 3,3% (2T26, últimos períodos divulgados).</dd>
           <dt>Armadilhas</dt><dd>Denominadores distintos (carteira própria, ampliada, expandida); write-offs derrubam NPL sem melhorar o risco; mix muda tudo (consignado × sem garantia).</dd>
         </dl>
       </div>
@@ -215,16 +215,16 @@
   const nimAgi = AGI.nimTabela.nii[2] * 4 / AGI.nimTabela.avgIBA[2] * 100;
   const nimRiscoAgi = (AGI.nimTabela.nii[2] + AGI.nimTabela.provisoes[2]) * 4 / AGI.nimTabela.avgIBA[2] * 100;
   const eficAgi = -AGI.eficiencia1T26.totalDespesas / AGI.eficiencia1T26.base * 100;
-  const ldrAgi = AGI.kpis.carteira[2] / AGI.depositos.total["1T26"] * 100;
-  const basAgi = AGI.capital.re[2] / AGI.capital.rwa[2] * 100;
+  const ldrAgi = AGI.t2_26.carteira / AGI.t2_26.depositos.total * 100;
+  const basAgi = AGI.t2_26.re / AGI.t2_26.rwa * 100;
   const cob = AGI.eclEstagios1T26.provisao.map((p, i) => p / AGI.eclEstagios1T26.exposicao[i] * 100);
   V.renderChecks(document.getElementById("checks"), [
     { name: "ROE Nu recalculado (lucro anualizado ÷ PL médio IFRS) ≈ 33% divulgado", pass: Math.abs(roeNu - 33) < 0.7, num: F.pcv(roeNu) },
     { name: "NIM Agi recalculada = 12,0% divulgado", pass: Math.abs(nimAgi - 12.0) < 0.1, num: F.pcv(nimAgi) },
     { name: "NIM ajustada ao risco Agi recalculada = 7,3% divulgado", pass: Math.abs(nimRiscoAgi - 7.3) < 0.1, num: F.pcv(nimRiscoAgi) },
     { name: "Eficiência Agi recalculada = 43,2% divulgado", pass: Math.abs(eficAgi - 43.2) < 0.1, num: F.pcv(eficAgi) },
-    { name: "LDR Agi recalculado = 90,3% divulgado", pass: Math.abs(ldrAgi - 90.3) < 0.1, num: F.pcv(ldrAgi) },
-    { name: "Basileia Agi recalculada = 19,3% divulgado", pass: Math.abs(basAgi - 19.3) < 0.1, num: F.pcv(basAgi) },
+    { name: "LDR Agi recalculado = 92,9% divulgado", pass: Math.abs(ldrAgi - 92.9) < 0.1, num: F.pcv(ldrAgi) },
+    { name: "Basileia Agi recalculada = 18,7% divulgado", pass: Math.abs(basAgi - 18.7) < 0.1, num: F.pcv(basAgi) },
     { name: "Cobertura por estágio crescente (1,8% → 38,4% → 80,7%)", pass: cob[0] < cob[1] && cob[1] < cob[2], num: cob.map(c => F.pcv(c)).join(" · ") },
     { name: "ARPAC ÷ custo de servir do Nu = 17,1× (dois valores divulgados)", pass: Math.abs(NU.op.arpac[5] / NU.op.custoServir[5] - 17.1) < 0.2, num: "17,1×" },
     { name: "ROE 3T25 do Nu recalculado do workbook ≈ 31% divulgado", pass: Math.abs(NU.cont3T25.lucro * 4 / ((9576.116 + NU.cont3T25.pl) / 2) * 100 - 31) < 1.0, num: F.pcv(NU.cont3T25.lucro * 4 / ((9576.116 + NU.cont3T25.pl) / 2) * 100) },

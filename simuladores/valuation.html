@@ -211,7 +211,7 @@
     const leitura = {
       nu: `Observado (~${F.x2(R.meio(5.1, 5.5))}×) muito acima do justificado. Para o modelo fechar seria preciso um crescimento perpétuo próximo do custo de capital — matematicamente instável. Leitura honesta: <b>o modelo de estágio único não descreve o Nu</b>, que está em fase de crescimento acelerado; seria preciso um modelo de múltiplos estágios.`,
       bradesco: `É o único caso em que justificado e observado praticamente coincidem — o ROE divulgado, o Ke premissado e o múltiplo de mercado contam a mesma história. Não significa "preço correto": significa que, aqui, a simplificação do modelo é compatível com o que o mercado precifica.`,
-      agi: `Observado (~1,05×) muito abaixo do que um ROAE de 26,1% justificaria. O g implícito sai degenerado (P/VPA ≈ 1 com ROE >> Ke), o que empurra a leitura para o ROE sustentável implícito: o mercado precifica como se a rentabilidade recorrente fosse bem menor que a LTM — coerente com um ROAE inflado pelo IPO recente e com histórico curto de negociação.`,
+      agi: `Observado (~1,05×) muito abaixo do que um ROAE de 21,6% justificaria. O g implícito sai degenerado (P/VPA ≈ 1 com ROE >> Ke), o que empurra a leitura para o ROE sustentável implícito: o mercado precifica como se a rentabilidade recorrente fosse bem menor que a LTM — coerente com um ROAE inflado pelo IPO recente e com histórico curto de negociação.`,
     };
     $("leituraObs").innerHTML = obs.map(o =>
       `<div class="card"><h3>${o.nome}</h3><p><span class="tag prem">Interpretação</span> ${leitura[o.id]}</p></div>`).join("");
@@ -224,7 +224,7 @@
       { name: "Identidade do modelo: ROE = Ke ⇒ P/VPA = 1,00× (testado numericamente)", pass: Math.abs(pb(ke, ke, g) - 1) < 1e-9, num: F.x2(pb(ke, ke, g)) + "×" },
       { name: "Restrição g < Ke respeitada (imposta aos controles)", pass: g < ke, num: F.pcv(g) + " < " + F.pcv(ke) },
       { name: "Monotonicidade: mais ROE ⇒ mais P/VPA (ordem preservada)", pass: rows.every((x, i) => i === 0 || x.pb <= rows[i - 1].pb + 1e-9), num: "5/5" },
-      { name: "Âncoras de ROE = valores divulgados no dataset (33,0 · 26,1 · 24,3 · 15,8 · 12,5)", pass: R.nu.op.roePc[5] === 33 && R.agi.t2_26.roaeLTM === 21.6 && R.itau.roe2T === 24.3 && R.bradesco.t2_26.roae === 16.2 && R.santander.roae2T === 12.5, num: "conferido" },
+      { name: "Âncoras de ROE = valores divulgados no dataset (33,0 · 21,6 · 24,3 · 16,2 · 12,5)", pass: R.nu.op.roePc[5] === 33 && R.agi.t2_26.roaeLTM === 21.6 && R.itau.roe2T === 24.3 && R.bradesco.t2_26.roae === 16.2 && R.santander.roae2T === 12.5, num: "conferido" },
       { name: "Nenhum preço de mercado utilizado ou implicado (lacuna declarada)", pass: true, num: "declarado" },
     ]);
   }

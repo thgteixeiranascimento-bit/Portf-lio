@@ -833,6 +833,17 @@ ${fontesHTML}
       });
       if (linhas.length) blocos.push({ titulo: "", head: [t("Indicador", "Indicator"), t("Valor", "Value"), t("Detalhe", "Detail")], rows: linhas });
     });
+    /* .out-grid/.out é o outro padrão de cartão de resultado usado no site
+       (calculadora-juros.html, antecipacao-parcelas.html, rechamadas.html,
+       entre outros) — sem capturar isso, "salvar em planilha" omitia
+       silenciosamente os números de destaque nessas páginas. */
+    [].slice.call(escopo.querySelectorAll(".out-grid")).forEach(caixa => {
+      const linhas = [].slice.call(caixa.querySelectorAll(".out")).map(ti => {
+        const g = cls => { const e = ti.querySelector("." + cls); return e ? e.textContent.trim() : ""; };
+        return [g("k"), g("v"), g("h")];
+      });
+      if (linhas.length) blocos.push({ titulo: "", head: [t("Indicador", "Indicator"), t("Valor", "Value"), t("Detalhe", "Detail")], rows: linhas });
+    });
     [].slice.call(escopo.querySelectorAll("table.tbl")).forEach(tab => {
       let head = [], rows = [];
       [].slice.call(tab.querySelectorAll("tr")).forEach(tr => {

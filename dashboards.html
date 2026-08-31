@@ -14,7 +14,7 @@
 
   <section class="hero">
     <div class="eyebrow" data-en="Business intelligence · Executive panels · Real public data">Business intelligence · Painéis executivos · Dados públicos reais</div>
-    <h1 data-en="Dashboards — the banking sector in five panels">Dashboards — o setor bancário em quatro painéis</h1>
+    <h1 data-en="Dashboards — the banking sector in five panels">Dashboards — o setor bancário em cinco painéis</h1>
     <p class="lead">
       Cada painel declara <strong>o problema de negócio que resolve</strong>, o período e a fonte de cada
       número. Indicadores divulgados pelas próprias instituições; comparações entre elas apenas em razões
@@ -185,7 +185,7 @@
   ].map(t => `<div class="tile"><div class="lbl">${t.lbl}</div><div class="val" style="font-size:1.2rem">${t.val}</div><div class="sub">${t.sub}</div></div>`).join("");
 
   V.bars(document.getElementById("dnReceita"), {
-    title: "Receita e lucro líquido (US$ mm)", sub: "3T25 não fornecido — lacuna",
+    title: "Receita e lucro líquido (US$ mm)", sub: "3T25 derivado do exercício de 2025 assegurado (KPMG), não divulgado como tal",
     labels: NU.periodos,
     series: [
       { name: "Receita", values: NU.op.receita, color: "s1" },
